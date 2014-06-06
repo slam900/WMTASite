@@ -1,0 +1,26 @@
+﻿table {
+    width: 45%;
+    border: 2px solid #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.th {
+    font-weight: bolder;
+    font-size: 16pt;
+    background-color: #ccccff;
+}
+
+input {
+    background: rgb(255, 255, 255);
+    font-size: 14px;
+}
+
+.button {
+    font-size: 15px;
+    font-weight: bold;
+    width: 65px;
+    height: 27px;
+    vertical-align: central;
+}

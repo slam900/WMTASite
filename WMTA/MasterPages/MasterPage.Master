@@ -1,0 +1,45 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="WMTA.MasterPages.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="../Styles/Style.css" rel="stylesheet" />
+    <style type="text/css">
+        .auto-style1 {
+            width: 179px;
+            height: 463px;
+        }
+
+        .auto-style2 {
+            width: 665px;
+            height: 138px;
+            margin-left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="PageWrapper">
+            <header>
+                <br />
+                <div style="text-align: center">
+                    <img alt="Banner" class="auto-style2" src="../Images/headerImg.png" />
+                </div>
+                <div style="text-align: center; background: #fff; width: 655px; margin-left: auto; margin-right: auto">
+                    <img src="../Images/Ovation%20Logo.png" class="auto-style2" style="height: 41px; width: 124px" />
+                </div>
+            </header>
+            <section id="MainContent" style="width: 100%; margin-left: auto; margin-right: auto">
+                <asp:ContentPlaceHolder ID="cpMainContent" runat="server">
+                </asp:ContentPlaceHolder>
+            </section>
+            <footer>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
