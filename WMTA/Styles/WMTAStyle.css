@@ -1,0 +1,28 @@
+﻿.main-div {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+}
+
+.regular-padding {
+    margin-top: 80px;
+}
+
+.small-padding {
+    margin-top: 20px;
+}
+
+.extra-padding {
+    margin-top: 100px;
+}
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.display-block {
+    display: block;
+}

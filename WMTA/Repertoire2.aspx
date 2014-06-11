@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="Repertoire2.aspx.cs" Inherits="WMTA.Repertoire2" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/ControlsStyle.css" rel="stylesheet" type="text/css" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:ScriptManager ID="scriptManager" runat="server" />
     <h1>Repertoire</h1>
     <asp:UpdatePanel ID="upFullPage" runat="server">

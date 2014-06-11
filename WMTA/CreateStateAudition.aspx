@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="CreateStateAudition.aspx.cs" Inherits="WMTA.CreateStateAudition" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/ControlsStyle.css" rel="stylesheet" type="text/css" />
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <link href="Styles/DatePicker.css" rel="stylesheet" />
     <link href="Styles/jquery.timepicker.css" rel="stylesheet" />
     <script src="Scripts/jquery-1.9.1.js"></script>
@@ -14,8 +14,7 @@
             $(".ui-timepicker").timepicker();
         }
     </script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
+
     <asp:ScriptManager ID="scriptManager" runat="server" />
     <h1 id="header" runat="server">Manage Badger Competition</h1>
     <asp:UpdatePanel ID="upAuditionSearch" runat="server">

@@ -1,9 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="ManageStudents.aspx.cs" Inherits="WMTA.ManageStudents" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/AddStudentStyle.css" rel="stylesheet" type="text/css" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:ScriptManager ID="scriptManager" runat="server" />
     <asp:UpdatePanel ID="upStudentSearch" runat="server">
         <ContentTemplate>

@@ -4,42 +4,142 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title></title>
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
-    <link href="../Styles/Style.css" rel="stylesheet" />
-    <style type="text/css">
-        .auto-style1 {
-            width: 179px;
-            height: 463px;
-        }
+   <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ovation! <%: Page.Title %></title>
+    <link href="~/Styles/WMTAStyle.css" rel="stylesheet" />
 
-        .auto-style2 {
-            width: 665px;
-            height: 138px;
-            margin-left: 0px;
-        }
-    </style>
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+   <%-- <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />--%>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div id="PageWrapper">
-            <header>
-                <br />
-                <div style="text-align: center">
-                    <img alt="Banner" class="auto-style2" src="../Images/headerImg.png" />
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" runat="server" href="~/">Ovation</a>
                 </div>
-                <div style="text-align: center; background: #fff; width: 655px; margin-left: auto; margin-right: auto">
-                    <img src="../Images/Ovation%20Logo.png" class="auto-style2" style="height: 41px; width: 124px" />
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right" id="ulNotLoggedIn" runat="server">
+                        <li><a runat="server" href="~/Account/Login.aspx">Login</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" id="ulSystemAdmin" runat="server">
+                        <li class="active"><a href="~/Account/SystemAdminMenu.aspx" runat="server">Menu</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../CreateDistrictAudition.aspx" runat="server">Manage District Audition</a></li>
+                                <li><a href="../CreateStateAudition.aspx" runat="server">Manage Badger Event</a></li>
+                                <li class="divider"></li>
+                                <li><a href="../DistrictRegistration.aspx" runat="server">District Registration</a></li>
+                                <li><a href="../BadgerRegistration.aspx" runat="server">Badger Registration</a></li>
+                                <li><a href="../CoordinateStudents.aspx" runat="server">Coordinate Students</a></li>
+                                <li class="divider"></li>
+                                <li><a href="../DistrictPointEntry.aspx" runat="server">Enter District Points</a></li>
+                                <li><a href="../BadgerPointEntry.aspx" runat="server">Enter Badger Points</a></li>
+                                <li><a href="../HsViruosoCompositionPointEntry.aspx" runat="server">Enter HS Virtuoso Points</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">People<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../ManageStudents.aspx" runat="server">Manage Students</a></li>
+                                <li><a href="../ManageContacts.aspx" runat="server">Manage Contacts</a></li>
+                                <li><a href="../RegisterContacts.aspx" runat="server">Register Contacts</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Repertoire<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="~/Repertoire2.aspx" runat="server">Manage Repertoire</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="~/Reports.aspx" runat="server">Reports</a></li>
+                                <li><a href="~/Resources.aspx" runat="server">Resources</a></li>
+                            </ul>
+                        </li>                             
+                        <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" id="ulStaff" runat="server">
+                        <li class="active"><a href="~/Account/StaffMenu.aspx" runat="server" >Staff</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shipments<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="~/Shipments/PendingShipments.aspx" runat="server">Pending Shipments</a></li>
+                                <li><a href="~/Shipments/SelectTruck.aspx" runat="server">Select Truck for Shipment</a></li>
+                                <li><a href="~/Shipments/ReceiveShipment.aspx" runat="server">Receive Shipment</a></li>
+                                <li><a href="~/Shipments/AwaitingLocalDelivery.aspx" runat="server">Change Status To Awaiting Local Delivery</a></li>
+                                <li><a href="~/Shipments/Delivered.aspx" runat="server">Change Status to Delivered</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trucks<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="~/Transportation/ViewTrucks.aspx" runat="server">View Truck Statuses</a></li>
+                                <li><a href="~/Transportation/DispatchTruck.aspx" runat="server">Dispatch Trucks</a></li>
+                                <li><a href="~/Transportation/DispatchLocalTruck.aspx" runat="server">Dispatch Local Trucks</a></li>
+                                <li><a href="~/Transportation/AssignLocalDriverToTruck.aspx" runat="server">Assign Driver to Local Truck</a></li>
+                            </ul>
+                        </li>
+                                                        
+                        <li><a runat="server" href="#" onserverclick="LogOut" >Log out</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" id="ulCustomer" runat="server">
+                        <li class="active"><a href="~/Account/CustomerMenu.aspx" runat="server" >Customer</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shipments<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="~/Shipments/RegisterShipment.aspx" runat="server">Register Shipment</a></li>
+                                <li><a href="~/Shipments/UserShipments.aspx" runat="server">View My Shipments</a></li>
+                            </ul>
+                        </li>
+                        <li><a runat="server" href="#" onserverclick="LogOut" >Log out</a></li>
+                    </ul>
                 </div>
-            </header>
-            <section id="MainContent" style="width: 100%; margin-left: auto; margin-right: auto">
-                <asp:ContentPlaceHolder ID="cpMainContent" runat="server">
-                </asp:ContentPlaceHolder>
-            </section>
+            </div>
+        </div>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
             <footer>
+                <img src="../Images/Ovation-clapping1.jpg" height="40px" />
+                <p><%: DateTime.Now.Year %></p>
             </footer>
         </div>
+
     </form>
 </body>
 </html>

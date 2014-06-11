@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="WelcomeScreen.aspx.cs" Inherits="WMTA.WelcomeScreen" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <link href="Styles/WelcomeScreenStyle.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .auto-style3 {
             width: 205px;
         }
     </style>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" Runat="Server">
+
     <h1>Welcome</h1>
     <table>
         <tr>

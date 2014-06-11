@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" Inherits="WMTA.ErrorPage" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/Style.css" rel="stylesheet" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <h1 id="Head1" runat="server"> Error Page </h1>
     <div>
         <h2>Error Page</h2>

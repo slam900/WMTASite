@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="BadgerRegistration.aspx.cs" Inherits="WMTA.BadgerRegistration" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/ControlsStyle.css" rel="stylesheet" type="text/css" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <h1>Badger State Competition Registration</h1>
     <asp:ScriptManager ID="scriptManager" runat="server" />
     <asp:UpdatePanel ID="upFullPage" runat="server">

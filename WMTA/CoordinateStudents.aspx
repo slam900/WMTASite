@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="CoordinateStudents.aspx.cs" Inherits="WMTA.CoordinateStudents" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/ControlsStyle.css" rel="stylesheet" type="text/css" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:ScriptManager ID="scriptManager" runat="server" />
     <h1>Coordinate Students</h1>
     <asp:UpdatePanel ID="upFullPage" runat="server">

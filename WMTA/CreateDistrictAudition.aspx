@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="CreateDistrictAudition.aspx.cs" Inherits="WMTA.CreateDistrictAudition" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="Styles/ControlsStyle.css" rel="stylesheet" />
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <link href="Styles/DatePicker.css" rel="stylesheet" />
     <link href="Styles/jquery.timepicker.css" rel="stylesheet" />
     <script src="Scripts/jquery-1.9.1.js"></script>
@@ -15,8 +15,6 @@
             $('#cpMainContent_txtFreezeDate').datepicker();
         }
     </script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cpMainContent" runat="Server">
     <asp:ScriptManager ID="scriptManager" runat="server" />
     <h1 id="header" runat="server">Manage District Auditions</h1>
     <asp:UpdatePanel ID="upAuditionSearch" runat="server">
