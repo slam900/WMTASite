@@ -23,8 +23,7 @@ namespace WMTA
         private string preferredTime = "PreferredTime";
         private string auditionVar = "Audition";
         private string completed = "Completed";
-        private string creatingNew = "CreatingNew"; //tracks whether an audition is being created or edited
-        private string deleting = "Deleting";       //tracks whether an audition is being created, edited, or deleted
+        private Utility.Action action = Utility.Action.Add;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,8 +43,18 @@ namespace WMTA
                 Session[preferredTime] = null;
                 Session[auditionVar] = null;
                 Session[completed] = null;
-                Session[creatingNew] = null;
-                Session[deleting] = null;
+
+                //get requested action - default to adding
+                string test = Request.QueryString["action"];
+
+                if (test == null)
+                {
+                    action = Utility.Action.Add;
+                }
+                else
+                {
+                    action = (Utility.Action)Convert.ToInt32(action);
+                }
             }
 
             //if there were compositions selected before the postback, add them 
@@ -504,7 +513,7 @@ namespace WMTA
                     setTheoryLevel(student.theoryLevel);
 
                     //get auditions for upcoming district audition if editing or deleting
-                    if (!(bool)Session[creatingNew])
+                    if (action != Utility.Action.Add)
                     {
                         DataTable table = DbInterfaceStudentAudition.GetDistrictAuditionsForDropdown(student);
                         cboAudition.DataSource = null;
@@ -1333,7 +1342,7 @@ namespace WMTA
             try
             {
                 //verify all entered information and create/edit audition
-                if (!(bool)Session[deleting] && verifyRequiredDataEntered() && verifyCompositionsToPerform() && verifyDuetPartner()
+                if (action != Utility.Action.Delete && verifyRequiredDataEntered() && verifyCompositionsToPerform() && verifyDuetPartner()
                     && verifyTimePreference() && auditionCreated() && noDuplicateAudition() && validTheoryLevel() && !checkFreezeDate())
                 {
                     if (audition == null) resetAuditionVar();
@@ -1355,17 +1364,17 @@ namespace WMTA
                     addAuditionCoordinates();
 
                     //make sure the audition doesn't already exist, add or update if it doesn't
-                    if ((bool)Session[creatingNew] && DbInterfaceStudentAudition.AuditionExists(-1, audition.auditionOrgId,
+                    if (action == Utility.Action.Add && DbInterfaceStudentAudition.AuditionExists(-1, audition.auditionOrgId,
                                   audition.yearId, audition.auditionTrack,
                                   audition.instrument, audition.auditionType))
                     {
                         lblErrorMsg.Text = "The audition already exists";
                     }
                     //add audition to database if it is being newly created
-                    else if ((bool)Session[creatingNew] && audition.addToDatabase())
+                    else if (action == Utility.Action.Add && audition.addToDatabase())
                         displaySuccessMessageAndOptions();
                     //update in database if the audition was edited
-                    else if (!((bool)Session[creatingNew]) && !((bool)Session[deleting]) && audition.updateInDatabase(coordinatesToRemove))
+                    else if (action != Utility.Action.Add && action != Utility.Action.Delete && audition.updateInDatabase(coordinatesToRemove))
                     {
                         Session[coordsToRemove] = null;
                         coordinatesToRemove.Clear();
@@ -1377,7 +1386,7 @@ namespace WMTA
                         lblErrorMsg.Visible = true;
                     }
                 }
-                else if ((bool)Session[deleting]) //delete audition
+                else if (action == Utility.Action.Delete) //delete audition
                 {
                     pnlSuccess.Visible = false;
                     pnlFullPage.Visible = false;
@@ -1567,7 +1576,7 @@ namespace WMTA
             pnlFullPage.Visible = false;
             pnlAreYouSure.Visible = false;
 
-            if (audition != null && audition.auditionType != null && (bool)Session[creatingNew] && !(bool)Session[deleting])
+            if (audition != null && audition.auditionType != null && action == Utility.Action.Add && action != Utility.Action.Delete)
             {
                 if (audition.auditionType.ToUpper().Equals("DUET"))
                     lblSuccess.Text = "The auditions for the student and their duet "
@@ -1575,7 +1584,7 @@ namespace WMTA
                 else
                     lblSuccess.Text = "The audition was successfully created";
             }
-            else if (audition != null && audition.auditionType != null && !((bool)Session[creatingNew]) && !((bool)Session[deleting]))
+            else if (audition != null && audition.auditionType != null && action != Utility.Action.Add && action != Utility.Action.Delete)
             {
                 if (audition.auditionType.ToUpper().Equals("DUET"))
                     lblSuccess.Text = "The auditions for the student and their duet "
@@ -1583,7 +1592,7 @@ namespace WMTA
                 else
                     lblSuccess.Text = "The audition was successfully updated";
             }
-            else if (audition != null && audition.auditionType != null && (bool)Session[deleting])
+            else if (audition != null && audition.auditionType != null && action == Utility.Action.Delete)
             {
 
                 if (audition.auditionType.ToUpper().Equals("DUET"))
@@ -1856,7 +1865,7 @@ namespace WMTA
             }
 
             //an audition must be selected if the user is editing
-            if (!(bool)Session[creatingNew] && cboAudition.SelectedIndex == 0)
+            if (action != Utility.Action.Add && cboAudition.SelectedIndex == 0)
             {
                 lblAuditionError2.Visible = true;
                 lblErrorMsg.Visible = true;
@@ -2361,24 +2370,21 @@ namespace WMTA
 
             if (ddlUserOptions.SelectedValue.Equals("Create New"))
             {
-                Session[creatingNew] = true;
-                Session[deleting] = false;
+                action = Utility.Action.Add;
                 pnlChooseAudition.Visible = false;
                 btnRegister.Text = "Register";
                 enableControls();
             }
             else if (ddlUserOptions.SelectedValue.Equals("Edit Existing"))
             {
-                Session[creatingNew] = false;
-                Session[deleting] = false;
+                action = Utility.Action.Edit;
                 pnlChooseAudition.Visible = true;
                 btnRegister.Text = "Submit";
                 enableControls();
             }
             else if (ddlUserOptions.SelectedValue.Equals("Delete Existing"))
             {
-                Session[creatingNew] = false;
-                Session[deleting] = true;
+                action = Utility.Action.Delete;
                 pnlChooseAudition.Visible = true;
                 btnRegister.Text = "Delete";
                 disableControls();

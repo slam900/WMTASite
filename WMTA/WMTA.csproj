@@ -216,6 +216,7 @@
     <Content Include="HttpErrorPage.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\LoginTrouble.aspx" />
+    <Content Include="Images\music notes.jpg" />
     <Content Include="Images\Ovation-clapping1.jpg" />
     <Content Include="Maintenance.aspx" />
     <Content Include="ManageContacts.aspx" />

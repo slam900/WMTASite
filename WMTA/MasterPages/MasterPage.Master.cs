@@ -11,7 +11,7 @@ namespace WMTA.MasterPages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session[Utility.userRole] == null)
+            if (Session[Utility.userRole] == null || ((User)Session[Utility.userRole]).permissionLevel == null)
             {
                 ulSystemAdmin.Style["display"] = "none";
                 ulCustomer.Style["display"] = "none";

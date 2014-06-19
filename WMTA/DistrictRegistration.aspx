@@ -2,11 +2,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <br />
-    <%--<asp:ScriptManager ID="scriptManager" runat="server" />--%>
+    
     <h1>District Audition Registration</h1>
     <asp:UpdatePanel ID="upFullPage" runat="server">
         <ContentTemplate>
-            <asp:Panel ID="pnlFullPage" runat="server" Visible="false">
+            <asp:Panel ID="pnlFullPage" runat="server">
                 <asp:UpdatePanel ID="upStudentSearch" runat="server">
                     <ContentTemplate>
                         <fieldset>
@@ -325,7 +325,7 @@
     </asp:UpdatePanel>
     <asp:UpdatePanel ID="upSuccess" runat="server">
         <ContentTemplate>
-            <asp:Panel ID="pnlSuccess" runat="server" Visible="true">
+            <asp:Panel ID="pnlSuccess" runat="server" Visible="false">
                 <div style="width: 23.8em; margin-left: auto; margin-right: auto; text-align: center">
                     <asp:Label ID="lblSuccess" runat="server" Text="The audition was successfully created." CssClass="labelSuccess" Width="300px" Visible="false"></asp:Label><br />
                     <br />

@@ -26,3 +26,27 @@
 .display-block {
     display: block;
 }
+
+.control-column {
+    width: 46%;
+    float: left;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.smaller-font {
+    font-size: 13px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.dropdown-list-item {
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-list-item:hover {
+    background-color: #f5f5f5;
+}

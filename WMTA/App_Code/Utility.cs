@@ -13,6 +13,9 @@ public class Utility
     public enum JudgePreferences { AuditionType = 1, AuditionLevel = 2, CompositionLevel = 3, 
                                    Instrument = 4, Time = 5 };
 
+    //enumeration for page actions
+    public enum Action { Add = 1, Edit = 2, Delete = 3 };
+
     //session variable name for session variable containing data of current user
     public const string userRole = "UserRole";
 
