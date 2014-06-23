@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="well bs-component col-md-5 main-div">
+        <div class="well bs-component col-md-5 main-div center">
             <section id="loginForm">
                 <div class="form-horizontal">
                     <fieldset>

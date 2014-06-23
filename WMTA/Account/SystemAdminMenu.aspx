@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div id="divMain" class="row">
-        <div class="well bs-component col-md-8 main-div">
+        <div class="well bs-component col-md-8 main-div center">
             <section id="menuForm">
                 <div class="form-horizontal">
                     <fieldset>
@@ -36,7 +36,8 @@
                                     <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="../DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
+                                        <li><a href="../Events/DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
+                                        <%--<li><a href="../DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>--%>
                                         <li><a href="../DistrictRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
                                         <li><a href="../DistrictRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
                                     </ul>

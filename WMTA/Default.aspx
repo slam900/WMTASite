@@ -6,7 +6,7 @@
         <h1>Ovation!</h1>
     </div>--%>
     <div class="row">
-        <img src="Images/Ovation-clapping1.jpg" class="center display-block regular-padding" />
+        <img src="Images/Ovation-clapping1.jpg" class="center display-block regular-top-margin" />
     </div>
 
     <div class="row">

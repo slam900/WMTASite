@@ -27,7 +27,7 @@
                             <asp:Panel ID="pnlMyStudents" runat="server" Visible="false">
                                 &nbsp; My Students Only<asp:CheckBox ID="chkMyStudentsOnly" runat="server" />
                             </asp:Panel>
-                            <asp:GridView ID="gvStudentSearch" runat="server" CssClass="gridview" Font-Size="14px" AllowPaging="True" AutoGenerateSelectButton="True" OnPageIndexChanging="gvStudentSearch_PageIndexChanging" OnRowDataBound="gvStudentSearch_RowDataBound" OnSelectedIndexChanged="gvStudentSearch_SelectedIndexChanged"></asp:GridView>
+                            <asp:GridView ID="gvStudentSearch" runat="server" CssClass="gridview" Ffont-Size="14px" AllowPaging="True" AutoGenerateSelectButton="True" OnPageIndexChanging="gvStudentSearch_PageIndexChanging" OnRowDataBound="gvStudentSearch_RowDataBound" OnSelectedIndexChanged="gvStudentSearch_SelectedIndexChanged"></asp:GridView>
                         </fieldset>
                     </ContentTemplate>
                 </asp:UpdatePanel>

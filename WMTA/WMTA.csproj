@@ -209,6 +209,7 @@
     <Content Include="DistrictPointEntry.aspx" />
     <Content Include="DistrictRegistration.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\DistrictRegistration.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="HsViruosoCompositionPointEntry.aspx" />
@@ -218,6 +219,7 @@
     <Content Include="Account\LoginTrouble.aspx" />
     <Content Include="Images\music notes.jpg" />
     <Content Include="Images\Ovation-clapping1.jpg" />
+    <Content Include="Images\question-mark.png" />
     <Content Include="Maintenance.aspx" />
     <Content Include="ManageContacts.aspx" />
     <Content Include="ManageStudents.aspx" />
@@ -233,6 +235,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\bs.pagination.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -243,6 +246,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Styles\AddStudentStyle.css" />
+    <Content Include="Styles\bootstrap-glyphicons.css" />
     <Content Include="Styles\bootstrap.css" />
     <Content Include="Styles\ControlsStyle.css" />
     <Content Include="Styles\DatePicker.css" />
@@ -402,6 +406,13 @@
     </Compile>
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\DistrictRegistration.aspx.cs">
+      <DependentUpon>DistrictRegistration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\DistrictRegistration.aspx.designer.cs">
+      <DependentUpon>DistrictRegistration.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

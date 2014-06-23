@@ -58,6 +58,14 @@ namespace WMTA
                     DebugPath = "~/Scripts/jquery-2.1.1.js",
                     LoadSuccessExpression = "jQuery",
                 });
+            ScriptManager.ScriptResourceMapping.AddDefinition(
+                "bs-pagination",
+                new ScriptResourceDefinition
+                {
+                    Path = "~/Scripts/bs.pagination.js",
+                    DebugPath = "~/Scripts/bs.pagination.js",
+                    LoadSuccessExpression = "bs-pagination",
+                });
         }
     }
 }
