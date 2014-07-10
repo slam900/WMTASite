@@ -10,6 +10,7 @@
     <link href="~/Styles/WMTAStyle.css" rel="stylesheet" />
     <script src="../Scripts/jquery-2.1.1.js"></script>
     <script src="../Scripts/bs.pagination.js"></script>
+    <script src="../Scripts/notify.js"></script>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -27,6 +28,7 @@
                 <asp:ScriptReference Name="jquery" />
                 <asp:ScriptReference Name="bootstrap" />
                 <asp:ScriptReference Name="bs-pagination" />
+                <asp:ScriptReference Name="notify" />
                 <asp:ScriptReference Name="respond" />
                 <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
                 <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />

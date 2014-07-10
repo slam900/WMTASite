@@ -66,6 +66,14 @@ namespace WMTA
                     DebugPath = "~/Scripts/bs.pagination.js",
                     LoadSuccessExpression = "bs-pagination",
                 });
+            ScriptManager.ScriptResourceMapping.AddDefinition(
+               "notify",
+               new ScriptResourceDefinition
+               {
+                   Path = "~/Scripts/notify.min.js",
+                   DebugPath = "~/Scripts/notify.js",
+                   LoadSuccessExpression = "notify",
+               });
         }
     }
 }

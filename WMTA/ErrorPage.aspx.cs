@@ -20,7 +20,7 @@ namespace WMTA
             string safeMsg = "A problem has occurred in the web site. ";
 
             // Show Inner Exception fields for local access
-            if (ex.InnerException != null)
+            if (ex != null && ex.InnerException != null)
             {
                 innerTrace.Text = ex.InnerException.StackTrace;
                 InnerErrorPanel.Visible = Request.IsLocal;
@@ -33,12 +33,15 @@ namespace WMTA
             else
                 ex = new Exception(safeMsg, ex);
 
-            // Fill the page fields
-            exMessage.Text = ex.Message;
-            exTrace.Text = ex.StackTrace;
+            if (ex != null)
+            {
+                // Fill the page fields
+                exMessage.Text = ex.Message;
+                exTrace.Text = ex.StackTrace;
 
-            // Log the exception 
-            Utility.LogError("Error Page", "", "", "Message: " + ex.Message + "   Stack Trace: " + ex.StackTrace, -1);
+                // Log the exception 
+                Utility.LogError("Error Page", "", "", "Message: " + ex.Message + "   Stack Trace: " + ex.StackTrace, -1);
+            }
 
             // Clear the error from the server
             Server.ClearError();

@@ -33,7 +33,7 @@ namespace WMTA
 
             //Pass error on to error page
             //Server.Transfer("ErrorPage.aspx", true);
-            Response.Redirect("../ErrorPage.aspx");
+            Response.Redirect("~/ErrorPage.aspx");
         }
     }
 }
