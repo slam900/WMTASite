@@ -226,6 +226,7 @@
     <Content Include="PointsAndAwards.aspx" />
     <Content Include="RegisterContact.aspx" />
     <Content Include="Repertoire2.aspx" />
+    <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Resources.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -236,6 +237,11 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\bs.pagination.js" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reporting\Test.ashx" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -252,6 +258,8 @@
     <Content Include="Styles\DatePicker.css" />
     <Content Include="Styles\jquery.timepicker.css" />
     <Content Include="Styles\LoginStyle.css" />
+    <Content Include="Scripts\notify.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Styles\Style.css" />
     <Content Include="Styles\WelcomeScreenStyle.css" />
@@ -298,6 +306,26 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Web References\com.arvixe.sunflower\DocumentMapNode.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\com.arvixe.sunflower\ExecutionInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\com.arvixe.sunflower\ExecutionInfo2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\com.arvixe.sunflower\Extension.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\com.arvixe.sunflower\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\com.arvixe.sunflower\ReportExecution2005.wsdl" />
+    <Content Include="Web References\com.arvixe.sunflower\Warning.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -488,6 +516,11 @@
       <DependentUpon>PointsAndAwards.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="RegisterContact.aspx.cs">
       <DependentUpon>RegisterContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -501,6 +534,16 @@
     </Compile>
     <Compile Include="Repertoire2.aspx.designer.cs">
       <DependentUpon>Repertoire2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\ReportTest.aspx.cs">
+      <DependentUpon>ReportTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\ReportTest.aspx.designer.cs">
+      <DependentUpon>ReportTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\Test.ashx.cs">
+      <DependentUpon>Test.ashx</DependentUpon>
     </Compile>
     <Compile Include="Reports.aspx.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
@@ -516,6 +559,11 @@
     <Compile Include="Resources.aspx.designer.cs">
       <DependentUpon>Resources.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web References\com.arvixe.sunflower\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WelcomeScreen.aspx.cs">
       <DependentUpon>WelcomeScreen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -527,7 +575,22 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://sunflower.arvixe.com/ReportServer_SQL_Service/ReportExecution2005.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.arvixe.sunflower\</RelPath>
+      <UpdateFromURL>http://sunflower.arvixe.com/ReportServer_SQL_Service/ReportExecution2005.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WMTA_com_arvixe_sunflower_ReportExecutionService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
