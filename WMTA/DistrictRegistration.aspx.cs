@@ -1426,7 +1426,7 @@ namespace WMTA
             }
         }
 
-        /*
+       /*
         * Pre:
         * Post: Determines whether or not an audition has been created for the chosen district
         * @returns true if an audition has been created and false otherwise
@@ -2144,7 +2144,7 @@ namespace WMTA
             lblSiteError.Visible = false;
         }
 
-        /*
+       /*
         * Pre:
         * Post: Determine whether the freeze date has already passed for the selected audition
         */

@@ -162,8 +162,7 @@ namespace WMTA.Events
             else 
             {
                 clearGridView(gvStudentSearch);
-                phStudentSearchError.Visible = true;
-                lblStudentSearchError.Text = "A Student Id must be numeric.";
+                showWarningMessage("A Student Id must be numeric.");
             }
         }
 
@@ -173,8 +172,7 @@ namespace WMTA.Events
          */
         private void displayStudentSearchError()
         {
-            lblStudentSearchError.Text = "The search did not return any results";
-            phStudentSearchError.Visible = true;
+            showInfoMessage("The search did not return any results");
         }
 
         /*
@@ -214,14 +212,12 @@ namespace WMTA.Events
                 }
                 else if (table == null)
                 {
-                    lblStudentSearchError.Text = "An error occurred during the search";
-                    lblStudentSearchError.Visible = true;
+                    showErrorMessage("Error: An error occurred during the search.");
                 }
             }
             catch (Exception e)
             {
-                lblStudentSearchError.Text = "An error occurred during the search";
-                lblStudentSearchError.Visible = true;
+                showErrorMessage("Error: An error occurred during the search.");
 
                 Utility.LogError("District Registration", "searchStudents", "gridView: " + gridView.ID + ", id: " + id +
                                  ", firstName: " + firstName + ", lastName: " + lastName + ", session: " + session,
@@ -267,14 +263,12 @@ namespace WMTA.Events
                 }
                 else if (table == null)
                 {
-                    lblStudentSearchError.Text = "An error occurred during the search";
-                    lblStudentSearchError.Visible = true;
+                    showErrorMessage("Error: An error occurred during the search.");
                 }
             }
             catch (Exception e)
             {
-                lblStudentSearchError.Text = "An error occurred during the search";
-                lblStudentSearchError.Visible = true;
+                showErrorMessage("Error: An error occurred during the search.");
 
                 Utility.LogError("District Registration", "searchOwnStudents", "gridView: " + gridView.ID + ", id: " + id +
                                  ", firstName: " + firstName + ", lastName: " + lastName + ", session: " + session,
@@ -301,8 +295,6 @@ namespace WMTA.Events
          */
         protected void gvStudentSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblStudentSearchError.Visible = false;
-            //lblAuditionError.Visible = false; uncomment this
             int index = gvStudentSearch.SelectedIndex;
             int year = DateTime.Today.Year;
 
@@ -447,7 +439,7 @@ namespace WMTA.Events
                             cboAudition.DataBind();
                         }
                         else
-                            lblAuditionError.Visible = true;
+                            showWarningMessage("This student has no editable auditions for the current year.");
                     }
                 }
                 else
@@ -574,8 +566,6 @@ namespace WMTA.Events
             clearTimeConstraints();
             clearDuetPartner();
             pnlDuetPartner.Visible = false;
-            //lblAuditionError2.Visible = false; uncomment...?
-            lblError.Text = "";
 
             //load associated audition information
             if (!cboAudition.SelectedValue.ToString().Equals(""))
@@ -608,38 +598,15 @@ namespace WMTA.Events
                             setTheoryLevel(student.theoryLevel);
 
                             //load compositions
-                            //foreach (AuditionCompositions comp in districtAudition.compositions) uncomment
-                            //    addComposition(comp.composition);
+                            foreach (AuditionCompositions comp in districtAudition.compositions)
+                                addComposition(comp.composition);
 
-                            ////load time constraints
-                            //if (districtAudition.am)
-                            //{
-                            //    rblTimePreference.SelectedIndex = 1;
-                            //    pnlPreferredTime.Visible = true;
-                            //    rblTimeOptions.SelectedIndex = 0;
-                            //}
-                            //else if (districtAudition.pm)
-                            //{
-                            //    rblTimePreference.SelectedIndex = 1;
-                            //    pnlPreferredTime.Visible = true;
-                            //    rblTimeOptions.SelectedIndex = 1;
-                            //}
-                            //else if (districtAudition.earliest)
-                            //{
-                            //    rblTimePreference.SelectedIndex = 1;
-                            //    rblTimeOptions.SelectedIndex = 2;
-                            //    pnlPreferredTime.Visible = true;
-                            //}
-                            //else if (districtAudition.latest)
-                            //{
-                            //    rblTimePreference.SelectedIndex = 1;
-                            //    rblTimeOptions.SelectedIndex = 3;
-                            //    pnlPreferredTime.Visible = true;
-                            //}
+                            //load time constraints
+                            setTimePreference(districtAudition.am, districtAudition.pm, districtAudition.earliest, districtAudition.latest);
 
-                            ////If there are coordinates, make the coordinate section visible
-                            //if (districtAudition.coordinates.Count > 0)
-                            //    pnlCoordinateParticipants.Visible = true;
+                            //If there are coordinates, make the coordinate section visible
+                            if (districtAudition.coordinates.Count > 0)
+                                pnlCoordinateParticipants.Visible = true;
 
                             //load coordinates - if duet partner, put name by audition type dropdown
                             foreach (StudentCoordinate coord in districtAudition.coordinates)
@@ -662,14 +629,12 @@ namespace WMTA.Events
                         }
                         else
                         {
-                            lblAuditionError.Text = "An error occurred while loading the audition information";
-                            lblAuditionError.Visible = true;
+                            showErrorMessage("Error: An error occurred while loading the audition information.");
                         }
                     }
                     else
                     {
-                        lblStudentSearchError.Text = "Please reselect the student";
-                        lblStudentSearchError.Visible = true;
+                        showWarningMessage("Please reselect the student");
                     }
                 }
             }
@@ -689,12 +654,44 @@ namespace WMTA.Events
 
         /*
          * Pre:
+         * Post: Set the preferred audition time if there is one
+         * @param am indicates whether a morning time is preferred
+         * @param pm indicates whether an afternoon time is preferred
+         * @param early indicates whether the earliest possible time is preffered
+         * @param late indicates whether the latest possible time is preferred
+         */
+        private void setTimePreference(bool am, bool pm, bool early, bool late)
+        {
+            //determine whether or no there is a preference
+            if (am || pm || early || late)
+            {
+                pnlPreferredTime.Visible = true;
+
+                opPreference.Checked = true;
+                opNoPreference.Checked = false;
+            }
+            else
+            {
+                pnlPreferredTime.Visible = false;
+
+                opNoPreference.Checked = true;
+                opPreference.Checked = false;
+            }
+
+            //set time preference
+            opAM.Checked = am;
+            opPM.Checked = pm;
+            opEarly.Checked = early;
+            opLate.Checked = late;
+        }
+
+        /*
+         * Pre:
          * Post: When the audition type changes, the available audition tracks in the dropdown
          *       are updated based on the selected audition type and entered grade.
          */
         protected void ddlAuditionType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //lblAuditionTypeError.Visible = false; uncomment
             setValidAuditionTracks();
 
             if (ddlAuditionType.SelectedValue.Equals("Duet"))
@@ -727,7 +724,6 @@ namespace WMTA.Events
 
         protected void ddlAuditionTrack_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //lblAuditionTrackError.Visible = false; uncomment
             setTheoryLevel();
         }
 
@@ -743,8 +739,6 @@ namespace WMTA.Events
 
         protected void ddlTheoryLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //lblTheoryLevelError.Visible = false; uncomment
-
             if (ddlTheoryLevel.Text.Equals("EA") || ddlTheoryLevel.Text.Equals("EB"))
                 ddlTheoryLevelType.Visible = true;
             else
@@ -761,7 +755,6 @@ namespace WMTA.Events
          */
         protected void ddlInstrument_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //lblInstrumentError.Visible = false; uncomment
             setTheoryLevel();
 
             if (ddlInstrument.Text.Equals("Organ") || ddlInstrument.Text.Equals("Piano"))
@@ -792,39 +785,6 @@ namespace WMTA.Events
                 getAuditionDate(Convert.ToInt32(ddlSite.SelectedValue), year);
             else
                 lblAuditionDate.Text = "";
-        }
-
-        /*
-        * Pre:
-        * Post: Determine whether the freeze date has already passed for the selected audition
-        */
-        private bool checkFreezeDate()
-        {
-            bool freezeDatePassed = false;
-            int year = DateTime.Today.Year;
-
-            if (DateTime.Today.Month >= 6) year = year + 1;
-            year = DateTime.Today.Year; //delete this
-
-            if (!ddlSite.SelectedValue.ToString().Equals(""))
-            {
-                DateTime freezeDate;
-                int districtId = Convert.ToInt32(ddlSite.SelectedValue);
-                string freezeDateStr = DbInterfaceAudition.GetAuditionFreezeDate(districtId, year);
-
-                if (DateTime.TryParse(freezeDateStr, out freezeDate))
-                {
-                    if (DateTime.Today > freezeDate)
-                    {
-                        freezeDatePassed = true;
-                        //lblFreezeDatePassed.Visible = true; uncomment
-                    }
-                    //else
-                        //lblFreezeDatePassed.Visible = false; uncomment
-                }
-            }
-
-            return freezeDatePassed;
         }
 
         /*
@@ -939,9 +899,7 @@ namespace WMTA.Events
                     //if the search does not return any result, display a message saying so
                     if (!searchStudents(gvDuetPartner, id, txtPartnerFirstName.Text, txtPartnerLastName.Text, partnerSearch, districtId))
                     {
-                        //lblPartnerError.Visible = true; uncomment
-                        //lblPartnerError.ForeColor = Color.DarkBlue;
-                        //lblPartnerError.Text = "The search did not return any results";
+                        showInfoMessage("The search did not return any results.");
                     }
                 }
                 else if (!(user.permissionLevel.Contains('A') || user.permissionLevel.Contains('S') ||
@@ -950,9 +908,7 @@ namespace WMTA.Events
                     //if the search does not return any result, display a message saying so
                     if (!searchOwnStudents(gvDuetPartner, id, txtPartnerFirstName.Text, txtPartnerLastName.Text, partnerSearch, ((User)Session[Utility.userRole]).contactId))
                     {
-                        //lblPartnerError.Visible = true; uncomment
-                        //lblPartnerError.ForeColor = Color.DarkBlue;
-                        //lblPartnerError.Text = "The search did not return any results";
+                        showInfoMessage("The search did not return any results.");
                     }
                 }
                 else if (user.permissionLevel.Contains('A') || user.permissionLevel.Contains('S'))
@@ -960,9 +916,7 @@ namespace WMTA.Events
                     //if the search does not return any result, display a message saying so
                     if (!searchStudents(gvDuetPartner, id, txtPartnerFirstName.Text, txtPartnerLastName.Text, partnerSearch, -1))
                     {
-                        //lblPartnerError.Visible = true; uncomment
-                        //lblPartnerError.ForeColor = Color.DarkBlue;
-                        //lblPartnerError.Text = "The search did not return any results";
+                        showInfoMessage("The search did not return any results.");
                     }
                 }
             }
@@ -970,8 +924,8 @@ namespace WMTA.Events
             else
             {
                 clearGridView(gvDuetPartner);
-                //lblPartnerError.ForeColor = Color.Red; uncomment
-                //lblPartnerError.Text = "A Student Id must be numeric";
+
+                showWarningMessage("A Student Id must be numeric");
             }
         }
 
@@ -982,7 +936,6 @@ namespace WMTA.Events
          */
         protected void gvDuetPartner_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //lblPartnerError.Text = ""; uncomment
             int index = gvDuetPartner.SelectedIndex;
 
             if (index >= 0 && index < gvDuetPartner.Rows.Count)
@@ -1017,7 +970,6 @@ namespace WMTA.Events
                 txtPartnerLastName.Text = "";
                 gvDuetPartner.DataSource = null;
                 gvDuetPartner.DataBind();
-                //lblPartnerError.Visible = false; uncomment
                 pnlDuetPartner.Visible = false;
             }
         }
@@ -1471,17 +1423,20 @@ namespace WMTA.Events
                 if (((CheckBox)tblCompositions.Rows[i].Cells[0].Controls[0]).Checked)
                 {
                     tblCompositions.Rows.Remove(tblCompositions.Rows[i]);
-                    //lblRemoveError.Visible = false;
                     compositionSelected = true;
                     i--;
                 }
             }
+
             //if no composition was selected, display error message
-            if (!compositionSelected) { }
-                //lblRemoveError.Visible = true; uncomment
-            //if a change was made, save the table in a session variable
-            else
+            if (!compositionSelected)
+            {
+                showWarningMessage("Please select a composition to remove from the audition.");
+            }
+            else // if a change was made, save the table in a session variable
+            {
                 saveTableToSession(tblCompositions, compositionTable);
+            }
         }
 
         /*
@@ -1494,6 +1449,25 @@ namespace WMTA.Events
         {
             bool valid = true;
 
+            //set which composer option should be validated
+            if (chkNewComposer.Checked)
+                rfvComposer.ControlToValidate = txtComposerLast.ID;
+            else
+                rfvComposer.ControlToValidate = ddlComposer.ID;
+
+            //validate composition controls
+            if (chkNewTitle.Checked)
+            {
+                Page.Validate("Composition");
+                Page.Validate("New Composition");
+            }
+            else
+            {
+                Page.Validate("Composition");
+            }
+            
+            //set rfvComposer's field to validate based on whether new composer is being added
+
             //check fields common between using an existing composition or entering a new one
             bool commonDataEntered = !ddlStyle.SelectedValue.ToString().Equals("") && !ddlCompLevel.SelectedValue.ToString().Equals("")
                                      && !(txtMinutes.Text.Equals("") && ddlSeconds.SelectedIndex == 0);
@@ -1502,23 +1476,20 @@ namespace WMTA.Events
             if (chkNewTitle.Checked && (!commonDataEntered || txtComposition.Text.Equals("") ||
                 (ddlComposer.SelectedIndex < 1 && txtComposerLast.Text.Equals(""))))
             {
-                //lblCompositionError.Text = "Please select a style and level, enter a composition and " +    uncomment whole if-statement
+                showWarningMessage("Please fill in all required fields.  If you do not wish to add a new composition, uncheck the 'New Composition' box.");
+                //lblCompositionError.Text = "Please select a style and level, enter a composition and " +    
                 //            "composition time, and make sure you have either selected an existing composer " +
                 //            "or entered a new one.  If you do not wish to add a new composition, uncheck " +
                 //            "the 'New Composition' box.";
-                //lblCompositionError.Visible = true;
                 valid = false;
             }
             else if (!chkNewTitle.Checked && (!commonDataEntered || ddlComposer.SelectedIndex < 1 ||
                      ddlComposition.SelectedIndex < 1))
             {
-                //lblCompositionError.Text = "Please select a style, level, composer, and composition";
-                //lblCompositionError.Visible = true;
+                //showWarningMessage("Please select a style, level, composer, and composition");
+                showWarningMessage("Please fill in all required fields.");
+
                 valid = false;
-            }
-            else
-            {
-                //lblCompositionError.Visible = false;
             }
 
             //make sure minutes are entered and greater than 0
@@ -1529,17 +1500,12 @@ namespace WMTA.Events
 
                 if (!isNum || (isNum && num < 0))
                 {
-                    //lblMinutesErrorMsg.Visible = true; uncomment
-                    //lblMinutesError.Visible = true;
+                    showWarningMessage("Minutes must be a positive integer");
                     valid = false;
                 }
             }
-            else
-            {
-                //lblMinutesError.Visible = true; uncomment
-            }
 
-            return valid /*!lblCompositionError.Visible && !lblMinutesErrorMsg.Visible*/;
+            return valid;
         }
 
         /*
@@ -1561,10 +1527,197 @@ namespace WMTA.Events
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+            if (verifyEnteredData())
+            {
+                //submit data  TODO
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Verifies that the entered data is complete and correct
+         * @returns true if everything is correct and false otherwise
+         */
+        private bool verifyEnteredData()
+        {
+            bool result = studentSelected();
+
+            if (result && action != Utility.Action.Delete)
+            {
+                result = verifyRequiredFields();                     // verify that all required fields are filled in
+                result = result && auditionCreatedForDistrict();     // verify that an audition has been created for the selecte district
+                result = result && checkFreezeDate();                // verify that the freeze date has not already passed for the selected audition
+                result = result && noDuplicateAudition();            // verify that the audition has no already been created
+                result = result && validTheoryLevel();               // verify that the student is allowed to take the chosen theory level
+                result = result && verifyCompositionsToPerform();    // verify that the required number and styles of compositions are chosen
+                result = result && verifyDuetPartner();              // verify that a duet partner is chosen if the audition type is "duet"
+                result = result && verifyTimePreference();           // verify that a time preference was indicated if "Time Preference" was checked
+            }
+
+            return result;
+        }
+
+
+        /*
+        * Pre:
+        * Post: Determines whether or not an audition has been created for the chosen district
+        * @returns true if an audition has been created and false otherwise
+        */
+        private bool auditionCreatedForDistrict()
+        {
+            bool created = true;
+            int year = DateTime.Today.Year;
+
+            //get the year of the next audition
+            if (DateTime.Today.Month >= 6)
+                year = year + 1;
+
+            year = DateTime.Today.Year; //delete this
+
+            //see if the audition has been created
+            if (DbInterfaceStudentAudition.GetAuditionOrgId(Convert.ToInt32(ddlSite.SelectedValue), year) == -1)
+            {
+                showWarningMessage("Error: No audition has been created for the chosen site.");
+
+                created = false;
+            }
+
+            return created;
+        }
+
+        /*
+        * Pre:
+        * Post: Determine whether the freeze date has already passed for the selected audition
+        */
+        private bool checkFreezeDate()
+        {
+            bool freezeDatePassed = false;
+            int year = DateTime.Today.Year;
+
+            if (DateTime.Today.Month >= 6) year = year + 1;
+            year = DateTime.Today.Year; //delete this
+
+            if (!ddlSite.SelectedIndex.ToString().Equals(""))
+            {
+                DateTime freezeDate;
+                int districtId = Convert.ToInt32(ddlSite.SelectedValue);
+                string freezeDateStr = DbInterfaceAudition.GetAuditionFreezeDate(districtId, year);
+
+                if (DateTime.TryParse(freezeDateStr, out freezeDate))
+                {
+                    if (DateTime.Today > freezeDate)
+                    {
+                        freezeDatePassed = true;
+
+                        showWarningMessage("The freeze date has passed.  No auditions may be added or modified.");
+                    }
+                }
+            }
+
+            return freezeDatePassed;
+        }
+
+        /*
+         * Pre:
+         * Post: Determines whether or not the database already contains an equivalent audition
+         * @param returns true if creating this audition would create a duplicate and false otherwise
+         */
+        private bool noDuplicateAudition()
+        {
+            bool result = true;
+            int auditionId = -1, auditionOrgId, yearId;
+
+            if (Int32.TryParse(ddlSite.SelectedValue, out auditionOrgId) && Int32.TryParse(lblStudentId.Text, out yearId))
+            {
+                if (cboAudition.Visible) Int32.TryParse(cboAudition.SelectedValue, out auditionId);
+
+                auditionOrgId = DbInterfaceStudentAudition.GetAuditionOrgId(Convert.ToInt32(ddlSite.SelectedValue),
+                                                                     DateTime.Today.Year);
+                yearId = DbInterfaceStudent.GetStudentYearId(Convert.ToInt32(lblStudentId.Text));
+
+                result = !DbInterfaceStudentAudition.AuditionExists(auditionId, auditionOrgId, yearId, ddlAuditionTrack.SelectedValue,
+                                                      ddlInstrument.SelectedValue, ddlAuditionType.SelectedValue);
+
+                if (!result)
+                {
+                    showWarningMessage("An audition with the same student, audition track, audition type, and instrument " +
+                                       "already exists for the current year.");
+                    result = false;
+                }
+            }
+            else
+            {
+                showWarningMessage("Please select an audition site and student.");
+
+                result = false;
+            }
+
+            return result;
+        }
+
+        /*
+        * Pre:
+        * Post: Determines whether or not the student is allowed to take the chosen theory level.
+        *       If the student has gotten a 5 on the entered theory level or any higher theory level,
+        *       they must go up at least one level
+        * @returns true if the student is allowed to take the chosen theory level and false otherwise
+        */
+        private bool validTheoryLevel()
+        {
+            int studentId;
+            bool result = false;
+
+            if (Int32.TryParse(lblStudentId.Text, out studentId))
+            {
+                string theoryTest = ddlTheoryLevel.SelectedValue;
+                result = DbInterfaceStudentAudition.CountTheoryLevel5s(studentId, theoryTest) < 2;
+
+                if (!result) 
+                {
+                    showWarningMessage("The student has received a 5 on the selected theory level or a higher level more than one time.  Please choose a higher level.");
+                }
+            }
+            else
+            {
+                showWarningMessage("Please select a student.");
+            }
+
+            return result;
+        }
+
+        /*
+         * Pre:
+         * Post: Verifies that a student has been selected
+         * @returns true if a student is selected and false otherwise
+         */
+        private bool studentSelected()
+        {
+            bool studentSelected = !lblStudentId.Text.Equals("");
+
+            if (!studentSelected)
+                showWarningMessage("Please select a student.");
+
+            return studentSelected;
+        }
+
+        /*
+         * Pre:
+         * Post: Verifies that all required fields have values
+         * @returns true if all required fields are filled in and false otherwise
+         */
+        private bool verifyRequiredFields()
+        {
             bool requiredFieldsFilled = true;
 
             Page.Validate("Required");
             requiredFieldsFilled = Page.IsValid;
+
+            //make sure the theory level type is filled in if the theory level is EA or EB
+            if ((ddlTheoryLevel.SelectedValue.ToString().Equals("EA") || ddlTheoryLevel.SelectedValue.ToString().Equals("EB")) && 
+                 ddlTheoryLevelType.SelectedIndex < 1)
+            {
+                Page.Validate("TheoryLevelExtra");
+            }
 
             //validate fields that are only visible for editing or deleting
             if (action != Utility.Action.Add)
@@ -1574,16 +1727,138 @@ namespace WMTA.Events
                 requiredFieldsFilled = requiredFieldsFilled && Page.IsValid;
             }
 
-            if (requiredFieldsFilled)
+            //show an error message if required fields are missing
+            if (!requiredFieldsFilled)
             {
-                //submit data
+                showWarningMessage("Please fill in all required fields.");
             }
-            else
-            {
-                showErrorMessage("Please fill in all required fields.");
 
-            }
+            return requiredFieldsFilled;
         }
+
+        /*
+         * Pre:
+         * Post: Indicates whether the selected styles and number of different styles are 
+         *       sufficient for the student's grade and selected audition track
+         * @returns true if the compositions selections are sufficient
+         */
+        private bool verifyCompositionsToPerform()
+        {
+            int grade = getEnteredGrade();
+            string audTrack = ddlAuditionTrack.Text;
+            List<string> selectedStyles = new List<string>();
+            bool isValid = true, hasRequiredStyle = false;
+            string requiredStyles = "";
+
+            AudTrackRequirements requirements = new AudTrackRequirements(audTrack, grade);
+
+            //make sure there are not extra compositions
+            if (requirements.requiredNumStyles < tblCompositions.Rows.Count - 1)
+            {
+                showWarningMessage("There may only be " + requirements.requiredNumStyles +
+                                " compositions for the selected audition track");
+                isValid = false;
+            }
+
+            //add each unique style to a list
+            for (int i = 1; i < tblCompositions.Rows.Count; i++)
+            {
+                if (!selectedStyles.Contains(tblCompositions.Rows[i].Cells[4].Text.ToString()))
+                    selectedStyles.Add(tblCompositions.Rows[i].Cells[4].Text.ToString());
+            }
+
+            //make sure the number of styles is equal to the requirement
+            if (!audTrack.Equals("D2") && requirements.requiredNumStyles > selectedStyles.Count)
+            {
+                showWarningMessage("There must be " + requirements.requiredNumStyles.ToString() +
+                                " unique styles for the selected audition track");
+                isValid = false;
+            }
+
+            //if there are no required styles, return the current result
+            if (requirements.requiredStyles == null) return isValid;
+
+            //make sure a composition of each required style has been chosen
+            foreach (string style in requirements.requiredStyles)
+            {
+                requiredStyles = requiredStyles + style + ", ";
+
+                if (selectedStyles.Contains(style))
+                    hasRequiredStyle = true;
+            }
+
+            //if any required styles were not chosen, display an error message with the required styles
+            if (!hasRequiredStyle)
+            {
+                requiredStyles = requiredStyles.Substring(0, requiredStyles.Length - 2);
+
+                showWarningMessage("The selected audition track requires that there be compositions " +
+                                "of at least one of the following styles: " + requiredStyles);
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        /*
+         * Pre:
+         * Post: If the Audition Type is a duet, this method insures that a duet
+         *       partner has been chosen and entered into the coordinates table
+         */
+        private bool verifyDuetPartner()
+        {
+            bool result = true;
+
+            if (ddlAuditionType.SelectedValue.Equals("Duet"))
+            {
+                bool foundPartner = false;
+                int i = 1;
+
+                //search for a duet partner in the coordinates table
+                while (i < tblCoordinates.Rows.Count)
+                {
+                    if (tblCoordinates.Rows[i].Cells[3].Text.ToUpper().Equals("DUET"))
+                        foundPartner = true;
+
+                    i++;
+                }
+
+                if (!foundPartner)
+                {
+                    showWarningMessage("Please choose a duet partner.");
+
+                    pnlDuetPartner.Visible = true;
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        /*
+         * Pre:
+         * Post: Verifies that if the user specifies that the student has a time preference
+         *       that the time preference is entered/chosen.
+         */
+        private bool verifyTimePreference()
+        {
+            bool result = true;
+
+            //if the user signified that there is a time preference, look for one
+            if (opPreference.Checked)
+            {
+                //if no preferred time option was selected, return false
+                if (!opAM.Checked && !opPM.Checked && !opEarly.Checked && !opLate.Checked)
+                {
+                    showWarningMessage("Please choose the preferred time or select 'No Preference'.");
+
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
 
         /*** End Page Submit Functions ***/
 
@@ -1629,7 +1904,6 @@ namespace WMTA.Events
             txtLastName.Text = "";
             gvStudentSearch.DataSource = null;
             gvStudentSearch.DataBind();
-            lblStudentSearchError.Visible = false;
         }
 
         /*
@@ -1641,13 +1915,11 @@ namespace WMTA.Events
             clearStudentInformation();  
             clearAuditionInformation();
             clearCompositionsToPerform();
-            //clearTimeConstraints();uncomment all of this
+            clearTimeConstraints();
             ddlSite.SelectedIndex = 0;
             lblAuditionDate.Text = "";
-            lblError.Text = "";
             clearDuetPartner();
             pnlDuetPartner.Visible = false;
-            //lblErrorMsg.Visible = false;
             //clear student auditions
             cboAudition.Items.Clear();
             cboAudition.Items.Add(new ListItem("", ""));
@@ -1712,10 +1984,9 @@ namespace WMTA.Events
             ddlCompLevel.SelectedIndex = -1;
             ddlComposer.SelectedIndex = -1;
             ddlComposition.SelectedIndex = -1;
-            ddlComposer.Visible = true;
-            ddlComposition.Visible = true;
-            txtComposition.Visible = false;
-            //lblCompositionInstruction.Visible = false; uncomment
+            //ddlComposer.Visible = true;
+            //ddlComposition.Visible = true;
+            //txtComposition.Visible = false;
             txtMinutes.Text = "";
             ddlSeconds.SelectedIndex = 0;
             txtComposerLast.Text = "";
@@ -1723,14 +1994,10 @@ namespace WMTA.Events
             txtComposerMI.Text = "";
             chkNewTitle.Checked = false;
             chkNewComposer.Checked = false;
-            pnlComposer.Visible = false;
-            //lblCompositionError.Visible = false;
-            //lblRemoveError.Visible = false;
-            ddlComposer.Visible = true;
-            ddlComposition.Visible = true;
-            txtComposition.Visible = false;
-            //lblMinutesError.Visible = false;
-            //lblMinutesErrorMsg.Visible = false;
+            //pnlComposer.Visible = false;
+            //ddlComposer.Visible = true;
+            //ddlComposition.Visible = true;
+            //txtComposition.Visible = false;
 
             //reset the dropdowns with all data
             searchComposers("", "");
@@ -1743,15 +2010,12 @@ namespace WMTA.Events
          */
         private void clearTimeConstraints()
         {
-            //rblTimeOptions.SelectedIndex = -1; //uncomment
-            //rblTimePreference.SelectedIndex = 0;
-            //lblTimePrefError.Visible = false;
-            //pnlPreferredTime.Visible = false;
+            setTimePreference(false, false, false, false);
 
-            //while (tblCoordinates.Rows.Count > 1)
-            //    tblCoordinates.Rows.Remove(tblCoordinates.Rows[tblCoordinates.Rows.Count - 1]);
+            while (tblCoordinates.Rows.Count > 1)
+                tblCoordinates.Rows.Remove(tblCoordinates.Rows[tblCoordinates.Rows.Count - 1]);
 
-            //Session[coordinateTable] = null;
+            Session[coordinateTable] = null;
         }
 
         /*
@@ -1789,7 +2053,31 @@ namespace WMTA.Events
             //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowMainError", "showMainError()", true);
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);
+        }
+
+        /*
+         * Pre: 
+         * Post: Displays the input warning message in the top left corner of the screen
+         * @param message is the message text to be displayed
+         */
+        private void showWarningMessage(string message)
+        {
+            lblWarningMessage.InnerText = message;
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowWarning", "showWarningMessage()", true);
+        }
+
+        /*
+         * Pre: 
+         * Post: Displays the input informational message in the top left corner of the screen
+         * @param message is the message text to be displayed
+         */
+        private void showInfoMessage(string message)
+        {
+            lblInfoMessage.InnerText = message;
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowInfo", "showInfoMessage()", true);
         }
     }
 }

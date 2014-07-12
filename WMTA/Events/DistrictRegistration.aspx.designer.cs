@@ -13,24 +13,6 @@ namespace WMTA.Events {
     public partial class DistrictRegistration {
         
         /// <summary>
-        /// alertError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl alertError;
-        
-        /// <summary>
-        /// lblError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
-        
-        /// <summary>
         /// upFullPage control.
         /// </summary>
         /// <remarks>
@@ -47,24 +29,6 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upStudentSearch;
-        
-        /// <summary>
-        /// phStudentSearchError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phStudentSearchError;
-        
-        /// <summary>
-        /// lblStudentSearchError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal lblStudentSearchError;
         
         /// <summary>
         /// txtStudentId control.
@@ -220,24 +184,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Panel pnlChooseAudition;
         
         /// <summary>
-        /// phAuditionError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phAuditionError;
-        
-        /// <summary>
-        /// lblAuditionError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal lblAuditionError;
-        
-        /// <summary>
         /// cboAudition control.
         /// </summary>
         /// <remarks>
@@ -254,24 +200,6 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
-        
-        /// <summary>
-        /// phAuditionErrors control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phAuditionErrors;
-        
-        /// <summary>
-        /// lblAuditionErrors control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal lblAuditionErrors;
         
         /// <summary>
         /// ddlSite control.
@@ -526,6 +454,15 @@ namespace WMTA.Events {
         protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkNewComposer;
         
         /// <summary>
+        /// rfvComposer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvComposer;
+        
+        /// <summary>
         /// WmtaDataSource5 control.
         /// </summary>
         /// <remarks>
@@ -607,6 +544,15 @@ namespace WMTA.Events {
         protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkNewTitle;
         
         /// <summary>
+        /// rfvComposition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvComposition;
+        
+        /// <summary>
         /// txtMinutes control.
         /// </summary>
         /// <remarks>
@@ -670,6 +616,24 @@ namespace WMTA.Events {
         protected global::System.Web.UI.UpdatePanel upTimeConstraints;
         
         /// <summary>
+        /// opNoPreference control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opNoPreference;
+        
+        /// <summary>
+        /// opPreference control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opPreference;
+        
+        /// <summary>
         /// pnlPreferredTime control.
         /// </summary>
         /// <remarks>
@@ -677,6 +641,42 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlPreferredTime;
+        
+        /// <summary>
+        /// opAM control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opAM;
+        
+        /// <summary>
+        /// opPM control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opPM;
+        
+        /// <summary>
+        /// opEarly control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opEarly;
+        
+        /// <summary>
+        /// opLate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opLate;
         
         /// <summary>
         /// pnlCoordinateParticipants control.
@@ -740,5 +740,23 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblErrorMessage;
+        
+        /// <summary>
+        /// lblWarningMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblWarningMessage;
+        
+        /// <summary>
+        /// lblInfoMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
     }
 }

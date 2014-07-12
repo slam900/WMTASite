@@ -56,7 +56,11 @@
 }
 
 .display-none {
-    display: none;
+    display: none !important;
+}
+
+.display-inline {
+    display: inline !important;
 }
 
 .smaller-font {
@@ -160,4 +164,16 @@
 
 .flyover.in {
     margin-top: 150px;
+}
+
+.section-heading {
+  display: block;
+  width: 100%;
+  padding: 0;
+  /*margin-bottom: 20px;*/
+  font-size: 16px;
+  line-height: inherit;
+  color: #666666;
+  border: 0;
+  padding: 0;
 }

@@ -1,9 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictRegistration.aspx.cs" Inherits="WMTA.Events.DistrictRegistration" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="alertError" runat="server" class="alert alert-danger alert-dismissable flyover">
-        <strong>Error: An error occurred.</strong><asp:Label ID="lblError" runat="server" />
-    </div>
     <div class="row">
         <div class="well bs-component col-md-6 main-div center">
             <section id="registrationForm">
@@ -19,11 +16,6 @@
                                         <div>
                                             <h4>Student Search</h4>
                                             <br />
-                                            <asp:PlaceHolder runat="server" ID="phStudentSearchError" Visible="false">
-                                                <p class="text-danger">
-                                                    <asp:Literal runat="server" ID="lblStudentSearchError" />
-                                                </p>
-                                            </asp:PlaceHolder>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="txtStudentId" CssClass="col-md-3 control-label float-left">Student Id</asp:Label>
                                                 <div class="col-md-6">
@@ -115,11 +107,6 @@
                                             <div>
                                                 <h4>Audition Information</h4>
                                                 <asp:Panel ID="pnlChooseAudition" runat="server" Visible="false">
-                                                    <asp:PlaceHolder runat="server" ID="phAuditionError" Visible="false">
-                                                        <p class="text-danger">
-                                                            <asp:Literal runat="server" ID="lblAuditionError" Text="This student has no editable auditions for the current year" />
-                                                        </p>
-                                                    </asp:PlaceHolder>
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="cboAudition" CssClass="col-md-3 control-label float-left">Select Audition</asp:Label>
                                                         <div class="col-md-6">
@@ -137,12 +124,6 @@
                                                         </asp:SqlDataSource>
                                                     </div>
                                                 </asp:Panel>
-                                                <asp:PlaceHolder runat="server" ID="phAuditionErrors" Visible="false">
-                                                    <p class="text-danger">
-                                                        <asp:Literal runat="server" ID="lblAuditionErrors" />
-                                                    </p>
-                                                    <%-- lblAuditionSiteError and lblFreezeDatePassed --%>
-                                                </asp:PlaceHolder>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="ddlSite" CssClass="col-md-3 control-label float-left">Audition Site</asp:Label>
                                                     <div class="col-md-6">
@@ -195,7 +176,6 @@
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlAuditionType" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Audition Type is required" ValidationGroup="Required" />
                                                     </div>
-                                                    <%-- required field validator --%>
                                                     <asp:Label ID="lblDuetPartner" runat="server" CssClass="instruction-label" Visible="false" />
                                                     <asp:LinkButton ID="lnkChangePartner" runat="server" Font-Size="Smaller" OnClick="lnkChangePartner_Click" Visible="false">Edit Partner</asp:LinkButton>
                                                 </div>
@@ -237,7 +217,6 @@
                                                         <asp:DropDownList ID="ddlAuditionTrack" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" DataSourceID="WmtaDataSource3" DataTextField="Track" DataValueField="Track" OnSelectedIndexChanged="ddlAuditionTrack_SelectedIndexChanged" AutoPostBack="True">
                                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                         </asp:DropDownList>
-                                                        <%-- required field validation --%>
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlAuditionTrack" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Audition Track is required" ValidationGroup="Required" />
@@ -257,11 +236,10 @@
                                                         <asp:DropDownList ID="ddlTheoryLevel" runat="server" CssClass="dropdown-list form-control float-left" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlTheoryLevel_SelectedIndexChanged" Width="30%">
                                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                         </asp:DropDownList>
-
-                                                        <%-- lblTheoryLvl --%>
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlTheoryLevel" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Theory Level is required" ValidationGroup="Required" />
+                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlTheoryLevelType" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Theory Type is required" ValidationGroup="TheoryLevelExtra" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,6 +253,9 @@
                                             <div>
                                                 <h4>Compositions To Perform</h4>
                                                 <div class="form-group">
+                                                    <div>
+                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlStyle" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Style is required" ValidationGroup="NewComposition" /><br />
+                                                    </div>
                                                     <asp:Label runat="server" AssociatedControlID="ddlStyle" CssClass="col-md-3 control-label float-left">Style</asp:Label>
                                                     <div class="col-md-6">
                                                         <asp:DropDownList ID="ddlStyle" runat="server" CssClass="dropdown-list form-control" AutoPostBack="true" AppendDataBoundItems="true" DataSourceID="WmtaDataSource2" DataTextField="Style" DataValueField="Style" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged">
@@ -292,6 +273,9 @@
                                                         </asp:DropDownList>
                                                         <asp:SqlDataSource ID="WmtaDataSource7" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>
+                                                    <div>
+                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlCompLevel" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Level is required" ValidationGroup="NewComposition" /><br />
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="ddlComposer" CssClass="col-md-3 control-label float-left">Composer</asp:Label>
@@ -302,13 +286,15 @@
                                                     </div>
                                                     <div class="checkbox float-left">
                                                         <label>
-                                                            New<input id="chkNewComposer" type="checkbox" runat="server" class="float-left" />
+                                                            New<input id="chkNewComposer" type="checkbox" runat="server" class="float-left" onchange="chkNewComposerChanged()" />
                                                         </label>
                                                     </div>
+                                                    <div>
+                                                        <asp:RequiredFieldValidator ID="rfvComposer" runat="server" ControlToValidate="ddlComposer" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composer is required" ValidationGroup="NewComposition" /><br />
+                                                    </div>
                                                     <asp:SqlDataSource ID="WmtaDataSource5" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposer" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
-
                                                 </div>
-                                                <asp:Panel ID="pnlComposer" runat="server" Visible="false">
+                                                <asp:Panel ID="pnlComposer" runat="server" CssClass="display-none" > <%--Visible="false"--%>
                                                     <div class="form-group" style="font-size: smaller">
                                                         <asp:Label runat="server" AssociatedControlID="txtComposerLast" CssClass="col-md-3 control-label float-left">Last Name</asp:Label>
                                                         <div class="col-md-6">
@@ -337,11 +323,14 @@
                                                         </asp:DropDownList>
                                                         <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>
-                                                    <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control" Visible="false" />
+                                                    <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control display-none" /> <%--Visible="false"--%> 
                                                     <div class="checkbox float-left">
                                                         <label>
                                                             New<input id="chkNewTitle" type="checkbox" runat="server" />
                                                         </label>
+                                                    </div>
+                                                    <div>
+                                                        <asp:RequiredFieldValidator ID="rfvComposition" runat="server" ControlToValidate="ddlComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" ValidationGroup="NewComposition" /><br />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -352,7 +341,6 @@
                                                     <div class="col-md-2">
                                                         <asp:TextBox runat="server" ID="txtMinutes" CssClass="form-control small-txtbx-width float-left" TextMode="Number" />
                                                     </div>
-                                                    <%-- required --%>
                                                     <asp:Label runat="server" AssociatedControlID="ddlSeconds" CssClass="col-md-2 control-label float-left smaller-font">Seconds</asp:Label>
                                                     <div class="col-md-3">
                                                         <asp:DropDownList ID="ddlSeconds" runat="server" CssClass="dropdown-list form-control float-left" Width="65px">
@@ -361,6 +349,9 @@
                                                             <asp:ListItem Text="30" Value="0.5" />
                                                             <asp:ListItem Text="45" Value="0.75" />
                                                         </asp:DropDownList>
+                                                    </div>
+                                                    <div>
+                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMinutes" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Time is required" ValidationGroup="Composition" /><br />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -394,12 +385,12 @@
                                                     <div class="col-lg-10">
                                                         <div class="radio">
                                                             <label>
-                                                                <input type="radio" name="timePrefRadios" id="opNoPreference" value="No Preference" checked="checked" />No Preference
+                                                                <input type="radio" name="timePrefRadios" id="opNoPreference" runat="server" value="No Preference" checked="true" />No Preference
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label>
-                                                                <input type="radio" name="timePrefRadios" id="opPreference" value="Preferred Time" />Preferred Time
+                                                                <input type="radio" name="timePrefRadios" id="opPreference" runat="server" value="Preferred Time" />Preferred Time
                                                             </label>
                                                         </div>
                                                     </div>
@@ -410,22 +401,22 @@
                                                         <div class="col-lg-10">
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opAM" value="A.M." checked="" />A.M.
+                                                                    <input type="radio" name="timePrefOptions" id="opAM" runat="server" value="A.M." checked="" />A.M.
                                                                 </label>
                                                             </div>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opPM" value="P.M." checked="" />P.M.
+                                                                    <input type="radio" name="timePrefOptions" id="opPM" runat="server" value="P.M." checked="" />P.M.
                                                                 </label>
                                                             </div>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opEarly" value="Earliest" checked="" />Earliest
+                                                                    <input type="radio" name="timePrefOptions" id="opEarly" runat="server" value="Earliest" checked="" />Earliest
                                                                 </label>
                                                             </div>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opLate" value="Latset" checked="" />Latest
+                                                                    <input type="radio" name="timePrefOptions" id="opLate" runat="server" value="Latset" checked="" />Latest
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -462,7 +453,9 @@
                                 </asp:Panel>
                             </fieldset>
                         </div>
-                        <label id="lblErrorMessage" runat="server">Test</label>
+                        <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -477,17 +470,52 @@
                 placement: 'right',
                 content: 'Fill in one or more of the search fields and click "Search" to find students.  First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
             });
+
+            $('#MainContent_pnlComposer').hide();
+            $('#MainContent_txtComposition').hide();
         });
 
-        //show page's main error message
-        function showMainError() {
-            alert('entered');
+        //show or hide new composer panel
+        function chkNewComposerChanged() {
+            if ($('#MainContent_chkNewComposer').is(":checked")) {
+                $('#MainContent_ddlComposer').hide();
+                $('#MainContent_pnlComposer').css('display', 'block');
+                $('#MainContent_pnlComposer').show().children().show();
+               
 
-            var test = $('#MainContent_lblErrorMessage').text();
-
-            $.notify(test.toString(), { position: "left-top", className: "error" });
-
+                //if a new composer is being entered, the composition must be new
+                $('#MainContent_chkNewTitle').prop('checked', true);
+                $('#MainContent_ddlComposition').hide();
+                $('MainContent_txtComposition').show().children().show();
+            }
+            else {
+                $('#MainContent_pnlComposer').hide();
+                $('#MainContent_ddlComposer').show();
+                $('#MainContent_ddlComposition').show();
+            }
         };
+
+        //show an error message
+        function showMainError() {
+            var message = $('#MainContent_lblErrorMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "error" });
+        };
+
+        //show a warning message
+        function showWarningMessage() {
+            var message = $('#MainContent_lblWarningMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "warning" });
+        };
+
+        //show an informational message
+        function showInfoMessage() {
+            var message = $('#MainContent_lblInfoMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "info" });
+        };
+
 
         //make sure all inputs are valid before submitting form
         //function validateAndSubmit() {

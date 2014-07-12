@@ -259,6 +259,47 @@ public class DbInterfaceComposition
     }
 
     /*
+     * Pre: The input composition id must exist in the system
+     * Post: The composition information is updated 
+     * @param currentName is the existing composer name
+     * @param newName is the name to replace the current name with
+     */
+    public static bool ReplaceComposer(string currentName, string newName)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_ComposerUpdate";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@currentName", currentName);
+            cmd.Parameters.AddWithValue("@newName", newName);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "ReplaceComposer", "currentName: " + currentName + ", newName: " + newName, "Message: " + e.Message +
+                             "   Stack Trace: " + e.StackTrace, -1);
+
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
      * Pre:  The entered style and competition level must exist in the system
      * Post: A data table containing the information for the associated composer
      *       is returned.  
