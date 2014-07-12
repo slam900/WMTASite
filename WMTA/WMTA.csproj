@@ -135,6 +135,7 @@
     <Content Include="Account\SystemAdminMenu.aspx" />
     <Content Include="BadgerPointEntry.aspx" />
     <Content Include="BadgerRegistration.aspx" />
+    <Content Include="CompositionTools\CompositionUsed.aspx" />
     <Content Include="CompositionTools\ReplaceComposerName.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -379,6 +380,13 @@
     </Compile>
     <Compile Include="BadgerRegistration.aspx.designer.cs">
       <DependentUpon>BadgerRegistration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CompositionTools\CompositionUsed.aspx.cs">
+      <DependentUpon>CompositionUsed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompositionTools\CompositionUsed.aspx.designer.cs">
+      <DependentUpon>CompositionUsed.aspx</DependentUpon>
     </Compile>
     <Compile Include="CompositionTools\ReplaceComposerName.aspx.cs">
       <DependentUpon>ReplaceComposerName.aspx</DependentUpon>
