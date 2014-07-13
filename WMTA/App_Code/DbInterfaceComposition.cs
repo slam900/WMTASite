@@ -259,6 +259,47 @@ public class DbInterfaceComposition
     }
 
     /*
+     * Pre:  
+     * Post: Determines how many times a particular composition has been used in a student event 
+     * @param id is the id of the composition
+     */
+    public static int GetCompositionUsageCount(int id)
+    {
+        int count = 0;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_CompositionUsed";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@compositionId", id);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+            {
+                count = Convert.ToInt32(table.Rows[0]["NumUses"]);
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "GetCompositionUsageCount", "id: " + id, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return count;
+    }
+
+    /*
      * Pre: The input composition id must exist in the system
      * Post: The composition information is updated 
      * @param currentName is the existing composer name

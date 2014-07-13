@@ -107,7 +107,7 @@
                                 <a href="../CompositionTools/ReplaceComposerName.aspx" class="list-group-item">Replace Composer Name</a>
                                 <a href="../Repertoire2.aspx" class="list-group-item">Replace Composition (placeholder)</a>
                                 <a href="../Repertoire2.aspx" class="list-group-item">Composition Title Finder (placeholder)</a>
-                                <a href="../Repertoire2.aspx" class="list-group-item">Composition Usage Finder (placeholder)</a>
+                                <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage Finder</a>
                             </div>
                         </div>
                     </fieldset>

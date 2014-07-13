@@ -26,6 +26,10 @@
     margin-left: 25%;
 }
 
+.col-md-4-margin {
+    margin-left: 33.33333333% !important;
+}
+
 .center {
     float: none !important;
     margin-left: auto;

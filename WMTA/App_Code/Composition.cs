@@ -40,6 +40,26 @@ public class Composition
         addToDatabase();
     }
 
+    /* Constructor to retrieve id of an existing audition */
+    public Composition(int id)
+    {
+        Composition comp = DbInterfaceComposition.GetComposition(id);
+
+        if (comp != null)
+        {
+            this.compositionId = comp.compositionId;
+            this.title = comp.title;
+            this.composer = comp.composer;
+            this.style = comp.style;
+            this.compLevel = comp.compLevel;
+            this.playingTime = comp.playingTime;
+        }
+        else 
+        { 
+            this.compositionId = -1; 
+        }
+    }
+
     /*
      * Pre:
      * Post: Add the new composition to the database 
@@ -56,5 +76,15 @@ public class Composition
     public bool updateInDatabase()
     {
         return DbInterfaceComposition.EditComposition(compositionId, title, composer, style, playingTime, compLevel);
+    }
+
+    /*
+     * Pre:
+     * Post: Determines whether the current composition has been used in an audition
+     * @returns true if it has been used and false otherwise
+     */
+    public int getTimesUsedCount() 
+    {
+        return DbInterfaceComposition.GetCompositionUsageCount(compositionId);
     }
 }
