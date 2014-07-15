@@ -113,6 +113,47 @@ public class DbInterfaceComposition
 
         return success;
     }
+    /*
+     * Pre: 
+     * Post: The composition with the input id is deleted
+     * @param id is the id of the composition to be deleted
+     * @returns the id of the new composition
+     */
+    public static bool DeleteComposition(int id)
+    {
+        bool success = false;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_CompositionDelete";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@compositionId", id);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+                success = Convert.ToBoolean(table.Rows[0]["Result"]);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "DeleteComposition", "id: " + id, "Message: " + e.Message +
+                             "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
 
     /*
      * Pre:  The input composition id must exist in the system
@@ -260,6 +301,48 @@ public class DbInterfaceComposition
 
     /*
      * Pre:  
+     * Post: Replaces the composition with the id of idToReplace with the composition with
+     *       the id replacementId.  The composition with the id of idToReplace is deleted
+     *       from the system
+     * @param idToReplace is the id of the composition to be replaced
+     * @param replacementId is the id of the compositino to replace the other composition
+     */
+    public static bool ReplaceComposition(int idToReplace, int replacementId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_CompositionReplace";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@idToReplace", idToReplace);
+            cmd.Parameters.AddWithValue("@replacementId", replacementId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "ReplaceComposition", "idToReplace: " + idToReplace + ", replacementId: " + replacementId, 
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
+     * Pre:  
      * Post: Determines how many times a particular composition has been used in a student event 
      * @param id is the id of the composition
      */
@@ -297,6 +380,63 @@ public class DbInterfaceComposition
         connection.Close();
 
         return count;
+    }
+
+    /*
+     * Pre:
+     * Post: Retrieves data of all compositions containing the input string
+     *       in their title.  Also retrieves the number of times the composition
+     *       has been used in a student event
+     * @param title is the title string to search for
+     * @returns tuples of composition data with the number of times the composition
+     *          has been used.  Returns null if there was an error
+     */
+    public static List<Tuple<Composition, int>> CompositionTitleQuery(string titleQuery)
+    {
+        List<Tuple<Composition, int>> results = new List<Tuple<Composition, int>>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_CompositionTitleQuery";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@titleQuery", titleQuery);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++) 
+            {
+                int id = Convert.ToInt32(table.Rows[i]["CompositionId"]);
+                string title = table.Rows[i]["CompositionName"].ToString();
+                string composer = table.Rows[i]["Composer"].ToString();
+                string style = table.Rows[i]["Style"].ToString();
+                double playingTime = Convert.ToDouble(table.Rows[i]["PlayingTime"]);
+                string compLvlId = table.Rows[i]["CompLevelId"].ToString();
+                int timesUsed = Convert.ToInt32(table.Rows[i]["NumTimesUsed"]);
+
+                Composition comp = new Composition(id, title, composer, style, compLvlId, playingTime);
+
+                results.Add(new Tuple<Composition,int>(comp, timesUsed));
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "CompositionTitleQuery", "titleQuery: " + titleQuery, 
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            results = null;
+        }
+
+        connection.Close();
+
+        return results;
     }
 
     /*

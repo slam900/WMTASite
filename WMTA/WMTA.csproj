@@ -136,8 +136,11 @@
     <Content Include="BadgerPointEntry.aspx" />
     <Content Include="BadgerRegistration.aspx" />
     <Content Include="CompositionTools\CompositionUsed.aspx" />
+    <Content Include="CompositionTools\ManageRepertoire.aspx" />
     <Content Include="CompositionTools\ReplaceComposerName.aspx" />
     <Content Include="Contacts\ManageContacts.aspx" />
+    <Content Include="CompositionTools\ReplaceComposition.aspx" />
+    <Content Include="CompositionTools\TitleLookup.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -389,6 +392,13 @@
     <Compile Include="CompositionTools\CompositionUsed.aspx.designer.cs">
       <DependentUpon>CompositionUsed.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CompositionTools\ManageRepertoire.aspx.cs">
+      <DependentUpon>ManageRepertoire.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompositionTools\ManageRepertoire.aspx.designer.cs">
+      <DependentUpon>ManageRepertoire.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CompositionTools\ReplaceComposerName.aspx.cs">
       <DependentUpon>ReplaceComposerName.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -402,6 +412,19 @@
     </Compile>
     <Compile Include="Contacts\ManageContacts.aspx.designer.cs">
       <DependentUpon>ManageContacts.aspx</DependentUpon>
+    <Compile Include="CompositionTools\ReplaceComposition.aspx.cs">
+      <DependentUpon>ReplaceComposition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompositionTools\ReplaceComposition.aspx.designer.cs">
+      <DependentUpon>ReplaceComposition.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CompositionTools\TitleLookup.aspx.cs">
+      <DependentUpon>TitleLookup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompositionTools\TitleLookup.aspx.designer.cs">
+      <DependentUpon>TitleLookup.aspx</DependentUpon>
     </Compile>
     <Compile Include="CoordinateStudents.aspx.cs">
       <DependentUpon>CoordinateStudents.aspx</DependentUpon>

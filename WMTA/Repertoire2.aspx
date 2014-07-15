@@ -47,56 +47,56 @@
                 <p></p>
                 <asp:UpdatePanel ID="upCompositionInfo" runat="server">
                     <ContentTemplate>
-                         <div style="width: 23.8em; margin-left: auto; margin-right: auto">
-                             <asp:Panel ID="pnlTitleEdit" runat="server" Visible="true" >
-                            <label for="CompositionInstructions" class="labelInstruction">Title, Key, Movement, Tempo, Catalog No.</label><br />
-                            <label for="ExistingComposition" style="font-weight: bold">Title</label><asp:TextBox ID="txtComposition" runat="server" AutoPostBack="True" OnTextChanged="txtComposition_TextChanged"></asp:TextBox>
-                            <asp:Label ID="lblCompositionError" runat="server" Text="*" CssClass="labelStarError" Visible="false" ForeColor="Red"></asp:Label><br />
+                        <div style="width: 23.8em; margin-left: auto; margin-right: auto">
+                            <asp:Panel ID="pnlTitleEdit" runat="server" Visible="true">
+                                <label for="CompositionInstructions" class="labelInstruction">Title, Key, Movement, Tempo, Catalog No.</label><br />
+                                <label for="ExistingComposition" style="font-weight: bold">Title</label><asp:TextBox ID="txtComposition" runat="server" AutoPostBack="True" OnTextChanged="txtComposition_TextChanged"></asp:TextBox>
+                                <asp:Label ID="lblCompositionError" runat="server" Text="*" CssClass="labelStarError" Visible="false" ForeColor="Red"></asp:Label><br />
                             </asp:Panel>
-                             <asp:Panel ID="pnlTitleNew" runat="server" Visible="false" >
-                                 <label for="CompositionInstructions" class="labelInstruction">The Title is required. Please include all known information, especially for Masterworks.</label>
-                                 <label for="NewComposition" style="font-weight: bold">Title</label><asp:TextBox ID="txtTitleNew" runat="server" AutoPostBack="true" OnTextChanged="txtTitleNew_TextChanged"></asp:TextBox>
-                                 <asp:Label ID="lblTitleNewError" runat="server" Text="*" CssClass="labelStarError" Visible="false" ForeColor="Red"></asp:Label><br />
-                                 <label style="font-weight: bold">Key</label>
-                                 <asp:DropDownList ID="ddlKeyLetter" runat="server" CssClass="dropDownList" Width="40">
-                                     <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="A" Value="A"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="B" Value="B"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="C" Value="C"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="D" Value="D"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="E" Value="E"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="F" Value="F"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="G" Value="G"></asp:ListItem>
-                                 </asp:DropDownList>
-                                 <asp:DropDownList ID="ddlKeyFS" runat="server" CssClass="dropDownList" Width="60">
-                                     <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="Flat" Value="Flat"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="Sharp" Value="Sharp"></asp:ListItem>
-                                 </asp:DropDownList>
-                                 <asp:DropDownList ID="ddlKeyMM" runat="server" CssClass="dropDownList" Width="60">
-                                     <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="Major" Value="Major"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="Minor" Value="Minor"></asp:ListItem>
-                                 </asp:DropDownList><br />
-                                 <label style="font-weight: bold">Movement</label><asp:TextBox ID="txtMvmt" runat="server"></asp:TextBox><br />
-                                 <label style="font-weight: bold">Tempo</label><asp:TextBox ID="txtTempo" runat="server"></asp:TextBox><br />
-                                 <label style="font-weight: bold">Catalog No.</label>
-                                 <asp:DropDownList ID="ddlPrefix" runat="server" CssClass="dropDownList" Width="60" Enabled="False">
-                                     <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="BWV" Value="BWV"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="Opus/No." Value="Opus/No."></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="BuxWV" Value="BuxWV"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="Hob" Value="Hob"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="K" Value="K"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="L" Value="L"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="S" Value="S"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="P" Value="P"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="D" Value="D"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="KV" Value="KV"></asp:ListItem>
-                                     <asp:ListItem Selected="False" Text="WoO" Value="WoO"></asp:ListItem>
-                                 </asp:DropDownList>
-                                 <asp:TextBox ID="txtCatalogNo" runat="server" OnTextChanged="txtCatalogNo_TextChanged" Width="87px" AutoPostBack="true"></asp:TextBox>
-                             </asp:Panel>
+                            <asp:Panel ID="pnlTitleNew" runat="server" Visible="false">
+                                <label for="CompositionInstructions" class="labelInstruction">The Title is required. Please include all known information, especially for Masterworks.</label>
+                                <label for="NewComposition" style="font-weight: bold">Title</label><asp:TextBox ID="txtTitleNew" runat="server" AutoPostBack="true" OnTextChanged="txtTitleNew_TextChanged"></asp:TextBox>
+                                <asp:Label ID="lblTitleNewError" runat="server" Text="*" CssClass="labelStarError" Visible="false" ForeColor="Red"></asp:Label><br />
+                                <label style="font-weight: bold">Key</label>
+                                <asp:DropDownList ID="ddlKeyLetter" runat="server" CssClass="dropDownList" Width="40">
+                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="A" Value="A"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="B" Value="B"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="C" Value="C"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="D" Value="D"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="E" Value="E"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="F" Value="F"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="G" Value="G"></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:DropDownList ID="ddlKeyFS" runat="server" CssClass="dropDownList" Width="60">
+                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="Flat" Value="Flat"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="Sharp" Value="Sharp"></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:DropDownList ID="ddlKeyMM" runat="server" CssClass="dropDownList" Width="60">
+                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="Major" Value="Major"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="Minor" Value="Minor"></asp:ListItem>
+                                </asp:DropDownList><br />
+                                <label style="font-weight: bold">Movement</label><asp:TextBox ID="txtMvmt" runat="server"></asp:TextBox><br />
+                                <label style="font-weight: bold">Tempo</label><asp:TextBox ID="txtTempo" runat="server"></asp:TextBox><br />
+                                <label style="font-weight: bold">Catalog No.</label>
+                                <asp:DropDownList ID="ddlPrefix" runat="server" CssClass="dropDownList" Width="60" Enabled="False">
+                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="BWV" Value="BWV"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="Opus/No." Value="Opus/No."></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="BuxWV" Value="BuxWV"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="Hob" Value="Hob"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="K" Value="K"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="L" Value="L"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="S" Value="S"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="P" Value="P"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="D" Value="D"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="KV" Value="KV"></asp:ListItem>
+                                    <asp:ListItem Selected="False" Text="WoO" Value="WoO"></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:TextBox ID="txtCatalogNo" runat="server" OnTextChanged="txtCatalogNo_TextChanged" Width="87px" AutoPostBack="true"></asp:TextBox>
+                            </asp:Panel>
                             <p>
                                 <label for="Composer">Composer</label>
                                 <asp:DropDownList ID="ddlComposer" runat="server" CssClass="dropDownList" DataSourceID="WmtaDataSource5" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true" OnSelectedIndexChanged="cboComposer_SelectedIndexChanged" AutoPostBack="true">
@@ -151,8 +151,8 @@
                                 <asp:Label ID="lblCompLevelError" runat="server" CssClass="labelStarError" ForeColor="Red" Text="*" Visible="false"></asp:Label>
                                 <asp:SqlDataSource ID="WmtaDataSource7" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                 <p>
-                                    <asp:CheckBox ID="chkConfirmMeasures" runat="server" TextAlign="Left" AutoPostBack="true" OnCheckedChanged="chkConfirmMeasures_CheckedChanged"/>
-                                    <label style="width:250px">16 measures, not including repeats?</label>
+                                    <asp:CheckBox ID="chkConfirmMeasures" runat="server" TextAlign="Left" AutoPostBack="true" OnCheckedChanged="chkConfirmMeasures_CheckedChanged" />
+                                    <label style="width: 250px">16 measures, not including repeats?</label>
                                     <asp:Label ID="lblMeasuresError" runat="server" CssClass="labelStarError" ForeColor="Red" Text="*" Visible="false"></asp:Label>
                                 </p>
                                 <p>
@@ -168,7 +168,7 @@
                 <asp:UpdatePanel ID="upButtons" runat="server">
                     <ContentTemplate>
                         <p>
-                             <div style="width: 23.8em; margin-left: auto; margin-right: auto; text-align:center">
+                            <div style="width: 23.8em; margin-left: auto; margin-right: auto; text-align: center">
                                 <asp:Label ID="lblErrorMsg" runat="server" Text="**Errors on page**" CssClass="labelMainError" Width="350px" Visible="false"></asp:Label><br />
                             </div>
                             <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="button" OnClick="btnBack_Click" />
@@ -183,10 +183,10 @@
     <asp:UpdatePanel ID="upSuccess" runat="server">
         <ContentTemplate>
             <asp:Panel ID="pnlSuccess" runat="server">
-                 <div style="width: 23.8em; margin-left: auto; margin-right: auto; text-align:center">
+                <div style="width: 23.8em; margin-left: auto; margin-right: auto; text-align: center">
                     <asp:Label ID="lblSuccess" runat="server" Text="The composition was successfully created." CssClass="labelSuccess" Width="300px" Visible="false"></asp:Label><br />
                 </div>
-                 <div style="width: 23.8em; margin-left: auto; margin-right: auto">
+                <div style="width: 23.8em; margin-left: auto; margin-right: auto">
                     <label for="UserOption" style="font-weight: bold">Options</label>
                     <asp:DropDownList ID="ddlUserOptions" runat="server" CssClass="dropDownList">
                         <asp:ListItem Selected="True" Text="Create Composition" Value="Create New"></asp:ListItem>
@@ -194,7 +194,7 @@
                     </asp:DropDownList>
                 </div>
                 <br />
-                 <div style="width: 23.8em; margin-left: auto; margin-right: auto">
+                <div style="width: 23.8em; margin-left: auto; margin-right: auto">
                     <asp:Button ID="btnBackOption" runat="server" Text="Back" CssClass="button" Font-Bold="true" OnClick="btnBackOption_Click" />
                     <asp:Button ID="btnGo" runat="server" Text="Go" CssClass="button" Font-Bold="true" OnClick="btnGo_Click" />
                 </div>

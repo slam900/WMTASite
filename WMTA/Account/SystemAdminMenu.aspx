@@ -37,7 +37,6 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a href="../Events/DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
-                                        <%--<li><a href="../DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>--%>
                                         <li><a href="../DistrictRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
                                         <li><a href="../DistrictRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
                                     </ul>
@@ -99,15 +98,15 @@
                                     <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#" class="smaller-font">Add Composition</a></li>
-                                        <li><a href="#" class="smaller-font">Edit Composition</a></li>
-                                        <li><a href="#" class="smaller-font">Delete Composition (placeholder)</a></li>
+                                        <li><a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="smaller-font">Add Composition</a></li>
+                                        <li><a href="../CompositionTools/ManageRepertoire.aspx?action=2" class="smaller-font">Edit Composition</a></li>
+                                        <li><a href="../CompositionTools/ManageRepertoire.aspx?action=3" class="smaller-font">Delete Composition</a></li>
                                     </ul>
                                 </div>
                                 <a href="../CompositionTools/ReplaceComposerName.aspx" class="list-group-item">Replace Composer Name</a>
-                                <a href="../Repertoire2.aspx" class="list-group-item">Replace Composition (placeholder)</a>
-                                <a href="../Repertoire2.aspx" class="list-group-item">Composition Title Finder (placeholder)</a>
-                                <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage Finder</a>
+                                <a href="../CompositionTools/ReplaceComposition.aspx" class="list-group-item">Replace Composition</a>
+                                <a href="../CompositionTools/TitleLookup.aspx" class="list-group-item">Composition Title Finder</a>
+                                <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage</a>
                             </div>
                         </div>
                     </fieldset>

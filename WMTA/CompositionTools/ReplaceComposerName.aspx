@@ -12,7 +12,7 @@
                                 <legend>Replace Composer Name</legend>
                                 <br />
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="ddlComposer" CssClass="col-md-4 control-label float-left">Composer to Replace</asp:Label>
+                                    <asp:Label runat="server" AssociatedControlID="ddlComposer" CssClass="col-md-4 control-label float-left">Composer to replace</asp:Label>
                                     <div class="col-md-5">
                                         <asp:DropDownList ID="ddlComposer" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource5" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true">
                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>

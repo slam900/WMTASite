@@ -23,13 +23,23 @@ namespace WMTA
 
         /*
          * Pre:
-         * Post: If the user is not logged in they will be redirected to the welcome screen
+         * Post: If the user is not logged in or does not have sufficient permissions they will be redirected to the welcome screen
+         *       Users must have system admin or composition permissions to use this page
          */
         private void checkPermissions()
         {
             //if the user is not logged in, send them to login screen
             if (Session[Utility.userRole] == null)
                 Response.Redirect("/Default.aspx");
+            else
+            {
+                User user = (User)Session[Utility.userRole];
+
+                if (!(user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C")))
+                {
+                    Response.Redirect("/Default.aspx");
+                }
+            }
         }
 
         /*
