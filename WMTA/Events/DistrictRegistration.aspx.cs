@@ -44,9 +44,8 @@ namespace WMTA.Events
                 Session[auditionVar] = null;
 
                 //get requested action - default to adding
-                string test = Request.QueryString["action"];
-
-                if (test == null)
+                string actionIndicator = Request.QueryString["action"];
+                if (actionIndicator == null || actionIndicator.Equals(""))
                 {
                     action = Utility.Action.Add;
                 }
@@ -1459,7 +1458,7 @@ namespace WMTA.Events
             if (chkNewTitle.Checked)
             {
                 Page.Validate("Composition");
-                Page.Validate("New Composition");
+                Page.Validate("NewComposition");
             }
             else
             {

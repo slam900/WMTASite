@@ -30,6 +30,10 @@
     margin-left: 33.33333333% !important;
 }
 
+.margin-left-1percent {
+    margin-left: 1% !important;
+}
+
 .center {
     float: none !important;
     margin-left: auto;
@@ -100,10 +104,16 @@
     font: inherit;
     margin: 0;
     text-transform: none;
-    background: #fff !important;
+    background-color: #fff;
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+}
+
+.dropdown-list[disabled] {
+    cursor: not-allowed;
+    background-color: #eeeeee;
+    opacity: 1;
 }
 
 .dropdown-list-item {
@@ -126,14 +136,12 @@
 }
 
 .instruction-label {
-    font-size: smaller;
-    text-align: left;
-    /*margin-left: 9.5em;*/
+    font-size: 11px;
+    text-align: center;
     margin-left: 25%;
-    color: darkblue;
+    color: #3a87ad;
     margin-bottom: 0px;
-    width: 90%;
-    padding-left: 15px;
+    width: 50%;
 }
 
 .instruction-label-smaller-margin {
@@ -181,3 +189,29 @@
   border: 0;
   padding: 0;
 }
+
+/*.checkbox {
+    box-sizing: border-box;
+  padding: 0;
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  display: block;
+  min-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  float: left;
+  margin-left: -20px;
+  /* IE8-9 */
+  /*line-height: normal;
+}
+
+.checkbox:focus {
+    outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.checkbox label {
+
+}*/

@@ -80,6 +80,17 @@ public class Composition
 
     /*
      * Pre:
+     * Post: Delete the composition from the database if it is no longer
+     *       tied to any student events
+     * @returns true if the composition was successfully deleted and false otherwise
+     */
+    public bool deleteFromDatabase()
+    {
+        return DbInterfaceComposition.DeleteComposition(compositionId);
+    }
+
+    /*
+     * Pre:
      * Post: Determines whether the current composition has been used in an audition
      * @returns true if it has been used and false otherwise
      */
