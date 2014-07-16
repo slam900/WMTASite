@@ -412,7 +412,6 @@
     </Compile>
     <Compile Include="Contacts\ManageContacts.aspx.designer.cs">
       <DependentUpon>ManageContacts.aspx</DependentUpon>
-    </Compile>
     <Compile Include="CompositionTools\ReplaceComposition.aspx.cs">
       <DependentUpon>ReplaceComposition.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

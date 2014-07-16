@@ -13,13 +13,13 @@ namespace WMTA.Contacts {
     public partial class ManageContacts {
         
         /// <summary>
-        /// upFullPage control.
+        /// legend control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upFullPage;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl legend;
         
         /// <summary>
         /// upContactSearch control.
@@ -31,6 +31,15 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.UpdatePanel upContactSearch;
         
         /// <summary>
+        /// pnlContactSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlContactSearch;
+        
+        /// <summary>
         /// txtContactId control.
         /// </summary>
         /// <remarks>
@@ -40,13 +49,13 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.TextBox txtContactId;
         
         /// <summary>
-        /// btnContactSearch control.
+        /// btnSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnContactSearch;
+        protected global::System.Web.UI.WebControls.Button btnSearch;
         
         /// <summary>
         /// txtFirstNameSearch control.
@@ -58,13 +67,13 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.TextBox txtFirstNameSearch;
         
         /// <summary>
-        /// btnClearContactSearch control.
+        /// btnClearSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearContactSearch;
+        protected global::System.Web.UI.WebControls.Button btnClearSearch;
         
         /// <summary>
         /// txtLastNameSearch control.
@@ -76,31 +85,49 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.TextBox txtLastNameSearch;
         
         /// <summary>
-        /// gvContactSearch control.
+        /// gvSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvContactSearch;
+        protected global::System.Web.UI.WebControls.GridView gvSearch;
         
         /// <summary>
-        /// upContactInfo control.
+        /// upFullPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upContactInfo;
+        protected global::System.Web.UI.UpdatePanel upFullPage;
         
         /// <summary>
-        /// lblContactId control.
+        /// pnlFullPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblContactId;
+        protected global::System.Web.UI.WebControls.Panel pnlFullPage;
+        
+        /// <summary>
+        /// pnlId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlId;
+        
+        /// <summary>
+        /// lblId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblId;
         
         /// <summary>
         /// txtFirstName control.
@@ -184,6 +211,15 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
         
         /// <summary>
+        /// txtPhone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPhone;
+        
+        /// <summary>
         /// ddlDistrict control.
         /// </summary>
         /// <remarks>
@@ -220,15 +256,6 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource2;
         
         /// <summary>
-        /// RequiredFieldValidator1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
-        /// <summary>
         /// pnlJudges control.
         /// </summary>
         /// <remarks>
@@ -236,6 +263,15 @@ namespace WMTA.Contacts {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlJudges;
+        
+        /// <summary>
+        /// chkLstTrack control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList chkLstTrack;
         
         /// <summary>
         /// chkLstType control.
@@ -292,15 +328,6 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.Panel pnlButtons;
         
         /// <summary>
-        /// btnBack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBack;
-        
-        /// <summary>
         /// btnClear control.
         /// </summary>
         /// <remarks>
@@ -310,13 +337,13 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.Button btnClear;
         
         /// <summary>
-        /// btnAdd control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAdd;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
         
         /// <summary>
         /// lblErrorMessage control.
@@ -344,5 +371,14 @@ namespace WMTA.Contacts {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
+        
+        /// <summary>
+        /// lblSuccessMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
     }
 }

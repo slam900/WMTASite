@@ -9,7 +9,7 @@
                         <div class="form-horizontal">
                             <%-- Start of form --%>
                             <fieldset>
-                                <legend>District Registration</legend>
+                                <legend id="legend" runat="server">Add District Registration</legend>
                                 <%-- Student search --%>
                                 <asp:UpdatePanel ID="upStudentSearch" runat="server">
                                     <ContentTemplate>
@@ -58,7 +58,7 @@
                                 </asp:UpdatePanel>
                                 <%-- End Student Search --%>
                                 <%-- Student Information --%>
-                                <asp:Panel ID="pnlInfo" runat="server" CssClass="display-none">
+                                <asp:Panel ID="pnlInfo" runat="server" Visible="false">
                                     <asp:UpdatePanel ID="upStudentInfo" runat="server">
                                         <ContentTemplate>
                                             <div>
@@ -78,7 +78,7 @@
                                                 <div id="divGrade" class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtGrade" CssClass="col-md-3 control-label">Grade</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox runat="server" ID="txtGrade" CssClass="form-control small-txtbx-width" />
+                                                        <asp:TextBox runat="server" ID="txtGrade" CssClass="form-control small-txtbx-width" OnTextChanged="txtGrade_TextChanged" AutoPostBack="true" />
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtGrade" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Grade is required" ValidationGroup="Required" />
@@ -263,7 +263,7 @@
                                                         </asp:DropDownList>
                                                         <asp:SqlDataSource ID="WmtaDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
                                                     </div>
-                                                    <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearStudentSearch_Click" />
+                                                    <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearCompSearch_Click" />
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="ddlCompLevel" CssClass="col-md-3 control-label float-left">Level</asp:Label>
@@ -284,17 +284,14 @@
                                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </div>
-                                                    <div class="checkbox float-left">
-                                                        <label>
-                                                            New<input id="chkNewComposer" type="checkbox" runat="server" class="float-left" onchange="chkNewComposerChanged()" />
-                                                        </label>
-                                                    </div>
+                                                    <asp:CheckBox ID="chkNewComposer" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewComposer_CheckedChanged" AutoPostBack="true" />
                                                     <div>
                                                         <asp:RequiredFieldValidator ID="rfvComposer" runat="server" ControlToValidate="ddlComposer" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composer is required" ValidationGroup="NewComposition" /><br />
                                                     </div>
                                                     <asp:SqlDataSource ID="WmtaDataSource5" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposer" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 </div>
-                                                <asp:Panel ID="pnlComposer" runat="server" CssClass="display-none" > <%--Visible="false"--%>
+                                                <asp:Panel ID="pnlComposer" runat="server" CssClass="display-none">
+                                                    <%--Visible="false"--%>
                                                     <div class="form-group" style="font-size: smaller">
                                                         <asp:Label runat="server" AssociatedControlID="txtComposerLast" CssClass="col-md-3 control-label float-left">Last Name</asp:Label>
                                                         <div class="col-md-6">
@@ -323,12 +320,9 @@
                                                         </asp:DropDownList>
                                                         <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>
-                                                    <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control display-none" /> <%--Visible="false"--%> 
-                                                    <div class="checkbox float-left">
-                                                        <label>
-                                                            New<input id="chkNewTitle" type="checkbox" runat="server" />
-                                                        </label>
-                                                    </div>
+                                                    <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control display-none" />
+                                                    <%--Visible="false"--%>
+                                                    <asp:CheckBox ID="chkNewTitle" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewTitle_CheckedChanged" AutoPostBack="true" />
                                                     <div>
                                                         <asp:RequiredFieldValidator ID="rfvComposition" runat="server" ControlToValidate="ddlComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" ValidationGroup="NewComposition" /><br />
                                                     </div>
@@ -359,7 +353,7 @@
                                                     <asp:Button ID="btnRemoveComposition" runat="server" Text="Remove" CssClass="btn btn-default btn-min-width-72" OnClick="btnRemoveComposition_Click" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <asp:Table ID="tblCompositions" runat="server" CssClass="table table-striped table-hover">
+                                                    <asp:Table ID="tblCompositions" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center">
                                                         <asp:TableHeaderRow ID="TableHeaderRow1" runat="server" BorderStyle="Solid">
                                                             <asp:TableHeaderCell Scope="Column" Text="" />
                                                             <asp:TableHeaderCell Scope="Column" Text="Id" Visible="false" />
@@ -383,16 +377,10 @@
                                                 <h4>Time Constraints</h4>
                                                 <div class="form-group">
                                                     <div class="col-lg-10">
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input type="radio" name="timePrefRadios" id="opNoPreference" runat="server" value="No Preference" checked="true" />No Preference
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input type="radio" name="timePrefRadios" id="opPreference" runat="server" value="Preferred Time" />Preferred Time
-                                                            </label>
-                                                        </div>
+                                                        <asp:RadioButtonList ID="rblTimePreference" runat="server" CssClass="radio" RepeatLayout="Flow" OnSelectedIndexChanged="rblTimePreference_SelectedIndexChanged" AutoPostBack="true">
+                                                            <asp:ListItem Selected="True">No Preference</asp:ListItem>
+                                                            <asp:ListItem>Preferred Time</asp:ListItem>
+                                                        </asp:RadioButtonList>
                                                     </div>
                                                 </div>
                                                 <asp:Panel ID="pnlPreferredTime" runat="server" Visible="false">
@@ -401,41 +389,40 @@
                                                         <div class="col-lg-10">
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opAM" runat="server" value="A.M." checked="" />A.M.
+                                                                    <input type="radio" name="timePrefOptions" id="opAM" runat="server" value="A.M." />A.M.
                                                                 </label>
                                                             </div>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opPM" runat="server" value="P.M." checked="" />P.M.
+                                                                    <input type="radio" name="timePrefOptions" id="opPM" runat="server" value="P.M." />P.M.
                                                                 </label>
                                                             </div>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opEarly" runat="server" value="Earliest" checked="" />Earliest
+                                                                    <input type="radio" name="timePrefOptions" id="opEarly" runat="server" value="Earliest" />Earliest
                                                                 </label>
                                                             </div>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name="timePrefOptions" id="opLate" runat="server" value="Latset" checked="" />Latest
+                                                                    <input type="radio" name="timePrefOptions" id="opLate" runat="server" value="Latset" />Latest
                                                                 </label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </asp:Panel>
+                                                <hr />
                                                 <asp:Panel ID="pnlCoordinateParticipants" runat="server" Visible="false">
-                                                    <div class="form-group">
-                                                        <asp:Label runat="server" CssClass="col-md-3 control-label float-left">Coordinating Students</asp:Label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <asp:Table ID="tblCoordinates" runat="server" CssClass="table table-striped table-hover">
-                                                            <asp:TableHeaderRow ID="TableHeaderRow2" runat="server" BorderStyle="Solid">
-                                                                <asp:TableHeaderCell Scope="Column" Text="Id" />
-                                                                <asp:TableHeaderCell Scope="Column" Text="First Name" />
-                                                                <asp:TableHeaderCell Scope="Column" Text="Last Name" />
-                                                                <asp:TableHeaderCell Scope="Column" Text="Reason" />
-                                                            </asp:TableHeaderRow>
-                                                        </asp:Table>
-                                                    </div>
+                                                    <h4>Coordinating Students</h4>
+                                                        <div class="form-group">
+                                                            <asp:Table ID="tblCoordinates" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center">
+                                                                <asp:TableHeaderRow ID="TableHeaderRow2" runat="server" BorderStyle="Solid">
+                                                                    <asp:TableHeaderCell Scope="Column" Text="Id" />
+                                                                    <asp:TableHeaderCell Scope="Column" Text="First Name" />
+                                                                    <asp:TableHeaderCell Scope="Column" Text="Last Name" />
+                                                                    <asp:TableHeaderCell Scope="Column" Text="Reason" />
+                                                                </asp:TableHeaderRow>
+                                                            </asp:Table>
+                                                        </div>
                                                 </asp:Panel>
                                             </div>
                                         </ContentTemplate>
@@ -443,7 +430,7 @@
                                     <%-- End Time Constraints --%>
                                 </asp:Panel>
                                 <hr />
-                                <asp:Panel runat="server" ID="pnlButtons" CssClass="display-none">
+                                <asp:Panel runat="server" ID="pnlButtons" Visible="false">
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
                                             <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
@@ -456,6 +443,7 @@
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -474,30 +462,6 @@
             $('#MainContent_pnlComposer').hide();
             $('#MainContent_txtComposition').hide();
         });
-
-        //show or hide new composer panel
-        function chkNewComposerChanged() {
-            if ($('#MainContent_chkNewComposer').is(":checked")) {
-                $('#MainContent_ddlComposer').hide();
-                $('#MainContent_pnlComposer').css('display', 'block');
-
-                //TODO: Figure out why this won't show
-                $('#MainContent_pnlComposer').show().children().show();
-               
-
-                //if a new composer is being entered, the composition must be new
-                $('#MainContent_chkNewTitle').prop('checked', true);
-                $('#MainContent_ddlComposition').hide();
-
-                //TODO: Figure out why this won't show
-                $('MainContent_txtComposition').show().children().show();
-            }
-            else {
-                $('#MainContent_pnlComposer').hide();
-                $('#MainContent_ddlComposer').show();
-                $('#MainContent_ddlComposition').show();
-            }
-        };
 
         //show an error message
         function showMainError() {
@@ -520,78 +484,11 @@
             $.notify(message.toString(), { position: "left-top", className: "info" });
         };
 
+        //show a success message
+        function showSuccessMessage() {
+            var message = $('#MainContent_lblSuccessMessage').text();
 
-        //make sure all inputs are valid before submitting form
-        //function validateAndSubmit() {
-        //    var valid = true;
-
-        //    //make sure a student was chosen
-        //    if ($('#MainContent_lblStudentId').val() == "") {
-        //        valid = false;
-        //        //show error message
-        //    }
-
-        //    //a grade must be entered
-        //    if ($('#MainContent_txtGrade').val() == "") {
-        //        valid = false;
-        //        $('#divGrade').addClass("has-error");
-        //    }
-
-        //    //make sure an audition site was selected
-        //    if ($('#MainContent_ddlSite').val() == null || $('#MainContent_ddlSite').val() == "") {
-        //        valid = false;
-        //        $('#MainContent_ddlSite').addClass("has-error");
-        //    }
-
-        //    //make sure an audition type was selected
-        //    if ($('#MainContent_ddlAuditionType').val() == null || $('#MainContent_ddlAuditionType').val() == "") {
-        //        valid = false;
-        //        $('#MainContent_ddlAuditionType').addClass("has-error");
-        //    }
-
-        //    //make sure an audition track was selected
-        //    if ($('#MainContent_ddlAuditionTrack').val() == null || $('#MainContent_ddlAuditionTrack').val() == "") {
-        //        valid = false;
-        //        $('#MainContent_ddlAuditionTrack').addClass("has-error");
-        //    }
-
-        //    //make sure an instrument was selected
-        //    if ($('#MainContent_ddlInstrument').val() == null || $('#MainContent_ddlInstrument').val() == "") {
-        //        valid = false;
-        //        $('#MainContent_ddlInstrument').addClass("has-error");
-        //    }
-
-        //    //make sure a theory level was selected
-        //    if ($('#MainContent_ddlTheoryLevel').val() == null || $('#MainContent_ddlTheoryLevel').val() == "") {
-        //        valid = false;
-        //        $('#MainContent_ddlTheoryLevel').addClass("has-error");
-        //    }
-
-        //    //make sure an audition was selected if editing or deleting
-        //    var action = getUrlParameter("action");
-        //    if (action != 1 && ($('#MainContent_cboAudition').val() == null || $('#MainContent_cboAudition').val() == "")) {
-        //        valid = false;
-        //        $('#MainContent_cboAudition').addClass("has-error");
-        //    }
-
-        //    //if everything is valid, submit the form
-        //    if (valid) {
-
-        //    }
-        //}
-
-        ////get the input parameter value from the URL
-        //function getUrlParameter(paramName) {
-        //    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-
-        //    var regexS = "[\\?&]" + name + "=([^&#]*)";
-        //    var regex = new RegExp(regexS);
-        //    var results = regex.exec(window.location.href);
-
-        //    if (results == null)
-        //        return "";
-        //    else
-        //        return results[1];
-        //}
+            $.notify(message.toString(), { position: "left-top", className: "info" });
+        };
     </script>
 </asp:Content>

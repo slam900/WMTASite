@@ -12,6 +12,35 @@
                                 <fieldset>
                                     <legend>Composition Replacement</legend>
                                     <br />
+                                    <h4>Select Composition to Replace</h4>
+                                    <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">The style, level and composer dropdowns can be used to filter the composition options.</label>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-4 control-label float-left">Style</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlStyleSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource2" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged" AutoPostBack="True">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlCompLevelSearch" CssClass="col-md-4 control-label float-left">Level</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlCompLevelSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource3" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true" OnSelectedIndexChanged="cboCompLevel_SelectedIndexChanged" AutoPostBack="True">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlComposerSearch" CssClass="col-md-4 control-label float-left">Composer</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlComposerSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource4" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlComposerSearch_SelectedIndexChanged">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposer" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlCompositionToReplace" CssClass="col-md-4 control-label float-left">Composition to Replace</asp:Label>
                                         <div class="col-md-8">
@@ -24,10 +53,43 @@
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlCompositionToReplace" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition to replace is required" /><br />
                                         </div>
                                     </div>
+                                    <div>
+                                        <p runat="server" class="text-info text-align-center">Note: The composition to replace will be <strong>permanently</strong> removed from the system.</p>
+                                    </div>
+                                    <hr />
+                                    <h4>Select Replacement Composition</h4>
+                                    <label runat="server" id="Label1" visible="false" class="instruction-label">The style, level and composer dropdowns can be used to filter the composition options.</label>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlStyleSearch2" CssClass="col-md-4 control-label float-left">Style</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlStyleSearch2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource5" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle2_SelectedIndexChanged" AutoPostBack="True">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:SqlDataSource ID="SqlDataSource5" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlCompLevelSearch2" CssClass="col-md-4 control-label float-left">Level</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlCompLevelSearch2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource8" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true" OnSelectedIndexChanged="cboCompLevel2_SelectedIndexChanged" AutoPostBack="True">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:SqlDataSource ID="SqlDataSource8" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlComposerSearch2" CssClass="col-md-4 control-label float-left">Composer</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlComposerSearch2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource7" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlComposerSearch2_SelectedIndexChanged">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:SqlDataSource ID="SqlDataSource7" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposer" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlReplacement" CssClass="col-md-4 control-label float-left">Replacement Composition</asp:Label>
                                         <div class="col-md-8">
-                                            <asp:DropDownList ID="ddlReplacement" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource6" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true">
+                                            <asp:DropDownList ID="ddlReplacement" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
@@ -35,9 +97,6 @@
                                         <div class="col-md-8 col-md-4-margin">
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlReplacement" CssClass="text-danger vertical-center font-size-12" ErrorMessage="A replacement composition is required" /><br />
                                         </div>
-                                    </div>
-                                    <div>
-                                        <p runat="server" class="text-info text-align-center">Note: The composition to replace will be <strong>permanently</strong> removed from the system.</p>
                                     </div>
                                     <hr />
                                     <div class="form-group">

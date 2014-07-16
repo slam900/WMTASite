@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -71,6 +72,176 @@ namespace WMTA.CompositionTools
 
         #endregion Find Usage
 
+        #region Composition Filter
+
+        /*
+         * Pre:
+         * Post: The options in the "Composer" and "Composition" dropdowns 
+         *       will be filtered based on the selected Style and Level.
+         *       Compositions will also be filtered based on the selected
+         *       composer. (in the select composition section)
+         */
+        protected void cboStyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
+            searchComposers(ddlComposerSearch, ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+        }
+
+        /*
+         * Pre:
+         * Post: The options in the "Composer" and "Composition" dropdowns 
+         *       will be filtered based on the selected Style and Level.
+         *       Compositions will also be filtered based on the selected
+         *       composer. (in the select composition section)
+         */
+        protected void cboStyle2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text, ddlComposerSearch2.Text);
+            searchComposers(ddlComposerSearch2, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text);
+        }
+
+        /*
+         * Pre:
+         * Post: The options in the "Composer" and "Composition" dropdowns
+         *       will be filtered based on the selected Style and Level.
+         *       Compositions will also be filtered based on the selected
+         *       composer. (in the select composition section)
+         */
+        protected void cboCompLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
+            searchComposers(ddlComposerSearch, ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+        }
+
+        /*
+         * Pre:
+         * Post: The options in the "Composer" and "Composition" dropdowns
+         *       will be filtered based on the selected Style and Level.
+         *       Compositions will also be filtered based on the selected
+         *       composer. (in the select composition section)
+         */
+        protected void cboCompLevel2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text, ddlComposerSearch2.Text);
+            searchComposers(ddlComposerSearch2, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text);
+        }
+
+        /*
+         * Pre:
+         * Post: The options in the "Composition" dropdown will be filtered based
+         *       on the selected Style, Level, and Composer
+         */
+        protected void ddlComposerSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
+        }
+
+        /*
+         * Pre:
+         * Post: The options in the "Composition" dropdown will be filtered based
+         *       on the selected Style, Level, and Composer
+         */
+        protected void ddlComposerSearch2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text, ddlComposerSearch2.Text);
+        }
+
+        /*
+         * Pre:   The input style and competition level must exist in the system
+         * Post:  The input parameters are used to search for existing compositions.  
+         *        Matching compositions are loaded to the corresponding drop downs
+         * @param ddl is the dropdown list to load with compositions
+         * @param style is the style of compositions being loaded
+         * @param compLevel is the competition level of compositions being loaded
+         */
+        private void searchCompositions(DropDownList ddl, string style, string compLevelId, string composer)
+        {
+            try
+            {
+                DataTable tableComposition = DbInterfaceComposition.GetCompositionSearchResults(style, compLevelId, composer);
+
+                if (tableComposition != null)
+                {
+                    //clear current contents
+                    ddl.DataSource = null;
+                    ddl.Items.Clear();
+                    ddl.DataSourceID = "";
+
+                    //update tables
+                    ddl.DataSource = tableComposition;
+                    ddl.DataTextField = "CompositionName";
+                    ddl.DataValueField = "CompositionId";
+
+                    //add blank item
+                    ddl.Items.Add(new ListItem(""));
+
+                    //bind new data
+                    ddl.DataBind();
+                }
+                else
+                {
+                    showErrorMessage("Error: An error occurred during the search.");
+                }
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred during the search.");
+
+                Utility.LogError("Repertoire", "searchCompositions", "style: " + style + ", compLevelId: " + compLevelId +
+                                 ", composer: " + composer, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:   The input style and competition level must exist in the system
+         * Post:  The input parameters are used to search for existing composers.  
+         *        Matching composers are loaded to the Composer dropdown
+         * @param ddl is the dropdown list to load with composers
+         * @param style is the style of compositions by composers being loaded
+         * @param compLevel is the competition level of compositions by composers being loaded
+         */
+        private void searchComposers(DropDownList ddl, string style, string compLevelId)
+        {
+            try
+            {
+                DataTable tableComposer = DbInterfaceComposition.GetComposerSearchResults(style, compLevelId);
+
+                if (tableComposer != null)
+                {
+                    //Load the search results in the dropdowns. 
+                    ddl.DataSource = null;
+
+                    //clear current contents
+                    ddl.Items.Clear();
+                    ddl.DataSourceID = "";
+
+                    //update tables
+                    ddl.DataSource = tableComposer;
+                    ddl.DataTextField = "Composer";
+                    ddl.DataValueField = "Composer";
+
+                    //add blank item
+                    ddl.Items.Add(new ListItem(""));
+
+                    //bind new data
+                    ddl.DataBind();
+                }
+                else
+                {
+                    showErrorMessage("Error: An error occurred during the search.");
+                }
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred during the search.");
+
+                Utility.LogError("CompositionUsed", "searchComposers", "style: " + style + ", compLevelId: " + compLevelId,
+                                 "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        #endregion Composition Filter
+
         #region Clear Functions
 
         /*
@@ -90,6 +261,17 @@ namespace WMTA.CompositionTools
         {
             ddlCompositionToReplace.SelectedIndex = -1;
             ddlReplacement.SelectedIndex = -1;
+            ddlStyleSearch.SelectedIndex = -1;
+            ddlStyleSearch2.SelectedIndex = -1;
+            ddlCompLevelSearch.SelectedIndex = -1;
+            ddlCompLevelSearch2.SelectedIndex = -1;
+            ddlComposerSearch.SelectedIndex = -1;
+            ddlComposerSearch2.SelectedIndex = -1;
+
+            searchComposers(ddlComposerSearch, "", "");
+            searchComposers(ddlComposerSearch2, "", "");
+            searchCompositions(ddlReplacement, "", "", "");
+            searchCompositions(ddlCompositionToReplace, "", "", "");
         }
 
         #endregion Clear Functions

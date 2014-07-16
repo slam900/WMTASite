@@ -16,7 +16,7 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <webopt:bundlereference runat="server" path="~/Content/css" />
     <%-- <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />--%>
 </head>
 <body>
@@ -141,7 +141,7 @@
             <hr />
             <footer>
                 <img src="../Images/Ovation-clapping1.jpg" height="40px" class="center display-block" />
-                <div style="text-align:center">
+                <div style="text-align: center">
                     <p><%: DateTime.Now.Year %></p>
                 </div>
             </footer>

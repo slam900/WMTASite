@@ -37,8 +37,8 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a href="../Events/DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
-                                        <li><a href="../DistrictRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
-                                        <li><a href="../DistrictRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
+                                        <li><a href="../Events/DistrictRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
+                                        <li><a href="../Events/DistrictRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">
@@ -83,10 +83,10 @@
                                     <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#" class="smaller-font">Add Contacts</a></li>
+                                        <li><a href="../Contacts/ManageContacts.aspx?action=1" class="smaller-font">Add Contacts</a></li>
                                         <li><a href="../RegisterContacts.aspx" class="smaller-font">Register Contacts</a></li>
-                                        <li><a href="#" class="smaller-font">Edit Contacts</a></li>
-                                        <li><a href="#" class="smaller-font">Delete Contacts</a></li>
+                                        <li><a href="../Contacts/ManageContacts.aspx?action=2" class="smaller-font">Edit Contacts</a></li>
+                                        <li><a href="#" class="smaller-font">Delete Contacts (placeholder)</a></li>
                                     </ul>
                                 </div>
                             </div>

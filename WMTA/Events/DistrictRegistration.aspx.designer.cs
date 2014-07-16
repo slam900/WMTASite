@@ -22,6 +22,15 @@ namespace WMTA.Events {
         protected global::System.Web.UI.UpdatePanel upFullPage;
         
         /// <summary>
+        /// legend control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl legend;
+        
+        /// <summary>
         /// upStudentSearch control.
         /// </summary>
         /// <remarks>
@@ -451,7 +460,7 @@ namespace WMTA.Events {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkNewComposer;
+        protected global::System.Web.UI.WebControls.CheckBox chkNewComposer;
         
         /// <summary>
         /// rfvComposer control.
@@ -541,7 +550,7 @@ namespace WMTA.Events {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkNewTitle;
+        protected global::System.Web.UI.WebControls.CheckBox chkNewTitle;
         
         /// <summary>
         /// rfvComposition control.
@@ -616,22 +625,13 @@ namespace WMTA.Events {
         protected global::System.Web.UI.UpdatePanel upTimeConstraints;
         
         /// <summary>
-        /// opNoPreference control.
+        /// rblTimePreference control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opNoPreference;
-        
-        /// <summary>
-        /// opPreference control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opPreference;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblTimePreference;
         
         /// <summary>
         /// pnlPreferredTime control.
@@ -758,5 +758,14 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
+        
+        /// <summary>
+        /// lblSuccessMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
     }
 }
