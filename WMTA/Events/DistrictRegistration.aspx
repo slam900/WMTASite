@@ -482,7 +482,7 @@
                 $('#MainContent_pnlComposer').css('display', 'block');
 
                 //TODO: Figure out why this won't show
-                $('#MainContent_pnlComposer').show().children().show();
+                $('#MainContent_pnlComposer').show();
                
 
                 //if a new composer is being entered, the composition must be new
