@@ -215,6 +215,7 @@
     <Content Include="DistrictPointEntry.aspx" />
     <Content Include="DistrictRegistration.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\CreateDistrictAudition.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -482,6 +483,13 @@
     </Compile>
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\CreateDistrictAudition.aspx.cs">
+      <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\CreateDistrictAudition.aspx.designer.cs">
+      <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\DistrictRegistration.aspx.cs">
       <DependentUpon>DistrictRegistration.aspx</DependentUpon>
