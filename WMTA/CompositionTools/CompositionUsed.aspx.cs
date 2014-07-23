@@ -90,21 +90,10 @@ namespace WMTA.CompositionTools
          */
         protected void cboStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
-            searchComposers(ddlStyleSearch.Text, ddlCompLevelSearch.Text);
-        }
+            txtId.Text = "";
 
-        /*
-         * Pre:
-         * Post: The options in the "Composer" and "Composition" dropdowns
-         *       will be filtered based on the selected Style and Level.
-         *       Compositions will also be filtered based on the selected
-         *       composer. (in the select composition section)
-         */
-        protected void cboCompLevel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            searchCompositions(ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
-            searchComposers(ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+            searchCompositions(ddlStyleSearch.Text, "", ddlComposerSearch.Text);
+            searchComposers(ddlStyleSearch.Text, "");
         }
 
         /*
@@ -114,7 +103,9 @@ namespace WMTA.CompositionTools
          */
         protected void ddlComposerSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
+            txtId.Text = "";
+
+            searchCompositions(ddlStyleSearch.Text, "", ddlComposerSearch.Text);
         }
 
         /*
@@ -209,6 +200,38 @@ namespace WMTA.CompositionTools
             }
         }
 
+        /*
+         * Pre:
+         * Post: Retrieve the id associated with the input id
+         */
+        protected void btnId_Click(object sender, EventArgs e)
+        {
+            int num;
+
+            if (Int32.TryParse(txtId.Text, out num))
+            {
+                ddlStyleSearch.SelectedIndex = -1;
+                ddlComposerSearch.SelectedIndex = -1;
+                searchComposers("", "");
+                searchCompositions("", "", "");
+
+                ListItem item = ddlComposition.Items.FindByValue(num.ToString());
+
+                if (item != null)
+                {
+                    ddlComposition.SelectedValue = num.ToString();
+                }
+                else
+                {
+                    showWarningMessage("No composition exists with with the entered id.");
+                }
+            }
+            else
+            {
+                showWarningMessage("The id must be a number.");
+            }
+        }
+
         #endregion Composition Filter
 
         #region Clear Functions
@@ -228,6 +251,9 @@ namespace WMTA.CompositionTools
          */
         private void clearPage()
         {
+            txtId.Text = "";
+            ddlStyleSearch.SelectedIndex = 0;
+            ddlComposerSearch.SelectedIndex = 0;
             ddlComposition.SelectedIndex = 0;
             pUsed.Visible = false;
             pNotUsed.Visible = false;

@@ -23,7 +23,7 @@ namespace WMTA.Reporting
             ExecutionInfo execInfo = new ExecutionInfo();
             ExecutionHeader execHeader = new ExecutionHeader();
             string historyId = null, encoding = "";
-            string reportPath = "/wismusta/StudentHistory";
+            string reportPath = "/wismusta/DistrictAuditionStatistics";
             //string extension = "PDF";
             //string mimeType = "pdf";
             string extension = "";

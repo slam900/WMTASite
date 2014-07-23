@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="well bs-component col-md-10 main-div center">
+        <div class="well bs-component col-md-11 main-div center">
             <section id="form">
                 <asp:UpdatePanel ID="upFullPage" runat="server">
                     <ContentTemplate>
@@ -22,9 +22,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <asp:Table ID="tblCompositions" runat="server" CssClass="table table-striped table-hover text-align-center" Visible="false">
+                                        <asp:Table ID="tblCompositions" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center" Visible="false">
                                             <asp:TableHeaderRow ID="TableHeaderRow1" runat="server" BorderStyle="Solid">
-                                                <asp:TableHeaderCell Scope="Column" Text="Id" Visible="false" />
+                                                <asp:TableHeaderCell Scope="Column" Text="Id" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Title" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Composer" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Style" />

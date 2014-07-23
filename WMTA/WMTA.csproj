@@ -56,6 +56,7 @@
       <HintPath>bin\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
@@ -234,6 +235,7 @@
     <Content Include="RegisterContact.aspx" />
     <Content Include="Repertoire2.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
+    <Content Include="Reporting\ReportViewerTest.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Resources.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -591,12 +593,20 @@
     <Compile Include="Repertoire2.aspx.designer.cs">
       <DependentUpon>Repertoire2.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\ReportCredentials.cs" />
     <Compile Include="Reporting\ReportTest.aspx.cs">
       <DependentUpon>ReportTest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reporting\ReportTest.aspx.designer.cs">
       <DependentUpon>ReportTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\ReportViewerTest.aspx.cs">
+      <DependentUpon>ReportViewerTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\ReportViewerTest.aspx.designer.cs">
+      <DependentUpon>ReportViewerTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>

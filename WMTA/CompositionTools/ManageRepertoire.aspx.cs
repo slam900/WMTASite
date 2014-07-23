@@ -443,8 +443,8 @@ namespace WMTA.CompositionTools
          */
         protected void cboStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
-            searchComposers(ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+            searchCompositions(ddlStyleSearch.Text, "", ddlComposerSearch.Text);
+            searchComposers(ddlStyleSearch.Text, "");
         }
 
         /*
@@ -456,8 +456,8 @@ namespace WMTA.CompositionTools
          */
         protected void cboCompLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
-            searchComposers(ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+            searchCompositions(ddlStyleSearch.Text, "", ddlComposerSearch.Text);
+            searchComposers(ddlStyleSearch.Text, "");
         }
 
         /*
@@ -467,7 +467,7 @@ namespace WMTA.CompositionTools
          */
         protected void ddlComposerSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
+            searchCompositions(ddlStyleSearch.Text, "", ddlComposerSearch.Text);
         }
 
         protected void ddlComposition_SelectedIndexChanged(object sender, EventArgs e)
@@ -487,7 +487,6 @@ namespace WMTA.CompositionTools
                     ddlStyle.Text = composition.style;
                     ddlStyleSearch.Text = composition.style;
                     ddlCompLevel.SelectedValue = composition.compLevel;
-                    ddlCompLevelSearch.SelectedValue = composition.compLevel;
                     ddlComposer.SelectedValue = composition.composer;
                     ddlComposerSearch.SelectedValue = composition.composer;
                     chkConfirmMeasures.Checked = true;
@@ -648,7 +647,6 @@ namespace WMTA.CompositionTools
         private void clearCompSelect()
         {
             ddlStyleSearch.SelectedIndex = -1;
-            ddlCompLevelSearch.SelectedIndex = -1;
             ddlComposerSearch.SelectedIndex = -1;
             ddlComposition.SelectedIndex = -1;
 

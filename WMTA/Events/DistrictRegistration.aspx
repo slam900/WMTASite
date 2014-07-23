@@ -456,7 +456,7 @@
                 trigger: 'hover',
                 html: true,
                 placement: 'right',
-                content: 'Fill in one or more of the search fields and click "Search" to find students.  First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
+                content: 'Fill in any number of the search fields and click "Search" to find students. Clicking "Search" without filling in any fields will return all students linked to you. First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
             });
 
             $('#MainContent_pnlComposer').hide();

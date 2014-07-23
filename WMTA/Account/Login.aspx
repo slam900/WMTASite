@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="WMTA.Login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div style="margin-bottom: 30px"></div>
     <div class="row">
-        <div class="well bs-component col-md-5 main-div center">
+        <div class="well bs-component col-md-5 main-div center" style="margin-bottom: 200px">
             <section id="loginForm">
                 <div class="form-horizontal">
                     <fieldset>

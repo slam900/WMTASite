@@ -83,8 +83,10 @@ namespace WMTA.CompositionTools
          */
         protected void cboStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
-            searchComposers(ddlComposerSearch, ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+            txtIdReplace.Text = "";
+
+            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, "", ddlComposerSearch.Text);
+            searchComposers(ddlComposerSearch, ddlStyleSearch.Text, "");
         }
 
         /*
@@ -96,8 +98,9 @@ namespace WMTA.CompositionTools
          */
         protected void cboStyle2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text, ddlComposerSearch2.Text);
-            searchComposers(ddlComposerSearch2, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text);
+            txtIdReplacement.Text = "";
+            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, "", ddlComposerSearch2.Text);
+            searchComposers(ddlComposerSearch2, ddlStyleSearch2.Text, "");
         }
 
         /*
@@ -109,8 +112,10 @@ namespace WMTA.CompositionTools
          */
         protected void cboCompLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
-            searchComposers(ddlComposerSearch, ddlStyleSearch.Text, ddlCompLevelSearch.Text);
+            txtIdReplace.Text = "";
+
+            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, "", ddlComposerSearch.Text);
+            searchComposers(ddlComposerSearch, ddlStyleSearch.Text, "");
         }
 
         /*
@@ -122,8 +127,10 @@ namespace WMTA.CompositionTools
          */
         protected void cboCompLevel2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text, ddlComposerSearch2.Text);
-            searchComposers(ddlComposerSearch2, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text);
+            txtIdReplacement.Text = "";
+
+            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, "", ddlComposerSearch2.Text);
+            searchComposers(ddlComposerSearch2, ddlStyleSearch2.Text, "");
         }
 
         /*
@@ -133,7 +140,9 @@ namespace WMTA.CompositionTools
          */
         protected void ddlComposerSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, ddlCompLevelSearch.Text, ddlComposerSearch.Text);
+            txtIdReplace.Text = "";
+
+            searchCompositions(ddlCompositionToReplace, ddlStyleSearch.Text, "", ddlComposerSearch.Text);
         }
 
         /*
@@ -143,7 +152,9 @@ namespace WMTA.CompositionTools
          */
         protected void ddlComposerSearch2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, ddlCompLevelSearch2.Text, ddlComposerSearch2.Text);
+            txtIdReplacement.Text = "";
+
+            searchCompositions(ddlReplacement, ddlStyleSearch2.Text, "", ddlComposerSearch2.Text);
         }
 
         /*
@@ -240,6 +251,70 @@ namespace WMTA.CompositionTools
             }
         }
 
+        /*
+         * Pre:
+         * Post: Retrieve the id associated with the input id
+         */     
+        protected void btnIdReplace_Click(object sender, EventArgs e)
+        {
+            int num;
+
+            if (Int32.TryParse(txtIdReplace.Text, out num))
+            {
+                ddlStyleSearch.SelectedIndex = -1;
+                ddlComposerSearch.SelectedIndex = -1;
+                searchComposers(ddlComposerSearch, "", "");
+                searchCompositions(ddlCompositionToReplace, "", "", "");
+
+                ListItem item = ddlCompositionToReplace.Items.FindByValue(num.ToString());
+
+                if (item != null)
+                {
+                    ddlCompositionToReplace.SelectedValue = num.ToString();
+                }
+                else
+                {
+                    showWarningMessage("No composition exists with with the entered id.");
+                }
+            }
+            else
+            {
+                showWarningMessage("The id must be a number.");
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Retrieve the id associated with the input id
+         */
+        protected void btnIdReplacement_Click(object sender, EventArgs e)
+        {
+            int num;
+
+            if (Int32.TryParse(txtIdReplacement.Text, out num))
+            {
+                ddlStyleSearch2.SelectedIndex = -1;
+                ddlComposerSearch2.SelectedIndex = -1;
+                searchComposers(ddlComposerSearch2, "", "");
+                searchCompositions(ddlReplacement, "", "", "");
+
+                ListItem item = ddlReplacement.Items.FindByValue(num.ToString());
+
+                if (item != null)
+                {
+                    ddlReplacement.SelectedValue = num.ToString();
+                }
+                else
+                {
+                    showWarningMessage("No composition exists with with the entered id.");
+                }
+            }
+            else
+            {
+                showWarningMessage("The id must be a number.");
+            }
+        }
+
         #endregion Composition Filter
 
         #region Clear Functions
@@ -259,12 +334,12 @@ namespace WMTA.CompositionTools
          */
         private void clearPage()
         {
+            txtIdReplace.Text = "";
+            txtIdReplacement.Text = "";
             ddlCompositionToReplace.SelectedIndex = -1;
             ddlReplacement.SelectedIndex = -1;
             ddlStyleSearch.SelectedIndex = -1;
             ddlStyleSearch2.SelectedIndex = -1;
-            ddlCompLevelSearch.SelectedIndex = -1;
-            ddlCompLevelSearch2.SelectedIndex = -1;
             ddlComposerSearch.SelectedIndex = -1;
             ddlComposerSearch2.SelectedIndex = -1;
 
@@ -317,5 +392,6 @@ namespace WMTA.CompositionTools
         }
 
         #endregion Messages
+
     }
 }

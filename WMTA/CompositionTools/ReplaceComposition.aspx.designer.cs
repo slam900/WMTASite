@@ -22,13 +22,22 @@ namespace WMTA.CompositionTools {
         protected global::System.Web.UI.UpdatePanel upFullPage;
         
         /// <summary>
-        /// lblSearchNote control.
+        /// txtIdReplace control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSearchNote;
+        protected global::System.Web.UI.WebControls.TextBox txtIdReplace;
+        
+        /// <summary>
+        /// btnIdReplace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnIdReplace;
         
         /// <summary>
         /// ddlStyleSearch control.
@@ -47,24 +56,6 @@ namespace WMTA.CompositionTools {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource2;
-        
-        /// <summary>
-        /// ddlCompLevelSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCompLevelSearch;
-        
-        /// <summary>
-        /// SqlDataSource3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource3;
         
         /// <summary>
         /// ddlComposerSearch control.
@@ -103,13 +94,22 @@ namespace WMTA.CompositionTools {
         protected global::System.Web.UI.WebControls.SqlDataSource WmtaDataSource6;
         
         /// <summary>
-        /// Label1 control.
+        /// txtIdReplacement control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label1;
+        protected global::System.Web.UI.WebControls.TextBox txtIdReplacement;
+        
+        /// <summary>
+        /// btnIdReplacement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnIdReplacement;
         
         /// <summary>
         /// ddlStyleSearch2 control.
@@ -128,24 +128,6 @@ namespace WMTA.CompositionTools {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource5;
-        
-        /// <summary>
-        /// ddlCompLevelSearch2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCompLevelSearch2;
-        
-        /// <summary>
-        /// SqlDataSource8 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource8;
         
         /// <summary>
         /// ddlComposerSearch2 control.

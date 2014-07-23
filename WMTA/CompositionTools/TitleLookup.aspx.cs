@@ -108,11 +108,8 @@ namespace WMTA.CompositionTools
             TableCell time = new TableCell();
             TableCell timesUsed = new TableCell();
 
-            //save the id in an invisible cell for later access
-            compId.Text = composition.compositionId.ToString();
-            compId.Visible = false;
-
             //set cell text
+            compId.Text = composition.compositionId.ToString();
             comp.Text = composition.title;
             composer.Text = composition.composer;
             style.Text = composition.style;

@@ -13,7 +13,13 @@
                                     <legend>Composition Replacement</legend>
                                     <br />
                                     <h4>Select Composition to Replace</h4>
-                                    <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">The style, level and composer dropdowns can be used to filter the composition options.</label>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="txtIdReplace" CssClass="col-md-4 control-label">Id</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:TextBox runat="server" ID="txtIdReplace" CssClass="form-control small-txtbx-width float-left" />
+                                            <asp:Button ID="btnIdReplace" Text="Search Id" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnIdReplace_Click" CausesValidation="false" />
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-4 control-label float-left">Style</asp:Label>
                                         <div class="col-md-8">
@@ -21,15 +27,6 @@
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label runat="server" AssociatedControlID="ddlCompLevelSearch" CssClass="col-md-4 control-label float-left">Level</asp:Label>
-                                        <div class="col-md-8">
-                                            <asp:DropDownList ID="ddlCompLevelSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource3" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true" OnSelectedIndexChanged="cboCompLevel_SelectedIndexChanged" AutoPostBack="True">
-                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -58,7 +55,13 @@
                                     </div>
                                     <hr />
                                     <h4>Select Replacement Composition</h4>
-                                    <label runat="server" id="Label1" visible="false" class="instruction-label">The style, level and composer dropdowns can be used to filter the composition options.</label>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="txtIdReplacement" CssClass="col-md-4 control-label">Id</asp:Label>
+                                        <div class="col-md-8">
+                                            <asp:TextBox runat="server" ID="txtIdReplacement" CssClass="form-control small-txtbx-width float-left" />
+                                            <asp:Button ID="btnIdReplacement" Text="Search Id" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnIdReplacement_Click" CausesValidation="false" />
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlStyleSearch2" CssClass="col-md-4 control-label float-left">Style</asp:Label>
                                         <div class="col-md-8">
@@ -66,15 +69,6 @@
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:SqlDataSource ID="SqlDataSource5" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label runat="server" AssociatedControlID="ddlCompLevelSearch2" CssClass="col-md-4 control-label float-left">Level</asp:Label>
-                                        <div class="col-md-8">
-                                            <asp:DropDownList ID="ddlCompLevelSearch2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource8" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true" OnSelectedIndexChanged="cboCompLevel2_SelectedIndexChanged" AutoPostBack="True">
-                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:SqlDataSource ID="SqlDataSource8" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -101,7 +95,7 @@
                                     <hr />
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right display-inline">
-                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                         </div>
                                     </div>

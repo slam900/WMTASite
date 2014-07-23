@@ -29,7 +29,7 @@
                                                     <div class="col-md-6">
                                                         <asp:TextBox runat="server" ID="txtFirstNameSearch" CssClass="form-control" />
                                                     </div>
-                                                    <asp:Button ID="btnClearSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearSearch_Click" />
+                                                    <asp:Button ID="btnClearSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" CausesValidation="false" OnClick="btnClearSearch_Click" />
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtLastNameSearch" CssClass="col-md-3 control-label">Last Name</asp:Label>
@@ -230,7 +230,7 @@
                 trigger: 'hover',
                 html: true,
                 placement: 'right',
-                content: 'Fill in one or more of the search fields and click "Search" to find contacts.  First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all contacts with last names containing "sch"."',
+                content: 'Fill in any number of the search fields and click "Search" to find contacts. Clicking "Search" without filling in any fields will return all contacts.  First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all contacts with last names containing "sch"."',
             });
         });
 

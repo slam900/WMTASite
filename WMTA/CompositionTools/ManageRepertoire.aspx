@@ -28,15 +28,6 @@
                                                 <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" CausesValidation="false" OnClick="btnClearCompSearch_Click" />
                                             </div>
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlCompLevelSearch" CssClass="col-md-3 control-label float-left">Level</asp:Label>
-                                                <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlCompLevelSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource2" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true" OnSelectedIndexChanged="cboCompLevel_SelectedIndexChanged" AutoPostBack="True">
-                                                        <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlComposerSearch" CssClass="col-md-3 control-label float-left">Composer</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlComposerSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource3" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlComposerSearch_SelectedIndexChanged">
@@ -233,7 +224,7 @@
                                 <asp:Panel runat="server" ID="pnlButtons">
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                         </div>
                                     </div>

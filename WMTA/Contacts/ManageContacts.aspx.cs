@@ -213,7 +213,7 @@ namespace WMTA.Contacts
                         if (contact.id != -1 && pnlJudges.Visible)
                         {
                             judge = new Judge(contact.id, firstName, mi, lastName, email, phone,
-                                              districtId, contactType, null, false);
+                                              districtId, contactType, new List<JudgePreference>(), false);
 
                             if (judge.preferences != null)
                                 UpdateJudgePreferences();
@@ -699,6 +699,7 @@ namespace WMTA.Contacts
         protected void gvSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
             pnlFullPage.Visible = true;
+            pnlButtons.Visible = true;
             int index = gvSearch.SelectedIndex;
             clearData();
 
@@ -777,6 +778,7 @@ namespace WMTA.Contacts
                 txtPhone.Text = contact.phone;
 
                 //find district
+                ddlDistrict.DataBind();
                 ListItem currItem = ddlDistrict.Items.FindByValue(contact.districtId.ToString());
                 if (currItem != null)
                     ddlDistrict.SelectedIndex = ddlDistrict.Items.IndexOf(currItem);
@@ -951,6 +953,12 @@ namespace WMTA.Contacts
             ddlDistrict.SelectedIndex = 0;
             ddlContactType.SelectedIndex = 0;
             lblId.Text = "";
+
+            if (action != Utility.Action.Add)
+            {
+                pnlFullPage.Visible = false;
+                pnlButtons.Visible = false;
+            }
 
             btnClear.Visible = true;
 
