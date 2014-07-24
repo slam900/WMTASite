@@ -216,6 +216,7 @@
     <Content Include="DistrictPointEntry.aspx" />
     <Content Include="DistrictRegistration.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\BadgerRegistration.aspx" />
     <Content Include="Events\CreateBadgerAudition.aspx" />
     <Content Include="Events\CreateDistrictAudition.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
@@ -486,6 +487,13 @@
     </Compile>
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BadgerRegistration.aspx.cs">
+      <DependentUpon>BadgerRegistration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\BadgerRegistration.aspx.designer.cs">
+      <DependentUpon>BadgerRegistration.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateBadgerAudition.aspx.cs">
       <DependentUpon>CreateBadgerAudition.aspx</DependentUpon>

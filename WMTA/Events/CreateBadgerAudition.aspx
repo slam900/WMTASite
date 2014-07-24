@@ -15,7 +15,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">Region</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list" AppendDataBoundItems="true">
+                                            <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
@@ -27,7 +27,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label float-left">Audition Year</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control"></asp:DropDownList>
                                         </div>
                                         <asp:Button ID="btnClearAuditionSearch" runat="server" Text="Clear" CssClass="btn btn-clear btn-min-width-72" />
                                     </div>
@@ -44,7 +44,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">District</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlDistrict" runat="server" CssClass="dropdown-list" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrict_SelectedIndexChanged" AutoPostBack="true">
+                                            <asp:DropDownList ID="ddlDistrict" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrict_SelectedIndexChanged" AutoPostBack="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="txtVenue" CssClass="col-md-3 control-label float-left">Venue</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:TextBox ID="txtVenue" runat="server" OnTextChanged="txtVenue_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="txtVenue" runat="server" CssClass="form-control" OnTextChanged="txtVenue_TextChanged" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                         <div>
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrict" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Venue is required" ValidationGroup="Required" />
@@ -64,7 +64,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlDuets" CssClass="col-md-3 control-label float-left">Duets</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlDuets" runat="server" CssClass="dropdown-list">
+                                            <asp:DropDownList ID="ddlDuets" runat="server" CssClass="dropdown-list form-control">
                                                 <asp:ListItem Selected="True" Text="No" Value="No"></asp:ListItem>
                                                 <asp:ListItem Text="Yes" Value="Yes"></asp:ListItem>
                                             </asp:DropDownList>
@@ -73,7 +73,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="txtNumJudges" CssClass="col-md-3 control-label float-left">Number of Judges</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:TextBox ID="txtNumJudges" runat="server" OnTextChanged="txtNumJudges_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="txtNumJudges" runat="server" CssClass="form-control"OnTextChanged="txtNumJudges_TextChanged" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                         <div>
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumJudges" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Number of Judges is required" ValidationGroup="Required" />
@@ -82,7 +82,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlChairPerson" CssClass="col-md-3 control-label float-left">Chairperson</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlChairPerson" runat="server" CssClass="dropdown-list" AppendDataBoundItems="true" DataSourceID="SqlDataSource2" DataTextField="ComboName" DataValueField="ContactId" OnSelectedIndexChanged="ddlChairPerson_SelectedIndexChanged" AutoPostBack="true">
+                                            <asp:DropDownList ID="ddlChairPerson" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" DataSourceID="SqlDataSource2" DataTextField="ComboName" DataValueField="ContactId" OnSelectedIndexChanged="ddlChairPerson_SelectedIndexChanged" AutoPostBack="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="" SelectCommand="sp_DropDownChairperson" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
@@ -94,7 +94,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="txtDate" CssClass="col-md-3 control-label float-left">Audition Date</asp:Label>
                                         <div class="col-md-6">
-                                            <input runat="server" type="text" id="txtDate" class="ui-datepicker" />
+                                            <input runat="server" type="text" id="txtDate"  class="ui-datepicker form-control" />
                                         </div>
                                         <div>
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Date is required" ValidationGroup="Required" />
@@ -104,7 +104,7 @@
                                         <%-- lblTimeError Goes Here "The Start Time must be before the End Time --%>
                                         <asp:Label runat="server" AssociatedControlID="txtStartTime" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
                                         <div class="col-md-6">
-                                            <input runat="server" id="txtStartTime" type="text" class="ui-timepicker" />
+                                            <input runat="server" id="txtStartTime" type="text" class="ui-timepicker form-control" />
                                         </div>
                                         <div>
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartTime" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Start Time is required" ValidationGroup="Required" />
@@ -113,7 +113,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="txtEndTime" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
                                         <div class="col-md-6">
-                                            <input runat="server" id="txtEndTime" type="text" class="ui-timepicker" />
+                                            <input runat="server" id="txtEndTime" type="text" class="ui-timepicker form-control" />
                                         </div>
                                         <div>
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEndTime" CssClass="text-danger vertical-center font-size-12" ErrorMessage="End Time is required" ValidationGroup="Required" />
@@ -123,7 +123,7 @@
                                         <%-- lblFreezeDateError2 goes here "The Freeze DAte must be before the Audition Date --%>
                                         <asp:Label runat="server" AssociatedControlID="txtFreezeDate" CssClass="col-md-3 control-label float-left">Freeze Date</asp:Label>
                                         <div class="col-md-6">
-                                            <input runat="server" type="text" id="txtFreezeDate" class="ui-timepicker" />
+                                            <input runat="server" type="text" id="txtFreezeDate" class="ui-timepicker form-control" />
                                         </div>
                                         <div>
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFreezeDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Freeze Date is required" ValidationGroup="Required" />
