@@ -13,5 +13,10 @@ namespace WMTA.Events
         {
 
         }
+
+        protected void Unnamed_PreRender(object sender, EventArgs e)
+        {
+
+        }
     }
 }
