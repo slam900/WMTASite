@@ -236,8 +236,10 @@
     <Content Include="PointsAndAwards.aspx" />
     <Content Include="RegisterContact.aspx" />
     <Content Include="Repertoire2.aspx" />
+    <Content Include="Reporting\JudgeReports.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reporting\ReportViewerTest.aspx" />
+    <Content Include="Reporting\StudentReportsPerDistrict.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Resources.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -609,6 +611,13 @@
     <Compile Include="Repertoire2.aspx.designer.cs">
       <DependentUpon>Repertoire2.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\JudgeReports.aspx.cs">
+      <DependentUpon>JudgeReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\JudgeReports.aspx.designer.cs">
+      <DependentUpon>JudgeReports.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\ReportCredentials.cs" />
     <Compile Include="Reporting\ReportTest.aspx.cs">
       <DependentUpon>ReportTest.aspx</DependentUpon>
@@ -623,6 +632,13 @@
     </Compile>
     <Compile Include="Reporting\ReportViewerTest.aspx.designer.cs">
       <DependentUpon>ReportViewerTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\StudentReportsPerDistrict.aspx.cs">
+      <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\StudentReportsPerDistrict.aspx.designer.cs">
+      <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>
