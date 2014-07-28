@@ -59,7 +59,19 @@
                             </div>
                             <h4>Tools</h4>
                             <div class="list-group smaller-font">
-                                <a href="../Reports.aspx" class="list-group-item">Reports</a>
+                                <div class="btn-group full-width smaller-font">
+                                    <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
+                                        Reports
+                                    <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="../Reporting/StudentReportsPerDistrict.aspx" class="smaller-font">Student Reports</a></li>
+                                        <li><a href="../Reporting/TeacherReportsPerDistrict.aspx" class="smaller-font">Teacher Reports by District</a></li>
+                                        <li><a href="../Reporting/TeacherReportsPerTeacher.aspx" class="smaller-font">Teacher Reports by Teacher</a></li>
+                                        <li><a href="../Reporting/JudgeReports.aspx" class="smaller-font">Judge Reports</a></li>
+                                        <li><a href="../Reporting/JudgingForms.aspx" class="smaller-font">Judging Forms</a></li>
+                                    </ul>
+                                </div>
                                 <a href="../Resources.aspx" class="list-group-item">Resources</a>
                             </div>
                         </div>
@@ -119,7 +131,7 @@
         $(document).ready(function () {
 
             $('#lnkDistrictReg').click(function () {
-                
+
             });
         });
     </script>

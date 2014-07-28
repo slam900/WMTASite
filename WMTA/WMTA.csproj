@@ -142,6 +142,8 @@
     <Content Include="Contacts\ManageContacts.aspx" />
     <Content Include="CompositionTools\ReplaceComposition.aspx" />
     <Content Include="CompositionTools\TitleLookup.aspx" />
+    <Content Include="Contacts\ManageStudents.aspx" />
+    <Content Include="Contacts\RegisterContact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -216,6 +218,9 @@
     <Content Include="DistrictPointEntry.aspx" />
     <Content Include="DistrictRegistration.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\BadgerRegistration.aspx" />
+    <Content Include="Events\CoordinateStudents.aspx" />
+    <Content Include="Events\CreateBadgerAudition.aspx" />
     <Content Include="Events\CreateDistrictAudition.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -234,8 +239,13 @@
     <Content Include="PointsAndAwards.aspx" />
     <Content Include="RegisterContact.aspx" />
     <Content Include="Repertoire2.aspx" />
+    <Content Include="Reporting\JudgeReports.aspx" />
+    <Content Include="Reporting\JudgingForms.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reporting\ReportViewerTest.aspx" />
+    <Content Include="Reporting\StudentReportsPerDistrict.aspx" />
+    <Content Include="Reporting\TeacherReportsPerDistrict.aspx" />
+    <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Resources.aspx" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -429,6 +439,20 @@
     <Compile Include="CompositionTools\TitleLookup.aspx.designer.cs">
       <DependentUpon>TitleLookup.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Contacts\ManageStudents.aspx.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacts\ManageStudents.aspx.designer.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contacts\RegisterContact.aspx.cs">
+      <DependentUpon>RegisterContact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacts\RegisterContact.aspx.designer.cs">
+      <DependentUpon>RegisterContact.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CoordinateStudents.aspx.cs">
       <DependentUpon>CoordinateStudents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -484,6 +508,27 @@
     </Compile>
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BadgerRegistration.aspx.cs">
+      <DependentUpon>BadgerRegistration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\BadgerRegistration.aspx.designer.cs">
+      <DependentUpon>BadgerRegistration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\CoordinateStudents.aspx.cs">
+      <DependentUpon>CoordinateStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\CoordinateStudents.aspx.designer.cs">
+      <DependentUpon>CoordinateStudents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\CreateBadgerAudition.aspx.cs">
+      <DependentUpon>CreateBadgerAudition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\CreateBadgerAudition.aspx.designer.cs">
+      <DependentUpon>CreateBadgerAudition.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateDistrictAudition.aspx.cs">
       <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
@@ -592,6 +637,20 @@
     <Compile Include="Repertoire2.aspx.designer.cs">
       <DependentUpon>Repertoire2.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\JudgeReports.aspx.cs">
+      <DependentUpon>JudgeReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\JudgeReports.aspx.designer.cs">
+      <DependentUpon>JudgeReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\JudgingForms.aspx.cs">
+      <DependentUpon>JudgingForms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\JudgingForms.aspx.designer.cs">
+      <DependentUpon>JudgingForms.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\ReportCredentials.cs" />
     <Compile Include="Reporting\ReportTest.aspx.cs">
       <DependentUpon>ReportTest.aspx</DependentUpon>
@@ -606,6 +665,27 @@
     </Compile>
     <Compile Include="Reporting\ReportViewerTest.aspx.designer.cs">
       <DependentUpon>ReportViewerTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\StudentReportsPerDistrict.aspx.cs">
+      <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\StudentReportsPerDistrict.aspx.designer.cs">
+      <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerDistrict.aspx.cs">
+      <DependentUpon>TeacherReportsPerDistrict.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerDistrict.aspx.designer.cs">
+      <DependentUpon>TeacherReportsPerDistrict.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerTeacher.aspx.cs">
+      <DependentUpon>TeacherReportsPerTeacher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerTeacher.aspx.designer.cs">
+      <DependentUpon>TeacherReportsPerTeacher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>
