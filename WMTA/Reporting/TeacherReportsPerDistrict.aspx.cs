@@ -8,7 +8,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class JudgeReports : System.Web.UI.Page
+    public partial class TeacherReportsPerDistrict : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -87,8 +87,8 @@ namespace WMTA.Reporting
             {
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("DistrictAuditionJudgesReport", rptDistrictAuditionJudges, auditionOrgId);
-                createReport("AuditionJudgeSchedule", rptJudgeSchedule, auditionOrgId);
+                createReport("TeacherAuditionReport", rptTeacherAudition, auditionOrgId);
+                createReport("DistrictTeacherCheckList", rptTeacherChecklist, auditionOrgId);
             }
             else
             {
@@ -125,7 +125,7 @@ namespace WMTA.Reporting
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("JudgeReports", "createReport", "rptName: " + rptName +
+                Utility.LogError("TeacherReportsPerDistrict", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }

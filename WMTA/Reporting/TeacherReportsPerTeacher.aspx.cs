@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -8,7 +9,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class JudgeReports : System.Web.UI.Page
+    public partial class TeacherReportsPerTeacher : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -82,13 +83,14 @@ namespace WMTA.Reporting
         {
             int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
                                                                      Convert.ToInt32(ddlYear.SelectedValue));
+            int teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
 
             if (auditionOrgId != -1)
             {
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("DistrictAuditionJudgesReport", rptDistrictAuditionJudges, auditionOrgId);
-                createReport("AuditionJudgeSchedule", rptJudgeSchedule, auditionOrgId);
+                createReport("DistrictTeacherSummary", rptTeacherSummary, auditionOrgId, teacherId);
+                createReport("DistrictTeacherDetail", rptTeacherDetail, auditionOrgId, teacherId);
             }
             else
             {
@@ -100,7 +102,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId)
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
         {
             try
             {
@@ -117,16 +119,56 @@ namespace WMTA.Reporting
                 rptViewer.ServerReport.ReportServerUrl = new Uri("http://sunflower.arvixe.com/ReportServer_SQL_Service");
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
 
-                rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                //set parameters
+                List<ReportParameter> parameters = new List<ReportParameter>();
+                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
 
+                rptViewer.ServerReport.SetParameters(parameters);
+                
                 rptViewer.AsyncRendering = true;
             }
             catch (Exception e)
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("JudgeReports", "createReport", "rptName: " + rptName +
+                Utility.LogError("TeacherReportsPerDistrict", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Get teachers based on selected district
+         */
+        protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlTeacher.DataSource = null;
+            ddlTeacher.DataBind();
+
+            if (ddlDistrictSearch.SelectedIndex > 0)
+            {
+                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
+
+                DataTable table = DbInterfaceContact.GetTeachersFromDistrict(districtId);
+
+                if (table != null)
+                {
+                    //add empty item
+                    ddlTeacher.Items.Add(new ListItem("", ""));
+
+                    //add teachers from district
+                    ddlTeacher.DataSource = table;
+
+                    ddlTeacher.DataTextField = "ComboName";
+                    ddlTeacher.DataValueField = "ContactId";
+
+                    ddlTeacher.DataBind();
+                }
+                else
+                {
+                    showErrorMessage("Error: The teachers for the selected district could not be retrieved.");
+                }
             }
         }
 
@@ -139,8 +181,6 @@ namespace WMTA.Reporting
          */
         private void showErrorMessage(string message)
         {
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);

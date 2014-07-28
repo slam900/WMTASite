@@ -237,9 +237,12 @@
     <Content Include="RegisterContact.aspx" />
     <Content Include="Repertoire2.aspx" />
     <Content Include="Reporting\JudgeReports.aspx" />
+    <Content Include="Reporting\JudgingForms.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reporting\ReportViewerTest.aspx" />
     <Content Include="Reporting\StudentReportsPerDistrict.aspx" />
+    <Content Include="Reporting\TeacherReportsPerDistrict.aspx" />
+    <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Resources.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -618,6 +621,13 @@
     <Compile Include="Reporting\JudgeReports.aspx.designer.cs">
       <DependentUpon>JudgeReports.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\JudgingForms.aspx.cs">
+      <DependentUpon>JudgingForms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\JudgingForms.aspx.designer.cs">
+      <DependentUpon>JudgingForms.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\ReportCredentials.cs" />
     <Compile Include="Reporting\ReportTest.aspx.cs">
       <DependentUpon>ReportTest.aspx</DependentUpon>
@@ -639,6 +649,20 @@
     </Compile>
     <Compile Include="Reporting\StudentReportsPerDistrict.aspx.designer.cs">
       <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerDistrict.aspx.cs">
+      <DependentUpon>TeacherReportsPerDistrict.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerDistrict.aspx.designer.cs">
+      <DependentUpon>TeacherReportsPerDistrict.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerTeacher.aspx.cs">
+      <DependentUpon>TeacherReportsPerTeacher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\TeacherReportsPerTeacher.aspx.designer.cs">
+      <DependentUpon>TeacherReportsPerTeacher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>
