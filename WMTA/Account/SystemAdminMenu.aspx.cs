@@ -13,5 +13,20 @@ namespace WMTA.Account
         {
 
         }
+
+        /*
+         * Catch unhandled exceptions, add information to error log
+         */
+        protected override void OnError(EventArgs e)
+        {
+            //Get last error from the server
+            Exception exc = Server.GetLastError();
+
+            //log exception
+            Utility.LogError("DistrictRegistration", "OnError", "", "Message: " + exc.Message + "   Stack Trace: " + exc.StackTrace, -1);
+
+            //Pass error on to error page
+            Server.Transfer("ErrorPage.aspx", true);
+        }
     }
 }

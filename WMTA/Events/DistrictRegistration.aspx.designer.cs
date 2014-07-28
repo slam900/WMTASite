@@ -427,24 +427,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Button btnClearCompSearch;
         
         /// <summary>
-        /// ddlCompLevel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCompLevel;
-        
-        /// <summary>
-        /// WmtaDataSource7 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource WmtaDataSource7;
-        
-        /// <summary>
         /// ddlComposer control.
         /// </summary>
         /// <remarks>
@@ -560,6 +542,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvComposition;
+        
+        /// <summary>
+        /// txtCompLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCompLevel;
         
         /// <summary>
         /// txtMinutes control.

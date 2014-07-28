@@ -22,6 +22,15 @@ namespace WMTA.Events {
         protected global::System.Web.UI.UpdatePanel upFullPage;
         
         /// <summary>
+        /// legend control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl legend;
+        
+        /// <summary>
         /// upAuditionSearch control.
         /// </summary>
         /// <remarks>
@@ -157,13 +166,13 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlTheorySeries;
         
         /// <summary>
-        /// txtDate control.
+        /// lblDateHolder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDate;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblDateHolder;
         
         /// <summary>
         /// txtStartTime control.
@@ -211,15 +220,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Panel pnlButtons;
         
         /// <summary>
-        /// btnBack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBack;
-        
-        /// <summary>
         /// btnClear control.
         /// </summary>
         /// <remarks>
@@ -256,12 +256,12 @@ namespace WMTA.Events {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblWarningMessage;
         
         /// <summary>
-        /// lblInfoMessage control.
+        /// lblSuccessMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
     }
 }

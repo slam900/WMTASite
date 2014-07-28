@@ -865,7 +865,7 @@ namespace WMTA.Events
                     ddlComposition.Visible = true;
 
                     //filter composers
-                    DataTable table = DbInterfaceComposition.GetComposerSearchResults(ddlStyle.SelectedValue, ddlCompLevel.SelectedValue);
+                    DataTable table = DbInterfaceComposition.GetComposerSearchResults(ddlStyle.SelectedValue, "");
 
                     if (table != null)
                     {
@@ -1288,21 +1288,8 @@ namespace WMTA.Events
          */
         protected void cboStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyle.Text, ddlCompLevel.Text, ddlComposer.Text);
-            searchComposers(ddlStyle.Text, ddlCompLevel.Text);
-        }
-
-        /*
-         * Pre:
-         * Post: The options in the "Composer" and "Composition" dropdowns
-         *       will be filtered based on the selected Style and Level.
-         *       Compositions will also be filtered based on the selected
-         *       composer.
-         */
-        protected void cboCompLevel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            searchCompositions(ddlStyle.Text, ddlCompLevel.Text, ddlComposer.Text);
-            searchComposers(ddlStyle.Text, ddlCompLevel.Text);
+            searchCompositions(ddlStyle.Text, "", ddlComposer.Text);
+            searchComposers(ddlStyle.Text, "");
         }
 
         /*
@@ -1312,7 +1299,7 @@ namespace WMTA.Events
          */
         protected void cboComposer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            searchCompositions(ddlStyle.Text, ddlCompLevel.Text, ddlComposer.Text);
+            searchCompositions(ddlStyle.Text, "", ddlComposer.Text);
         }
 
         /*
@@ -1333,7 +1320,7 @@ namespace WMTA.Events
                 if (composition != null)
                 {
                     ddlStyle.Text = composition.style;
-                    ddlCompLevel.SelectedValue = composition.compLevel;
+                    txtCompLevel.Text = composition.compLevel;
 
                     ListItem item = ddlComposer.Items.FindByValue(composition.composer);
                     if (item != null)
@@ -1485,8 +1472,7 @@ namespace WMTA.Events
                 {
                     length = Convert.ToDouble(txtMinutes.Text) + Convert.ToDouble(ddlSeconds.SelectedValue);
 
-                    composition = new Composition(txtComposition.Text, composer, ddlStyle.Text,
-                                                 ddlCompLevel.Text, length);
+                    composition = new Composition(txtComposition.Text, composer, ddlStyle.Text, "", length);
 
                     if (composition.compositionId == -1)
                     {
@@ -1611,8 +1597,7 @@ namespace WMTA.Events
             }
 
             //check fields common between using an existing composition or entering a new one
-            bool commonDataEntered = !ddlStyle.SelectedValue.ToString().Equals("") && !ddlCompLevel.SelectedValue.ToString().Equals("")
-                                     && !(txtMinutes.Text.Equals("") && ddlSeconds.SelectedIndex == 0);
+            bool commonDataEntered = !ddlStyle.SelectedValue.ToString().Equals("") && !(txtMinutes.Text.Equals("") && ddlSeconds.SelectedIndex == 0);
 
             //if a new composition is being entered, make sure all required fields are filled in
             if (chkNewTitle.Checked && (!commonDataEntered || txtComposition.Text.Equals("") ||
@@ -2385,7 +2370,7 @@ namespace WMTA.Events
         private void clearCompositionSearch()
         {
             ddlStyle.SelectedIndex = -1;
-            ddlCompLevel.SelectedIndex = -1;
+            txtCompLevel.Text = "";
             ddlComposer.SelectedIndex = -1;
             ddlComposition.SelectedIndex = -1;
             //ddlComposer.Visible = true;
@@ -2487,11 +2472,11 @@ namespace WMTA.Events
             ddlAuditionTrack.Enabled = false;
             ddlTheoryLevel.Enabled = false;
             ddlStyle.Enabled = false;
-            ddlCompLevel.Enabled = false;
             ddlComposer.Enabled = false;
             chkNewComposer.Visible = false;
             ddlComposition.Enabled = false;
             chkNewTitle.Visible = false;
+            txtCompLevel.Enabled = false;
             btnAddComposition.Enabled = false;
             txtMinutes.Enabled = false;
             ddlSeconds.Enabled = false;

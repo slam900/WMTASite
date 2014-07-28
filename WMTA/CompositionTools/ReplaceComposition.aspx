@@ -44,7 +44,7 @@
                                             <asp:DropDownList ID="ddlCompositionToReplace" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource6" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
-                                            <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                            <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompositionWithId" SelectCommandType="StoredProcedure" ></asp:SqlDataSource>
                                         </div>
                                         <div class="col-md-8 col-md-4-margin">
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlCompositionToReplace" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition to replace is required" /><br />
@@ -86,7 +86,7 @@
                                             <asp:DropDownList ID="ddlReplacement" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
-                                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompositionWithId" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                         </div>
                                         <div class="col-md-8 col-md-4-margin">
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlReplacement" CssClass="text-danger vertical-center font-size-12" ErrorMessage="A replacement composition is required" /><br />

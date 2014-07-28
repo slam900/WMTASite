@@ -266,18 +266,6 @@
                                                     <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearCompSearch_Click" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <asp:Label runat="server" AssociatedControlID="ddlCompLevel" CssClass="col-md-3 control-label float-left">Level</asp:Label>
-                                                    <div class="col-md-6">
-                                                        <asp:DropDownList ID="ddlCompLevel" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource7" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true" OnSelectedIndexChanged="cboCompLevel_SelectedIndexChanged" AutoPostBack="True">
-                                                            <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                                        </asp:DropDownList>
-                                                        <asp:SqlDataSource ID="WmtaDataSource7" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
-                                                    </div>
-                                                    <div>
-                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlCompLevel" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Level is required" ValidationGroup="NewComposition" /><br />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="ddlComposer" CssClass="col-md-3 control-label float-left">Composer</asp:Label>
                                                     <div class="col-md-6">
                                                         <asp:DropDownList ID="ddlComposer" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource5" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true" OnSelectedIndexChanged="cboComposer_SelectedIndexChanged" AutoPostBack="true">
@@ -325,6 +313,12 @@
                                                     <asp:CheckBox ID="chkNewTitle" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewTitle_CheckedChanged" AutoPostBack="true" />
                                                     <div>
                                                         <asp:RequiredFieldValidator ID="rfvComposition" runat="server" ControlToValidate="ddlComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" ValidationGroup="NewComposition" /><br />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="txtCompLevel" CssClass="col-md-3 control-label float-left">Level</asp:Label>
+                                                    <div class="col-md-6">
+                                                        <asp:TextBox runat="server" ID="txtCompLevel" CssClass="form-control small-txtbx-width" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

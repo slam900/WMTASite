@@ -10,7 +10,7 @@
                             <div class="form-horizontal">
                                 <%-- start of form --%>
                                 <fieldset>
-                                    <legend>Composition Title Query</legend>
+                                    <legend>Composition Title Finder</legend>
                                     <br />
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="txtComposition" CssClass="col-md-4 control-label float-left">Title Search String</asp:Label>

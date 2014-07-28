@@ -209,7 +209,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="CoordinateStudents.aspx" />
-    <Content Include="CreateDistrictAudition.aspx" />
+    <Content Include="CreateDistrictAudition - old.aspx" />
     <Content Include="CreateStateAudition.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultRedirectErrorPage.aspx" />
@@ -238,6 +238,7 @@
     <Content Include="Reporting\ReportViewerTest.aspx" />
     <Content Include="Reports.aspx" />
     <Content Include="Resources.aspx" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -246,6 +247,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\bs.pagination.js" />
+    <None Include="Properties\PublishProfiles\WMTATest.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -260,17 +262,13 @@
     <Content Include="Scripts\jquery.timepicker.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Styles\AddStudentStyle.css" />
     <Content Include="Styles\bootstrap-glyphicons.css" />
+    <Content Include="Styles\bootstrap-responsive.css" />
     <Content Include="Styles\bootstrap.css" />
-    <Content Include="Styles\ControlsStyle.css" />
-    <Content Include="Styles\DatePicker.css" />
+    <Content Include="Styles\datepicker.css" />
     <Content Include="Styles\jquery.timepicker.css" />
-    <Content Include="Styles\LoginStyle.css" />
     <Content Include="Scripts\notify.js" />
     <Content Include="Scripts\notify.min.js" />
-    <Content Include="Styles\Site.css" />
-    <Content Include="Styles\Style.css" />
     <Content Include="Styles\WelcomeScreenStyle.css" />
     <Content Include="MasterPages\MasterPage.Master" />
     <Content Include="Styles\WMTAStyle.css" />
@@ -331,6 +329,7 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
+    <Content Include="Styles\datepicker.less" />
     <None Include="Web References\com.arvixe.sunflower\ReportExecution2005.wsdl" />
     <Content Include="Web References\com.arvixe.sunflower\Warning.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -437,12 +436,12 @@
     <Compile Include="CoordinateStudents.aspx.designer.cs">
       <DependentUpon>CoordinateStudents.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CreateDistrictAudition.aspx.cs">
-      <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
+    <Compile Include="CreateDistrictAudition - old.aspx.cs">
+      <DependentUpon>CreateDistrictAudition - old.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="CreateDistrictAudition.aspx.designer.cs">
-      <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
+    <Compile Include="CreateDistrictAudition - old.aspx.designer.cs">
+      <DependentUpon>CreateDistrictAudition - old.aspx</DependentUpon>
     </Compile>
     <Compile Include="CreateStateAudition.aspx.cs">
       <DependentUpon>CreateStateAudition.aspx</DependentUpon>

@@ -16,7 +16,7 @@
                                         <div>
                                             <h4>Composition Search</h4>
                                             <br />
-                                            <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">This section is for verifying that the composition you are about to enter does not already exist.</label>
+                                            <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">This section is for verifying that the composition you are about to enter does not already exist. Please confirm the compoisition is not in the system before you proceed with adding it.</label>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Style</asp:Label>
                                                 <div class="col-md-6">
