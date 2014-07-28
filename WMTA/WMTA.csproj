@@ -142,6 +142,8 @@
     <Content Include="Contacts\ManageContacts.aspx" />
     <Content Include="CompositionTools\ReplaceComposition.aspx" />
     <Content Include="CompositionTools\TitleLookup.aspx" />
+    <Content Include="Contacts\ManageStudents.aspx" />
+    <Content Include="Contacts\RegisterContact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -217,6 +219,7 @@
     <Content Include="DistrictRegistration.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
+    <Content Include="Events\CoordinateStudents.aspx" />
     <Content Include="Events\CreateBadgerAudition.aspx" />
     <Content Include="Events\CreateDistrictAudition.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
@@ -437,6 +440,20 @@
     <Compile Include="CompositionTools\TitleLookup.aspx.designer.cs">
       <DependentUpon>TitleLookup.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Contacts\ManageStudents.aspx.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacts\ManageStudents.aspx.designer.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contacts\RegisterContact.aspx.cs">
+      <DependentUpon>RegisterContact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacts\RegisterContact.aspx.designer.cs">
+      <DependentUpon>RegisterContact.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CoordinateStudents.aspx.cs">
       <DependentUpon>CoordinateStudents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -499,6 +516,13 @@
     </Compile>
     <Compile Include="Events\BadgerRegistration.aspx.designer.cs">
       <DependentUpon>BadgerRegistration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\CoordinateStudents.aspx.cs">
+      <DependentUpon>CoordinateStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\CoordinateStudents.aspx.designer.cs">
+      <DependentUpon>CoordinateStudents.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateBadgerAudition.aspx.cs">
       <DependentUpon>CreateBadgerAudition.aspx</DependentUpon>
