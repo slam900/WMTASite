@@ -133,7 +133,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account\DistrictChairMenu.aspx" />
     <Content Include="Account\SystemAdminMenu.aspx" />
+    <Content Include="Account\TeacherMenu.aspx" />
     <Content Include="BadgerPointEntry.aspx" />
     <Content Include="BadgerRegistration.aspx" />
     <Content Include="CompositionTools\CompositionUsed.aspx" />
@@ -353,12 +355,26 @@
     <Content Include="website.publishproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\DistrictChairMenu.aspx.cs">
+      <DependentUpon>DistrictChairMenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\DistrictChairMenu.aspx.designer.cs">
+      <DependentUpon>DistrictChairMenu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Account\SystemAdminMenu.aspx.cs">
       <DependentUpon>SystemAdminMenu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Account\SystemAdminMenu.aspx.designer.cs">
       <DependentUpon>SystemAdminMenu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\TeacherMenu.aspx.cs">
+      <DependentUpon>TeacherMenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\TeacherMenu.aspx.designer.cs">
+      <DependentUpon>TeacherMenu.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\Audition.cs" />
     <Compile Include="App_Code\AuditionCompositions.cs" />

@@ -40,22 +40,22 @@ namespace WMTA.MasterPages {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulSystemAdmin;
         
         /// <summary>
-        /// ulStaff control.
+        /// ulTeacher control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulStaff;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulTeacher;
         
         /// <summary>
-        /// ulCustomer control.
+        /// ulDistrictChair control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulCustomer;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulDistrictChair;
         
         /// <summary>
         /// MainContent control.

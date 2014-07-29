@@ -60,7 +60,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulSystemAdmin" runat="server">
                         <li class="active"><a href="~/Account/SystemAdminMenu.aspx" runat="server">Menu</a></li>
-                        <li class="dropdown">
+                       <%-- <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="../CreateDistrictAudition.aspx" runat="server">Manage District Audition</a></li>
@@ -95,42 +95,15 @@
                                 <li><a href="../Reports.aspx" runat="server">Reports</a></li>
                                 <li><a href="../Resources.aspx" runat="server">Resources</a></li>
                             </ul>
-                        </li>
+                        </li>--%>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right" id="ulStaff" runat="server">
-                        <li class="active"><a href="../Account/StaffMenu.aspx" runat="server">Staff</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shipments<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="~/Shipments/PendingShipments.aspx" runat="server">Pending Shipments</a></li>
-                                <li><a href="~/Shipments/SelectTruck.aspx" runat="server">Select Truck for Shipment</a></li>
-                                <li><a href="~/Shipments/ReceiveShipment.aspx" runat="server">Receive Shipment</a></li>
-                                <li><a href="~/Shipments/AwaitingLocalDelivery.aspx" runat="server">Change Status To Awaiting Local Delivery</a></li>
-                                <li><a href="~/Shipments/Delivered.aspx" runat="server">Change Status to Delivered</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trucks<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="~/Transportation/ViewTrucks.aspx" runat="server">View Truck Statuses</a></li>
-                                <li><a href="~/Transportation/DispatchTruck.aspx" runat="server">Dispatch Trucks</a></li>
-                                <li><a href="~/Transportation/DispatchLocalTruck.aspx" runat="server">Dispatch Local Trucks</a></li>
-                                <li><a href="~/Transportation/AssignLocalDriverToTruck.aspx" runat="server">Assign Driver to Local Truck</a></li>
-                            </ul>
-                        </li>
-
+                    <ul class="nav navbar-nav navbar-right" id="ulTeacher" runat="server">
+                        <li class="active"><a href="~/Account/TeacherMenu.aspx" runat="server">Menu</a></li>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right" id="ulCustomer" runat="server">
-                        <li class="active"><a href="~/Account/CustomerMenu.aspx" runat="server">Customer</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shipments<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="~/Shipments/RegisterShipment.aspx" runat="server">Register Shipment</a></li>
-                                <li><a href="~/Shipments/UserShipments.aspx" runat="server">View My Shipments</a></li>
-                            </ul>
-                        </li>
+                    <ul class="nav navbar-nav navbar-right" id="ulDistrictChair" runat="server">
+                        <li class="active"><a href="~/Account/DistrictChairMenu.aspx" runat="server">Menu</a></li>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
                 </div>

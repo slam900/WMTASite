@@ -14,39 +14,30 @@ namespace WMTA.MasterPages
             if (Session[Utility.userRole] == null || ((User)Session[Utility.userRole]).permissionLevel == null)
             {
                 ulSystemAdmin.Style["display"] = "none";
-                ulCustomer.Style["display"] = "none";
-                ulStaff.Style["display"] = "none";
-            } 
-            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("A")) 
+                ulTeacher.Style["display"] = "none";
+                ulDistrictChair.Style["display"] = "none";
+            }
+            //system admin
+            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("A"))
             {
                 ulNotLoggedIn.Style["display"] = "none";
-                ulCustomer.Style["display"] = "none";
-                ulStaff.Style["display"] = "none";
+                ulTeacher.Style["display"] = "none";
+                ulDistrictChair.Style["display"] = "none";
             }
-            //else if ((UtilityClass.UserTypes)Session["userType"] == UtilityClass.UserTypes.Manager)
-            //{
-                //ulNotLoggedIn.Style["display"] = "none";
-                //ulCustomer.Style["display"] = "none";
-                //ulStaff.Style["display"] = "none";
-            //}
-            //else if ((UtilityClass.UserTypes)Session["userType"] == UtilityClass.UserTypes.Staff)
-            //{
-            //    ulNotLoggedIn.Style["display"] = "none";
-            //    ulCustomer.Style["display"] = "none";
-            //    ulManager.Style["display"] = "none";
-            //}
-            //else if ((UtilityClass.UserTypes)Session["userType"] == UtilityClass.UserTypes.Customer)
-            //{
-            //    ulNotLoggedIn.Style["display"] = "none";
-            //    ulManager.Style["display"] = "none";
-            //    ulStaff.Style["display"] = "none";
-            //}
-            //else
-            //{
-            //    ulManager.Style["display"] = "none";
-            //    ulCustomer.Style["display"] = "none";
-            //    ulStaff.Style["display"] = "none";
-            //}
+            //teacher
+            else if (((User)Session[Utility.userRole]).permissionLevel.Equals("T") || ((User)Session[Utility.userRole]).permissionLevel.Equals("TJ"))
+            {
+                ulSystemAdmin.Style["display"] = "none";
+                ulNotLoggedIn.Style["display"] = "none";
+                ulDistrictChair.Style["display"] = "none";
+            }
+            //district chair
+            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("D") && !((User)Session[Utility.userRole]).permissionLevel.Contains("S") && !((User)Session[Utility.userRole]).permissionLevel.Contains("A"))
+            {
+                ulSystemAdmin.Style["display"] = "none";
+                ulNotLoggedIn.Style["display"] = "none";
+                ulTeacher.Style["display"] = "none";
+            }
         }
 
         protected void LogOut(object sender, EventArgs e)

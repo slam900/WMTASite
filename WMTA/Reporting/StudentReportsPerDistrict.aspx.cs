@@ -106,7 +106,8 @@ namespace WMTA.Reporting
             {
                 string username = "wismusta_reportservr";
                 string password = "33wi8mu8ta44";
-                string domain = "sunflower.arvixe.com";
+                //string domain = "sunflower.arvixe.com"; //test
+                string domain = "localhost"; //live
 
                 rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
                 rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
@@ -114,7 +115,8 @@ namespace WMTA.Reporting
 
                 rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(username, password, domain);
 
-                rptViewer.ServerReport.ReportServerUrl = new Uri("http://sunflower.arvixe.com/ReportServer_SQL_Service");
+                //rptViewer.ServerReport.ReportServerUrl = new Uri("http://sunflower.arvixe.com/ReportServer_SQL_Service"); //test
+                rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/ReportServer_SQL_Service"); //live
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
 
                 rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));

@@ -32,6 +32,10 @@ namespace WMTA
                 //redirect to appropriate menu
                 if (currUser.permissionLevel.Contains("A"))
                     Response.Redirect("~/Account/SystemAdminMenu.aspx");
+                else if (currUser.permissionLevel.Contains("D"))
+                    Response.Redirect("~/Account/DistrictChairMenu.aspx");
+                else if (currUser.permissionLevel.Equals("T") || currUser.permissionLevel.Equals("TJ"))
+                    Response.Redirect("~/Account/TeacherMenu.aspx");
                 else
                     Response.Redirect("~/WelcomeScreen.aspx");
             }
