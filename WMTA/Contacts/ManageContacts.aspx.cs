@@ -20,16 +20,18 @@ namespace WMTA.Contacts
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            checkPermissions();
+
             //clear session variables and set state to WI
             if (!Page.IsPostBack)
             {
                 Session[contactSearch] = null;
                 Session[contactVar] = null;
                 Session[judgeVar] = null;
-
-                checkPermissions();
                 initializePage();
             }
+            else
+                initializeAction();
 
             //if a contact object has been instantiated, reload
             if (Page.IsPostBack && Session[contactVar] != null)
@@ -48,16 +50,6 @@ namespace WMTA.Contacts
             //if the user is not logged in, send them to login screen
             if (Session[Utility.userRole] == null)
                 Response.Redirect("/Default.aspx");
-            else
-            {
-                User user = (User)Session[Utility.userRole];
-
-                //add create and delete contact options if user is a system admin
-                if (!user.permissionLevel.Contains("A"))
-                {
-                    Response.Redirect("/Default.aspx");
-                }
-            }
         }
 
         /*
@@ -75,6 +67,13 @@ namespace WMTA.Contacts
             else
             {
                 action = (Utility.Action)Convert.ToInt32(actionIndicator);
+            }
+
+            //only system admins can add or delete
+            User user = (User)Session[Utility.userRole];
+            if ((action == Utility.Action.Add || action == Utility.Action.Delete) && !user.permissionLevel.Contains("A"))
+            {
+                Response.Redirect("/Default.aspx");
             }
 
             if (action == Utility.Action.Add)
@@ -112,6 +111,25 @@ namespace WMTA.Contacts
             }
         }
 
+        private void initializeAction()
+        {
+            //get requested action - default to adding
+            string actionIndicator = Request.QueryString["action"];
+            if (actionIndicator == null || actionIndicator.Equals(""))
+            {
+                action = Utility.Action.Add;
+            }
+            else
+            {
+                action = (Utility.Action)Convert.ToInt32(actionIndicator);
+            }
+
+            if (action == Utility.Action.Delete)
+            {
+                btnSubmit.Attributes.Add("onclick", "return confirm('Are you sure that you wish to permanently delete this contact and all associated data?');");
+            }
+        }
+
         /*
          * Pre:
          * Post: If the user has not yet added a new contact, clicking this 
@@ -143,9 +161,10 @@ namespace WMTA.Contacts
                     clearData();
                     clearContactSearch();
                     pnlFullPage.Visible = false;
-                    pnlContactSearch.Visible = false;
+                    pnlContactSearch.Visible = true;
                     pnlButtons.Visible = false;
                     showSuccessMessage("The contact information was successfully updated.");
+                    setPermissionFunctionalities();
                 }
             }
             //delete contact
@@ -160,7 +179,7 @@ namespace WMTA.Contacts
                 {
                     clearData();
                     pnlFullPage.Visible = false;
-                    pnlContactSearch.Visible = false;
+                    pnlContactSearch.Visible = true;
                     pnlButtons.Visible = false;
                     showSuccessMessage("The contact information was successfully deleted.");
                 }
@@ -854,6 +873,10 @@ namespace WMTA.Contacts
                 }
                 else
                     pnlJudges.Visible = false;
+
+                pnlFullPage.Visible = true;
+                pnlContactSearch.Visible = false;
+                pnlButtons.Visible = true;
             }
             else
             {
@@ -906,11 +929,14 @@ namespace WMTA.Contacts
          */
         private void setHeaderRowColor(GridView gv, GridViewRowEventArgs e)
         {
-            //if (e.Row.RowType == DataControlRowType.DataRow)
-            //{
-            //    foreach (TableCell cell in gv.HeaderRow.Cells)
-            //        cell.BackColor = Color.FromArgb(204, 204, 255);
-            //}
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                foreach (TableCell cell in gv.HeaderRow.Cells)
+                {
+                    cell.BackColor = Color.Black;
+                    cell.ForeColor = Color.White;
+                }
+            }
         }
 
         /*
@@ -922,6 +948,13 @@ namespace WMTA.Contacts
         {
             clearData();
             clearContactSearch();
+
+            if (action != Utility.Action.Add)
+            {
+                pnlFullPage.Visible = false;
+                pnlButtons.Visible = false;
+                pnlContactSearch.Visible = true;
+            }
         }
 
         /*
@@ -1006,8 +1039,8 @@ namespace WMTA.Contacts
 
         /*
          * Pre:
-         * Post:  If the user is a teacher, load their data only.  They should only be able to add or remove
-         *        the J from their permission level and they may not change their dsitrict
+         * Post:  If the user is not a system admin, load their data only.  They should only be able to add or remove
+         *        the J from their permission level and they may not change their district
          */
         private void setPermissionFunctionalities()
         {
@@ -1015,32 +1048,31 @@ namespace WMTA.Contacts
             User user = (User)Session[Utility.userRole];
             if (!(user.permissionLevel.Contains('A') || user.permissionLevel.Contains("S") || user.permissionLevel.Contains("D")) && user.permissionLevel.Contains("T"))
             {
-                pnlContactSearch.Visible = false;
+                    pnlContactSearch.Visible = false;
 
-                ddlContactType.DataBind();
-                ddlDistrict.DataBind();
-                loadContact(user.contactId);
-                updateAvailableContactTypes();
+                    ddlContactType.DataBind();
+                    ddlDistrict.DataBind();
+                    loadContact(user.contactId);
+                    updateAvailableContactTypes();
 
-                //only show current user's district
-                ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
-                ddlDistrict.DataSource = null;
-                ddlDistrict.DataBind();
-                ddlDistrict.Items.Clear();
-                ddlDistrict.Items.Add(districtItem);
-
+                    //only show current user's district
+                    ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
+                    ddlDistrict.DataSource = null;
+                    ddlDistrict.DataBind();
+                    ddlDistrict.Items.Clear();
+                    ddlDistrict.Items.Add(districtItem);
             }
             //if the user is a district admin, they can edit anyone in their district
             else if (user.permissionLevel.Contains('D') && !(user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
             {
-                ddlDistrict.DataBind();
+                    ddlDistrict.DataBind();
 
-                //only show current user's district
-                ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
-                ddlDistrict.DataSource = null;
-                ddlDistrict.DataBind();
-                ddlDistrict.Items.Clear();
-                ddlDistrict.Items.Add(districtItem);
+                    //only show current user's district
+                    ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
+                    ddlDistrict.DataSource = null;
+                    ddlDistrict.DataBind();
+                    ddlDistrict.Items.Clear();
+                    ddlDistrict.Items.Add(districtItem);
             }
         }
 
@@ -1141,27 +1173,11 @@ namespace WMTA.Contacts
                 pnlJudges.Visible = true;
             else
                 pnlJudges.Visible = false;
+
+            pnlContactSearch.Visible = false;
+            pnlFullPage.Visible = true;
+            pnlButtons.Visible = true;
         }
-
-        /*
-         * Make sure the zip code is empty or valid
-         */
-        //protected void txtZip_TextChanged(object sender, EventArgs e)
-        //{
-        //    int num;
-
-        //    lblZipErrorDesc.Visible = false;
-
-        //    if (!txtZip.Text.Equals(""))
-        //    {
-        //        if (txtZip.Text.Length == 5)
-        //        {
-        //            if (!Int32.TryParse(txtZip.Text, out num)) lblZipErrorDesc.Visible = true;
-        //        }
-        //        else
-        //            lblZipErrorDesc.Visible = true;
-        //    }
-        //}
 
         /*
          * Make sure email address includes @ and .

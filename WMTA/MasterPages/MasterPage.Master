@@ -106,6 +106,10 @@
                         <li class="active"><a href="~/Account/DistrictChairMenu.aspx" runat="server">Menu</a></li>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right" id="ulStateAdmin" runat="server">
+                        <li class="active"><a href="~/Account/StateAdminMenu.aspx" runat="server">Menu</a></li>
+                        <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

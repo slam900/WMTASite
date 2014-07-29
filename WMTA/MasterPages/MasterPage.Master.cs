@@ -16,6 +16,7 @@ namespace WMTA.MasterPages
                 ulSystemAdmin.Style["display"] = "none";
                 ulTeacher.Style["display"] = "none";
                 ulDistrictChair.Style["display"] = "none";
+                ulStateAdmin.Style["display"] = "none";
             }
             //system admin
             else if (((User)Session[Utility.userRole]).permissionLevel.Contains("A"))
@@ -23,20 +24,31 @@ namespace WMTA.MasterPages
                 ulNotLoggedIn.Style["display"] = "none";
                 ulTeacher.Style["display"] = "none";
                 ulDistrictChair.Style["display"] = "none";
+                ulStateAdmin.Style["display"] = "none";
             }
-            //teacher
-            else if (((User)Session[Utility.userRole]).permissionLevel.Equals("T") || ((User)Session[Utility.userRole]).permissionLevel.Equals("TJ"))
+            //state admin
+            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("S")) 
             {
-                ulSystemAdmin.Style["display"] = "none";
                 ulNotLoggedIn.Style["display"] = "none";
+                ulTeacher.Style["display"] = "none";
                 ulDistrictChair.Style["display"] = "none";
+                ulSystemAdmin.Style["display"] = "none";
             }
             //district chair
-            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("D") && !((User)Session[Utility.userRole]).permissionLevel.Contains("S") && !((User)Session[Utility.userRole]).permissionLevel.Contains("A"))
+            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("D"))
             {
                 ulSystemAdmin.Style["display"] = "none";
                 ulNotLoggedIn.Style["display"] = "none";
                 ulTeacher.Style["display"] = "none";
+                ulStateAdmin.Style["display"] = "none";
+            }
+            //teacher
+            else if (((User)Session[Utility.userRole]).permissionLevel.Contains("T"))
+            {
+                ulSystemAdmin.Style["display"] = "none";
+                ulNotLoggedIn.Style["display"] = "none";
+                ulDistrictChair.Style["display"] = "none";
+                ulStateAdmin.Style["display"] = "none";
             }
         }
 

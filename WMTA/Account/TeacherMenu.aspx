@@ -86,6 +86,13 @@
                                         <li><a href="../CompositionTools/ManageRepertoire.aspx?action=2" class="smaller-font">Edit Composition</a></li>
                                     </ul>
                                 </div>
+                                <asp:Panel runat="server" ID="pnlCompTools" Visible="false">
+                                    <a href="../CompositionTools/ReplaceComposerName.aspx" class="list-group-item">Replace Composer Name</a>
+                                    <a href="../CompositionTools/ReplaceComposition.aspx" class="list-group-item">Replace Composition</a>
+                                    <a href="../CompositionTools/TitleLookup.aspx" class="list-group-item">Composition Title Finder</a>
+                                    <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage</a>
+                                    <a href="../CompositionTools/ManageRepertoire.aspx?action=3" class="list-group-item">Delete Composition</a>
+                                </asp:Panel>
                             </div>
                         </div>
                     </fieldset>

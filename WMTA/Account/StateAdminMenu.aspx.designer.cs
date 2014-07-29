@@ -10,7 +10,7 @@
 namespace WMTA.Account {
     
     
-    public partial class DistrictChairMenu {
+    public partial class StateAdminMenu {
         
         /// <summary>
         /// pnlCompTools control.

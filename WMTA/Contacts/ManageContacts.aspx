@@ -80,9 +80,6 @@
                                                     <div class="col-md-6">
                                                         <asp:TextBox runat="server" ID="txtMiddleInitial" CssClass="form-control small-txtbx-width" MaxLength="2" />
                                                     </div>
-                                                    <div>
-                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMiddleInitial" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Middle Initial is required" />
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtLastName" CssClass="col-md-3 control-label">Last Name</asp:Label>
