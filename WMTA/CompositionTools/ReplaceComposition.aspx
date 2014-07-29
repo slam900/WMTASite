@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlCompositionToReplace" CssClass="col-md-4 control-label float-left">Composition to Replace</asp:Label>
                                         <div class="col-md-8">
-                                            <asp:DropDownList ID="ddlCompositionToReplace" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource6" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true">
+                                            <asp:DropDownList ID="ddlCompositionToReplace" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource6" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlCompositionToReplace_SelectedIndexChanged" AutoPostBack="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompositionWithId" SelectCommandType="StoredProcedure" ></asp:SqlDataSource>
@@ -83,7 +83,7 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" AssociatedControlID="ddlReplacement" CssClass="col-md-4 control-label float-left">Replacement Composition</asp:Label>
                                         <div class="col-md-8">
-                                            <asp:DropDownList ID="ddlReplacement" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true">
+                                            <asp:DropDownList ID="ddlReplacement" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="CompositionName" DataValueField="CompositionId" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlReplacement_SelectedIndexChanged" AutoPostBack="true">
                                                 <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompositionWithId" SelectCommandType="StoredProcedure"></asp:SqlDataSource>

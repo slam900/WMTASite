@@ -11,16 +11,17 @@ namespace WMTA.Events
 {
     public partial class CreateDistrictAudition : System.Web.UI.Page
     {
-        private Utility.Action action = Utility.Action.Add;
+        private Utility.Action action;
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            initializePage();
+
             //clear session variables
             if (!Page.IsPostBack)
             {
                 checkPermissions();
-                initializePage();
 
                 Session[auditionSearch] = null;
                 loadYearDropdown();
@@ -71,6 +72,8 @@ namespace WMTA.Events
             else if (action == Utility.Action.Edit)
             {
                 upAuditionSearch.Visible = true;
+                pnlButtons.Visible = false;
+                pnlMain.Visible = false;
                 legend.InnerText = "Edit District Event";
             }
             //else if (action == Utility.Action.Delete)
@@ -181,6 +184,8 @@ namespace WMTA.Events
                 }
                 else
                 {
+                    showInfoMessage("No events were found matching the search criteria.");
+
                     clearGridView(gridview);
                     result = false;
                 }
@@ -212,25 +217,39 @@ namespace WMTA.Events
                 int numJudges = Convert.ToInt32(txtNumJudges.Text);
                 string chairperson = ddlChairPerson.SelectedValue;
                 DateTime auditionDate, freezeDate;
-                DateTime.TryParse(lblDateHolder.InnerText, out auditionDate);
+                DateTime.TryParse(txtDate.Value, out auditionDate);
                 DateTime.TryParse(txtFreezeDate.Value, out freezeDate);
                 TimeSpan startTime, endTime;
 
                 //get start time
-                string tempTime = txtStartTime.Value;
-                tempTime = tempTime.Substring(0, tempTime.Length - 2) + ":00 " + tempTime.Substring(tempTime.Length - 2, 2);
-                if (tempTime.Length == 10) tempTime = "0" + tempTime;
-                if (tempTime.Substring(tempTime.Length - 2, 2).ToUpper().Equals("PM"))
-                    tempTime = Utility.ConvertToPm(tempTime);
-                tempTime = tempTime.Substring(0, tempTime.Length - 2);
+                string tempTime;
+                if (ddlAmPmStart.SelectedValue.Equals("AM"))
+                {
+                    tempTime = ddlHourStart.SelectedValue + ":" + ddlMinutesStart.SelectedValue + ":00";
+                }
+                else if (ddlHourStart.SelectedValue.ToString().Equals("12"))
+                {
+                    tempTime = ddlHourStart.SelectedValue + ":" + ddlMinutesStart.SelectedValue + ":00";
+                }
+                else
+                {
+                    tempTime = (Convert.ToInt32(ddlHourStart.SelectedValue) + 12).ToString() + ":" + ddlMinutesStart.SelectedValue + ":00";
+                }
                 TimeSpan.TryParse(tempTime, out startTime);
 
                 //get end time
-                tempTime = txtEndTime.Value;
-                tempTime = tempTime.Substring(0, tempTime.Length - 2) + ":00 " + tempTime.Substring(tempTime.Length - 2, 2);
-                if (tempTime.Substring(tempTime.Length - 2, 2).ToUpper().Equals("PM"))
-                    tempTime = Utility.ConvertToPm(tempTime);
-                tempTime = tempTime.Substring(0, tempTime.Length - 2);
+                if (ddlAmPmEnd.SelectedValue.Equals("AM"))
+                {
+                    tempTime = ddlHourEnd.SelectedValue + ":" + ddlMinutesEnd.SelectedValue + ":00";
+                }
+                else if (ddlHourEnd.SelectedValue.ToString().Equals("12"))
+                {
+                    tempTime = ddlHourEnd.SelectedValue + ":" + ddlMinutesEnd.SelectedValue + ":00";
+                }
+                else
+                {
+                    tempTime = (Convert.ToInt32(ddlHourEnd.SelectedValue) + 12).ToString() + ":" + ddlMinutesEnd.SelectedValue + ":00";
+                }
                 TimeSpan.TryParse(tempTime, out endTime);
 
                 //if a new audition is being created and the same audition doesn't already exist, add it
@@ -276,6 +295,8 @@ namespace WMTA.Events
                     showErrorMessage("Error: An audition for this venue already exists.");
                 }
             }
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
         }
 
         /*
@@ -299,17 +320,57 @@ namespace WMTA.Events
             }
 
             //make sure freeze date is before audition date
-            if (DateTime.Parse(txtFreezeDate.Value) >= DateTime.Parse(lblDateHolder.InnerText))
+            DateTime date;
+            if (!DateTime.TryParse(txtDate.Value, out date))
+            {
+                showWarningMessage("The Date must be in the form mm/dd/yyyy.");
+                result = false;
+            }
+            else if (!DateTime.TryParse(txtFreezeDate.Value, out date))
+            {
+                showWarningMessage("The Freeze Date must be in the form mm/dd/yyyy.");
+                result = false;
+            }
+            else if (DateTime.Parse(txtFreezeDate.Value) >= DateTime.Parse(txtDate.Value))
             {
                 showWarningMessage("The Freeze Date must be before the Audition Date.");
                 result = false;
             }
 
             //make sure end time is after start time
-            if (DateTime.Parse(txtStartTime.Value) >= DateTime.Parse(txtEndTime.Value))
+            if (!endAfterStart())
             {
                 showWarningMessage("The Start Time must be before the End Time.");
                 result = false;
+            }
+
+            return result;
+        }
+
+        /*
+         * Pre:
+         * Post: Determines whether the end time is after the start time.  This function assumes
+         *       that the start and end times must be at least an hour apart
+         * @returns true if the end time is after the start time by at least 1 hour and false otherwise
+         */
+        private bool endAfterStart()
+        {
+            bool result = true;
+
+            //if the start time is not in the morning or the end time 
+            //is not in the afternoon, make sure the times are valid
+            if (!(ddlAmPmEnd.SelectedValue.Equals("PM") && ddlAmPmStart.SelectedValue.Equals("AM")))
+            {
+                //if the start time is in the afternoon and end time is in the morning return false
+                if (ddlAmPmEnd.SelectedValue.Equals("AM") && ddlAmPmStart.SelectedValue.Equals("PM"))
+                {
+                    result = false;
+                }
+                //if the AM/PM values are the same and the start hour is greater than the end hour return false
+                else if (Convert.ToInt32(ddlHourEnd.SelectedValue) < Convert.ToInt32(ddlHourStart.SelectedValue))
+                {
+                    result = false;
+                } 
             }
 
             return result;
@@ -333,6 +394,7 @@ namespace WMTA.Events
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
             pnlMain.Visible = true;
+            pnlButtons.Visible = true;
             clearAllExceptSearch();
 
             int index = gvAuditionSearch.SelectedIndex;
@@ -371,12 +433,87 @@ namespace WMTA.Events
                                           audition.districtId.ToString()));
                     txtVenue.Text = audition.venue;
                     txtNumJudges.Text = audition.numJudges.ToString();
+                    ddlChairPerson.DataBind();
+                    ListItem item = ddlChairPerson.Items.FindByValue(audition.chairpersonId);
                     ddlChairPerson.SelectedIndex = ddlChairPerson.Items.IndexOf(
                                                 ddlChairPerson.Items.FindByValue(audition.chairpersonId));
                     ddlTheorySeries.SelectedIndex = ddlTheorySeries.Items.IndexOf(
                                                 ddlTheorySeries.Items.FindByValue(audition.theoryTestSeries));
-                    txtStartTime.Value = audition.startTime.ToString();
-                    txtEndTime.Value = audition.endTime.ToString();
+                    
+                    //set start time
+                    if (audition.startTime.Hours < 10)
+                    {
+                        ddlHourStart.SelectedValue = "0" + audition.startTime.Hours.ToString();
+                        ddlAmPmStart.SelectedValue = "AM";
+                    }
+                    else if (audition.startTime.Hours < 12)
+                    {
+                        ddlHourStart.SelectedValue = audition.startTime.Hours.ToString();
+                        ddlAmPmStart.SelectedValue = "AM";
+                    }
+                    else if (audition.startTime.Hours > 12)
+                    {
+                        int hours = audition.startTime.Hours - 12;
+
+                        if (hours < 10)
+                        {
+                            ddlHourStart.SelectedValue = "0" + hours.ToString();
+                        }
+                        else
+                        {
+                            ddlHourStart.SelectedValue = hours.ToString();
+                        }
+
+                        ddlAmPmStart.SelectedValue = "PM";
+                    }
+                    else
+                    {
+                        ddlHourStart.SelectedValue = "12";
+                        ddlAmPmStart.SelectedValue = "PM";
+                    }
+
+                    if (audition.startTime.Minutes > 0)
+                        ddlMinutesStart.SelectedValue = audition.startTime.Minutes.ToString();
+                    else
+                        ddlMinutesStart.SelectedValue = "00";
+
+                
+                    //set end time
+                    if (audition.endTime.Hours < 10)
+                    {
+                        ddlHourEnd.SelectedValue = "0" + audition.endTime.Hours.ToString();
+                        ddlAmPmEnd.SelectedValue = "AM";
+                    }
+                    else if (audition.endTime.Hours < 12)
+                    {
+                        ddlHourEnd.SelectedValue = audition.endTime.Hours.ToString();
+                        ddlAmPmEnd.SelectedValue = "AM";
+                    }
+                    else if (audition.endTime.Hours > 12)
+                    {
+                        int hours = audition.endTime.Hours - 12;
+
+                        if (hours < 10)
+                        {
+                            ddlHourEnd.SelectedValue = "0" + hours.ToString();
+                        }
+                        else 
+                        {
+                            ddlHourEnd.SelectedValue = hours.ToString();
+                        }
+
+                        ddlAmPmEnd.SelectedValue = "PM";
+                    }
+                    else
+                    {
+                        ddlHourEnd.SelectedValue = "12";
+                        ddlAmPmEnd.SelectedValue = "PM";
+                    }
+
+                    if (audition.endTime.Minutes > 0)
+                        ddlMinutesEnd.SelectedValue = audition.endTime.Minutes.ToString();
+                    else
+                        ddlMinutesEnd.SelectedValue = "00";
 
                     //dates must be in form of YYYY-MM-DD
                     string month = audition.auditionDate.Month.ToString();
@@ -385,7 +522,7 @@ namespace WMTA.Events
                     if (month.Length == 1) month = "0" + month;
                     if (day.Length == 1) day = "0" + day;
 
-                    lblDateHolder.InnerText = audition.auditionDate.ToShortDateString();
+                    txtDate.Value = audition.auditionDate.ToShortDateString();
 
                     month = audition.freezeDate.Month.ToString();
                     day = audition.freezeDate.Day.ToString();
@@ -406,6 +543,8 @@ namespace WMTA.Events
 
                 Utility.LogError("Create District Audition", "loadAuditionData", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
         }
 
         /*
@@ -437,7 +576,10 @@ namespace WMTA.Events
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 foreach (TableCell cell in gv.HeaderRow.Cells)
-                    cell.BackColor = Color.FromArgb(204, 204, 255);
+                {
+                    cell.BackColor = Color.Black;
+                    cell.ForeColor = Color.White;
+                }
             }
         }
 
@@ -490,18 +632,27 @@ namespace WMTA.Events
         {
             clearAuditionSearch();
 
-            if (action != null && action != Utility.Action.Add)
+            if (action != Utility.Action.Add)
+            {
                 pnlMain.Visible = false;
+                pnlButtons.Visible = false;
+            }
 
             ddlDistrict.SelectedIndex = 0;
             txtVenue.Text = "";
             txtNumJudges.Text = "";
             ddlChairPerson.SelectedIndex = 0;
             ddlTheorySeries.SelectedIndex = 0;
-            lblDateHolder.InnerText = "";
-            txtStartTime.Value = "";
-            txtEndTime.Value = "";
+            txtDate.Value = "";
+            ddlHourStart.SelectedValue = "08";
+            ddlMinutesStart.SelectedValue = "00";
+            ddlAmPmStart.SelectedValue = "AM";
+            ddlHourEnd.SelectedValue = "04";
+            ddlMinutesEnd.SelectedValue = "00";
+            ddlAmPmEnd.SelectedValue = "PM";
             txtFreezeDate.Value = "";
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
         }
 
         /*
@@ -516,10 +667,16 @@ namespace WMTA.Events
             txtNumJudges.Text = "";
             ddlChairPerson.SelectedIndex = 0;
             ddlTheorySeries.SelectedIndex = 0;
-            lblDateHolder.InnerText = "";
-            txtStartTime.Value = "";
-            txtEndTime.Value = "";
+            txtDate.Value = "";
+            ddlHourStart.SelectedValue = "08";
+            ddlMinutesStart.SelectedValue = "00";
+            ddlAmPmStart.SelectedValue = "AM";
+            ddlHourEnd.SelectedValue = "04";
+            ddlMinutesEnd.SelectedValue = "00";
+            ddlAmPmEnd.SelectedValue = "PM";
             txtFreezeDate.Value = "";
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
         }
 
 #region Messages
@@ -560,6 +717,18 @@ namespace WMTA.Events
             lblSuccessMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowSuccess", "showSuccessMessage()", true);
+        }
+
+        /*
+         * Pre: 
+         * Post: Displays the input informational message in the top left corner of the screen
+         * @param message is the message text to be displayed
+         */
+        private void showInfoMessage(string message)
+        {
+            lblInfoMessage.InnerText = message;
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowInfo", "showInfoMessage()", true);
         }
 
         /*

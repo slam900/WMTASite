@@ -176,7 +176,7 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlSeconds" CssClass="col-md-2 control-label float-left smaller-font">Seconds</asp:Label>
                                                 <div class="col-md-2">
-                                                    <asp:DropDownList ID="ddlSeconds" runat="server" CssClass="dropdown-list form-control float-left" Width="65px">
+                                                    <asp:DropDownList ID="ddlSeconds" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
                                                         <asp:ListItem Selected="True" Text="0" Value="0" />
                                                         <asp:ListItem Text="15" Value="0.25" />
                                                         <asp:ListItem Text="30" Value="0.5" />

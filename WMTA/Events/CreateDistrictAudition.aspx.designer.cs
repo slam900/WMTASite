@@ -166,31 +166,67 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlTheorySeries;
         
         /// <summary>
-        /// lblDateHolder control.
+        /// txtDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblDateHolder;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDate;
         
         /// <summary>
-        /// txtStartTime control.
+        /// ddlHourStart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtStartTime;
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourStart;
         
         /// <summary>
-        /// txtEndTime control.
+        /// ddlMinutesStart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtEndTime;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesStart;
+        
+        /// <summary>
+        /// ddlAmPmStart control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmStart;
+        
+        /// <summary>
+        /// ddlHourEnd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourEnd;
+        
+        /// <summary>
+        /// ddlMinutesEnd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesEnd;
+        
+        /// <summary>
+        /// ddlAmPmEnd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmEnd;
         
         /// <summary>
         /// txtFreezeDate control.
@@ -263,5 +299,14 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        
+        /// <summary>
+        /// lblInfoMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
     }
 }

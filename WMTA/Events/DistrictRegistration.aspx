@@ -325,21 +325,21 @@
                                                     <asp:Label runat="server" CssClass="col-md-3 control-label float-left" Font-Bold="true">Playing Time</asp:Label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <asp:Label runat="server" AssociatedControlID="txtMinutes" CssClass="col-md-4 control-label smaller-font">Minutes</asp:Label>
+                                                    <div>
+                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMinutes" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Time is required" ValidationGroup="Composition" /><br />
+                                                    </div>
+                                                    <asp:Label runat="server" AssociatedControlID="txtMinutes" CssClass="col-md-3 control-label smaller-font">Minutes</asp:Label>
                                                     <div class="col-md-2">
                                                         <asp:TextBox runat="server" ID="txtMinutes" CssClass="form-control small-txtbx-width float-left" TextMode="Number" />
                                                     </div>
                                                     <asp:Label runat="server" AssociatedControlID="ddlSeconds" CssClass="col-md-2 control-label float-left smaller-font">Seconds</asp:Label>
                                                     <div class="col-md-2">
-                                                        <asp:DropDownList ID="ddlSeconds" runat="server" CssClass="dropdown-list form-control float-left" Width="65px">
+                                                        <asp:DropDownList ID="ddlSeconds" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
                                                             <asp:ListItem Selected="True" Text="0" Value="0" />
                                                             <asp:ListItem Text="15" Value="0.25" />
                                                             <asp:ListItem Text="30" Value="0.5" />
                                                             <asp:ListItem Text="45" Value="0.75" />
                                                         </asp:DropDownList>
-                                                    </div>
-                                                    <div>
-                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMinutes" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Time is required" ValidationGroup="Composition" /><br />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

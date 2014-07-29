@@ -94,13 +94,13 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Panel pnlStudent1Search;
         
         /// <summary>
-        /// txtStudentId control.
+        /// txtStudent1Id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStudentId;
+        protected global::System.Web.UI.WebControls.TextBox txtStudent1Id;
         
         /// <summary>
         /// btnSearchStudent1 control.
@@ -281,15 +281,6 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upButtons;
-        
-        /// <summary>
-        /// btnBack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBack;
         
         /// <summary>
         /// btnClear control.

@@ -22,25 +22,32 @@
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
-                                                <div>
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="text-danger vertical-center font-size-12" ErrorMessage="District is required" ValidationGroup="Search" />
-                                                </div>
-                                                <asp:Button ID="btnAuditionSearch" runat="server" Text="Search" CssClass="btn btn-default btn-min-width-72" OnClick="btnAuditionSearch_Click" />
+                                                <asp:Button ID="btnAuditionSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnAuditionSearch_Click" CausesValidation="false" />
                                             </div>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label float-left">Audition Year</asp:Label>
+                                                <div class="col-md-6">
                                                 <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
-                                                <asp:Button ID="btnClearAuditionSearch" runat="server" Text="Clear" CssClass="btn btn-clear btn-min-width-72" OnClick="btnClearAuditionSearch_Click" />
+                                                    </div>
+                                                <asp:Button ID="btnClearAuditionSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearAuditionSearch_Click" CausesValidation="false" />
                                             </div>
                                             <div class="form-group">
-                                                <asp:GridView ID="gvAuditionSearch" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" OnPageIndexChanging="gvAuditionSearch_PageIndexChanging" OnRowDataBound="gvAuditionSearch_RowDataBound" OnSelectedIndexChanged="gvAuditionSearch_SelectedIndexChanged"></asp:GridView>
+                                                <asp:GridView ID="gvAuditionSearch" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" OnPageIndexChanging="gvAuditionSearch_PageIndexChanging" OnRowDataBound="gvAuditionSearch_RowDataBound" OnSelectedIndexChanged="gvAuditionSearch_SelectedIndexChanged">
+                                                    <Columns>
+                                                        <asp:BoundField DataField="AuditionOrgId" HeaderText="AuditionOrgId" ItemStyle-Width="0%" />
+                                                        <asp:BoundField DataField="GeoName" HeaderText="District" />
+                                                        <asp:BoundField DataField="Year" HeaderText="Year" />
+                                                    </Columns>
+                                                </asp:GridView>
                                             </div>
                                         </div>
+                                <hr />
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                                 <asp:UpdatePanel ID="upMain" runat="server">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlMain" runat="server">
+                                            <h4>Event Information</h4>
                                             <asp:TextBox ID="txtIdHidden" runat="server" Visible="false"></asp:TextBox>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">District</asp:Label>
@@ -98,40 +105,84 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <asp:Label runat="server" CssClass="col-md-3 control-label float-left">Date</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="txtDate" CssClass="col-md-3 control-label float-left">Date</asp:Label>
                                                 <div class="col-md-6">
-                                                    <%--<input runat="server" type="text" data-provide="datepicker" id="txtDate" class="form-control" />--%>
-                                                    <input type="text" class="form-control" value="8/1/2014" data-date-format="mm/dd/yy" id="txtDate"/>
-                                                    <label runat="server" id="lblDateHolder" style="color:transparent" >.</label>
+                                                    <input type="text" runat="server" class="form-control" data-date-format="mm/dd/yy" id="txtDate" />
                                                 </div>
-                                                <%--<div>
+                                                <div>
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Date is required" F />
-                                                </div>--%>
-                                            </div>
-                                            <div class="form-group">
-                                                <%-- lblTimeError Goes Here "The Start Time must be before the End Time --%>
-                                                <asp:Label runat="server" AssociatedControlID="txtStartTime" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
-                                                <div class="col-md-6">
-                                                    <input runat="server" id="txtStartTime" type="text" class="ui-timepicker  form-control" />
-                                                </div>
-                                                <div>
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartTime" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Start Time is required" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="txtEndTime" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
-                                                <div class="col-md-6">
-                                                    <input runat="server" id="txtEndTime" type="text" class="ui-timepicker  form-control" />
+                                                <asp:Label runat="server" AssociatedControlID="ddlHourStart" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
+                                                <div class="col-md-2" style="width: 16%">
+                                                    <asp:DropDownList ID="ddlHourStart" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                        <asp:ListItem Text="1" Value="01" />
+                                                        <asp:ListItem Text="2" Value="02" />
+                                                        <asp:ListItem Text="3" Value="03" />
+                                                        <asp:ListItem Text="4" Value="04" />
+                                                        <asp:ListItem Text="5" Value="05" />
+                                                        <asp:ListItem Text="6" Value="06" />
+                                                        <asp:ListItem Text="7" Value="07" />
+                                                        <asp:ListItem Text="8" Value="08" Selected="True" />
+                                                        <asp:ListItem Text="9" Value="09" />
+                                                        <asp:ListItem Text="10" Value="10" />
+                                                        <asp:ListItem Text="11" Value="11" />
+                                                        <asp:ListItem Text="12" Value="12" />
+                                                    </asp:DropDownList>
                                                 </div>
-                                                <div>
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEndTime" CssClass="text-danger vertical-center font-size-12" ErrorMessage="End Time is required" />
+                                                <div class="col-md-2" style="width: 16%">
+                                                    <asp:DropDownList ID="ddlMinutesStart" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                        <asp:ListItem Selected="True" Text="00" Value="00" />
+                                                        <asp:ListItem Text="15" Value="15" />
+                                                        <asp:ListItem Text="30" Value="30" />
+                                                        <asp:ListItem Text="45" Value="45" />
+                                                    </asp:DropDownList>
+                                                </div>
+                                                <div class="col-md-2" style="width: 16%">
+                                                    <asp:DropDownList ID="ddlAmPmStart" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                        <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                        <asp:ListItem Text="PM" Value="PM" />
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlHourEnd" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
+                                                <div class="col-md-2" style="width: 16%">
+                                                    <asp:DropDownList ID="ddlHourEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                        <asp:ListItem Text="1" Value="01" />
+                                                        <asp:ListItem Text="2" Value="02" />
+                                                        <asp:ListItem Text="3" Value="03" />
+                                                        <asp:ListItem Text="4" Value="04" Selected="True" />
+                                                        <asp:ListItem Text="5" Value="05" />
+                                                        <asp:ListItem Text="6" Value="06" />
+                                                        <asp:ListItem Text="7" Value="07" />
+                                                        <asp:ListItem Text="8" Value="08" />
+                                                        <asp:ListItem Text="9" Value="09" />
+                                                        <asp:ListItem Text="10" Value="10" />
+                                                        <asp:ListItem Text="11" Value="11" />
+                                                        <asp:ListItem Text="12" Value="12" />
+                                                    </asp:DropDownList>
+                                                </div>
+                                                <div class="col-md-2" style="width: 16%">
+                                                    <asp:DropDownList ID="ddlMinutesEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                        <asp:ListItem Selected="True" Text="00" Value="00" />
+                                                        <asp:ListItem Text="15" Value="15" />
+                                                        <asp:ListItem Text="30" Value="30" />
+                                                        <asp:ListItem Text="45" Value="45" />
+                                                    </asp:DropDownList>
+                                                </div>
+                                                <div class="col-md-2" style="width: 16%">
+                                                    <asp:DropDownList ID="ddlAmPmEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                        <asp:ListItem Text="AM" Value="AM" />
+                                                        <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <%-- lblFreezeDateError2 goes here "The Freeze DAte must be before the Audition Date --%>
                                                 <asp:Label runat="server" AssociatedControlID="txtFreezeDate" CssClass="col-md-3 control-label float-left">Freeze Date</asp:Label>
                                                 <div class="col-md-6">
-                                                    <input runat="server" type="text" id="txtFreezeDate" class="ui-timepicker  form-control" />
+                                                    <input type="text" runat="server" class="form-control" data-date-format="mm/dd/yy" id="txtFreezeDate" />
                                                 </div>
                                                 <div>
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFreezeDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Freeze Date is required" />
@@ -144,7 +195,7 @@
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlButtons" runat="server">
                                             <div class="col-lg-10 col-lg-offset-2 float-right">
-                                                <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                                <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                                 <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                             </div>
                                         </asp:Panel>
@@ -154,6 +205,7 @@
                             <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                             <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                             <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -167,9 +219,8 @@
 
     <script>
         $(document).ready(function () {
-            $('#txtDate').datepicker().on('changeDate', function () {
-                $('#MainContent_lblDateHolder').text($('#txtDate').val());
-            });
+            $("#<%= txtDate.ClientID %>").datepicker();
+            $("#<%= txtFreezeDate.ClientID %>").datepicker();
         });
 
         //show an error message
@@ -192,5 +243,18 @@
 
             $.notify(message.toString(), { position: "left-top", className: "info" });
         };
+
+        //show an informational message
+        function showInfoMessage() {
+            var message = $('#MainContent_lblInfoMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "info" });
+        };
+
+        //add the datepicker functionality back to text boxes
+        function refreshDatePickers() {
+            $("#<%= txtDate.ClientID %>").datepicker();
+            $("#<%= txtFreezeDate.ClientID %>").datepicker();
+        }
     </script>
 </asp:Content>

@@ -13,7 +13,7 @@
                                 <%-- Contact Search --%>
                                 <asp:UpdatePanel ID="upContactSearch" runat="server">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlContactSearch" runat="server" Visible="false">
+                                        <asp:Panel ID="pnlContactSearch" runat="server">
                                             <div>
                                                 <h4>Contact Search</h4>
                                                 <br />
@@ -22,7 +22,7 @@
                                                     <div class="col-md-6">
                                                         <asp:TextBox runat="server" ID="txtContactId" CssClass="form-control" />
                                                     </div>
-                                                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
+                                                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" CausesValidation="false" />
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtFirstNameSearch" CssClass="col-md-3 control-label">First Name</asp:Label>
@@ -55,7 +55,7 @@
                                 <%-- Contact Information --%>
                                 <asp:UpdatePanel ID="upFullPage" runat="server">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlFullPage" runat="server">
+                                        <asp:Panel ID="pnlFullPage" runat="server" Visible="false">
                                             <div>
                                                 <h4>Contact Information</h4>
                                                 <asp:Panel runat="server" ID="pnlId">
@@ -105,12 +105,11 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-                                <asp:Panel runat="server" ID="pnlButtons">
+                                <asp:Panel runat="server" ID="pnlButtons" Visible="false">
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                            <asp:Button ID="btnBack" Text="Back" runat="server" CssClass="btn btn-default float-right" OnClick="btnBack_Click" />
                                             <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
-                                            <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
+                                            <asp:Button ID="btnRegister" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnRegister_Click" />
                                         </div>
                                     </div>
                                 </asp:Panel>

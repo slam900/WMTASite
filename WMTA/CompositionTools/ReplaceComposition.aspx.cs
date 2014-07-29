@@ -271,6 +271,10 @@ namespace WMTA.CompositionTools
                 if (item != null)
                 {
                     ddlCompositionToReplace.SelectedValue = num.ToString();
+
+                    Composition comp = DbInterfaceComposition.GetComposition(num);
+                    ddlStyleSearch.SelectedValue = comp.style;
+                    ddlComposerSearch.SelectedValue = comp.composer;
                 }
                 else
                 {
@@ -303,6 +307,10 @@ namespace WMTA.CompositionTools
                 if (item != null)
                 {
                     ddlReplacement.SelectedValue = num.ToString();
+
+                    Composition comp = DbInterfaceComposition.GetComposition(num);
+                    ddlStyleSearch2.SelectedValue = comp.style;
+                    ddlComposerSearch2.SelectedValue = comp.composer;
                 }
                 else
                 {
@@ -312,6 +320,48 @@ namespace WMTA.CompositionTools
             else
             {
                 showWarningMessage("The id must be a number.");
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Populate composition id, composer, and composition style when composition is changed
+         */
+        protected void ddlCompositionToReplace_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCompositionToReplace.SelectedIndex > 0) 
+            {
+                Composition comp = DbInterfaceComposition.GetComposition(Convert.ToInt32(ddlCompositionToReplace.SelectedValue));
+                ddlStyleSearch.SelectedValue = comp.style;
+                ddlComposerSearch.SelectedValue = comp.composer;
+                txtIdReplace.Text = comp.compositionId.ToString();
+            }
+            else
+            {
+                ddlStyleSearch.SelectedIndex = 0;
+                ddlComposerSearch.SelectedIndex = 0;
+                txtIdReplace.Text = "";
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Populate composition id, composer, and composition style when composition is changed
+         */
+        protected void ddlReplacement_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlReplacement.SelectedIndex > 0)
+            {
+                Composition comp = DbInterfaceComposition.GetComposition(Convert.ToInt32(ddlReplacement.SelectedValue));
+                ddlStyleSearch2.SelectedValue = comp.style;
+                ddlComposerSearch2.SelectedValue = comp.composer;
+                txtIdReplacement.Text = comp.compositionId.ToString();
+            }
+            else
+            {
+                ddlStyleSearch2.SelectedIndex = 0;
+                ddlComposerSearch2.SelectedIndex = 0;
+                txtIdReplacement.Text = "";
             }
         }
 

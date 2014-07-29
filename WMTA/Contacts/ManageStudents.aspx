@@ -22,7 +22,7 @@
                                                     <div class="col-md-6">
                                                         <asp:TextBox runat="server" ID="txtStudentId" CssClass="form-control" />
                                                     </div>
-                                                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
+                                                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" CausesValidation="false" />
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtFirstNameSearch" CssClass="col-md-3 control-label float-left">First Name</asp:Label>
@@ -55,13 +55,13 @@
                                 <%-- Student Information --%>
                                 <asp:UpdatePanel ID="upFullPage" runat="server">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlFullPage" runat="server" Visible="false">
+                                        <asp:Panel ID="pnlFullPage" runat="server" Visible="false" DefaultButton="btnSubmit">
                                             <div>
                                                 <h4>Student Information</h4>
                                                 <div class="form-group">
-                                                    <asp:Label runat="server" AssociatedControlID="txtFirstName" runat="server" CssClass="col-md-3 control-label">First Name</asp:Label>
+                                                    <asp:Label runat="server" AssociatedControlID="txtFirstName" CssClass="col-md-3 control-label">First Name</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox ID="txtFirstName" runat="server" AutoPostBack="true" OnTextChanged="txtFirstName_TextChanged" CssClass="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFirstName" CssClass="text-danger vertical-center font-size-12" ErrorMessage="First Name is required." />
@@ -70,16 +70,13 @@
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtMiddleInitial" CssClass="col-md-3 control-label">Middle Initial</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox runat="server" ID="txtMiddleInitial" CssClass="form-control small-txtbx-width" MaxLength="2" AutoPostBack="true" OnTextChanged="txtMiddleInitial_TextChanged" />
-                                                    </div>
-                                                    <div>
-                                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMiddleInitial" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Middle Initial is required" />
+                                                        <asp:TextBox runat="server" ID="txtMiddleInitial" CssClass="form-control small-txtbx-width" MaxLength="2" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtLastName" CssClass="col-md-3 control-label">Last Name</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox runat="server" ID="txtLastName" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtLastName_TextChanged" />
+                                                        <asp:TextBox runat="server" ID="txtLastName" CssClass="form-control" />
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtLastName" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Last Name is required" />
@@ -88,7 +85,7 @@
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtGrade" CssClass="col-md-3 control-label">Grade</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox runat="server" ID="txtGrade" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtGrade_TextChanged" />
+                                                        <asp:TextBox runat="server" ID="txtGrade" CssClass="form-control"  />
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtGrade" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Grade is required" />
@@ -97,7 +94,7 @@
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">District</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:DropDownList ID="ddlDistrict" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="GeoName" DataValueField="GeoId" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlDistrict_SelectedIndexChanged">
+                                                        <asp:DropDownList ID="ddlDistrict" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="GeoName" DataValueField="GeoId" AppendDataBoundItems="true">
                                                             <asp:ListItem Selected="True" Text="" Value="" />
                                                         </asp:DropDownList>
                                                     </div>
@@ -109,7 +106,7 @@
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="cboCurrTeacher" CssClass="col-md-3 control-label float-left">Current Teacher</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:DropDownList ID="cboCurrTeacher" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource2" DataTextField="ContactId" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="cboCurrTeacher_SelectedIndexChanged">
+                                                        <asp:DropDownList ID="cboCurrTeacher" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource2" DataTextField="ComboName" DataValueField="ContactId" AppendDataBoundItems="true">
                                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </div>
@@ -129,15 +126,10 @@
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtLegacyPoints" ID="lblLegacyPoints" CssClass="col-md-3 control-label float-left">Legacy Points</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox ID="txtLegacyPoints" runat="server" TextMode="Number">0</asp:TextBox>
+                                                        <asp:TextBox ID="txtLegacyPoints" runat="server" TextMode="Number" CssClass="form-control">0</asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <asp:Label AssociatedControlID="lblId" runat="server" CssClass="col-md-3 control-label float-left">Student Id:</asp:Label>
-                                                    <div class="col-md-6">
-                                                        <asp:Label ID="lblId" runat="server" Text="" ForeColor="DarkBlue"></asp:Label>
-                                                    </div>
-                                                </div>
+                                                <asp:Label runat="server" ID="lblId" Visible =" false" />
                                             </div>
                                         </asp:Panel>
                                     </ContentTemplate>
@@ -145,7 +137,6 @@
                                 <asp:Panel runat="server" ID="pnlButtons">
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                            <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="btn btn-default float-right" OnClick="btnBack_Click" />
                                             <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                         </div>
@@ -157,6 +148,7 @@
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblConfirmDuplicate" runat="server" style="display:none" />
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -169,11 +161,20 @@
                     trigger: 'hover',
                     html: true,
                     placement: 'right',
-                    content: 'Fill in any number of the search fields and click "Search" to find contacts. Clicking "Search" without filling in any fields will return all contacts.  First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all contacts with last names containing "sch"."',
+                    content: 'Fill in any number of the search fields and click "Search" to find students. Clicking "Search" without filling in any fields will return all students linked to you. First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
                 });
             });
 
+            //confirm that the user wants to add what could be a duplicate student
+            function confirmDuplicate() {
+                var answer = confirm("There is already a student with the name you have entered. Please contact your district chair to make sure the student doesn't already exist. Do you want to add the student anyways?");
 
+                if (answer == true) {
+                    $('<%= lblConfirmDuplicate.ClientID %>').val = 'true';
+                } else {
+                    $('<%= lblConfirmDuplicate.ClientID %>').val = 'false';
+                }
+            }
 
             function showMainError() {
                 var message = $('#MainContent_lblErrorMessage').text();

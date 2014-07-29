@@ -229,15 +229,6 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.Panel pnlButtons;
         
         /// <summary>
-        /// btnBack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBack;
-        
-        /// <summary>
         /// btnClear control.
         /// </summary>
         /// <remarks>
@@ -290,5 +281,14 @@ namespace WMTA.Contacts {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        
+        /// <summary>
+        /// lblConfirmDuplicate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblConfirmDuplicate;
     }
 }
