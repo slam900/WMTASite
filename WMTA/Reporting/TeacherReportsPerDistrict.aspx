@@ -58,7 +58,7 @@
             <rsweb:ReportViewer ID="rptTeacherAudition" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
         <div>
-            <div class="text-align-center"><h3 class="center">Teacher Checlist</h3></div>
+            <div class="text-align-center"><h3 class="center">Teacher Checklist</h3></div>
             <rsweb:ReportViewer ID="rptTeacherChecklist" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>

@@ -14,15 +14,11 @@ namespace WMTA.Reporting
         {
             if (!Page.IsPostBack)
             {
-                string username = "wismusta_reportservr";
-                string password = "33wi8mu8ta44";
-                string domain = "sunflower.arvixe.com";
-
                 rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
                 rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
                 rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
 
-                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(username, password, domain);
+                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
                 rptViewer.ServerReport.ReportServerUrl = new Uri("http://sunflower.arvixe.com/ReportServer_SQL_Service");
                 rptViewer.ServerReport.ReportPath = "/wismusta/DistrictAuditionStatistics";

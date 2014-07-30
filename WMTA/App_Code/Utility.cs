@@ -19,6 +19,12 @@ public class Utility
     //session variable name for session variable containing data of current user
     public const string userRole = "UserRole";
 
+   //report server variables
+    public const string ssrsUsername = "wismusta_reportservr";
+    public const string ssrsPassword = "33wi8mu8ta44";
+    public const string ssrsDomain = "sunflower.arvixe.com"; //test
+    //public const string ssrsDomain = "localhost";//live
+    
     /*
      * Pre:
      * Post: A new error entry is added to the error log table
