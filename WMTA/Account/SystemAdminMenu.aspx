@@ -66,10 +66,15 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a href="../Reporting/StudentReportsPerDistrict.aspx" class="smaller-font">Student Reports</a></li>
+                                        <li><a href="../Reporting/StudentResultReports.aspx" class="smaller-font">Student Results</a></li>
                                         <li><a href="../Reporting/TeacherReportsPerDistrict.aspx" class="smaller-font">Teacher Reports by District</a></li>
                                         <li><a href="../Reporting/TeacherReportsPerTeacher.aspx" class="smaller-font">Teacher Reports by Teacher</a></li>
                                         <li><a href="../Reporting/JudgeReports.aspx" class="smaller-font">Judge Reports</a></li>
                                         <li><a href="../Reporting/JudgingForms.aspx" class="smaller-font">Judging Forms</a></li>
+                                        <li><a href="../Reporting/CheckInReports.aspx" class="smaller-font">Check-In Forms</a></li>
+                                        <li><a href="../Reporting/RoomScheduleReport.aspx" class="smaller-font">Room Schedule</a></li>
+                                        <li><a href="../Reporting/DistrictAuditionStatsReport.aspx" class="smaller-font">District Audition Statistics</a></li>
+                                        <li><a href="../Reporting/DistrictChairSummaryReport.aspx" class="smaller-font">District Chair Summary</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -22,8 +22,11 @@ public class Utility
    //report server variables
     public const string ssrsUsername = "wismusta_reportservr";
     public const string ssrsPassword = "33wi8mu8ta44";
-    public const string ssrsDomain = "sunflower.arvixe.com"; //test
-    //public const string ssrsDomain = "localhost";//live
+    //public const string ssrsDomain = "sunflower.arvixe.com"; //test
+    public const string ssrsDomain = "localhost";//live
+    //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service"; //test
+    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service"; //live
+
     
     /*
      * Pre:

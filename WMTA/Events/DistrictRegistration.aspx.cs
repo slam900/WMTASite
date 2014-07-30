@@ -27,6 +27,9 @@ namespace WMTA.Events
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            initializeAction();
+            coordinatesToRemove = new List<StudentCoordinateSimple>();
+
             //clear session variables
             if (!Page.IsPostBack)
             {
@@ -41,8 +44,6 @@ namespace WMTA.Events
 
                 checkPermissions();
                 initializePage();
-
-                coordinatesToRemove = new List<StudentCoordinateSimple>();
             }
 
             //if there were compositions selected before the postback, add them 
@@ -101,11 +102,10 @@ namespace WMTA.Events
 
         /*
          * Pre:
-         * Post: Initialize the page for adding, editing, or deleting based on user selection
+         * Post: The action being performed is initialized.  Defaulted to Add
          */
-        protected void initializePage()
+        private void initializeAction()
         {
-            //get requested action - default to adding
             string actionIndicator = Request.QueryString["action"];
             if (actionIndicator == null || actionIndicator.Equals(""))
             {
@@ -115,7 +115,14 @@ namespace WMTA.Events
             {
                 action = (Utility.Action)Convert.ToInt32(actionIndicator);
             }
+        }
 
+        /*
+         * Pre:
+         * Post: Initialize the page for adding, editing, or deleting based on user selection
+         */
+        protected void initializePage()
+        {
             //initialize page based on action
             if (action == Utility.Action.Add)
             {
@@ -2428,33 +2435,6 @@ namespace WMTA.Events
             gvDuetPartner.DataSource = null;
             Session[partnerSearch] = null;
         }
-
-        /*
-         * Pre:
-         * Post: All controls that are disabled when deleting an audition
-         *       are enabled
-         */
-        //private void enableControls()
-        //{
-        //    txtGrade.Enabled = true;
-        //    ddlSite.Enabled = true;
-        //    ddlInstrument.Enabled = true;
-        //    txtAccompanist.Enabled = true;
-        //    ddlAuditionType.Enabled = true;
-        //    lnkChangePartner.Enabled = true;
-        //    ddlAuditionTrack.Enabled = true;
-        //    ddlTheoryLevel.Enabled = true;
-        //    ddlStyle.Enabled = true;
-        //    ddlCompLevel.Enabled = true;
-        //    ddlComposer.Enabled = true;
-        //    chkNewComposer.Enabled = true;
-        //    ddlComposition.Enabled = true;
-        //    chkNewTitle.Enabled = true;
-        //    btnAddComposition.Enabled = true;
-        //    btnRemoveComposition.Enabled = true;
-        //    rblTimePreference.Enabled = true;
-        //    rblTimeOptions.Enabled = true;
-        //}
 
         /*
          * Pre:

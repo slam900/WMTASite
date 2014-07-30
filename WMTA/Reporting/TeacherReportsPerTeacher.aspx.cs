@@ -112,7 +112,7 @@ namespace WMTA.Reporting
 
                 rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
-                rptViewer.ServerReport.ReportServerUrl = new Uri("http://sunflower.arvixe.com/ReportServer_SQL_Service");
+                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl); 
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
 
                 //set parameters
@@ -128,7 +128,7 @@ namespace WMTA.Reporting
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("TeacherReportsPerDistrict", "createReport", "rptName: " + rptName +
+                Utility.LogError("TeacherReportsPerTeacher", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }

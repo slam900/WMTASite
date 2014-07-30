@@ -243,11 +243,15 @@
     <Content Include="PointsAndAwards.aspx" />
     <Content Include="RegisterContact.aspx" />
     <Content Include="Repertoire2.aspx" />
+    <Content Include="Reporting\CheckInReports.aspx" />
+    <Content Include="Reporting\DistrictAuditionStatsReport.aspx" />
+    <Content Include="Reporting\DistrictChairSummaryReport.aspx" />
     <Content Include="Reporting\JudgeReports.aspx" />
     <Content Include="Reporting\JudgingForms.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
-    <Content Include="Reporting\ReportViewerTest.aspx" />
+    <Content Include="Reporting\RoomScheduleReport.aspx" />
     <Content Include="Reporting\StudentReportsPerDistrict.aspx" />
+    <Content Include="Reporting\StudentResultReports.aspx" />
     <Content Include="Reporting\TeacherReportsPerDistrict.aspx" />
     <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
     <Content Include="Reports.aspx" />
@@ -669,6 +673,27 @@
     <Compile Include="Repertoire2.aspx.designer.cs">
       <DependentUpon>Repertoire2.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\CheckInReports.aspx.cs">
+      <DependentUpon>CheckInReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\CheckInReports.aspx.designer.cs">
+      <DependentUpon>CheckInReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\DistrictAuditionStatsReport.aspx.cs">
+      <DependentUpon>DistrictAuditionStatsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\DistrictAuditionStatsReport.aspx.designer.cs">
+      <DependentUpon>DistrictAuditionStatsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\DistrictChairSummaryReport.aspx.cs">
+      <DependentUpon>DistrictChairSummaryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\DistrictChairSummaryReport.aspx.designer.cs">
+      <DependentUpon>DistrictChairSummaryReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\JudgeReports.aspx.cs">
       <DependentUpon>JudgeReports.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -691,12 +716,12 @@
     <Compile Include="Reporting\ReportTest.aspx.designer.cs">
       <DependentUpon>ReportTest.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Reporting\ReportViewerTest.aspx.cs">
-      <DependentUpon>ReportViewerTest.aspx</DependentUpon>
+    <Compile Include="Reporting\RoomScheduleReport.aspx.cs">
+      <DependentUpon>RoomScheduleReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Reporting\ReportViewerTest.aspx.designer.cs">
-      <DependentUpon>ReportViewerTest.aspx</DependentUpon>
+    <Compile Include="Reporting\RoomScheduleReport.aspx.designer.cs">
+      <DependentUpon>RoomScheduleReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\StudentReportsPerDistrict.aspx.cs">
       <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
@@ -704,6 +729,13 @@
     </Compile>
     <Compile Include="Reporting\StudentReportsPerDistrict.aspx.designer.cs">
       <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\StudentResultReports.aspx.cs">
+      <DependentUpon>StudentResultReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\StudentResultReports.aspx.designer.cs">
+      <DependentUpon>StudentResultReports.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\TeacherReportsPerDistrict.aspx.cs">
       <DependentUpon>TeacherReportsPerDistrict.aspx</DependentUpon>

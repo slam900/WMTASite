@@ -29,7 +29,10 @@ namespace WMTA.Account
 
                 //show composition tools if user has C permissions
                 if (user.permissionLevel.Contains("C"))
-                    pnlCompTools.Visible = true;
+                {
+                    pnlCompositionPermissions.Visible = true;
+                    pnlNoCompositionPermissions.Visible = false;
+                }
             }
         }
 

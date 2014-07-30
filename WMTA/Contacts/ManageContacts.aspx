@@ -253,7 +253,7 @@
         function showSuccessMessage() {
             var message = $('#MainContent_lblSuccessMessage').text();
 
-            $.notify(message.toString(), { position: "left-top", className: "info" });
+            $.notify(message.toString(), { position: "left-top", className: "success" });
         };
 
     </script>

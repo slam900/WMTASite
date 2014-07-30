@@ -29,15 +29,6 @@ namespace WMTA.CompositionTools
             //if the user is not logged in, send them to login screen
             if (Session[Utility.userRole] == null)
                 Response.Redirect("/Default.aspx");
-            else
-            {
-                User user = (User)Session[Utility.userRole];
-
-                if (!(user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C")))
-                {
-                    Response.Redirect("/Default.aspx");
-                }
-            }
         }
 
         /*
@@ -48,6 +39,8 @@ namespace WMTA.CompositionTools
         {
             //get requested action - default to adding
             string actionIndicator = Request.QueryString["action"];
+            User user = (User)Session[Utility.userRole];
+
             if (actionIndicator == null || actionIndicator.Equals(""))
                 action = Utility.Action.Add;
             else
@@ -61,20 +54,24 @@ namespace WMTA.CompositionTools
                 pnlTitleNew.Visible = true;
                 lblSearchNote.Visible = true;
             }
-            else if (action == Utility.Action.Edit)
+            else if (action == Utility.Action.Edit && (user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C")))
             {
                 legend.InnerText = "Edit Composition";
                 pnlTitleEdit.Visible = true;
                 pnlTitleNew.Visible = false;
                 lblSearchNote.Visible = false;
             }
-            else if (action == Utility.Action.Delete)
+            else if (action == Utility.Action.Delete && (user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C")))
             {
                 legend.InnerText = "Delete Composition - not implemented";
                 pnlTitleEdit.Visible = true;
                 pnlTitleNew.Visible = false;
                 lblSearchNote.Visible = false;
                 disableControls();
+            }
+            else
+            {
+                Response.Redirect("/Default.aspx");
             }
         }
 

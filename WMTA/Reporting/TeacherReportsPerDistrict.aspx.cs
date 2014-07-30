@@ -110,7 +110,7 @@ namespace WMTA.Reporting
 
                 rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
-                rptViewer.ServerReport.ReportServerUrl = new Uri("http://sunflower.arvixe.com/ReportServer_SQL_Service");
+                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl); 
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
 
                 rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));

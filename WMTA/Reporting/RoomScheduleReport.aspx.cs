@@ -8,7 +8,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class JudgeReports : System.Web.UI.Page
+    public partial class RoomScheduleReport : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -87,8 +87,7 @@ namespace WMTA.Reporting
             {
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("DistrictAuditionJudgesReport", rptDistrictAuditionJudges, auditionOrgId);
-                createReport("AuditionJudgeSchedule", rptJudgeSchedule, auditionOrgId);
+                createReport("AuditionRoomSchedule", rptRoomSchedule, auditionOrgId);
             }
             else
             {
@@ -110,7 +109,7 @@ namespace WMTA.Reporting
 
                 rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
-                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl); 
+                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
 
                 rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
@@ -121,7 +120,7 @@ namespace WMTA.Reporting
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("JudgeReports", "createReport", "rptName: " + rptName +
+                Utility.LogError("RoomScheduleReport", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
