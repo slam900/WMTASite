@@ -138,8 +138,6 @@
     <Content Include="Account\StateAdminMenu.aspx" />
     <Content Include="Account\SystemAdminMenu.aspx" />
     <Content Include="Account\TeacherMenu.aspx" />
-    <Content Include="BadgerPointEntry.aspx" />
-    <Content Include="BadgerRegistration.aspx" />
     <Content Include="CompositionTools\CompositionUsed.aspx" />
     <Content Include="CompositionTools\ManageRepertoire.aspx" />
     <Content Include="CompositionTools\ReplaceComposerName.aspx" />
@@ -214,22 +212,19 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
-    <Content Include="CoordinateStudents.aspx" />
-    <Content Include="CreateDistrictAudition - old.aspx" />
-    <Content Include="CreateStateAudition.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultRedirectErrorPage.aspx" />
-    <Content Include="DistrictPointEntry.aspx" />
-    <Content Include="DistrictRegistration.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\BadgerPointEntry.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
     <Content Include="Events\CoordinateStudents.aspx" />
     <Content Include="Events\CreateBadgerAudition.aspx" />
     <Content Include="Events\CreateDistrictAudition.aspx" />
+    <Content Include="Events\DistrictPointEntry.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
+    <Content Include="Events\HsVirtuosoCompositionPointEntry.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="HsViruosoCompositionPointEntry.aspx" />
     <Content Include="Http404ErrorPage.aspx" />
     <Content Include="HttpErrorPage.aspx" />
     <Content Include="Account\Login.aspx" />
@@ -237,12 +232,6 @@
     <Content Include="Images\music notes.jpg" />
     <Content Include="Images\Ovation-clapping1.jpg" />
     <Content Include="Images\question-mark.png" />
-    <Content Include="Maintenance.aspx" />
-    <Content Include="ManageContacts.aspx" />
-    <Content Include="ManageStudents.aspx" />
-    <Content Include="PointsAndAwards.aspx" />
-    <Content Include="RegisterContact.aspx" />
-    <Content Include="Repertoire2.aspx" />
     <Content Include="Reporting\CheckInReports.aspx" />
     <Content Include="Reporting\DistrictAuditionStatsReport.aspx" />
     <Content Include="Reporting\DistrictChairSummaryReport.aspx" />
@@ -254,8 +243,6 @@
     <Content Include="Reporting\StudentResultReports.aspx" />
     <Content Include="Reporting\TeacherReportsPerDistrict.aspx" />
     <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
-    <Content Include="Reports.aspx" />
-    <Content Include="Resources.aspx" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -290,7 +277,6 @@
     <Content Include="Styles\WelcomeScreenStyle.css" />
     <Content Include="MasterPages\MasterPage.Master" />
     <Content Include="Styles\WMTAStyle.css" />
-    <Content Include="WelcomeScreen.aspx" />
     <Content Include="Bundle.config">
       <SubType>Designer</SubType>
     </Content>
@@ -419,20 +405,6 @@
     <Compile Include="App_Code\Utility.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="BadgerPointEntry.aspx.cs">
-      <DependentUpon>BadgerPointEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BadgerPointEntry.aspx.designer.cs">
-      <DependentUpon>BadgerPointEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BadgerRegistration.aspx.cs">
-      <DependentUpon>BadgerRegistration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BadgerRegistration.aspx.designer.cs">
-      <DependentUpon>BadgerRegistration.aspx</DependentUpon>
-    </Compile>
     <Compile Include="CompositionTools\CompositionUsed.aspx.cs">
       <DependentUpon>CompositionUsed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -489,27 +461,6 @@
     <Compile Include="Contacts\RegisterContact.aspx.designer.cs">
       <DependentUpon>RegisterContact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CoordinateStudents.aspx.cs">
-      <DependentUpon>CoordinateStudents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CoordinateStudents.aspx.designer.cs">
-      <DependentUpon>CoordinateStudents.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CreateDistrictAudition - old.aspx.cs">
-      <DependentUpon>CreateDistrictAudition - old.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CreateDistrictAudition - old.aspx.designer.cs">
-      <DependentUpon>CreateDistrictAudition - old.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CreateStateAudition.aspx.cs">
-      <DependentUpon>CreateStateAudition.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CreateStateAudition.aspx.designer.cs">
-      <DependentUpon>CreateStateAudition.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -524,26 +475,19 @@
     <Compile Include="DefaultRedirectErrorPage.aspx.designer.cs">
       <DependentUpon>DefaultRedirectErrorPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DistrictPointEntry.aspx.cs">
-      <DependentUpon>DistrictPointEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DistrictPointEntry.aspx.designer.cs">
-      <DependentUpon>DistrictPointEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DistrictRegistration.aspx.cs">
-      <DependentUpon>DistrictRegistration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DistrictRegistration.aspx.designer.cs">
-      <DependentUpon>DistrictRegistration.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BadgerPointEntry.aspx.cs">
+      <DependentUpon>BadgerPointEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\BadgerPointEntry.aspx.designer.cs">
+      <DependentUpon>BadgerPointEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\BadgerRegistration.aspx.cs">
       <DependentUpon>BadgerRegistration.aspx</DependentUpon>
@@ -573,6 +517,13 @@
     <Compile Include="Events\CreateDistrictAudition.aspx.designer.cs">
       <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Events\DistrictPointEntry.aspx.cs">
+      <DependentUpon>DistrictPointEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\DistrictPointEntry.aspx.designer.cs">
+      <DependentUpon>DistrictPointEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Events\DistrictRegistration.aspx.cs">
       <DependentUpon>DistrictRegistration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -580,15 +531,15 @@
     <Compile Include="Events\DistrictRegistration.aspx.designer.cs">
       <DependentUpon>DistrictRegistration.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="HsViruosoCompositionPointEntry.aspx.cs">
-      <DependentUpon>HsViruosoCompositionPointEntry.aspx</DependentUpon>
+    <Compile Include="Events\HsVirtuosoCompositionPointEntry.aspx.cs">
+      <DependentUpon>HsVirtuosoCompositionPointEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="HsViruosoCompositionPointEntry.aspx.designer.cs">
-      <DependentUpon>HsViruosoCompositionPointEntry.aspx</DependentUpon>
+    <Compile Include="Events\HsVirtuosoCompositionPointEntry.aspx.designer.cs">
+      <DependentUpon>HsVirtuosoCompositionPointEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Http404ErrorPage.aspx.cs">
       <DependentUpon>Http404ErrorPage.aspx</DependentUpon>
@@ -618,27 +569,6 @@
     <Compile Include="Account\LoginTrouble.aspx.designer.cs">
       <DependentUpon>LoginTrouble.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Maintenance.aspx.cs">
-      <DependentUpon>Maintenance.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Maintenance.aspx.designer.cs">
-      <DependentUpon>Maintenance.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ManageContacts.aspx.cs">
-      <DependentUpon>ManageContacts.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ManageContacts.aspx.designer.cs">
-      <DependentUpon>ManageContacts.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ManageStudents.aspx.cs">
-      <DependentUpon>ManageStudents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ManageStudents.aspx.designer.cs">
-      <DependentUpon>ManageStudents.aspx</DependentUpon>
-    </Compile>
     <Compile Include="MasterPages\MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -646,32 +576,11 @@
     <Compile Include="MasterPages\MasterPage.Master.designer.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
-    <Compile Include="PointsAndAwards.aspx.cs">
-      <DependentUpon>PointsAndAwards.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PointsAndAwards.aspx.designer.cs">
-      <DependentUpon>PointsAndAwards.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="RegisterContact.aspx.cs">
-      <DependentUpon>RegisterContact.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RegisterContact.aspx.designer.cs">
-      <DependentUpon>RegisterContact.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Repertoire2.aspx.cs">
-      <DependentUpon>Repertoire2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Repertoire2.aspx.designer.cs">
-      <DependentUpon>Repertoire2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\CheckInReports.aspx.cs">
       <DependentUpon>CheckInReports.aspx</DependentUpon>
@@ -754,31 +663,10 @@
     <Compile Include="Reporting\Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Reports.aspx.cs">
-      <DependentUpon>Reports.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports.aspx.designer.cs">
-      <DependentUpon>Reports.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources.aspx.cs">
-      <DependentUpon>Resources.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Resources.aspx.designer.cs">
-      <DependentUpon>Resources.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Web References\com.arvixe.sunflower\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
-    <Compile Include="WelcomeScreen.aspx.cs">
-      <DependentUpon>WelcomeScreen.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WelcomeScreen.aspx.designer.cs">
-      <DependentUpon>WelcomeScreen.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

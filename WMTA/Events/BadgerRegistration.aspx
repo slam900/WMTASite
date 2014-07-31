@@ -116,7 +116,7 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="lblAuditionDate" CssClass="col-md-3 control-label float-left">Audition Date</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:Label runat="server" ID="lblAuditionDate" />
+                                                    <asp:Label runat="server" ID="lblAuditionDate" CssClass="label-top-margin" />
                                                 </div>
                                             </div>
                                             <div class="form-group">

@@ -82,7 +82,7 @@ namespace WMTA.Contacts
                 pnlFullPage.Visible = true;
                 pnlButtons.Visible = true;
                 pnlContactSearch.Visible = false;
-                legend.InnerText = "Add New Contact";
+                legend.InnerText = "Add Contact";
                 btnSubmit.Text = "Add";
                 enableControls();
             }
@@ -92,7 +92,7 @@ namespace WMTA.Contacts
                 pnlContactSearch.Visible = true;
                 pnlFullPage.Visible = false;
                 pnlButtons.Visible = false;
-                legend.InnerText = "Edit Existing Contact";
+                legend.InnerText = "Edit Contact";
                 btnSubmit.Text = "Submit";
                 enableControls();
                 setPermissionFunctionalities();
@@ -103,7 +103,7 @@ namespace WMTA.Contacts
                 pnlContactSearch.Visible = true;
                 pnlFullPage.Visible = false;
                 pnlButtons.Visible = false;
-                legend.InnerText = "Delete Existing Contact";
+                legend.InnerText = "Delete Contact";
                 btnSubmit.Text = "Submit";
                 disableControls();
 

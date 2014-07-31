@@ -43,8 +43,8 @@
                                     </ul>
                                 </div>
                                 <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>
-                                <a href="../DistrictPointEntry.aspx" class="list-group-item">Enter District Points</a>
-                                <a href="../HsViruosoCompositionPointEntry.aspx" class="list-group-item">Enter HS Virtuoso Points</a>
+                                <a href="../Events/DistrictPointEntry.aspx" class="list-group-item">Enter District Points</a>
+                                <a href="../Events/HsVirtuosoCompositionPointEntry.aspx" class="list-group-item">Enter HS Virtuoso Points</a>
                             </div>
                             <h4>Tools</h4>
                             <div class="list-group smaller-font">

@@ -81,6 +81,7 @@ namespace WMTA.Contacts
                 txtLegacyPoints.Visible = false;
                 pnlButtons.Visible = false;
                 enableControls();
+                legend.InnerHtml = "Edit Students";
 
                 filterDistrictsAndTeachers();
             }
@@ -92,6 +93,7 @@ namespace WMTA.Contacts
                 txtLegacyPoints.Visible = false;
                 pnlButtons.Visible = false;
                 disableControls();
+                legend.InnerText = "Delete Students";
 
                 btnSubmit.Attributes.Add("onclick", "return confirm('Are you sure that you wish to permanently delete this student and all associated auditions and data?');");
             }

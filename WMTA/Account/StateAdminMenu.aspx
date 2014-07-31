@@ -42,7 +42,7 @@
                                     </ul>
                                 </div>
                                 <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>
-                                <a href="../BadgerPointEntry.aspx" class="list-group-item">Enter Badger Points</a>
+                                <a href="../Events/BadgerPointEntry.aspx" class="list-group-item">Enter Badger Points</a>
                             </div>
                             <h4>Tools</h4>
                             <div class="list-group smaller-font">
