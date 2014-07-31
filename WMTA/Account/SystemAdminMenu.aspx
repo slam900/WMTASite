@@ -26,8 +26,8 @@
                                     <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#" class="smaller-font">Add Event</a></li>
-                                        <li><a href="#" class="smaller-font">Edit Event</a></li>
+                                        <li><a href="../Events/CreateBadgerAudition.aspx?action=1" class="smaller-font">Add Event</a></li>
+                                        <li><a href="../Events/CreateBadgerAudition.aspx?action=2" class="smaller-font">Edit Event</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">
@@ -47,9 +47,9 @@
                                     <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#" class="smaller-font">Add Registration</a></li>
-                                        <li><a href="#" class="smaller-font">Edit Registration</a></li>
-                                        <li><a href="#" class="smaller-font">Delete Registration</a></li>
+                                        <li><a href="../Events/BadgerRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
+                                        <li><a href="../Events/BadgerRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
+                                        <li><a href="../Events/BadgerRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
                                     </ul>
                                 </div>
                                 <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>

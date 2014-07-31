@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictPointEntry.aspx.cs" Inherits="WMTA.DistrictPointEntry" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:ScriptManager ID="scriptManager" runat="server" />
     <h1>District Point Entry</h1>
     <asp:UpdatePanel ID="upFullPage" runat="server">
         <ContentTemplate>

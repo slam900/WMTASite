@@ -100,11 +100,7 @@ namespace WMTA.Events
         protected void initializePage()
         {
             //initialize page based on action
-            if (action == Utility.Action.Add)
-            {
-                upStudentSearch.Visible = false;
-            }
-            else if (action == Utility.Action.Edit)
+            if (action == Utility.Action.Edit)
             {
                 legend.InnerText = "Edit Badger Registration";
             }
@@ -344,7 +340,7 @@ namespace WMTA.Events
                     verifyAge();
 
                     //get eligible auditions
-                    if (action == Utility.Action.Edit)
+                    if (action == Utility.Action.Edit || action == Utility.Action.Delete)
                     {
                         DataTable table = DbInterfaceStudentAudition.GetStateAuditionsForDropdown(student);
                         cboAudition.DataSource = null;
@@ -367,6 +363,9 @@ namespace WMTA.Events
                     {
                         cboAudition.DataBind();
                     }
+
+                    pnlFullPage.Visible = true;
+                    upStudentSearch.Visible = false;
                 }
                 else
                 {
@@ -449,15 +448,14 @@ namespace WMTA.Events
                             cboSite.Items.Clear();
                             cboSite.DataSourceID = "";
 
-
                             if (table.Rows.Count > 0)
                             {
                                 cboSite.DataSource = table;
                                 cboSite.DataValueField = "AuditionOrgId";
-                                cboSite.DataTextField = "GeoName";
+                                cboSite.DataTextField = "Venue";
                                 cboSite.Items.Add(new ListItem(""));
                                 cboSite.DataBind();
-                            }
+                          }
                             else
                             {
                                 showWarningMessage("No audition sites have been created.");
@@ -469,7 +467,7 @@ namespace WMTA.Events
                         }
 
                         //if an audition is being edited load regional site, drive time, time constraints, and coordinates
-                        if (action == Utility.Action.Edit)
+                        if (action == Utility.Action.Edit || action == Utility.Action.Delete)
                         {
                             audition = DbInterfaceStudentAudition.GetStudentStateAudition(districtAudition,
                                                                    Convert.ToInt32(cboAudition.SelectedValue));
@@ -721,11 +719,8 @@ namespace WMTA.Events
             chkAdditionalInfo.Checked = false;
             pnlAdditionalInfo.Visible = false;
 
-            if (action != Utility.Action.Add)
-            {
-                upStudentSearch.Visible = true;
-                pnlFullPage.Visible = false;
-            }
+            upStudentSearch.Visible = true;
+            pnlFullPage.Visible = false;
         }
 
         /*
@@ -874,7 +869,7 @@ namespace WMTA.Events
             try
             {
                 //verify all entered information and create audition
-                if (action != Utility.Action.Delete && verifyRequiredDataEntered() && verifyTimePreference() && verifyAge() && duetsAllowed())
+                if (action != Utility.Action.Delete && verifyRequiredDataEntered() && verifyTimePreference() && verifyAge() && duetsAllowed() && !freezeDatePassed())
                 {
                     if (audition == null) resetAuditionVar();
 
@@ -1025,6 +1020,33 @@ namespace WMTA.Events
 
             return allowed;
         }
+        
+        /*
+        * Pre:
+        * Post: Determine whether the freeze date has already passed for the selected audition
+        */
+        private bool freezeDatePassed()
+        {
+            bool freezeDatePassed = false;
+
+            if (!cboSite.SelectedIndex.ToString().Equals(""))
+            {
+                DateTime freezeDate;
+                string freezeDateStr = DbInterfaceAudition.GetAuditionFreezeDateByAuditionOrgId(Convert.ToInt32(cboSite.SelectedValue));
+
+                if (DateTime.TryParse(freezeDateStr, out freezeDate))
+                {
+                    if (DateTime.Today > freezeDate)
+                    {
+                        freezeDatePassed = true;
+
+                        showWarningMessage("The freeze date has passed. No registrations may be added or modified.");
+                    }
+                }
+            }
+
+            return freezeDatePassed;
+        }
 
         /*
          * Pre:
@@ -1105,6 +1127,8 @@ namespace WMTA.Events
                     showSuccessMessage("The auditions for the student and their duet partner were successfully deleted.");
                 else
                     showSuccessMessage("The audition was successfully deleted.");
+
+                clearPage();
             }
         }
         /*

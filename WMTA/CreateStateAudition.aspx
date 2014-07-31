@@ -15,7 +15,6 @@
         }
     </script>
 
-    <asp:ScriptManager ID="scriptManager" runat="server" />
     <h1 id="header" runat="server">Manage Badger Competition</h1>
     <asp:UpdatePanel ID="upAuditionSearch" runat="server">
         <ContentTemplate>

@@ -114,6 +114,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="txtFreezeDate" CssClass="col-md-3 control-label float-left">Freeze Date</asp:Label>
+                                                <div class="col-md-6">
+                                                    <input type="text" runat="server" class="form-control" data-date-format="mm/dd/yy" id="txtFreezeDate" />
+                                                </div>
+                                                <div>
+                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFreezeDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Freeze Date is required" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlHourStart" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
                                                 <div class="col-md-2" style="width: 16%">
                                                     <asp:DropDownList ID="ddlHourStart" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
@@ -177,15 +186,6 @@
                                                         <asp:ListItem Text="AM" Value="AM" />
                                                         <asp:ListItem Selected="True" Text="PM" Value="PM" />
                                                     </asp:DropDownList>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="txtFreezeDate" CssClass="col-md-3 control-label float-left">Freeze Date</asp:Label>
-                                                <div class="col-md-6">
-                                                    <input type="text" runat="server" class="form-control" data-date-format="mm/dd/yy" id="txtFreezeDate" />
-                                                </div>
-                                                <div>
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFreezeDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Freeze Date is required" />
                                                 </div>
                                             </div>
                                         </asp:Panel>

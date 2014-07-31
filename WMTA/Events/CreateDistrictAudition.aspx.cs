@@ -534,12 +534,12 @@ namespace WMTA.Events
                 }
                 else
                 {
-                    showErrorMessage("Error:The audition information could not be loaded");
+                    showErrorMessage("Error: The audition information could not be loaded.");
                 }
             }
             catch (Exception e)
             {
-                showErrorMessage("Error: An error occurred while loading the audition data");
+                showErrorMessage("Error: An error occurred while loading the audition data.");
 
                 Utility.LogError("Create District Audition", "loadAuditionData", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }

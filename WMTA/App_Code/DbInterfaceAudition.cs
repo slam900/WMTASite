@@ -137,6 +137,45 @@ public partial class DbInterfaceAudition
 
     /*
      * Pre:  
+     * Post: Retrieves the audition freeze date associated with the input year and district id.
+     * @param auditionOrgId is the unique id of the audition
+     */
+    public static string GetAuditionFreezeDateByAuditionOrgId(int auditionOrgId)
+    {
+        string freezeDate = "No Audition Created";
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionSelectByAuditionOrgId";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+                freezeDate = table.Rows[0]["FreezeDate"].ToString().Split(' ')[0];
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetAuditionFreezeDateByAuditionOrgId", "auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return freezeDate;
+    }
+
+    /*
+     * Pre:  
      * Post: Retrieves the audition id associated with the input year and district id.
      * @param districtId is the id of the district hosting the audition
      * @param year is the year of the audition
