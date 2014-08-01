@@ -243,6 +243,8 @@
     <Content Include="Reporting\StudentResultReports.aspx" />
     <Content Include="Reporting\TeacherReportsPerDistrict.aspx" />
     <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
+    <Content Include="Reporting\TheoryTestReports.aspx" />
+    <Content Include="Resources\Help.aspx" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -390,9 +392,11 @@
     <Compile Include="App_Code\DbInterfaceAudition.cs" />
     <Compile Include="App_Code\DbInterfaceComposition.cs" />
     <Compile Include="App_Code\DbInterfaceContact.cs" />
+    <Compile Include="App_Code\DbInterfaceFeedback.cs" />
     <Compile Include="App_Code\DbInterfaceStudent.cs" />
     <Compile Include="App_Code\DbInterfaceStudentAudition.cs" />
     <Compile Include="App_Code\DistrictAudition.cs" />
+    <Compile Include="App_Code\Feedback.cs" />
     <Compile Include="App_Code\HsVirtuosoCompositionAudition.cs" />
     <Compile Include="App_Code\Judge.cs" />
     <Compile Include="App_Code\JudgePreference.cs" />
@@ -662,6 +666,20 @@
     </Compile>
     <Compile Include="Reporting\Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\TheoryTestReports.aspx.cs">
+      <DependentUpon>TheoryTestReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\TheoryTestReports.aspx.designer.cs">
+      <DependentUpon>TheoryTestReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Help.aspx.cs">
+      <DependentUpon>Help.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Resources\Help.aspx.designer.cs">
+      <DependentUpon>Help.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web References\com.arvixe.sunflower\Reference.cs">
       <AutoGen>True</AutoGen>

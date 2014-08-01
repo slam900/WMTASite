@@ -120,7 +120,6 @@
                                                     <asp:Label runat="server" AssociatedControlID="txtEmail" CssClass="col-md-3 control-label float-left">Email</asp:Label>
                                                     <div class="col-md-6">
                                                         <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" CssClass="form-control"></asp:TextBox>
-                                                        <%--OnTextChanged="txtEmail_TextChanged" AutoPostBack="true"--%>
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Email is required" />
@@ -130,7 +129,6 @@
                                                     <asp:Label runat="server" AssociatedControlID="txtPhone" CssClass="col-md-3 control-label float-left">Phone</asp:Label>
                                                     <div class="col-md-6">
                                                         <asp:TextBox ID="txtPhone" runat="server" TextMode="Phone" MaxLength="12" CssClass="form-control"></asp:TextBox>
-                                                        <%--OnTextChanged="txtPhone_TextChanged" AutoPostBack="true"--%>
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPhone" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Phone # is required" />

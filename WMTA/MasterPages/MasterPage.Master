@@ -60,6 +60,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulSystemAdmin" runat="server">
                         <li class="active"><a href="~/Account/SystemAdminMenu.aspx" runat="server">Menu</a></li>
+                        <li><a runat="server" href="~/Resources/Help.aspx">Help</a></li>
                        <%-- <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -100,14 +101,17 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulTeacher" runat="server">
                         <li class="active"><a href="~/Account/TeacherMenu.aspx" runat="server">Menu</a></li>
+                        <li><a runat="server" href="~/Resources/Help.aspx">Help</a></li>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulDistrictChair" runat="server">
                         <li class="active"><a href="~/Account/DistrictChairMenu.aspx" runat="server">Menu</a></li>
+                        <li><a runat="server" href="~/Resources/Help.aspx">Help</a></li>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulStateAdmin" runat="server">
                         <li class="active"><a href="~/Account/StateAdminMenu.aspx" runat="server">Menu</a></li>
+                        <li><a runat="server" href="~/Resources/Help.aspx">Help</a></li>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
                 </div>

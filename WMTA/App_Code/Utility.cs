@@ -16,6 +16,9 @@ public class Utility
     //enumeration for page actions
     public enum Action { Add = 1, Edit = 2, Delete = 3 };
 
+    //enumeration for importance
+    public enum Importance { High = 1, Medium = 2, Low = 3 };
+
     //session variable name for session variable containing data of current user
     public const string userRole = "UserRole";
 

@@ -216,6 +216,52 @@ public partial class DbInterfaceAudition
     }
 
     /*
+     * Pre:  
+     * Post: Retrieves the audition id and theory test series associated with the input year and district id.
+     * @param districtId is the id of the district hosting the audition
+     * @param year is the year of the audition
+     */
+    public static Tuple<int, string> GetAuditionOrgIdAndTestSeries(int districtId, int year)
+    {
+        Tuple<int, string> result = null;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@geoId", districtId);
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+            {
+                int auditionOrgId = Convert.ToInt32(table.Rows[0]["AuditionOrgId"].ToString().Split(' ')[0]);
+                string testSeries = table.Rows[0]["TheoryTestSeries"].ToString();
+
+                result = new Tuple<int, string>(auditionOrgId, testSeries);
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetAuditionOrgId", "districtId: " + districtId + ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return result;
+    }
+
+    /*
      * Pre:  All data in the audition object must be valid.
      *       The audition must not already exist in the system
      * Post: A new audition is added to the system 
