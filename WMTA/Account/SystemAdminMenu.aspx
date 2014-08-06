@@ -102,7 +102,7 @@
                                         <li><a href="../Contacts/ManageContacts.aspx?action=1" class="smaller-font">Add Contacts</a></li>
                                         <li><a href="../Contacts/RegisterContact.aspx" class="smaller-font">Register Contacts</a></li>
                                         <li><a href="../Contacts/ManageContacts.aspx?action=2" class="smaller-font">Edit Contacts</a></li>
-                                        <li><a href="#" class="smaller-font">Delete Contacts (placeholder)</a></li>
+                                        <li><a href="../Contacts/ManageContacts.aspx?action=3" class="smaller-font">Delete Contacts</a></li>
                                     </ul>
                                 </div>
                             </div>

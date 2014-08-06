@@ -33,7 +33,8 @@
                                     <div class="col-md-6">
                                         <asp:RadioButtonList ID="rblFeedbackType" runat="server" CssClass="radio" RepeatLayout="Flow">
                                             <asp:ListItem>Comment</asp:ListItem>
-                                            <asp:ListItem>Question</asp:ListItem>
+                                            <asp:ListItem>Composition Question</asp:ListItem>
+                                            <asp:ListItem>General Question</asp:ListItem>
                                             <asp:ListItem>Enhancement</asp:ListItem>
                                             <asp:ListItem>Bug</asp:ListItem>
                                             <asp:ListItem>Other</asp:ListItem>

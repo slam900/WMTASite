@@ -281,6 +281,44 @@ public partial class DbInterfaceContact
     }
 
     /*
+     * Pre:  The contact id in the input Contact must exist in the system.
+     * Post: The contact information is deleted
+     * @param contactId is the id of the contact to be deleted
+     */
+    public static bool DeleteContact(int contactId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_ContactDelete";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@contactId", contactId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "DeleteContact", "contactId: " + contactId,
+                             "Message: " + e.Message + "   StackTrace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
      * Pre:  id must be either the empty string or an integer
      * Post: If an id is entered, a data table containing the information for the associated
      *       contact is returned.  If a partial first and/or last name are entered, a data table
@@ -462,6 +500,54 @@ public partial class DbInterfaceContact
         {
             Utility.LogError("DbInterfaceContact", "GetJudgeAndSelfSearchResults", "id: " + id + ", firstName: " + firstName +
                              ", lastName: " + lastName + ", isOwnId: " + isOwnId, "Message: " + e.Message + "   StackTrace: " + e.StackTrace, -1);
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
+     * Pre:  id must be either the empty string or an integer
+     * Post: If an id is entered, a data table containing the information for the associated
+     *       contact is returned.  If a partial first and/or last name are entered, a data table
+     *       containing teachers with first and last names containing the input first and last
+     *       names is returned.
+     * @param id is the contact id being searched for
+     * @param firstName is a full or partial first name that is being searched for
+     * @param lastName is a full or partial last name that is being searched for
+     */
+    public static DataTable TeacherSearch(string id, string firstName, string lastName)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_TeacherSearch";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (!id.Equals(""))
+                cmd.Parameters.AddWithValue("@contactId", id);
+            else
+                cmd.Parameters.AddWithValue("@contactId", null);
+
+            cmd.Parameters.AddWithValue("@firstName", firstName);
+            cmd.Parameters.AddWithValue("@lastName", lastName);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "TeacherSearch", "id: " + id + ", firstName: " + firstName +
+                             ", lastName: " + lastName, "Message: " + e.Message + "   StackTrace: " + e.StackTrace, -1);
             table = null;
         }
 
@@ -689,5 +775,50 @@ public partial class DbInterfaceContact
         connection.Close();
 
         return table;
+    }
+
+    /*
+     * Pre:  
+     * Post:  Determines whether or not the contact is associated with any students
+     * @param contactId is the unique id of the contact
+     * @returns true if the contact is associated with any students and false otherwise
+     */
+    public static bool ContactHasStudents(int contactId)
+    {
+        bool hasStudents = false;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_ContactGetStudents";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@contactId", contactId);
+
+            adapter.Fill(table);
+
+            //if results are returned the contact exists
+            if (table.Rows.Count > 0)
+            {
+                hasStudents = true;
+            }
+        }
+        catch (Exception e)
+        {
+            hasStudents = true;
+            Utility.LogError("DbInterfaceContact", "ContactHasStudents", "contactId: " + contactId, "Message: " + 
+                             e.Message + "   StackTrace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return hasStudents;
     }
 }

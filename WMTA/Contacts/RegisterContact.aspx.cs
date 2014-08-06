@@ -244,7 +244,7 @@ namespace WMTA.Contacts
          */
         private void loadContact(int contactId)
         {
-            Contact contact = new Contact(contactId);
+            Contact contact = new Contact(contactId, true);
 
             if (contact.id != -1)
             {

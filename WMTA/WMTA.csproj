@@ -146,6 +146,7 @@
     <Content Include="CompositionTools\TitleLookup.aspx" />
     <Content Include="Contacts\ManageStudents.aspx" />
     <Content Include="Contacts\RegisterContact.aspx" />
+    <Content Include="Contacts\TransferStudents.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -464,6 +465,13 @@
     </Compile>
     <Compile Include="Contacts\RegisterContact.aspx.designer.cs">
       <DependentUpon>RegisterContact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contacts\TransferStudents.aspx.cs">
+      <DependentUpon>TransferStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacts\TransferStudents.aspx.designer.cs">
+      <DependentUpon>TransferStudents.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

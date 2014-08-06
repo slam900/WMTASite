@@ -174,14 +174,16 @@ namespace WMTA.Contacts
 
                 if (!txtFirstName.Text.Equals("") && !txtLastName.Text.Equals("") && !lblId.Text.Equals(""))
                     result = DeleteContact();
+                else
+                    showWarningMessage("Please select a contact.");
 
                 if (result)
                 {
                     clearData();
+                    clearContactSearch();
                     pnlFullPage.Visible = false;
                     pnlContactSearch.Visible = true;
                     pnlButtons.Visible = false;
-                    showSuccessMessage("The contact information was successfully deleted.");
                 }
             }
         }
@@ -457,41 +459,37 @@ namespace WMTA.Contacts
         {
             bool result = true;
 
-            //TODO
-
             try
             {
-                result = false;
-                showErrorMessage("This functionality has not been implemented");
-                //pnlFullPage.Visible = false;
-                //pnlButtons.Visible = false;
+                Contact contact = new Contact(Convert.ToInt32(lblId.Text), false);
+
+                if (!contact.hasStudents())
+                {
+                    if (contact.deleteInDatabase())
+                    {
+                        showSuccessMessage("The contact was successfully deleted.");
+                    }
+                    else
+                    {
+                        showErrorMessage("Error: An error occurred while deleting the contact.");
+                        result = false;
+                    }
+                }
+                else
+                {
+                    showWarningMessage("This contact is still associated with students and cannot be deleted.");
+                    result = false;
+                }
             }
             catch (Exception e)
             {
+                result = false;
                 showErrorMessage("Error: There was an error deleting the contact.");
 
                 Utility.LogError("Manage Contacts", "DeleteContact", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
 
             return result;
-        }
-
-        /*
-         * Pre:  A contact must have been selected previously
-         * Post: The contact and all associated data is deleted from the system
-         */
-        protected void btnDelete_Click(object sender, EventArgs e)
-        {
-            string firstName, middleInitial, lastName;
-
-            firstName = txtFirstName.Text;
-            middleInitial = txtMiddleInitial.Text;
-
-            /*if (!contact.deleteDatabaseInformation())
-            {
-                lblError.Text = "There was an error deleting the student's information";
-                lblError.Visible = true;
-            }*/
         }
 
         /*
@@ -771,7 +769,7 @@ namespace WMTA.Contacts
          */
         private void loadContact(int contactId)
         {
-            Contact contact = new Contact(contactId);
+            Contact contact = new Contact(contactId, true);
 
             if (contact.id != -1)
             {
@@ -1144,6 +1142,12 @@ namespace WMTA.Contacts
             txtZip.Enabled = false;
             txtEmail.Enabled = false;
             txtPhone.Enabled = false;
+            ddlContactType.Enabled = false;
+            ddlDistrict.Enabled = false;
+            chkLstCompLevel.Enabled = false;
+            chkLstInstrument.Enabled = false;
+            chkLstTrack.Enabled = false;
+            chkLstType.Enabled = false;
         }
 
         /*
@@ -1161,6 +1165,12 @@ namespace WMTA.Contacts
             txtZip.Enabled = true;
             txtEmail.Enabled = true;
             txtPhone.Enabled = true;
+            ddlContactType.Enabled = true;
+            ddlDistrict.Enabled = true;
+            chkLstCompLevel.Enabled = true;
+            chkLstInstrument.Enabled = true;
+            chkLstTrack.Enabled = true;
+            chkLstType.Enabled = true;
         }
 
         /*

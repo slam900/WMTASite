@@ -48,9 +48,12 @@ public class Contact : Person
     /*
      * Constructor for loading the data of an existing contact
      */
-    public Contact(int id) : base(id)
+    public Contact(int id, bool needInfo) : base(id)
     {
-        Contact temp = DbInterfaceContact.GetContact(id);
+        Contact temp = null;
+
+        if (needInfo)
+            temp = DbInterfaceContact.GetContact(id);
 
         if (temp != null)
         {
@@ -64,8 +67,14 @@ public class Contact : Person
             setAddress(temp.street, temp.city, temp.state, temp.zip);
             districtId = temp.districtId;
         }
-        else
+        else if (needInfo)
+        {
             this.id = -1;
+        }
+        else if (!needInfo)
+        {
+            this.id = id;
+        }
     }
 
     /*
@@ -86,6 +95,28 @@ public class Contact : Person
     public void updateInDatabase()
     {
         DbInterfaceContact.UpdateContact(this);
+    }
+
+    /*
+     * Pre: 
+     * Post: The contact and all associated information is deleted
+     *       from the database
+     * @returns true if the contact was deleted and false otherwise
+     */
+    public bool deleteInDatabase()
+    {
+        return DbInterfaceContact.DeleteContact(id);
+    }
+
+    /*
+     * Pre:
+     * Post: Determines whether or not the contact is associated with
+     *       any students
+     * @returns true if there are associated students and false otherwise
+     */
+    public bool hasStudents()
+    {
+        return DbInterfaceContact.ContactHasStudents(id);
     }
 
     /*

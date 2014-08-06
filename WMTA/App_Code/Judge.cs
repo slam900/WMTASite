@@ -42,7 +42,7 @@ public class Judge : Contact
      * Constructor for loading the data of an existing judge
      */
     public Judge(int id)
-        : base(id)
+        : base(id, true)
     {
         preferences = DbInterfaceContact.GetJudgePreferences(id);
     }
