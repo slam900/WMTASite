@@ -555,4 +555,45 @@ public partial class DbInterfaceStudent
 
         return yearId;
     }
+
+    /*
+     * Pre:  The two teachers must exist
+     * Post: The students assigned to from From teacher are moved to the To teacher
+     * @param fromContactId is the id of the contact to move students from
+     * @param toContactId is the id of the contact to move students to
+     * @returns true if successful and false otherwise
+     */
+    public static bool TransferStudents(int fromContactId, int toContactId)
+    {
+        bool result = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_StudentTransfer";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@contactIdFrom", fromContactId);
+            cmd.Parameters.AddWithValue("@contactIdTo", toContactId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudent", "TransferStudents", "fromContactId: " + fromContactId + " , toContactID: " + toContactId, 
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            result = false;
+        }
+
+        connection.Close();
+
+        return result;
+    }
 }

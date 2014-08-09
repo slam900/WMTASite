@@ -75,6 +75,7 @@
                                         <li><a href="../Reporting/RoomScheduleReport.aspx" class="smaller-font">Room Schedule</a></li>
                                         <li><a href="../Reporting/DistrictAuditionStatsReport.aspx" class="smaller-font">District Audition Statistics</a></li>
                                         <li><a href="../Reporting/DistrictChairSummaryReport.aspx" class="smaller-font">District Chair Summary</a></li>
+                                        <li><a href="../Reporting/TheoryTestReports.aspx" class="smaller-font">Theory Test Reports</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -103,6 +104,7 @@
                                         <li><a href="../Contacts/RegisterContact.aspx" class="smaller-font">Register Contacts</a></li>
                                         <li><a href="../Contacts/ManageContacts.aspx?action=2" class="smaller-font">Edit Contacts</a></li>
                                         <li><a href="../Contacts/ManageContacts.aspx?action=3" class="smaller-font">Delete Contacts</a></li>
+                                        <li><a href="../Contacts/TransferStudents.aspx" class="smaller-font">Transfer Students</a></li>
                                     </ul>
                                 </div>
                             </div>

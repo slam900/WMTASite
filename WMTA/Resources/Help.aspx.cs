@@ -20,25 +20,54 @@ namespace WMTA.Resources
         {
             try
             {
-                Utility.Importance importance = Utility.Importance.Low;
-                if (rblImportance.SelectedIndex == 1)
-                    importance = Utility.Importance.Medium;
-                else if (rblImportance.SelectedIndex == 2)
-                    importance = Utility.Importance.High;
+                if (verifyEmailAddress())
+                {
+                    Utility.Importance importance = Utility.Importance.Low;
+                    if (rblImportance.SelectedIndex == 1)
+                        importance = Utility.Importance.Medium;
+                    else if (rblImportance.SelectedIndex == 2)
+                        importance = Utility.Importance.High;
 
-                Feedback feedback = new Feedback(txtName.Text, txtEmail.Text, rblFeedbackType.SelectedValue.ToString(), 
-                                                 importance, txtFunctionality.Text, txtDescription.Text);
-                feedback.AddToDatabase();
-                sendEmail(feedback);
+                    Feedback feedback = new Feedback(txtName.Text, txtEmail.Text, rblFeedbackType.SelectedValue.ToString(),
+                                                     importance, txtFunctionality.Text, txtDescription.Text);
+                    feedback.AddToDatabase();
+                    sendEmail(feedback);
 
-                showSuccessMessage("Your feedback has been sent successfully.");
-                clearPage();
+                    showSuccessMessage("Your feedback has been sent successfully.");
+                    clearPage();
+                }
             }
             catch (Exception ex)
             {
                 Utility.LogError("Help - Send Feedback", "btnSubmit", "", "Message: " + ex.Message + "   Stack Trace: " + ex.StackTrace, -1);
                 showErrorMessage("Error: An error occurred - your feedback may not have been sent.");
             }
+        }
+
+        /*
+         * Make sure email address includes @ and .
+         */
+        private bool verifyEmailAddress()
+        {
+            bool valid = true;
+            char[] arr = txtEmail.Text.ToCharArray();
+            int atPosition = 0, dotPosition = 0;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i].Equals('@'))
+                    atPosition = i;
+                else if (arr[i].Equals('.'))
+                    dotPosition = i;
+            }
+
+            if (atPosition == 0 || dotPosition == 0 || atPosition > dotPosition)
+            {
+                showWarningMessage("Please enter a valid email address.");
+                valid = false;
+            }
+
+            return valid;
         }
 
         /*
@@ -49,15 +78,31 @@ namespace WMTA.Resources
         {
             try
             {
-                MailMessage message = new MailMessage("schultz.kris@uwlax.edu", "schultz.kris@uwlax.edu");
-                message.Subject = "Feedback from Ovation";
-                message.Body = "This is an automated email from Ovation.  This issue has been logged in the database and can be viewed and modified at *some page I still need to create*\n\nName: " + 
-                               feedback.name + "\nEmail: " + feedback.email + "\nFeedback Type: " + feedback.feedbackType + "\nImportance: " + feedback.importance + "\nFunctionality: " + 
-                               feedback.functionality + "\nDescription: " + feedback.description;
+                MailMessage message = new MailMessage();
+
+                if (feedback.feedbackType.Contains("Composition"))
+                {
+                    message.To.Add(Utility.compositionEmail);
+
+                    message.Subject = "Composition Change Request from Ovation";
+                    message.Body = "This is an automated email from Ovation.  This issue has been logged in the database and can be viewed and modified at *some page I still need to create*\n\nName: " +
+                                   feedback.name + "\nEmail: " + feedback.email + "\nFeedback Type: " + feedback.feedbackType + "\nImportance: " + feedback.importance + "\nFunctionality: " +
+                                   feedback.functionality + "\nDescription: " + feedback.description;
+                }
+                else
+                {
+                    message.To.Add(Utility.ovationEmail);
+
+                    message.Subject = "Feedback from Ovation - " + feedback.feedbackType;
+                    message.Body = "This is an automated email from Ovation.  This issue has been logged in the database and can be viewed and modified at *some page I still need to create*\n\nName: " +
+                                   feedback.name + "\nEmail: " + feedback.email + "\nFeedback Type: " + feedback.feedbackType + "\nImportance: " + feedback.importance + "\nFunctionality: " +
+                                   feedback.functionality + "\nDescription: " + feedback.description;
+                }
+                
                 SmtpClient mailer = new SmtpClient("smtp.gmail.com", 587);
-                mailer.Credentials = new NetworkCredential("schultz.kris@uwlax.edu", "January182014!!!");
-                //mailer.Credentials = new NetworkCredential("wmtaOvation@gmail.com", "wiMTA2013*");
+                mailer.Credentials = new NetworkCredential(Utility.ovationEmail, Utility.ovationPassword);
                 mailer.EnableSsl = true;
+                
                 mailer.Send(message);
             }
             catch (Exception e)
@@ -84,7 +129,7 @@ namespace WMTA.Resources
             txtName.Text = "";
             txtEmail.Text = "";
             rblFeedbackType.SelectedIndex = -1;
-            rblImportance.SelectedIndex = -1;
+            rblImportance.SelectedIndex = 0;
             txtFunctionality.Text = "";
             txtDescription.Text = "";
         }
@@ -96,11 +141,21 @@ namespace WMTA.Resources
         */
         private void showErrorMessage(string message)
         {
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);
+        }
+
+        /*
+         * Pre: 
+         * Post: Displays the input warning message in the top left corner of the screen
+         * @param message is the message text to be displayed
+         */
+        private void showWarningMessage(string message)
+        {
+            lblWarningMessage.InnerText = message;
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowWarning", "showWarningMessage()", true);
         }
 
         /*

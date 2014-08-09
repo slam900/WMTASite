@@ -59,9 +59,8 @@ namespace WMTA.Contacts
                 int fromTeacherId = Convert.ToInt32(ddlFrom.SelectedValue);
                 int toTeacherId = Convert.ToInt32(ddlTo.SelectedValue);
 
-                //TODO -- do student transfer
-
-
+                //do student transfer
+                success = DbInterfaceStudent.TransferStudents(fromTeacherId, toTeacherId);
 
                 //display message depending on whether or not the operation was successful
                 if (success)
@@ -99,14 +98,18 @@ namespace WMTA.Contacts
         protected void btnFromSearch_Click(object sender, EventArgs e)
         {
             pnlFromSearch.Visible = true;
+            btnToSearch.Visible = true;
             pnlToSearch.Visible = false;
+            btnFromSearch.Visible = false;
         }
 
         //Show search for the To teacher
         protected void btnToSearch_Click(object sender, EventArgs e)
         {
             pnlFromSearch.Visible = false;
+            btnFromSearch.Visible = true;
             pnlToSearch.Visible = true;
+            btnToSearch.Visible = false;
         }
 
         /*
@@ -351,16 +354,7 @@ namespace WMTA.Contacts
 
             try
             {
-                if (!id.Equals(""))
-                {
-                    table = DbInterfaceContact.TeacherSearch(id, firstName, lastName);
-                }
-                else
-                {
-                    User user = (User)Session[Utility.userRole];
-
-                    table = DbInterfaceContact.TeacherSearch(user.contactId.ToString(), firstName, lastName);
-                }
+                table = DbInterfaceContact.TeacherSearch(id, firstName, lastName);
 
                 //If there are results in the table, display them.  Otherwise clear current
                 //results and return false
@@ -411,6 +405,10 @@ namespace WMTA.Contacts
             clearToSearch();
             ddlFrom.SelectedIndex = 0;
             ddlTo.SelectedIndex = 0;
+            pnlFromSearch.Visible = false;
+            pnlToSearch.Visible = false;
+            btnFromSearch.Visible = true;
+            btnToSearch.Visible = true;
         }
 
         /*

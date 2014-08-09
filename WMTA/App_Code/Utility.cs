@@ -30,7 +30,12 @@ public class Utility
     //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service"; //test
     public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service"; //live
 
-    
+    //Ovation email and password
+    public const string ovationEmail = "WMTAOvation@gmail.com";
+    public const string ovationPassword = "wiMTA2013*";
+    public const string compositionEmail = "wmtacompositionhotline@gmail.com";
+    public const string compositionPassword = "WMTAcomp2014";
+
     /*
      * Pre:
      * Post: A new error entry is added to the error log table

@@ -29,12 +29,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="rblTimePreference" CssClass="col-md-3 control-label float-left">Feedback Type</asp:Label>
+                                    <asp:Label runat="server" AssociatedControlID="rblFeedbackType" CssClass="col-md-3 control-label float-left">Feedback Type</asp:Label>
                                     <div class="col-md-6">
                                         <asp:RadioButtonList ID="rblFeedbackType" runat="server" CssClass="radio" RepeatLayout="Flow">
                                             <asp:ListItem>Comment</asp:ListItem>
                                             <asp:ListItem>Composition Question</asp:ListItem>
-                                            <asp:ListItem>General Question</asp:ListItem>
+                                            <asp:ListItem>Site Usage Question</asp:ListItem>
                                             <asp:ListItem>Enhancement</asp:ListItem>
                                             <asp:ListItem>Bug</asp:ListItem>
                                             <asp:ListItem>Other</asp:ListItem>
@@ -66,9 +66,8 @@
                                 </div>
                                 <div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="txtDescription" CssClass="col-md-3 control-label">Description</asp:Label>
-                                    <label class="info smaller-font">Ex: Adding Students</label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" Rows="4" />
+                                        <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" Rows="4" TextMode="MultiLine" />
                                     </div>
                                     <div>
                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Description is required" />
@@ -77,13 +76,14 @@
                                 <hr />
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2 float-right">
-                                        <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                        <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                         <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                     </div>
                                 </div>
                             </fieldset>
                         </div>
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -96,6 +96,13 @@
             var message = $('#MainContent_lblErrorMessage').text();
 
             $.notify(message.toString(), { position: "left-top", className: "error" });
+        };
+
+        //show a warning message
+        function showWarningMessage() {
+            var message = $('#MainContent_lblWarningMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "warning" });
         };
 
         //show a success message

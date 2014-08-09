@@ -11,7 +11,7 @@
                                 <legend id="legend" runat="server">Transfer Contacts</legend>
                                 <asp:UpdatePanel ID="upFullPage" runat="server">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlFullPage" runat="server">
+                                        <asp:Panel ID="pnlFullPage" runat="server" DefaultButton="btnSubmit">
                                             <asp:UpdatePanel ID="upFromTeacher" runat="server">
                                                 <ContentTemplate>
                                                     <div>
@@ -30,7 +30,7 @@
                                                             <asp:Label ID="lblFromId" runat="server" Visible="false" />
                                                         </div>
                                                     </div>
-                                                    <asp:Panel ID="pnlFromSearch" runat="server" Visible="false">
+                                                    <asp:Panel ID="pnlFromSearch" runat="server" Visible="false" DefaultButton="btnSearchFrom">
                                                         <hr />
                                                         <div>
                                                             <h5>Search for Teacher to Transfer Students From</h5>
@@ -78,7 +78,7 @@
                                                             <asp:Label ID="lblToId" runat="server" Visible="false" />
                                                         </div>
                                                     </div>
-                                                    <asp:Panel ID="pnlToSearch" runat="server" Visible="false">
+                                                    <asp:Panel ID="pnlToSearch" runat="server" Visible="false" DefaultButton="btnSearchTo">
                                                         <hr />
                                                         <div>
                                                             <h5>Select Teacher to Transfer Students To</h5>
@@ -110,11 +110,12 @@
                                                     </asp:Panel>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
+                                            <hr />
                                             <asp:UpdatePanel ID="upButtons" runat="server">
                                                 <ContentTemplate>
                                                     <div class="form-group">
                                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                                         </div>
                                                     </div>
@@ -127,6 +128,7 @@
                         </div>
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -154,6 +156,13 @@
             var message = $('#MainContent_lblWarningMessage').text();
 
             $.notify(message.toString(), { position: 'left-top', className: 'warning' });
+        };
+
+        //show an informational message
+        function showInfoMessage() {
+            var message = $('#MainContent_lblInfoMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "info" });
         };
 
         //show a success message
