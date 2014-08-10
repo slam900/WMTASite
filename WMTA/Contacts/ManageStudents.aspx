@@ -142,13 +142,22 @@
                                         </div>
                                     </div>
                                 </asp:Panel>
+                                <hr />
+                                <asp:Panel runat="server" ID="pnlConfirmDuplicate" Visible="false">
+                                    <div class="center text-align-center">
+                                        <label class="info center">There is already a student with the name you have entered.  Do you want to add the student anyways?</label>
+                                        <div class="col-lg-10 col-lg-offset-2 float-right">
+                                            <asp:Button ID="btnYes" Text="Yes" runat="server" CssClass="btn btn-default float-right" OnClick="btnYes_Click" CausesValidation="false" />
+                                            <asp:Button ID="btnNo" Text="No" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btNo_Click" CausesValidation="false" />
+                                        </div>
+                                    </div>
+                                </asp:Panel>
                             </fieldset>
                         </div>
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
-                        <label id="lblConfirmDuplicate" runat="server" style="display:none" />
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -164,17 +173,6 @@
                     content: 'Fill in any number of the search fields and click "Search" to find students. Clicking "Search" without filling in any fields will return all students linked to you. First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
                 });
             });
-
-            //confirm that the user wants to add what could be a duplicate student
-            function confirmDuplicate() {
-                var answer = confirm("There is already a student with the name you have entered. Please contact your district chair to make sure the student doesn't already exist. Do you want to add the student anyways?");
-
-                if (answer == true) {
-                    $('<%= lblConfirmDuplicate.ClientID %>').val = 'true';
-                } else {
-                    $('<%= lblConfirmDuplicate.ClientID %>').val = 'false';
-                }
-            }
 
             function showMainError() {
                 var message = $('#MainContent_lblErrorMessage').text();

@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,8 +12,9 @@ namespace WMTA.Contacts
 {
     public partial class ManageStudents : System.Web.UI.Page
     {
-        private Student student;
+        private static Student student;
         private Utility.Action action;
+        private bool canAddDuplicates; //indicates whether the current user has sufficient permissions to add duplicate students
         //Session variables
         private string studentSearch = "StudentData";
         private string studentVar = "Student";
@@ -42,7 +44,20 @@ namespace WMTA.Contacts
         {
             //if the user is not logged in, send them to login screen
             if (Session[Utility.userRole] == null)
+            {
                 Response.Redirect("/Default.aspx");
+            }
+            else
+            {
+                User user = (User)Session[Utility.userRole];
+
+                if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A'))
+                {
+                    canAddDuplicates = true;
+                }
+                else
+                    canAddDuplicates = false;
+            }
         }
         
         /*
@@ -76,7 +91,7 @@ namespace WMTA.Contacts
             else if (action == Utility.Action.Edit)
             {
                 pnlStudentSearch.Visible = true;
-                pnlFullPage.Visible = true;
+                pnlFullPage.Visible = false;
                 lblLegacyPoints.Visible = false;
                 txtLegacyPoints.Visible = false;
                 pnlButtons.Visible = false;
@@ -134,6 +149,49 @@ namespace WMTA.Contacts
         }
 
         /*
+         * Pre:  The information must have already been verified
+         * Post: Add the student
+         */
+        protected void btnYes_Click(object sender, EventArgs e)
+        {
+            int districtId, legacyPoints = 0, currTeacherId, prevTeacherId = 0;
+            string firstName, middleInitial, lastName, grade;
+
+            firstName = txtFirstName.Text;
+            middleInitial = txtMiddleInitial.Text;
+            lastName = txtLastName.Text;
+            grade = txtGrade.Text;
+            districtId = Convert.ToInt32(ddlDistrict.SelectedValue);
+            currTeacherId = Convert.ToInt32(cboCurrTeacher.SelectedValue);
+            if (!cboPrevTeacher.SelectedValue.ToString().Equals("")) prevTeacherId = Convert.ToInt32(cboPrevTeacher.SelectedValue);
+            if (!txtLegacyPoints.Text.Equals("")) legacyPoints = Convert.ToInt32(txtLegacyPoints.Text);
+
+            Student newStudent = new Student(-1, firstName, middleInitial, lastName, grade, districtId,
+                                     currTeacherId, prevTeacherId);
+            newStudent.legacyPoints = legacyPoints;
+
+            //add to database
+            newStudent.addToDatabase();
+
+            //get new id
+            if (newStudent.id != -1)
+            {
+                showSuccessMessage("The new student was successfully added and has an id of " + newStudent.id.ToString());
+                clearData();
+            }
+            else
+            {
+                showErrorMessage("Error: There was an error adding the new student.");
+            }
+        }
+
+        protected void btNo_Click(object sender, EventArgs e)
+        {
+            pnlButtons.Visible = true;
+            pnlConfirmDuplicate.Visible = false;
+        }
+
+        /*
          * Pre:
          * Post: If the user has entered valid information, the new student information is added
          *       to the database.  If no previous teacher id is entered, the value is set to "0".
@@ -160,23 +218,13 @@ namespace WMTA.Contacts
                 if (!txtLegacyPoints.Text.Equals("")) legacyPoints = Convert.ToInt32(txtLegacyPoints.Text);
 
                 //check for duplicate students
-                DataTable duplicateStudentsTbl = DbInterfaceStudent.StudentExists(firstName, lastName);
+                bool duplicate = studentIsDuplicate(firstName, lastName);
 
-                //call Javascript function to ask user if they want to add the duplicate student if any are found
-                bool addDuplicate = true;
-                if (duplicateStudentsTbl != null && duplicateStudentsTbl.Rows.Count > 0)
-                {
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ConfirmDuplicate", "confirmDuplicate()", true);
-
-                    if (lblConfirmDuplicate.InnerText.Equals("false"))
-                        addDuplicate = false;
-                }
-
-                //if there were no matching students or the user wants to add the duplicate, add
-                if (addDuplicate || duplicateStudentsTbl == null || duplicateStudentsTbl.Rows.Count <= 0)
+                //if there were no matching students, add
+                if (!duplicate)
                 {
                     Student newStudent = new Student(-1, firstName, middleInitial, lastName, grade, districtId,
-                                             currTeacherId, prevTeacherId);
+                                         currTeacherId, prevTeacherId);
                     newStudent.legacyPoints = legacyPoints;
 
                     //add to database
@@ -191,15 +239,43 @@ namespace WMTA.Contacts
                         result = false;
                     }
                 }
-                else 
+                //if the student is a duplicate and the user is a district chair or above, ask if they would like to continue adding the student
+                else if (duplicate && canAddDuplicates)
                 {
+                    pnlConfirmDuplicate.Visible = true;
+                    pnlButtons.Visible = false;
                     result = false;
+                }
+                //if the student is a duplicate and the user is a teacher, have them contact their district chair
+                else if (duplicate && !canAddDuplicates)
+                {
+                    showWarningMessage("There is already a student with the name you have entered.  Please contact your district chair if you still wish for this student to be added.");
+                    return false;
                 }
             }
             else
                 result = false;
 
             return result;
+        }
+
+        /*
+         * Pre:
+         * Post: Determines whether or not the student being added is a duplicate
+         * @returns true if the student is a duplicate and false otherwise
+         */
+        private bool studentIsDuplicate(string firstName, string lastName) 
+        {
+            bool duplicate = false;
+
+            DataTable duplicateStudentsTbl = DbInterfaceStudent.StudentExists(firstName, lastName);
+
+            if (duplicateStudentsTbl != null && duplicateStudentsTbl.Rows.Count > 0)
+            {
+                duplicate = true;
+            }
+
+            return duplicate;
         }
 
         /*
@@ -351,6 +427,8 @@ namespace WMTA.Contacts
             cboCurrTeacher.SelectedIndex = -1;
             cboPrevTeacher.SelectedIndex = -1;
             txtLegacyPoints.Text = "0";
+            pnlButtons.Visible = true;
+            pnlConfirmDuplicate.Visible = false;
 
             btnClear.Visible = true;
 
@@ -820,5 +898,6 @@ namespace WMTA.Contacts
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowSuccess", "showSuccessMessage()", true);
         }
+
     }
 }
