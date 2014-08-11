@@ -85,12 +85,15 @@ namespace WMTA.Reporting
 
             if (auditionOrgId != -1)
             {
+                int teacherId = getTeacherId();
+                int districtId = getDistrictId();
+
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId);
-                createReport("KeyboardJudgingForm", rptKeyboardForm, auditionOrgId);
-                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId);
-                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId);
+                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
+                createReport("KeyboardJudgingForm", rptKeyboardForm, auditionOrgId, teacherId, districtId);
+                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
+                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
             }
             else
             {
@@ -102,7 +105,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId)
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int districtId)
         {
             try
             {
@@ -115,7 +118,11 @@ namespace WMTA.Reporting
                 rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl); 
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
 
-                rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                //set parameters
+                List<ReportParameter> parameters = new List<ReportParameter>();
+                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+                parameters.Add(new ReportParameter("districtId", districtId.ToString()));
 
                 rptViewer.AsyncRendering = true;
             }
@@ -126,6 +133,40 @@ namespace WMTA.Reporting
                 Utility.LogError("JudgingForms", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
+        }
+
+        /*
+         * Pre:
+         * Post: Gets the id of the current teacher or -1 if the current user isn't a teacher
+         */
+        private int getTeacherId()
+        {
+            User user = (User)Session[Utility.userRole];
+            int id = -1;
+
+            if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A'))) 
+            {
+                id = user.contactId;
+            }
+
+            return id;
+        }
+
+        /*
+         * Pre:
+         * Post: Gets the district id of the current user if they are a district admin
+         */
+        private int getDistrictId()
+        {
+            User user = (User)Session[Utility.userRole];
+            int districtId = -1;
+
+            if (user.permissionLevel.Contains('D') && !(user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+            {
+                districtId = user.districtId;
+            }
+
+            return districtId;
         }
 
         #region Messages

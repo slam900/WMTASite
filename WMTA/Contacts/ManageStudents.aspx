@@ -145,7 +145,7 @@
                                 <hr />
                                 <asp:Panel runat="server" ID="pnlConfirmDuplicate" Visible="false">
                                     <div class="center text-align-center">
-                                        <label class="info center">There is already a student with the name you have entered.  Do you want to add the student anyways?</label>
+                                        <label class="text-info center">There is already a student with the name you have entered.  Do you want to add the student anyways?</label>
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
                                             <asp:Button ID="btnYes" Text="Yes" runat="server" CssClass="btn btn-default float-right" OnClick="btnYes_Click" CausesValidation="false" />
                                             <asp:Button ID="btnNo" Text="No" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btNo_Click" CausesValidation="false" />

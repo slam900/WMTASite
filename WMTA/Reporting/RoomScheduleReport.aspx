@@ -39,6 +39,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="center text-align-center">
+                                            <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                        </div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                                 <%-- End Audition Search --%>
@@ -55,7 +58,9 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center"><h3>Room Schedule</h3></div>
+            <div class="text-align-center">
+                <h3>Room Schedule</h3>
+            </div>
             <rsweb:ReportViewer ID="rptRoomSchedule" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>

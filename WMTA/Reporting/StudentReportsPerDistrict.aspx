@@ -39,6 +39,9 @@
                                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
                                             </div>
+                                            <div class="center text-align-center">
+                                                <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                            </div>
                                         </div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
