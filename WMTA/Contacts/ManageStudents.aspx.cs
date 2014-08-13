@@ -672,6 +672,10 @@ namespace WMTA.Contacts
                 txtGrade.Text = student.grade;
                 cboCurrTeacher.SelectedIndex = cboCurrTeacher.Items.IndexOf(cboCurrTeacher.Items.FindByValue(student.currTeacherId.ToString()));
                 cboPrevTeacher.SelectedIndex = cboPrevTeacher.Items.IndexOf(cboPrevTeacher.Items.FindByValue(student.prevTeacherId.ToString()));
+
+                pnlButtons.Visible = true;
+                pnlFullPage.Visible = true;
+                pnlStudentSearch.Visible = false;
             }
             else
             {

@@ -246,6 +246,7 @@
     <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
     <Content Include="Reporting\TheoryTestReports.aspx" />
     <Content Include="Resources\Help.aspx" />
+    <Content Include="Resources\ViewHelpRequests.aspx" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -688,6 +689,13 @@
     </Compile>
     <Compile Include="Resources\Help.aspx.designer.cs">
       <DependentUpon>Help.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ViewHelpRequests.aspx.cs">
+      <DependentUpon>ViewHelpRequests.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Resources\ViewHelpRequests.aspx.designer.cs">
+      <DependentUpon>ViewHelpRequests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web References\com.arvixe.sunflower\Reference.cs">
       <AutoGen>True</AutoGen>
