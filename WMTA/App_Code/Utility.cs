@@ -8,6 +8,8 @@ using System.Web;
 
 public class Utility
 {
+    public const string version = "2.1";
+
     //enumeration for types of judge preferences - these numbers should be equal to the
     //type ids in the JudgePrefType database table
     public enum JudgePreferences { AuditionType = 1, AuditionLevel = 2, CompositionLevel = 3, 
@@ -16,19 +18,22 @@ public class Utility
     //enumeration for page actions
     public enum Action { Add = 1, Edit = 2, Delete = 3 };
 
-    //enumeration for importance
-    public enum Importance { High = 1, Medium = 2, Low = 3 };
-
     //session variable name for session variable containing data of current user
     public const string userRole = "UserRole";
 
    //report server variables
     public const string ssrsUsername = "wismusta_reportservr";
     public const string ssrsPassword = "33wi8mu8ta44";
-    //public const string ssrsDomain = "sunflower.arvixe.com"; //test
-    public const string ssrsDomain = "localhost";//live
-    //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service"; //test
-    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service"; //live
+
+    /***  Live Variables ***/
+    public const string ssrsDomain = "localhost";
+    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service"; 
+    //public const string reportSuffix = "";
+
+    /*** Test Variables ***/
+    //public const string ssrsDomain = "sunflower.arvixe.com"; 
+    //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service"; 
+    public const string reportSuffix = "Test";
 
     //Ovation email and password
     public const string ovationEmail = "WMTAOvation@gmail.com";
@@ -113,4 +118,35 @@ public class Utility
         return time;
     }
 
+    /*
+         * Pre:
+         * Post: Gets the id of the current teacher or -1 if the current user isn't a teacher
+         */
+    public static int GetTeacherId(User user)
+    {
+        int id = 0;
+
+        if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+        {
+            id = user.contactId;
+        }
+
+        return id;
+    }
+
+    /*
+     * Pre:
+     * Post: Gets the district id of the current user if they are a district admin
+     */
+    public static int GetDistrictId(User user)
+    {
+        int districtId = -1;
+
+        if (user.permissionLevel.Contains('D') && !(user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+        {
+            districtId = user.districtId;
+        }
+
+        return districtId;
+    }
 }

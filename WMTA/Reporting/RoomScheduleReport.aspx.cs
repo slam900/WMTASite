@@ -59,8 +59,9 @@ namespace WMTA.Reporting
                 //get own district dropdown info
                 string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
 
-                //add new items to dropdown
+                //add new item to dropdown and select it
                 ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+                ddlDistrictSearch.SelectedIndex = 1;
             }
             else //if the user is an administrator, add all districts
             {
@@ -85,9 +86,11 @@ namespace WMTA.Reporting
 
             if (auditionOrgId != -1)
             {
+                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
+
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("AuditionRoomSchedule", rptRoomSchedule, auditionOrgId);
+                createReport("AuditionRoomSchedule", rptRoomSchedule, auditionOrgId, teacherId);
             }
             else
             {
@@ -99,7 +102,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId)
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
         {
             try
             {
@@ -110,9 +113,14 @@ namespace WMTA.Reporting
                 rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
                 rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
-                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
+                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
 
-                rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                //set parameters
+                List<ReportParameter> parameters = new List<ReportParameter>();
+                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+
+                rptViewer.ServerReport.SetParameters(parameters);
 
                 rptViewer.AsyncRendering = true;
             }
@@ -134,8 +142,6 @@ namespace WMTA.Reporting
          */
         private void showErrorMessage(string message)
         {
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);

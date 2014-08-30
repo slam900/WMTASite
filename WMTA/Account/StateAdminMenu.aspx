@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="StateAdminMenu.aspx.cs" Inherits="WMTA.Account.StateAdminMenu" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div id="divMain" class="row">
         <div class="well bs-component col-md-8 main-div center">
@@ -115,6 +116,12 @@
                             <asp:Panel runat="server" ID="pnlNoCompositionPermissions">
                                 <div class="list-group smaller-font">
                                     <a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="list-group-item">Add Composition</a>
+                                </div>
+                            </asp:Panel>
+                            <asp:Panel runat="server" ID="pnlHelp" Visible="false">
+                                <h4>Help Requests</h4>
+                                <div class="list-group smaller-font">
+                                    <a href="../Resources/ViewHelpRequests.aspx" class="list-group-item">View Help Requests</a>
                                 </div>
                             </asp:Panel>
                         </div>

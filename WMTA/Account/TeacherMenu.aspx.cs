@@ -32,6 +32,7 @@ namespace WMTA.Account
                 {
                     pnlCompositionPermissions.Visible = true;
                     pnlNoCompositionPermissions.Visible = false;
+                    pnlHelp.Visible = true;
                 }
             }
         }

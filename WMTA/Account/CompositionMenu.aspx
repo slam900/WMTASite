@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="CompositionMenu.aspx.cs" Inherits="WMTA.Account.CompositionMenu" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div id="divMain" class="row">
         <div class="well bs-component col-md-8 main-div center">
@@ -24,6 +25,12 @@
                                 <a href="../CompositionTools/ReplaceComposition.aspx" class="list-group-item">Replace Composition</a>
                                 <a href="../CompositionTools/TitleLookup.aspx" class="list-group-item">Composition Title Finder</a>
                                 <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage</a>
+                            </div>
+                        </div>
+                        <div class="control-column smaller-font">
+                            <h4>Help Requests</h4>
+                            <div class="list-group smaller-font">
+                                <a href="../Resources/ViewHelpRequests.aspx" class="list-group-item">View Help Requests</a>
                             </div>
                         </div>
                     </fieldset>

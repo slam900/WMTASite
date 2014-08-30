@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="WMTA.MasterPages.MasterPage" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="WidePage.master.cs" Inherits="WMTA.MasterPages.WidePage" %>
 
 <!DOCTYPE html>
 
@@ -60,43 +60,6 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulSystemAdmin" runat="server">
                         <li class="active"><a href="~/Account/SystemAdminMenu.aspx" runat="server">Menu</a></li>
-                        <li><a runat="server" href="~/Resources/Help.aspx">Help</a></li>
-                       <%-- <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="../CreateDistrictAudition.aspx" runat="server">Manage District Audition</a></li>
-                                <li><a href="../CreateStateAudition.aspx" runat="server">Manage Badger Event</a></li>
-                                <li class="divider"></li>
-                                <li><a href="../DistrictRegistration.aspx" runat="server">District Registration</a></li>
-                                <li><a href="../BadgerRegistration.aspx" runat="server">Badger Registration</a></li>
-                                <li><a href="../CoordinateStudents.aspx" runat="server">Coordinate Students</a></li>
-                                <li class="divider"></li>
-                                <li><a href="../DistrictPointEntry.aspx" runat="server">Enter District Points</a></li>
-                                <li><a href="../BadgerPointEntry.aspx" runat="server">Enter Badger Points</a></li>
-                                <li><a href="../HsViruosoCompositionPointEntry.aspx" runat="server">Enter HS Virtuoso Points</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">People<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="../ManageStudents.aspx" runat="server">Manage Students</a></li>
-                                <li><a href="../ManageContacts.aspx" runat="server">Manage Contacts</a></li>
-                                <li><a href="../RegisterContacts.aspx" runat="server">Register Contacts</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Repertoire<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="../Repertoire2.aspx" runat="server">Manage Repertoire</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="../Reports.aspx" runat="server">Reports</a></li>
-                                <li><a href="../Resources.aspx" runat="server">Resources</a></li>
-                            </ul>
-                        </li>--%>
                         <li><a runat="server" href="#" onserverclick="LogOut">Log out</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="ulTeacher" runat="server">
@@ -117,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="container body-content">
+        <div class="container body-content" style="width: 95%">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />

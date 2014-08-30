@@ -118,6 +118,12 @@
                                     <a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="list-group-item">Add Composition</a>
                                 </div>
                             </asp:Panel>
+                            <asp:Panel runat="server" ID="pnlHelp" Visible="false">
+                                <h4>Help Requests</h4>
+                                <div class="list-group smaller-font">
+                                    <a href="../Resources/ViewHelpRequests.aspx" class="list-group-item">View Help Requests</a>
+                                </div>
+                            </asp:Panel>
                         </div>
                     </fieldset>
                 </div>

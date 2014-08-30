@@ -78,6 +78,7 @@
                                         <li><a href="../Reporting/TheoryTestReports.aspx" class="smaller-font">Theory Test Reports</a></li>
                                     </ul>
                                 </div>
+                                <a href="../Resources/ViewHelpRequests.aspx" class="list-group-item">View Help Requests</a>
                             </div>
                         </div>
                         <div class="control-column smaller-font">

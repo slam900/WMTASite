@@ -35,7 +35,7 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" />
+                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
                                                 </div>
                                             </div>
                                             <div class="form-group">

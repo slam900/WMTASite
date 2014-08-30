@@ -59,8 +59,9 @@ namespace WMTA.Reporting
                 //get own district dropdown info
                 string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
 
-                //add new items to dropdown
+                //add new item to dropdown and select it
                 ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+                ddlDistrictSearch.SelectedIndex = 1;
             }
             else //if the user is an administrator, add all districts
             {
@@ -85,9 +86,12 @@ namespace WMTA.Reporting
 
             if (auditionOrgId != -1)
             {
+                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
+                //int districtId = Utility.GetDistrictId((User)Session[Utility.userRole]);
+
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("AuditionCheckIn", rptAuditionCheckIn, auditionOrgId);
+                createReport("AuditionCheckIn", rptAuditionCheckIn, auditionOrgId, teacherId);
                 createReport("TheoryTestCheckIn", rptTheoryCheckIn, auditionOrgId);
             }
             else
@@ -111,9 +115,44 @@ namespace WMTA.Reporting
                 rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
                 rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
-                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName;
+                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
 
                 rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+
+                rptViewer.AsyncRendering = true;
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while generating reports.");
+
+                Utility.LogError("CheckInReports", "createReport", "rptName: " + rptName +
+                                 ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Create the input report in the specified report viewer
+         */
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
+        {
+            try
+            {
+                rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
+                rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
+                rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
+
+                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
+
+                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
+                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
+
+                //set parameters
+                List<ReportParameter> parameters = new List<ReportParameter>();
+                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+
+                rptViewer.ServerReport.SetParameters(parameters);
 
                 rptViewer.AsyncRendering = true;
             }
@@ -135,8 +174,6 @@ namespace WMTA.Reporting
          */
         private void showErrorMessage(string message)
         {
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);

@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="TeacherMenu.aspx.cs" Inherits="WMTA.Account.TeacherMenu" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div id="divMain" class="row">
         <div class="well bs-component col-md-8 main-div center">
@@ -55,6 +56,12 @@
                                     </ul>
                                 </div>
                             </div>
+                            <asp:Panel runat="server" ID="pnlHelp" Visible="false">
+                                <h4>Help Requests</h4>
+                                <div class="list-group smaller-font">
+                                    <a href="../Resources/ViewHelpRequests.aspx" class="list-group-item">View Help Requests</a>
+                                </div>
+                            </asp:Panel>
                         </div>
                         <div class="control-column smaller-font">
                             <h4>People</h4>
