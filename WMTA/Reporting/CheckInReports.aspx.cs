@@ -92,7 +92,7 @@ namespace WMTA.Reporting
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
                 createReport("AuditionCheckIn", rptAuditionCheckIn, auditionOrgId, teacherId);
-                createReport("TheoryTestCheckIn", rptTheoryCheckIn, auditionOrgId);
+                createReport("TheoryTestCheckIn", rptTheoryCheckIn, auditionOrgId, teacherId);
             }
             else
             {

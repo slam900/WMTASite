@@ -194,6 +194,13 @@
                                                         </div>
                                                         <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownInstrument" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <asp:Label runat="server" AssociatedControlID="chkLstTime" CssClass="col-md-3 control-label float-left">Time Preference</asp:Label>
+                                                        <div class="float-left">
+                                                            <asp:CheckBoxList runat="server" ID="chkLstTime" DataSourceID="SqlDataSource6" DataTextField="TimeRange" DataValueField="ScheduleId" />
+                                                        </div>
+                                                        <asp:SqlDataSource ID="SqlDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownJudgeTimePref" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                                    </div>
                                                 </asp:Panel>
                                             </div>
                                         </asp:Panel>

@@ -127,13 +127,14 @@
 
 .dropdown-list {
     color: inherit;
-    font: inherit;
-    margin: 0;
     text-transform: none;
     background-color: #fff;
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
 }
 
 .dropdown-list[disabled] {

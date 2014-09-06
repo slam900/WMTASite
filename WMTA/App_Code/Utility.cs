@@ -136,13 +136,13 @@ public class Utility
 
     /*
      * Pre:
-     * Post: Gets the district id of the current user if they are a district admin
+     * Post: Gets the district id of the current user if they are a district admin or teacher
      */
     public static int GetDistrictId(User user)
     {
         int districtId = -1;
 
-        if (user.permissionLevel.Contains('D') && !(user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+        if (!(user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
         {
             districtId = user.districtId;
         }

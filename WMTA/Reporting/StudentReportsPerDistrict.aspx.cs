@@ -90,42 +90,11 @@ namespace WMTA.Reporting
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("StudentHistory", rptViewerStudentHistory, auditionOrgId, teacherId);
-                createReport("RegistrationReport", rptRegistration, auditionOrgId);
+                createReport("RegistrationReport", rptRegistration, auditionOrgId, teacherId);
             }
             else
             {
                 showWarningMessage("No audition exists matching the input criteria.");
-            }
-        }
-
-        /*
-         * Pre:
-         * Post: Create the input report in the specified report viewer
-         */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId)
-        {
-            try
-            {
-                rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
-                rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
-                rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
-
-                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
-
-                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
-                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
-
-                rptViewer.ServerReport.SetParameters(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-
-                rptViewer.AsyncRendering = true;
-            }
-            catch (Exception e)
-            {
-                showErrorMessage("Error: An error occurred while generating reports.");
-
-                Utility.LogError("StudentReportsPerDistrict", "createReport", "rptName: " + rptName +
-                                 ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 

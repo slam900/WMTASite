@@ -22,7 +22,7 @@
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="District is required"></asp:RequiredFieldValidator>
                                                 </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
@@ -34,7 +34,7 @@
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
                                                 </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
@@ -58,10 +58,6 @@
         </div>
     </div>
     <div class="col-md-12">
-        <div>
-            <div class="text-align-center"><h3>Student History</h3></div>
-            <rsweb:ReportViewer ID="rptViewerStudentHistory" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
         <div>
             <div class="text-align-center"><h3 class="center">Registration Report</h3></div>
             <rsweb:ReportViewer ID="rptRegistration" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>

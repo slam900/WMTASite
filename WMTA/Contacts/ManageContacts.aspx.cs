@@ -381,6 +381,10 @@ namespace WMTA.Contacts
                 foreach (ListItem item in chkLstInstrument.Items)
                     HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Instrument, item);
 
+                //add time preferences
+                foreach (ListItem item in chkLstTime.Items)
+                    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Time, item);
+
                 //delete preferences that were not found
                 if (prefArr != null)
                 {
@@ -732,6 +736,10 @@ namespace WMTA.Contacts
             }
         }
 
+        /*
+         * Pre:
+         * Post: Only show contact types that the current user has access to
+         */
         private void refreshContactTypeDropdown()
         {
             User user = (User)Session[Utility.userRole];
@@ -859,6 +867,15 @@ namespace WMTA.Contacts
                                 idx = chkLstInstrument.Items.IndexOf(new ListItem(pref.preference));
 
                                 if (idx >= 0) chkLstInstrument.Items.FindByValue(pref.preference).Selected = true;
+                            }
+                            //time
+                            else if (pref.preferenceType == Utility.JudgePreferences.Time)
+                            {
+                                if (chkLstTime.Items.Count == 0) chkLstTime.DataBind();
+
+                                idx = chkLstTime.Items.IndexOf(chkLstTime.Items.FindByValue(pref.preference));
+
+                                if (idx >= 0) chkLstTime.Items.FindByValue(pref.preference).Selected = true;
                             }
                         }
                     }

@@ -27,8 +27,8 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label float-left">Audition Year</asp:Label>
                                                 <div class="col-md-6">
-                                                <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
-                                                    </div>
+                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
+                                                </div>
                                                 <asp:Button ID="btnClearAuditionSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearAuditionSearch_Click" CausesValidation="false" />
                                             </div>
                                             <div class="form-group">
@@ -41,7 +41,7 @@
                                                 </asp:GridView>
                                             </div>
                                         </div>
-                                <hr />
+                                        <hr />
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                                 <asp:UpdatePanel ID="upMain" runat="server">
@@ -155,7 +155,7 @@
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
-                                             <div class="form-group">
+                                            <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlHourEnd" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
                                                 <div class="col-md-2" style="width: 16%">
                                                     <asp:DropDownList ID="ddlHourEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
@@ -205,7 +205,7 @@
                             <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                             <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                             <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
-                        <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
+                            <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>

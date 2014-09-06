@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="RoomScheduleReport.aspx.cs" Inherits="WMTA.Reporting.RoomScheduleReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="StudentHistoryReports.aspx.cs" Inherits="WMTA.Reporting.StudentHistoryReports" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -23,24 +23,34 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
                                                 <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-md-3-margin">
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
+                                                <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlTeacher_SelectedIndexChanged" AutoPostBack="true"/>
                                                 </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlStudent" CssClass="col-md-3 control-label">Student</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlStudent" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3-margin text-info smaller-font">Use this field to only retrieve students who auditioned in a particular year. All of their data will be returned.</label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Audition Year</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="center text-align-center">
-                                            <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                            <div class="center text-align-center">
+                                                <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                            </div>
                                         </div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -58,10 +68,8 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center">
-                <h3>Room Schedule</h3>
-            </div>
-            <rsweb:ReportViewer ID="rptRoomSchedule" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>Student History</h3></div>
+            <rsweb:ReportViewer ID="rptViewerStudentHistory" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

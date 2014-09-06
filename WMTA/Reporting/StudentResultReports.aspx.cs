@@ -64,6 +64,7 @@ namespace WMTA.Reporting
                 //add new item to dropdown and select it
                 ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
                 ddlDistrictSearch.SelectedIndex = 1;
+                updateTeacherDropdown();
             }
             else //if the user is an administrator, add all districts
             {
@@ -107,7 +108,7 @@ namespace WMTA.Reporting
             int teacherId = 0;
 
             //get selected teacher
-            if (ddlTeacher.SelectedIndex >= 0)
+            if (ddlTeacher.SelectedIndex > 0)
             {
                 teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
             }
@@ -165,6 +166,15 @@ namespace WMTA.Reporting
          * Post: Get teachers based on selected district
          */
         protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateTeacherDropdown();
+        }
+
+        /*
+         * Pre:
+         * Post: Get teachers based on selected district
+         */
+        private void updateTeacherDropdown()
         {
             ddlTeacher.DataSource = null;
             ddlTeacher.DataBind();

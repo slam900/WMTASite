@@ -10,7 +10,7 @@
 namespace WMTA.Reporting {
     
     
-    public partial class TeacherReportsPerTeacher {
+    public partial class StudentHistoryReports {
         
         /// <summary>
         /// upFullPage control.
@@ -67,6 +67,15 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.WebControls.DropDownList ddlTeacher;
         
         /// <summary>
+        /// ddlStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStudent;
+        
+        /// <summary>
         /// ddlYear control.
         /// </summary>
         /// <remarks>
@@ -103,12 +112,21 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
         
         /// <summary>
-        /// rptTeacherSummary control.
+        /// lblSuccessMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptTeacherSummary;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        
+        /// <summary>
+        /// rptViewerStudentHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptViewerStudentHistory;
     }
 }

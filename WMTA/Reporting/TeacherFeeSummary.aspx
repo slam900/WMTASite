@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="RoomScheduleReport.aspx.cs" Inherits="WMTA.Reporting.RoomScheduleReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="TeacherFeeSummary.aspx.cs" Inherits="WMTA.Reporting.TeacherFeeSummary" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -15,20 +15,26 @@
                                 <asp:UpdatePanel ID="upSearch" runat="server">
                                     <ContentTemplate>
                                         <div>
-                                            <h4>Select an Audition to Retrieve Reports On</h4>
+                                            <h4>Select a Year to Retrieve Reports On</h4>
                                             <br />
-                                            <div class="form-group">
+                                            <%--<div class="form-group">
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="District is required"></asp:RequiredFieldValidator>
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
                                                 <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
                                             </div>
+                                            <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
+                                                </div>
+                                            </div>--%>
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
@@ -37,10 +43,12 @@
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
+                                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
+
                                             </div>
-                                        </div>
-                                        <div class="center text-align-center">
-                                            <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                            <div class="center text-align-center">
+                                                <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                            </div>
                                         </div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -50,7 +58,6 @@
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
-                        <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -59,9 +66,9 @@
     <div class="col-md-12">
         <div>
             <div class="text-align-center">
-                <h3>Room Schedule</h3>
+                <h3 class="center">District Audition Fee Summary</h3>
             </div>
-            <rsweb:ReportViewer ID="rptRoomSchedule" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <rsweb:ReportViewer ID="rptTeacherDetail" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

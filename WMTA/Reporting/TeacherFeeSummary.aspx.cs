@@ -9,7 +9,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class TeacherReportsPerTeacher : System.Web.UI.Page
+    public partial class TeacherFeeSummary : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,8 +18,6 @@ namespace WMTA.Reporting
                 checkPermissions();
 
                 loadYearDropdown();
-                loadDistrictDropdown();
-                loadTeacherDropdown();
             }
         }
 
@@ -48,76 +46,22 @@ namespace WMTA.Reporting
 
         /*
          * Pre:
-         * Post:  If the current user is not an administrator, the district
-         *        dropdowns are filtered to containing only the current
-         *        user's district
-         */
-        private void loadDistrictDropdown()
-        {
-            User user = (User)Session[Utility.userRole];
-
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
-            {
-                //get own district dropdown info
-                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
-
-                //add new item to dropdown and select it
-                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
-                ddlDistrictSearch.SelectedIndex = 1;
-                updateTeacherDropdown();
-            }
-            else //if the user is an administrator, add all districts
-            {
-                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
-
-                ddlDistrictSearch.DataTextField = "GeoName";
-                ddlDistrictSearch.DataValueField = "GeoId";
-
-                ddlDistrictSearch.DataBind();
-            }
-        }
-
-        /*
-         * Pre:
-         * Post: If the current user is a teacher, the teacher dropdown
-         *       should only show the current user
-         */
-        private void loadTeacherDropdown()
-        {
-            if (HighestPermissionTeacher())
-            {
-                User user = (User)Session[Utility.userRole];
-                Contact contact = DbInterfaceContact.GetContact(user.contactId);
-
-                if (contact != null)
-                {
-                    ddlTeacher.Items.Add(new ListItem(contact.lastName + ", " + contact.firstName, user.contactId.ToString()));
-                }
-            }
-        }
-
-        /*
-         * Pre:
          * Post: If an event matching the search criteria is found, execute
          *       the reports for that audition
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
+            int districtId = Utility.GetDistrictId((User)Session[Utility.userRole]);
+            int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(districtId,
                                                                      Convert.ToInt32(ddlYear.SelectedValue));
-            int teacherId = 0;
-
-            //get selected teacher
-            if (ddlTeacher.SelectedIndex > 0)
-            {
-                teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
-            }
 
             if (auditionOrgId != -1)
             {
+                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
+
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("DistrictTeacherSummary", rptTeacherSummary, auditionOrgId, teacherId);
+                createReport("DistrictTeacherDetail", rptTeacherDetail, auditionOrgId, teacherId);
             }
             else
             {
@@ -148,82 +92,16 @@ namespace WMTA.Reporting
                 parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
 
                 rptViewer.ServerReport.SetParameters(parameters);
-                
+
                 rptViewer.AsyncRendering = true;
             }
             catch (Exception e)
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("TeacherReportsPerTeacher", "createReport", "rptName: " + rptName +
+                Utility.LogError("TeacherFeeSummary", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
-        }
-
-        /*
-         * Pre:
-         * Post: Get teachers based on selected district
-         */
-        protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            updateTeacherDropdown();
-        }
-
-        /*
-         * Pre:
-         * Post: Get teachers based on selected district
-         */
-        private void updateTeacherDropdown()
-        {
-            ddlTeacher.DataSource = null;
-            ddlTeacher.DataBind();
-
-            if (ddlDistrictSearch.SelectedIndex > 0 && !HighestPermissionTeacher())
-            {
-                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
-
-                DataTable table = DbInterfaceContact.GetTeachersFromDistrict(districtId);
-
-                if (table != null)
-                {
-                    ddlTeacher.DataSource = null;
-                    ddlTeacher.DataBind();
-                    ddlTeacher.Items.Clear();
-
-                    //add empty item
-                    ddlTeacher.Items.Add(new ListItem("", ""));
-
-                    //add teachers from district
-                    ddlTeacher.DataSource = table;
-
-                    ddlTeacher.DataTextField = "ComboName";
-                    ddlTeacher.DataValueField = "ContactId";
-
-                    ddlTeacher.DataBind();
-                }
-                else
-                {
-                    showErrorMessage("Error: The teachers for the selected district could not be retrieved.");
-                }
-            }
-        }
-
-        /*
-         * Pre:
-         * Post: Determines whether or not the current user's highest permission level is Teacher
-         * @returns true if the current user's highest permission level is Teacher and false otherwise
-         */
-        private bool HighestPermissionTeacher()
-        {
-            User user = (User)Session[Utility.userRole];
-            bool teacherOnly = false;
-
-            if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
-            {
-                teacherOnly = true;
-            }
-
-            return teacherOnly;
         }
 
         #region Messages

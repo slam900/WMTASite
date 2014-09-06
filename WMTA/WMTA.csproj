@@ -216,6 +216,7 @@
     <Content Include="Default.aspx" />
     <Content Include="DefaultRedirectErrorPage.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\AssignRoomsAndJudges.aspx" />
     <Content Include="Events\BadgerPointEntry.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
     <Content Include="Events\CoordinateStudents.aspx" />
@@ -240,8 +241,10 @@
     <Content Include="Reporting\JudgingForms.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reporting\RoomScheduleReport.aspx" />
+    <Content Include="Reporting\StudentHistoryReports.aspx" />
     <Content Include="Reporting\StudentReportsPerDistrict.aspx" />
     <Content Include="Reporting\StudentResultReports.aspx" />
+    <Content Include="Reporting\TeacherFeeSummary.aspx" />
     <Content Include="Reporting\TeacherReportsPerDistrict.aspx" />
     <Content Include="Reporting\TeacherReportsPerTeacher.aspx" />
     <Content Include="Reporting\TheoryTestReports.aspx" />
@@ -497,6 +500,13 @@
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Events\AssignRoomsAndJudges.aspx.cs">
+      <DependentUpon>AssignRoomsAndJudges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\AssignRoomsAndJudges.aspx.designer.cs">
+      <DependentUpon>AssignRoomsAndJudges.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Events\BadgerPointEntry.aspx.cs">
       <DependentUpon>BadgerPointEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -654,6 +664,13 @@
     <Compile Include="Reporting\RoomScheduleReport.aspx.designer.cs">
       <DependentUpon>RoomScheduleReport.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\StudentHistoryReports.aspx.cs">
+      <DependentUpon>StudentHistoryReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\StudentHistoryReports.aspx.designer.cs">
+      <DependentUpon>StudentHistoryReports.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\StudentReportsPerDistrict.aspx.cs">
       <DependentUpon>StudentReportsPerDistrict.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -667,6 +684,13 @@
     </Compile>
     <Compile Include="Reporting\StudentResultReports.aspx.designer.cs">
       <DependentUpon>StudentResultReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\TeacherFeeSummary.aspx.cs">
+      <DependentUpon>TeacherFeeSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\TeacherFeeSummary.aspx.designer.cs">
+      <DependentUpon>TeacherFeeSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\TeacherReportsPerDistrict.aspx.cs">
       <DependentUpon>TeacherReportsPerDistrict.aspx</DependentUpon>

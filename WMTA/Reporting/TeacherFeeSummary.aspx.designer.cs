@@ -10,7 +10,7 @@
 namespace WMTA.Reporting {
     
     
-    public partial class TeacherReportsPerTeacher {
+    public partial class TeacherFeeSummary {
         
         /// <summary>
         /// upFullPage control.
@@ -40,13 +40,13 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.UpdatePanel upSearch;
         
         /// <summary>
-        /// ddlDistrictSearch control.
+        /// ddlYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDistrictSearch;
+        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
         
         /// <summary>
         /// btnSearch control.
@@ -56,24 +56,6 @@ namespace WMTA.Reporting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearch;
-        
-        /// <summary>
-        /// ddlTeacher control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTeacher;
-        
-        /// <summary>
-        /// ddlYear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
         
         /// <summary>
         /// lblErrorMessage control.
@@ -103,12 +85,12 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
         
         /// <summary>
-        /// rptTeacherSummary control.
+        /// rptTeacherDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptTeacherSummary;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptTeacherDetail;
     }
 }
