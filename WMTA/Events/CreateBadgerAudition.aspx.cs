@@ -24,7 +24,7 @@ namespace WMTA.Events
             if (!Page.IsPostBack)
             {
                 Session[auditionSearch] = null;
-
+                
                 loadYearDropdown();
                 initializePage();
             }
@@ -151,6 +151,7 @@ namespace WMTA.Events
                 }
                 else
                 {
+                    showInfoMessage("The search did not return any results.");
                     clearGridView(gridview);
                     result = false;
                 }
@@ -397,8 +398,10 @@ namespace WMTA.Events
                 ddlDistrictSearch.SelectedIndex =
                             ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
                             gvAuditionSearch.Rows[index].Cells[2].Text));
+
                 ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
                                         gvAuditionSearch.Rows[index].Cells[3].Text));
+
                 loadAuditionData(Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text));
 
                 pnlMain.Visible = true;
@@ -727,6 +730,18 @@ namespace WMTA.Events
             lblSuccessMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowSuccess", "showSuccessMessage()", true);
+        }
+
+        /*
+         * Pre: 
+         * Post: Displays the input informational message in the top left corner of the screen
+         * @param message is the message text to be displayed
+         */
+        private void showInfoMessage(string message)
+        {
+            lblInfoMessage.InnerText = message;
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowInfo", "showInfoMessage()", true);
         }
 
         /*

@@ -319,6 +319,11 @@ namespace WMTA.Reporting
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowInfo", "showInfoMessage()", true);
         }
 
+        protected void DoHourGlass(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DoHourGlass", "doHourglass", true);
+        }
+
         #endregion
     }
 }

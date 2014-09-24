@@ -216,7 +216,7 @@
     <Content Include="Default.aspx" />
     <Content Include="DefaultRedirectErrorPage.aspx" />
     <Content Include="ErrorPage.aspx" />
-    <Content Include="Events\AssignRoomsAndJudges.aspx" />
+    <Content Include="Events\AssignDistrictRoomsAndJudges.aspx" />
     <Content Include="Events\BadgerPointEntry.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
     <Content Include="Events\CoordinateStudents.aspx" />
@@ -400,6 +400,7 @@
     <Compile Include="App_Code\DbInterfaceComposition.cs" />
     <Compile Include="App_Code\DbInterfaceContact.cs" />
     <Compile Include="App_Code\DbInterfaceFeedback.cs" />
+    <Content Include="App_Code\DbInterfaceScheduling.cs" />
     <Compile Include="App_Code\DbInterfaceStudent.cs" />
     <Compile Include="App_Code\DbInterfaceStudentAudition.cs" />
     <Compile Include="App_Code\DistrictAudition.cs" />
@@ -500,12 +501,12 @@
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Events\AssignRoomsAndJudges.aspx.cs">
-      <DependentUpon>AssignRoomsAndJudges.aspx</DependentUpon>
+    <Compile Include="Events\AssignDistrictRoomsAndJudges.aspx.cs">
+      <DependentUpon>AssignDistrictRoomsAndJudges.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Events\AssignRoomsAndJudges.aspx.designer.cs">
-      <DependentUpon>AssignRoomsAndJudges.aspx</DependentUpon>
+    <Compile Include="Events\AssignDistrictRoomsAndJudges.aspx.designer.cs">
+      <DependentUpon>AssignDistrictRoomsAndJudges.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\BadgerPointEntry.aspx.cs">
       <DependentUpon>BadgerPointEntry.aspx</DependentUpon>

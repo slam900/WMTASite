@@ -351,6 +351,7 @@ namespace WMTA.Events
                 ddlSite.SelectedIndex = ddlSite.Items.IndexOf(ddlSite.Items.FindByValue(student.districtId.ToString()));
                 getAuditionDate(Convert.ToInt32(ddlSite.SelectedValue), year);
                 setTheoryLevel(student.theoryLevel);
+                checkFreezeDate();
 
                 //create DistrictAudition object and save to session variable
                 audition = new DistrictAudition(student);

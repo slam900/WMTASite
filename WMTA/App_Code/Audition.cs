@@ -21,6 +21,7 @@ public class Audition
     public TimeSpan startTime { get; private set; }
     public TimeSpan endTime { get; private set; }
     public bool duetsAllowed { get; private set; }  /*Used for State auditions only - should only have one Badger Keyboard site per year where duets are allowed */
+    public List<string> rooms { get; set; }
 
     /* Constructor to instantiate audition as well as create it in the database */
 	public Audition(int districtId, int numJudges, string venue, string chairpersonId, 
@@ -100,5 +101,10 @@ public class Audition
             type = "Composition";
 
         return type;
+    }
+
+    public List<string> GetRooms()
+    {
+        
     }
 }

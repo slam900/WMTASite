@@ -109,6 +109,10 @@
     text-align: center;
 }
 
+.text-align-right {
+    text-align: right;
+}
+
 .popover-font {
     font-size: 11px;
 }

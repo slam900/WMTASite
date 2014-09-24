@@ -12,7 +12,7 @@
                             <fieldset>
                                 <legend id="legend" runat="server">Audition Search</legend>
                                 <%-- Audition search --%>
-                                <asp:UpdatePanel ID="upSearch" runat="server">
+                                <asp:UpdatePanel ID="upSearch" runat="server" OnUnload="DoHourGlass">
                                     <ContentTemplate>
                                         <div>
                                             <h4>Select an Audition to Retrieve Reports On</h4>
@@ -69,7 +69,7 @@
     <div class="col-md-12">
         <div>
             <div class="text-align-center"><h3>Student History</h3></div>
-            <rsweb:ReportViewer ID="rptViewerStudentHistory" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <rsweb:ReportViewer ID="rptViewerStudentHistory" runat="server" CssClass="report-viewer" OnUnload="DoHourGlass"></rsweb:ReportViewer>
         </div>
     </div>
     <script>
@@ -93,5 +93,10 @@
 
             $.notify(message.toString(), { position: "left-top", className: "info" });
         };
+
+        //show wait cursor
+        function doHourglass() {
+            document.body.style.cursor = 'wait';
+        }
     </script>
 </asp:Content>

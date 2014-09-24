@@ -192,6 +192,7 @@
                             <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                             <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                             <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
+                            <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -227,6 +228,13 @@
             var message = $('#MainContent_lblSuccessMessage').text();
 
             $.notify(message.toString(), { position: "left-top", className: "success" });
+        };
+
+        //show an informational message
+        function showInfoMessage() {
+            var message = $('#MainContent_lblInfoMessage').text();
+
+            $.notify(message.toString(), { position: "left-top", className: "info" });
         };
 
         //add the datepicker functionality back to text boxes

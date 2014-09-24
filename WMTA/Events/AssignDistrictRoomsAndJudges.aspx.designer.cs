@@ -10,7 +10,7 @@
 namespace WMTA.Events {
     
     
-    public partial class AssignRoomsAndJudges {
+    public partial class AssignDistrictRoomsAndJudges {
         
         /// <summary>
         /// upFullPage control.
@@ -47,6 +47,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDistrictSearch;
+        
+        /// <summary>
+        /// SqlDataSourceDistrict control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceDistrict;
         
         /// <summary>
         /// btnAuditionSearch control.
@@ -101,6 +110,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlMain;
+        
+        /// <summary>
+        /// txtIdHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIdHidden;
         
         /// <summary>
         /// lblAuditionSite control.
@@ -166,6 +184,15 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlTheoryTest;
         
         /// <summary>
+        /// SqlDataSourceTheory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceTheory;
+        
+        /// <summary>
         /// ddlRoom control.
         /// </summary>
         /// <remarks>
@@ -211,15 +238,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlJudge;
         
         /// <summary>
-        /// WmtaDataSource control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource WmtaDataSource;
-        
-        /// <summary>
         /// btnAddJudge control.
         /// </summary>
         /// <remarks>
@@ -245,5 +263,95 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRemoveJudge;
+        
+        /// <summary>
+        /// ddlAuditionJudges control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAuditionJudges;
+        
+        /// <summary>
+        /// btnAddJudgeRoom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddJudgeRoom;
+        
+        /// <summary>
+        /// ddlJudgeRoom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlJudgeRoom;
+        
+        /// <summary>
+        /// ddlJudgeTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlJudgeTime;
+        
+        /// <summary>
+        /// gvJudgeRooms control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvJudgeRooms;
+        
+        /// <summary>
+        /// btnRemoveJudgeRoom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRemoveJudgeRoom;
+        
+        /// <summary>
+        /// lblErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblErrorMessage;
+        
+        /// <summary>
+        /// lblWarningMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblWarningMessage;
+        
+        /// <summary>
+        /// lblSuccessMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        
+        /// <summary>
+        /// lblInfoMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
     }
 }

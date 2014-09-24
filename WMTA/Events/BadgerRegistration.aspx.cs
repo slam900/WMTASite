@@ -478,6 +478,8 @@ namespace WMTA.Events
 
                                 cboSite.SelectedIndex =
                                         cboSite.Items.IndexOf(cboSite.Items.FindByValue(audition.auditionOrgId.ToString()));
+                                checkFreezeDate();
+
                                 txtDriveTime.Text = audition.driveTime.ToString();
 
                                 //load time constraints
@@ -869,7 +871,7 @@ namespace WMTA.Events
             try
             {
                 //verify all entered information and create audition
-                if (action != Utility.Action.Delete && verifyRequiredDataEntered() && verifyTimePreference() && verifyAge() && duetsAllowed() && !freezeDatePassed())
+                if (action != Utility.Action.Delete && verifyRequiredDataEntered() && verifyTimePreference() && verifyAge() && duetsAllowed() && !checkFreezeDate())
                 {
                     if (audition == null) resetAuditionVar();
 
@@ -1025,7 +1027,7 @@ namespace WMTA.Events
         * Pre:
         * Post: Determine whether the freeze date has already passed for the selected audition
         */
-        private bool freezeDatePassed()
+        private bool checkFreezeDate()
         {
             bool freezeDatePassed = false;
 
@@ -1179,6 +1181,8 @@ namespace WMTA.Events
             {
                 lblAuditionDate.Text = DbInterfaceAudition.GetAuditionDate(Convert.ToInt32(cboSite.SelectedValue));
                 audition.auditionOrgId = Convert.ToInt32(cboSite.SelectedValue);
+
+                checkFreezeDate();
             }
             else
                 lblAuditionDate.Text = "";
