@@ -157,13 +157,13 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Button btnAddRoom;
         
         /// <summary>
-        /// gvRooms control.
+        /// pnlRooms control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvRooms;
+        protected global::System.Web.UI.WebControls.Panel pnlRooms;
         
         /// <summary>
         /// btnRemoveRoom control.
@@ -173,6 +173,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRemoveRoom;
+        
+        /// <summary>
+        /// tblRooms control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tblRooms;
         
         /// <summary>
         /// ddlTheoryTest control.
@@ -211,13 +220,13 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Button btnAddTestRoom;
         
         /// <summary>
-        /// gvTestRooms control.
+        /// pnlTheoryRooms control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvTestRooms;
+        protected global::System.Web.UI.WebControls.Panel pnlTheoryRooms;
         
         /// <summary>
         /// btnRemoveTestRoom control.
@@ -227,6 +236,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRemoveTestRoom;
+        
+        /// <summary>
+        /// tblTheoryRooms control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tblTheoryRooms;
         
         /// <summary>
         /// ddlJudge control.

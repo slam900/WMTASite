@@ -21,7 +21,10 @@ public class Audition
     public TimeSpan startTime { get; private set; }
     public TimeSpan endTime { get; private set; }
     public bool duetsAllowed { get; private set; }  /*Used for State auditions only - should only have one Badger Keyboard site per year where duets are allowed */
+    /* Scheduling */
     public List<string> rooms { get; set; }
+    public List<Tuple<string, string>> theoryRooms { get; set; }
+    public List<Judge> judges { get; set; }
 
     /* Constructor to instantiate audition as well as create it in the database */
 	public Audition(int districtId, int numJudges, string venue, string chairpersonId, 
@@ -103,8 +106,51 @@ public class Audition
         return type;
     }
 
-    public List<string> GetRooms()
+    /*
+     * Pre:
+     * Post: Returns the list of rooms for the audition
+     * @param refresh is an optional parameter to force a refresh of the list of rooms
+     * @returns the list of rooms
+     */
+    public List<string> GetRooms(bool refresh = false)
     {
-        
+        if (rooms == null || refresh)
+        {
+            rooms = DbInterfaceScheduling.GetAuditionRooms(auditionId);
+        }
+
+        return rooms;
+    }
+
+    /*
+     * Pre:
+     * Post: Returns the list of theory test rooms for the audition
+     * @param refresh is an optional parameter to force a refresh of the list of rooms
+     * @returns the list of rooms
+     */
+    public List<Tuple<string, string>> GetTheoryRooms(bool refresh = false)
+    {
+        if (theoryRooms == null || refresh) 
+        {
+            theoryRooms = DbInterfaceScheduling.GetAuditionTheoryRooms(auditionId);
+        }
+
+        return theoryRooms;
+    }
+
+    /*
+     * Pre:
+     * Post: Returns the list of judges for the audition
+     * @param refresh is an optional parameter to force a refresh of the list of judges
+     * @returns the list of judges
+     */
+    public List<Judge> GetJudges(bool refresh = false)
+    {
+        if (judges == null || refresh)
+        {
+            judges = DbInterfaceScheduling.GetAuditionJudges(auditionId);
+        }
+
+        return judges;
     }
 }

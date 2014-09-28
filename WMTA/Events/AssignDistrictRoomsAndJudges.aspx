@@ -65,23 +65,32 @@
                                             </div>
                                             <hr />
                                             <%-- Rooms --%>
-                                            <h4>Rooms</h4>
-                                            <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="txtRoom" CssClass="col-md-3 control-label float-left">Room</asp:Label>
-                                                <div class="col-md-6">
-                                                    <asp:TextBox runat="server" ID="txtRoom" CssClass="form-control" />
-                                                </div>
-                                                <asp:Button ID="btnAddRoom" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddRoom_Click" />
-                                            </div>
-                                            <div class="form-group" hidden="hidden">
-                                                <asp:GridView ID="gvRooms" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" OnPageIndexChanging="gvRooms_PageIndexChanging" OnRowDataBound="gvRooms_RowDataBound" OnSelectedIndexChanged="gvRooms_SelectedIndexChanged">
-                                                    <Columns>
-                                                        <asp:BoundField DataField="Room" HeaderText="Room" />
-                                                    </Columns>
-                                                </asp:GridView>
-                                                <asp:Button ID="btnRemoveRoom" runat="server" Text="Remove" CssClass="btn btn-default btn-sm" OnClick="btnRemoveRoom_Click" />
-                                            </div>
-                                            <hr />
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <h4>Rooms</h4>
+                                                    <div class="form-group">
+                                                        <asp:Label runat="server" AssociatedControlID="txtRoom" CssClass="col-md-3 control-label float-left">Room</asp:Label>
+                                                        <div class="col-md-6">
+                                                            <asp:TextBox runat="server" ID="txtRoom" CssClass="form-control" />
+                                                        </div>
+                                                        <asp:Button ID="btnAddRoom" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddRoom_Click" />
+                                                    </div>
+                                                    <asp:Panel ID="pnlRooms" runat="server" Visible="false">
+                                                        <div>
+                                                            <asp:Button ID="btnRemoveRoom" runat="server" Text="Remove" CssClass="btn btn-link btn-sm col-md-9-margin" OnClick="btnRemoveRoom_Click" />
+                                                            <div class="form-group col-md-9 center">
+                                                                <asp:Table ID="tblRooms" runat="server" CssClass="table table-striped table-bordered table-hover center text-align-center">
+                                                                    <asp:TableHeaderRow BorderStyle="Solid">
+                                                                        <asp:TableHeaderCell Scope="Column" Text="" Width="20px" />
+                                                                        <asp:TableHeaderCell Scope="Column" Text="Room" />
+                                                                    </asp:TableHeaderRow>
+                                                                </asp:Table>
+                                                            </div>
+                                                        </div>
+                                                    </asp:Panel>
+                                                    <hr />
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                             <%-- Theory Test Rooms --%>
                                             <h4>Theory Test Rooms</h4>
                                             <div class="form-group">
@@ -100,15 +109,18 @@
                                                 </div>
                                                 <asp:Button ID="btnAddTestRoom" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddTestRoom_Click" />
                                             </div>
-                                            <div class="form-group" hidden="hidden">
-                                                <asp:GridView ID="gvTestRooms" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" OnPageIndexChanging="gvTestRooms_PageIndexChanging" OnRowDataBound="gvTestRooms_RowDataBound" OnSelectedIndexChanged="gvTestRooms_SelectedIndexChanged">
-                                                    <Columns>
-                                                        <asp:DynamicField HeaderText="Test" />
-                                                        <asp:DynamicField HeaderText="Room" />
-                                                    </Columns>
-                                                </asp:GridView>
+                                            <asp:Panel ID="pnlTheoryRooms" runat="server" Visible="false">
                                                 <asp:Button ID="btnRemoveTestRoom" runat="server" Text="Remove" CssClass="btn btn-default btn-sm" OnClick="btnRemoveTestRoom_Click" />
-                                            </div>
+                                                <div class="form-group col-md-9 center">
+                                                    <asp:Table ID="tblTheoryRooms" runat="server" CssClass="table table-striped table-bordered table-hover center text-align-center">
+                                                        <asp:TableHeaderRow BorderStyle="Solid">
+                                                            <asp:TableHeaderCell Scope="Column" Text="" Width="20px" />
+                                                            <asp:TableHeaderCell Scope="Column" Text="Test" />
+                                                            <asp:TableHeaderCell Scope="Column" Text="Room" />
+                                                        </asp:TableHeaderRow>
+                                                    </asp:Table>
+                                                </div>
+                                            </asp:Panel>
                                             <hr />
                                             <%-- Judges --%>
                                             <h4>Judges</h4>
@@ -148,9 +160,9 @@
                                                         <asp:ListItem Selected="True" Text="" Value="" />
                                                     </asp:DropDownList>
                                                 </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlJudgeTime" CssClass="col-md-1 control-label float-left text-align-right"  Width="12%">Time</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlJudgeTime" CssClass="col-md-1 control-label float-left text-align-right" Width="12%">Time</asp:Label>
                                                 <div class="col-md-3">
-                                                    <asp:DropDownList ID="ddlJudgeTime" runat="server" CssClass="dropdown-list form-control float-left" AppendDataBoundItems="true" Width="90px" >
+                                                    <asp:DropDownList ID="ddlJudgeTime" runat="server" CssClass="dropdown-list form-control float-left" AppendDataBoundItems="true" Width="90px">
                                                         <asp:ListItem Selected="True" Text="" Value="" />
                                                     </asp:DropDownList>
                                                 </div>

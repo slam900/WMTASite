@@ -13,14 +13,58 @@ namespace WMTA.Events
     {
         /* session variables */
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
+        private string auditionSession = "Audition";
+        private string roomsTable = "Rooms", theoryRoomsTable = "TheoryRoomsTable";
+        private string theoryRooms = "TheoryRooms", judgeRooms = "JudgeRooms";
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 Session[auditionSearch] = null;
+                Session[auditionSession] = null;
+                Session[roomsTable] = null;
+                Session[theoryRoomsTable] = null;
+                Session[theoryRooms] = null;
+                Session[judgeRooms] = null;
 
                 loadYearDropdown();
+            }
+
+            // If there were rooms added before the postback, add them back to the table
+            if (Page.IsPostBack && Session[roomsTable] != null)
+            {
+                TableRow[] rowArray = (TableRow[])Session[roomsTable];
+
+                for (int i = 1; i < rowArray.Length; i++)
+                    tblRooms.Rows.Add(rowArray[i]);
+            }
+
+            // If there were theoy rooms added, add them back to the table
+            if (Page.IsPostBack && Session[theoryRoomsTable] != null)
+            {
+                TableRow[] rowArray = (TableRow[])Session[theoryRoomsTable];
+
+                for (int i = 1; i < rowArray.Length; i++)
+                    tblTheoryRooms.Rows.Add(rowArray[i]);
+            }
+
+            // Reload the available theory test rooms
+            if (Page.IsPostBack && Session[theoryRooms] != null)
+            {
+                ListItem[] itemArray = (ListItem[])Session[theoryRooms];
+
+                for (int i = 1; i < itemArray.Length; i++)
+                    ddlRoom.Items.Add(new ListItem(itemArray[i].Text));
+            }
+
+            // Reload the available judging rooms
+            if (Page.IsPostBack && Session[judgeRooms] != null)
+            {
+                ListItem[] itemArray = (ListItem[])Session[judgeRooms];
+
+                for (int i = 1; i < itemArray.Length; i++)
+                    ddlJudgeRoom.Items.Add(new ListItem(itemArray[i].Text));
             }
         }
 
@@ -110,14 +154,17 @@ namespace WMTA.Events
                 ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
                             gvAuditionSearch.Rows[index].Cells[3].Text));
 
-                loadAuditionData(auditionId);
-                loadRooms(auditionId);
-
-                //load theory test rooms
+                Audition audition = loadAuditionData(auditionId);
+                LoadRooms(audition);
+                LoadTheoryRooms(audition);
+                loadJudges(audition);
+                
                 //load judges
                 //load judge rooms
 
+                Session[auditionSession] = audition;
                 pnlMain.Visible = true;
+                upAuditionSearch.Visible = false;
             }
         }
 
@@ -126,8 +173,9 @@ namespace WMTA.Events
          * Post: The existing data for the audition associated with the auditionId 
          *       is loaded to the page.
          * @param auditionId is the id of the audition being scheduled
+         * @returns the audition data
          */
-        private void loadAuditionData(int auditionId)
+        private Audition loadAuditionData(int auditionId)
         {
             Audition audition = null;
 
@@ -153,45 +201,294 @@ namespace WMTA.Events
 
                 Utility.LogError("Assign District Rooms and Judges", "loadAuditionData", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
+
+            return audition;
         }
 
-        private void loadRooms(Audition audition)
+        /*
+         * Pre:
+         * Post: Load all available rooms for an existing audition
+         */
+        private void LoadRooms(Audition audition)
         {
+            clearRooms();
+
             try
             {
-                audition.GetRooms();
+                List<string> rooms = audition.GetRooms();
 
+                // Load each room to the table and all room dropdowns
+                foreach (string room in rooms)
+                {
+                    AddRoom(room);
+                }
+
+                if (rooms != null && rooms.Count > 0)
+                    pnlRooms.Visible = true;
             }
             catch (Exception e)
             {
                 showErrorMessage("Error: An error occurred while loading the event's rooms.");
-                Utility.LogError("Assign District Rooms and Judges", "loadRooms", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("Assign District Rooms and Judges", "loadRooms", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 
+        /*
+         * Pre:
+         * Post: Load the theory rooms for an existing audition
+         */
+        private void LoadTheoryRooms(Audition audition)
+        {
+            clearTheoryRooms();
+
+            try
+            {
+                List<Tuple<string, string>> theoryRooms = audition.GetTheoryRooms();
+
+                // Load each room to the table
+                foreach (Tuple<string, string> room in theoryRooms)
+                {
+                    AddTheoryRoom(room.Item1, room.Item2);
+                }
+
+                if (theoryRooms != null & theoryRooms.Count > 0)
+                    pnlTheoryRooms.Visible = true;
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while loading the event's theory test rooms.");
+                Utility.LogError("Assign District Rooms and Judges", "loadTheoryRooms", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        private void LoadJudges(Audition audition)
+        {
+            clearJudges();
+
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while loading the event's judges.");
+                Utility.LogError("AssignDistrictRoomsAndJudges", "LoadJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Add the new room to the table if it doesn't already exist
+         */
         protected void btnAddRoom_Click(object sender, EventArgs e)
         {
+            string room = txtRoom.Text;
 
+            if (!room.Equals("") && !RoomExists(room))
+            {
+                AddRoom(room);
+
+                pnlRooms.Visible = true;
+            }
+            else
+            {
+                showWarningMessage("Please enter a room name.");
+            }
         }
 
+        /*
+         * Pre:
+         * Post: Add a row to the rooms table and dropdowns with the specified room name
+         */
+        private void AddRoom(string room)
+        {
+            TableRow row = new TableRow();
+            TableCell chkBoxCell = new TableCell();
+            TableCell roomCell = new TableCell();
+            CheckBox chkBox = new CheckBox();
+
+            // Add a checkbox to column 1
+            chkBoxCell.Controls.Add(chkBox);
+
+            // Add the room name to column 2
+            roomCell.Text = room;
+
+            // Add the cells to the new row
+            row.Cells.Add(chkBoxCell);
+            row.Cells.Add(roomCell);
+
+            // Add the new row to the table
+            tblRooms.Rows.Add(row);
+
+            // Add the room to the theory and judging rooms dropdown
+            ddlRoom.Items.Add(new ListItem(room));
+            ddlJudgeRoom.Items.Add(new ListItem(room));
+
+            // Save the updated table to the session
+            saveTableToSession(tblRooms, roomsTable);
+            saveDropdownToSession(ddlRoom, theoryRooms);
+            saveDropdownToSession(ddlJudgeRoom, judgeRooms);
+        }
+
+        /*
+         * Pre: 
+         * Post: Add a row the theory rooms table for the specified test and room
+         */
+        private void AddTheoryRoom(string theoryTest, string room)
+        {
+            TableRow row = new TableRow();
+            TableCell chkBoxCell = new TableCell();
+            TableCell testCell = new TableCell();
+            TableCell roomCell = new TableCell();
+            CheckBox chkBox = new CheckBox();
+
+            // Add a checkbox to column 1
+            chkBoxCell.Controls.Add(chkBox);
+
+            // Add the test and room names to columns 2 and 3
+            testCell.Text = theoryTest;
+            roomCell.Text = room;
+
+            // Add the cells to the new row
+            row.Cells.Add(chkBoxCell);
+            row.Cells.Add(testCell);
+            row.Cells.Add(roomCell);
+
+            // Add the new row to the table
+            tblTheoryRooms.Rows.Add(row);
+
+            // Save the updated table to the session
+            saveTableToSession(tblTheoryRooms, theoryRoomsTable);
+        }
+
+        /*
+         * Pre:
+         * Post: Determine if the input room is already in the table
+         * @returns true if it exists and false otherwise
+         */
+        private bool RoomExists(string room)
+        {
+            for (int i = 0; i < tblRooms.Rows.Count; i++)
+            {
+                if (tblRooms.Rows[i].Cells[1].Text.Equals(room))
+                {
+                    showInfoMessage("The specified room has already been added.");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /*
+         * Pre:
+         * Post: Determine if the input test is already in the table
+         * @returns true if it exists and false otherwise
+         */
+        private bool TheoryTestExists(string test)
+        {
+            for (int i = 0; i < tblTheoryRooms.Rows.Count; i++)
+            {
+                if (tblTheoryRooms.Rows[i].Cells[1].Text.Equals(test))
+                {
+                    showInfoMessage("The specified theory test has already been added.");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /*
+         * Pre:
+         * Post: Remove selected rooms
+         */
         protected void btnRemoveRoom_Click(object sender, EventArgs e)
         {
+            bool roomSelected = false;
 
+            // Remove any checked rows
+            for (int i = 1; i < tblRooms.Rows.Count; i++)
+            {
+                if (((CheckBox)tblRooms.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    tblRooms.Rows.Remove(tblRooms.Rows[i]);
+                    roomSelected = true;
+                    i--;
+                }
+            }
+
+            // Display a message if no room was selected
+            if (!roomSelected)
+            {
+                showWarningMessage("Please select a room to remove.");
+            }
+            else // Save changes
+            {
+                saveTableToSession(tblRooms, roomsTable);
+            }
         }
+    
 
-        protected void gvRooms_SelectedIndexChanged(object sender, EventArgs e)
+        protected void tblRooms_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
+        /*
+         * Pre:
+         * Post: Adds the new theory test room to the table, if the test
+         *       has not already been assigned a room
+         */
         protected void btnAddTestRoom_Click(object sender, EventArgs e)
         {
+            string test = ddlTheoryTest.SelectedValue.ToString();
+            string room = ddlRoom.SelectedValue.ToString();
 
+            if (!test.Equals("") && !room.Equals("") && !TheoryTestExists(test))
+            {
+                AddTheoryRoom(test, room);
+
+                pnlRooms.Visible = true;
+            }
+            else if (test.Equals(""))
+            {
+                showWarningMessage("Please select a theory test.");
+            }
+            else if (room.Equals(""))
+            {
+                showWarningMessage("Please select a room for the theory test.");
+            }
         }
 
+        /*
+         * Pre:
+         * Post: Remove selected theory test rooms
+         */
         protected void btnRemoveTestRoom_Click(object sender, EventArgs e)
         {
+            bool roomSelected = false;
 
+            // Remove any checked rows
+            for (int i = 1; i < tblTheoryRooms.Rows.Count; i++)
+            {
+                if (((CheckBox)tblTheoryRooms.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    tblTheoryRooms.Rows.Remove(tblTheoryRooms.Rows[i]);
+                    roomSelected = true;
+                    i--;
+                }
+            }
+
+            // Display a message if no room was selected
+            if (!roomSelected)
+            {
+                showWarningMessage("Please select a theory test room to remove.");
+            }
+            else // Save changes
+            {
+                saveTableToSession(tblTheoryRooms, theoryRoomsTable);
+            }
         }
 
         protected void gvTestRooms_SelectedIndexChanged(object sender, EventArgs e)
@@ -286,20 +583,36 @@ namespace WMTA.Events
             }
         }
 
+        /*
+         * Pre:
+         * Post: The table in the input is saved to a session variable
+         * @table is the table being saved
+         * @session is the name of the session variable
+         */
+        private void saveTableToSession(Table table, string session)
+        {
+            TableRow[] rowArray = new TableRow[table.Rows.Count];
+            table.Rows.CopyTo(rowArray, 0);
+            Session[session] = rowArray;
+        }
+
+        /*
+         * Pre:
+         * Post: The dropdown list in the input is saved to a session variable
+         * @ddl is the dropdown list being saved
+         * @session is the name of the session variable
+         */
+        private void saveDropdownToSession(DropDownList ddl, string session)
+        {
+            ListItem[] itemArray = new ListItem[ddl.Items.Count];
+            ddl.Items.CopyTo(itemArray, 0);
+            Session[session] = itemArray;
+        }
+
         #region gridview events
         protected void gvAuditionSearch_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             PageIndexChanging(gvAuditionSearch, e);
-        }
-
-        protected void gvRooms_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            PageIndexChanging(gvRooms, e);
-        }
-
-        protected void gvTestRooms_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            PageIndexChanging(gvTestRooms, e);
         }
 
         protected void gvJudges_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -317,16 +630,6 @@ namespace WMTA.Events
             setHeaderRowColor(gvAuditionSearch, e);
         }
 
-        protected void gvRooms_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvRooms, e);
-        }
-
-        protected void gvTestRooms_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvTestRooms, e);
-        }
-
         protected void gvJudges_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvJudges, e);
@@ -338,17 +641,19 @@ namespace WMTA.Events
         }
         #endregion gridview events
 
-        /// <summary>
-        /// Clear the search fields
-        /// </summary>
+        /*
+         * Pre:
+         * Post: Clear the search fields
+         */
         protected void btnClearAuditionSearch_Click(object sender, EventArgs e)
         {
             ClearSearch();
         }
 
-        /// <summary>
-        /// Clear the search fields
-        /// </summary>
+        /*
+         * Pre:
+         * Post: Clear the search fields
+         */
         private void ClearSearch()
         {
             ddlDistrictSearch.SelectedIndex = 0;
@@ -364,6 +669,38 @@ namespace WMTA.Events
         {
             gv.DataSource = null;
             gv.DataBind();
+        }
+
+        private void clearRooms()
+        {
+            // Clear the rooms table
+            while (tblRooms.Rows.Count > 1)
+            {
+                tblRooms.Rows.RemoveAt(1);
+            }
+
+            // Clear the theory test room dropdown
+            ddlRoom.Items.Clear();
+            ddlRoom.Items.Add(new ListItem(""));
+
+            // Clear the judging room dropdown
+            ddlJudgeRoom.Items.Clear();
+            ddlJudgeRoom.Items.Add(new ListItem(""));
+            // Save changes to session
+            saveTableToSession(tblRooms, roomsTable);
+            saveDropdownToSession(ddlRoom, theoryRooms);
+        }
+
+        private void clearTheoryRooms()
+        {
+            // Clear the theory rooms table
+            while (tblTheoryRooms.Rows.Count > 1)
+            {
+                tblTheoryRooms.Rows.RemoveAt(1);
+            }
+
+            // Save changes to session
+            saveTableToSession(tblTheoryRooms, theoryRoomsTable);
         }
 
         /*

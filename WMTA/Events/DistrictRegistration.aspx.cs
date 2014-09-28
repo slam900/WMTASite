@@ -48,7 +48,7 @@ namespace WMTA.Events
 
             //if there were compositions selected before the postback, add them 
             //back to the table
-            else if (Page.IsPostBack && Session[compositionTable] != null)
+            if (Page.IsPostBack && Session[compositionTable] != null)
             {
                 TableRow[] rowArray = (TableRow[])Session[compositionTable];
 
