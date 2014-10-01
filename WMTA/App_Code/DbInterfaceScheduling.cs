@@ -313,7 +313,7 @@ public class DbInterfaceScheduling
                 string mi = table.Rows[i]["MI"].ToString();
                 string lastName = table.Rows[i]["LastName"].ToString();
                 string phone = table.Rows[i]["Phone"].ToString();
-                string email = table.Rows[i]["Email"].ToString();
+                string email = table.Rows[i]["EmailAddress"].ToString();
                 int districtId = Convert.ToInt32(table.Rows[i]["GeoId"].ToString());
                 string contactType = table.Rows[i]["ContactType"].ToString();
                 List<JudgePreference> preferences = new List<JudgePreference>();
@@ -407,22 +407,22 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_AuditionTheoryRoomNew";
+            string storedProc = "sp_AuditionJudgeNew";
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.AddWithValue("@contactId", contactId);
             cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
-            cmd.Parameters.AddWithValue("@test", theoryTest);
-            cmd.Parameters.AddWithValue("@room", room);
+            cmd.Parameters.AddWithValue("@order", scheduleOrder);
 
             adapter.Fill(table);
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceScheduling", "AddTheoryRoom", "auditionOrgId: " + auditionOrgId + ", theoryTest: " + theoryTest + ", room: " + room,
+            Utility.LogError("DbInterfaceScheduling", "AddJudge", "auditionOrgId: " + auditionOrgId + ", contactId: " + contactId + ", scheduleOrder: " + scheduleOrder,
                              "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             success = false;
         }
@@ -450,22 +450,21 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_AuditionTheoryRoomDelete";
+            string storedProc = "sp_AuditionJudgeDelete";
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.AddWithValue("@contactId", contactId);
             cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
-            cmd.Parameters.AddWithValue("@test", theoryTest);
-            cmd.Parameters.AddWithValue("@room", room);
 
             adapter.Fill(table);
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceScheduling", "DeleteTheoryRoom", "auditionOrgId: " + auditionOrgId + ", theoryTest: " + theoryTest + ", room: " + room,
+            Utility.LogError("DbInterfaceScheduling", "DeleteJudge", "auditionOrgId: " + auditionOrgId + ", contactId: " + contactId,
                              "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             success = false;
         }

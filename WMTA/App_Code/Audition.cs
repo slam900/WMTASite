@@ -24,7 +24,8 @@ public class Audition
     /* Scheduling */
     public List<string> rooms { get; set; }
     public List<Tuple<string, string>> theoryRooms { get; set; }
-    public List<Judge> judges { get; set; }
+    public List<Judge> availableJudges { get; set; }
+    public List<Judge> scheduledJudges { get; set; }
 
     /* Constructor to instantiate audition as well as create it in the database */
 	public Audition(int districtId, int numJudges, string venue, string chairpersonId, 
@@ -140,17 +141,33 @@ public class Audition
 
     /*
      * Pre:
-     * Post: Returns the list of judges for the audition
+     * Post: Returns the list of judges for the audition's district
      * @param refresh is an optional parameter to force a refresh of the list of judges
      * @returns the list of judges
      */
-    public List<Judge> GetJudges(bool refresh = false)
+    public List<Judge> GetAvailableJudges(bool refresh = false)
     {
-        if (judges == null || refresh)
+        if (availableJudges == null || refresh)
         {
-            judges = DbInterfaceScheduling.GetAuditionJudges(auditionId);
+            availableJudges = DbInterfaceScheduling.GetDistrictJudges(auditionId);
         }
 
-        return judges;
+        return availableJudges;
+    }
+
+    /*
+     * Pre:
+     * Post: Returns the list of judges scheduled for the audition
+     * @param refresh is an optional parameter to force a refresh of the list of judges
+     * @returns the list of judges
+     */
+    public List<Judge> GetEventJudges(bool refresh = false)
+    {
+        if (scheduledJudges == null || refresh)
+        {
+            scheduledJudges = DbInterfaceScheduling.GetAuditionJudges(auditionId);
+        }
+
+        return scheduledJudges;
     }
 }

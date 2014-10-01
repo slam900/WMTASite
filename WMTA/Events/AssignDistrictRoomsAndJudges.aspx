@@ -133,14 +133,18 @@
                                                 </div>
                                                 <asp:Button ID="btnAddJudge" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddJudge_Click" />
                                             </div>
-                                            <div class="form-group" hidden="hidden">
-                                                <asp:GridView ID="gvJudges" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" OnPageIndexChanging="gvJudges_PageIndexChanging" OnRowDataBound="gvJudges_RowDataBound" OnSelectedIndexChanged="gvJudges_SelectedIndexChanged">
-                                                    <Columns>
-                                                        <asp:BoundField DataField="Judge" HeaderText="Judge" />
-                                                    </Columns>
-                                                </asp:GridView>
+                                            <asp:Panel ID="pnlJudges" runat="server" Visible="false">
                                                 <asp:Button ID="btnRemoveJudge" runat="server" Text="Remove" CssClass="btn btn-default btn-sm" OnClick="btnRemoveJudge_Click" />
-                                            </div>
+                                                <div class="form-group col-md-9 center">
+                                                    <asp:Table ID="tblJudges" runat="server" CssClass="table table-striped table-bordered table-hover center text-align-center">
+                                                        <asp:TableHeaderRow BorderStyle="Solid">
+                                                            <asp:TableHeaderCell Scope="Column" Text="" Width="20px" />
+                                                            <asp:TableHeaderCell Scope="Column" Text="Id" />
+                                                            <asp:TableHeaderCell Scope="Column" Text="Judge" />
+                                                        </asp:TableHeaderRow>
+                                                    </asp:Table>
+                                                </div>
+                                            </asp:Panel>
                                             <hr />
                                             <%-- Judge Rooms --%>
                                             <h4>Judge Rooms</h4>

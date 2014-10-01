@@ -265,13 +265,13 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Button btnAddJudge;
         
         /// <summary>
-        /// gvJudges control.
+        /// pnlJudges control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvJudges;
+        protected global::System.Web.UI.WebControls.Panel pnlJudges;
         
         /// <summary>
         /// btnRemoveJudge control.
@@ -281,6 +281,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRemoveJudge;
+        
+        /// <summary>
+        /// tblJudges control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tblJudges;
         
         /// <summary>
         /// ddlAuditionJudges control.

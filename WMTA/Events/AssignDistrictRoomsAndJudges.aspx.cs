@@ -14,7 +14,7 @@ namespace WMTA.Events
         /* session variables */
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
         private string auditionSession = "Audition";
-        private string roomsTable = "Rooms", theoryRoomsTable = "TheoryRoomsTable";
+        private string roomsTable = "Rooms", theoryRoomsTable = "TheoryRoomsTable", judgesTable = "JudgesTable";
         private string theoryRooms = "TheoryRooms", judgeRooms = "JudgeRooms";
 
         protected void Page_Load(object sender, EventArgs e)
@@ -66,6 +66,17 @@ namespace WMTA.Events
                 for (int i = 1; i < itemArray.Length; i++)
                     ddlJudgeRoom.Items.Add(new ListItem(itemArray[i].Text));
             }
+
+            // Reload the judges table
+            if (Page.IsPostBack && Session[judgesTable] != null)
+            {
+                TableRow[] rowArray = (TableRow[])Session[judgesTable];
+
+                for (int i = 0; i < rowArray.Length; i++)
+                    tblJudges.Rows.Add(rowArray[i]);
+            }
+
+            // removing a judge is not removing the judge fromt he Judge Rooms dropdown
         }
 
         /*
@@ -157,9 +168,10 @@ namespace WMTA.Events
                 Audition audition = loadAuditionData(auditionId);
                 LoadRooms(audition);
                 LoadTheoryRooms(audition);
-                loadJudges(audition);
+                LoadAvailableJudgesToDropdown(audition);
+                LoadAuditionJudges(audition);
+
                 
-                //load judges
                 //load judge rooms
 
                 Session[auditionSession] = audition;
@@ -261,18 +273,53 @@ namespace WMTA.Events
             }
         }
 
-        private void LoadJudges(Audition audition)
+        /*
+         * Pre:
+         * Post: Load the judges for the audition's district
+         */
+        private void LoadAvailableJudgesToDropdown(Audition audition)
         {
-            clearJudges();
+            clearAvailableJudges();
 
             try
             {
+                List<Judge> judges = audition.GetAvailableJudges();
 
+                // Load each judge to the dropdown
+                foreach (Judge judge in judges)
+                {
+                    ddlJudge.Items.Add(new ListItem(judge.lastName + judge.firstName, judge.id.ToString()));
+                }
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while loading the district's judges.");
+                Utility.LogError("AssignDistrictRoomsAndJudges", "LoadAvailableJudgesToDropdown", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Load the judges for an existing audition
+         */
+        private void LoadAuditionJudges(Audition audition)
+        {
+            clearAuditionJudges();
+
+            try
+            {
+                List<Judge> judges = audition.GetEventJudges();
+
+                //Load each judge to the table
+                foreach (Judge judge in judges)
+                {
+                    AddJudge(judge.id.ToString(), judge.lastName + ", " + judge.firstName);
+                }
             }
             catch (Exception e)
             {
                 showErrorMessage("Error: An error occurred while loading the event's judges.");
-                Utility.LogError("AssignDistrictRoomsAndJudges", "LoadJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("AssignDistrictRoomsAndJudges", "LoadAuditionJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 
@@ -362,6 +409,39 @@ namespace WMTA.Events
         }
 
         /*
+         * Pre: Add a new row to the judges table
+         */
+        private void AddJudge(string contactId, string name)
+        {
+            TableRow row = new TableRow();
+            TableCell chkBoxCell = new TableCell();
+            TableCell idCell = new TableCell();
+            TableCell nameCell = new TableCell();
+            CheckBox chkBox = new CheckBox();
+
+            // Add a checkbox to column 1
+            chkBoxCell.Controls.Add(chkBox);
+
+            // Add the id and name to columns 2 and 3
+            idCell.Text = contactId;
+            nameCell.Text = name;
+
+            // Add the cells to the new row
+            row.Cells.Add(chkBoxCell);
+            row.Cells.Add(idCell);
+            row.Cells.Add(nameCell);
+
+            // Add the new row to the table
+            tblJudges.Rows.Add(row);
+
+            // Add the new judge tot he judges dropdown in the Judge Rooms section
+            ddlAuditionJudges.Items.Add(new ListItem(name, contactId));
+
+            // Save the updated table to the session
+            saveTableToSession(tblJudges, judgesTable);
+        }
+
+        /*
          * Pre:
          * Post: Determine if the input room is already in the table
          * @returns true if it exists and false otherwise
@@ -392,6 +472,25 @@ namespace WMTA.Events
                 if (tblTheoryRooms.Rows[i].Cells[1].Text.Equals(test))
                 {
                     showInfoMessage("The specified theory test has already been added.");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /*
+         * Pre:
+         * Post: Determine if the input judge is already in the table
+         * @return true if the judge exists and false otherwise
+         */
+        private bool JudgeExists(string contactId)
+        {
+            for (int i = 0; i < tblJudges.Rows.Count; i++)
+            {
+                if (tblJudges.Rows[i].Cells[1].Text.Equals(contactId))
+                {
+                    showInfoMessage("The selected judge has already been added.");
                     return true;
                 }
             }
@@ -496,14 +595,64 @@ namespace WMTA.Events
 
         }
 
+        /*
+         * Pre:
+         * Post: Add the new judge to the judges table and list of judges
+         *       in the Judge Rooms section
+         */
         protected void btnAddJudge_Click(object sender, EventArgs e)
         {
+            string id = ddlJudge.SelectedValue;
+            string name = ddlJudge.SelectedItem.Text;
 
+            if (!id.Equals("") && !JudgeExists(id))
+            {
+                AddJudge(id, name);
+
+                pnlJudges.Visible = true;
+            }
+            else
+            {
+                showWarningMessage("Please select a judge.");
+            }
         }
 
+        /*
+         * Pre:
+         * Post: Removes the selected judge from the judges table and
+         *       the judge dropdown in the Judge Rooms section
+         */
         protected void btnRemoveJudge_Click(object sender, EventArgs e)
         {
+            bool judgeSelected = false;
 
+            // Remove any checked judges
+            for (int i = 1; i < tblJudges.Rows.Count; i++)
+            {
+                if (((CheckBox)tblJudges.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    string contactId = tblJudges.Rows[i].Cells[1].Text;
+                    string name = tblJudges.Rows[i].Cells[2].Text;
+
+                    // Remove from dropdown
+                    ddlAuditionJudges.Items.Remove(new ListItem(name, contactId));
+
+                    // Remove from table
+                    tblJudges.Rows.Remove(tblJudges.Rows[i]);
+                    judgeSelected = true;
+                    i--;
+                }
+            }
+
+            // Display a message if no judge was selected
+            if (!judgeSelected)
+            {
+                showWarningMessage("Please select a judge to remove.");
+            }
+            else // Save changes
+            {
+                saveTableToSession(tblJudges, judgesTable);
+            }
         }
 
         protected void gvJudges_SelectedIndexChanged(object sender, EventArgs e)
@@ -615,11 +764,6 @@ namespace WMTA.Events
             PageIndexChanging(gvAuditionSearch, e);
         }
 
-        protected void gvJudges_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            PageIndexChanging(gvJudges, e);
-        }
-
         protected void gvJudgeRooms_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             PageIndexChanging(gvJudgeRooms, e);
@@ -628,11 +772,6 @@ namespace WMTA.Events
         protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvAuditionSearch, e);
-        }
-
-        protected void gvJudges_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvJudges, e);
         }
 
         protected void gvJudgeRooms_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -686,6 +825,7 @@ namespace WMTA.Events
             // Clear the judging room dropdown
             ddlJudgeRoom.Items.Clear();
             ddlJudgeRoom.Items.Add(new ListItem(""));
+
             // Save changes to session
             saveTableToSession(tblRooms, roomsTable);
             saveDropdownToSession(ddlRoom, theoryRooms);
@@ -701,6 +841,29 @@ namespace WMTA.Events
 
             // Save changes to session
             saveTableToSession(tblTheoryRooms, theoryRoomsTable);
+        }
+
+        private void clearAvailableJudges()
+        {
+            ddlJudge.Items.Clear();
+
+            ddlJudge.Items.Add(new ListItem(""));
+        }
+
+        private void clearAuditionJudges()
+        {
+            // Clear the judges table
+            while (tblJudges.Rows.Count > 1)
+            {
+                tblJudges.Rows.RemoveAt(1);
+            }
+
+            // Clear the judges dropdown
+            ddlAuditionJudges.Items.Clear();
+            ddlAuditionJudges.Items.Add(new ListItem(""));
+
+            // Save changes to session
+            saveTableToSession(tblJudges, judgesTable);
         }
 
         /*

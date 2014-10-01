@@ -233,7 +233,7 @@ namespace WMTA.Events
                     }
                     else
                     {
-                        showErrorMessage("Error: The audition could not be created. Please make sure all entered data is valid.");
+                        showErrorMessage("Error: The competition could not be created. Please make sure all entered data is valid.");
                     }
                 }
                 //update the information of an existing audition
@@ -251,13 +251,13 @@ namespace WMTA.Events
                     }
                     else
                     {
-                        showErrorMessage("Error: The audition could not be updated.");
+                        showErrorMessage("Error: The competition could not be updated.");
                     }
                 }
                 //display an error message if the audition already exists
                 else
                 {
-                    showWarningMessage("An audition for this venue already exists.");
+                    showWarningMessage("An competition for this venue already exists.");
                 }
             }
         }
@@ -297,7 +297,7 @@ namespace WMTA.Events
             }
             else if (DateTime.Parse(txtFreezeDate.Value) >= DateTime.Parse(txtDate.Value))
             {
-                showWarningMessage("The Freeze Date must be before the Audition Date.");
+                showWarningMessage("The Freeze Date must be before the Competition Date.");
                 result = false;
             }
 
@@ -314,7 +314,7 @@ namespace WMTA.Events
             {
                 if (DbInterfaceAudition.StateDuetSiteExists(DateTime.Parse(txtDate.Value).Year, Convert.ToInt32(ddlDistrict.SelectedValue)))
                 {
-                    showWarningMessage("There is already a Badger Keyboard audition with duets enabled.");
+                    showWarningMessage("There is already a Badger Keyboard competition with duets enabled.");
                     result = false;
                 }
             }
@@ -367,9 +367,9 @@ namespace WMTA.Events
             }
 
             if (action == Utility.Action.Add)
-                showSuccessMessage("The audition was successfully created.");
+                showSuccessMessage("The competition was successfully created.");
             else if (action == Utility.Action.Edit)
-                showSuccessMessage("The audition was successfully updated.");
+                showSuccessMessage("The competition was successfully updated.");
         }
 
         /*
@@ -537,12 +537,12 @@ namespace WMTA.Events
                 }
                 else
                 {
-                    showErrorMessage("Error: The audition information could not be loaded.");
+                    showErrorMessage("Error: The competition information could not be loaded.");
                 }
             }
             catch (Exception e)
             {
-                showErrorMessage("Error: An error occurred while loading the audition data.");
+                showErrorMessage("Error: An error occurred while loading the competition data.");
 
                 Utility.LogError("Create Badger Audition", "loadAuditionData", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }

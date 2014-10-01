@@ -41,7 +41,7 @@
                                         <asp:Panel ID="pnlMain" runat="server">
                                             <asp:TextBox ID="txtIdHidden" runat="server" CssClass="display-none"></asp:TextBox>
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">District</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">Region</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlDistrict" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="GeoName" DataValueField="GeoId" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrict_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
@@ -92,7 +92,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="txtDate" CssClass="col-md-3 control-label float-left">Audition Date</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="txtDate" CssClass="col-md-3 control-label float-left">Competition Date</asp:Label>
                                                 <div class="col-md-6">
                                                     <input type="text" runat="server" class="form-control" data-date-format="mm/dd/yy" id="txtDate" />
                                                 </div>

@@ -107,6 +107,7 @@ public partial class DbInterfaceStudent
             cmd.Parameters.AddWithValue("@curContactId", student.currTeacherId);
             cmd.Parameters.AddWithValue("@grade", student.grade);
             cmd.Parameters.AddWithValue("@year", year);
+            cmd.Parameters.AddWithValue("@legacyPoints", student.legacyPoints);
 
             adapter.Fill(table);
         }
@@ -236,15 +237,18 @@ public partial class DbInterfaceStudent
                 string firstName = table.Rows[0]["StudentFirstName"].ToString();
                 string middleInitial = table.Rows[0]["StudentMI"].ToString();
                 string lastName = table.Rows[0]["StudentLastName"].ToString();
-                int districtId = -1, teacherId = 0, prevTeacherId = 0;
+                int districtId = -1, teacherId = 0, prevTeacherId = 0, legacyPoints = 0;
                 if (!table.Rows[0]["DistrictId"].ToString().Equals(""))
                     districtId = Convert.ToInt32(table.Rows[0]["DistrictId"]);
                 if (!table.Rows[0]["CurrentTeacherId"].ToString().Equals(""))
                     teacherId = Convert.ToInt32(table.Rows[0]["CurrentTeacherId"]);
                 if (!table.Rows[0]["PreviousTeacherId"].ToString().Equals(""))
                     prevTeacherId = Convert.ToInt32(table.Rows[0]["PreviousTeacherId"]);
+                if (!table.Rows[0]["LegacyPoints"].ToString().Equals(""))
+                    legacyPoints = Convert.ToInt32(table.Rows[0]["LegacyPoints"]);
 
                 student = new Student(id, firstName, middleInitial, lastName, districtId, teacherId, prevTeacherId);
+                student.legacyPoints = legacyPoints;
             }
         }
         catch (Exception e)

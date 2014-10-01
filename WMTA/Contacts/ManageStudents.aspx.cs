@@ -99,6 +99,14 @@ namespace WMTA.Contacts
                 legend.InnerHtml = "Edit Students";
 
                 filterDistrictsAndTeachers();
+
+                // Allow district chairs and above edit legacy points
+                User user = (User)Session[Utility.userRole];
+                if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A'))
+                {
+                    lblLegacyPoints.Visible = true;
+                    txtLegacyPoints.Visible = true;
+                }
             }
             else if (action == Utility.Action.Delete)
             {
@@ -290,7 +298,7 @@ namespace WMTA.Contacts
             //if the entered information is valid, edit the student information
             if (verifyInformation())
             {
-                int studentId, districtId, currTeacherId, prevTeacherId = 0;
+                int studentId, districtId, currTeacherId, prevTeacherId = 0, legacyPoints = -1;
                 string firstName, middleInitial, lastName, grade;
 
                 studentId = Convert.ToInt32(lblId.Text);
@@ -302,8 +310,15 @@ namespace WMTA.Contacts
                 currTeacherId = Convert.ToInt32(cboCurrTeacher.SelectedValue);
                 if (!cboPrevTeacher.SelectedValue.ToString().Equals("")) prevTeacherId = Convert.ToInt32(cboPrevTeacher.SelectedValue);
 
+                // Get legacy points
+                if (!txtLegacyPoints.Text.Equals(""))
+                {
+                    Int32.TryParse(txtLegacyPoints.Text, out legacyPoints);
+                }
+                
                 student = new Student(studentId, firstName, middleInitial, lastName, grade, districtId, currTeacherId, prevTeacherId);
-
+                student.legacyPoints = legacyPoints;
+                                
                 if (!student.editDatabaseInformation())
                 {
                    showErrorMessage("Error: There was an error updating the student's information");
@@ -672,6 +687,7 @@ namespace WMTA.Contacts
                 txtGrade.Text = student.grade;
                 cboCurrTeacher.SelectedIndex = cboCurrTeacher.Items.IndexOf(cboCurrTeacher.Items.FindByValue(student.currTeacherId.ToString()));
                 cboPrevTeacher.SelectedIndex = cboPrevTeacher.Items.IndexOf(cboPrevTeacher.Items.FindByValue(student.prevTeacherId.ToString()));
+                txtLegacyPoints.Text = student.legacyPoints.ToString();
 
                 pnlButtons.Visible = true;
                 pnlFullPage.Visible = true;
