@@ -17,16 +17,7 @@
                                             <h4>Composition Search</h4>
                                             <br />
                                             <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">This section is for verifying that the composition you are about to enter does not already exist. Please confirm the compoisition is not in the system before you proceed with adding it.</label>
-                                            <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Style</asp:Label>
-                                                <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlStyleSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged" AutoPostBack="True">
-                                                        <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
-                                                </div>
-                                                <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" CausesValidation="false" OnClick="btnClearCompSearch_Click" />
-                                            </div>
+                                            
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlComposerSearch" CssClass="col-md-3 control-label float-left">Composer</asp:Label>
                                                 <div class="col-md-6">
@@ -47,6 +38,16 @@
                                             </div>
                                             <label id="txtCompositionId" runat="server" visible="false" />
                                         </div>
+                                        <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Style</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlStyleSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged" AutoPostBack="True">
+                                                        <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                                    </asp:DropDownList>
+                                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
+                                                </div>
+                                                <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" CausesValidation="false" OnClick="btnClearCompSearch_Click" />
+                                            </div>
                                         <hr />
                                     </ContentTemplate>
                                 </asp:UpdatePanel>

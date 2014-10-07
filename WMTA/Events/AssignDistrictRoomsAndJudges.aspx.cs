@@ -14,8 +14,8 @@ namespace WMTA.Events
         /* session variables */
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
         private string auditionSession = "Audition";
-        private string roomsTable = "Rooms", theoryRoomsTable = "TheoryRoomsTable", judgesTable = "JudgesTable";
-        private string theoryRooms = "TheoryRooms", judgeRooms = "JudgeRooms";
+        private string roomsTable = "Rooms", theoryRoomsTable = "TheoryRoomsTable", judgesTable = "JudgesTable", judgeRoomsTable = "JudgeRoomsTable";
+        private string theoryRooms = "TheoryRooms", judgeRooms = "JudgeRooms", auditionJudges = "AuditionJudges";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -52,19 +52,29 @@ namespace WMTA.Events
             // Reload the available theory test rooms
             if (Page.IsPostBack && Session[theoryRooms] != null)
             {
+                string selectedValue = ddlRoom.SelectedValue;
+                ddlRoom.Items.Clear();
+
                 ListItem[] itemArray = (ListItem[])Session[theoryRooms];
 
-                for (int i = 1; i < itemArray.Length; i++)
+                for (int i = 0; i < itemArray.Length; i++)
                     ddlRoom.Items.Add(new ListItem(itemArray[i].Text));
+
+                ddlRoom.SelectedValue = selectedValue;
             }
 
             // Reload the available judging rooms
             if (Page.IsPostBack && Session[judgeRooms] != null)
             {
+                string selectedValue = ddlJudgeRoom.SelectedValue;
+                ddlJudgeRoom.Items.Clear();
+
                 ListItem[] itemArray = (ListItem[])Session[judgeRooms];
 
-                for (int i = 1; i < itemArray.Length; i++)
+                for (int i = 0; i < itemArray.Length; i++)
                     ddlJudgeRoom.Items.Add(new ListItem(itemArray[i].Text));
+
+                ddlJudgeRoom.SelectedValue = selectedValue;
             }
 
             // Reload the judges table
@@ -72,11 +82,32 @@ namespace WMTA.Events
             {
                 TableRow[] rowArray = (TableRow[])Session[judgesTable];
 
-                for (int i = 0; i < rowArray.Length; i++)
+                for (int i = 1; i < rowArray.Length; i++)
                     tblJudges.Rows.Add(rowArray[i]);
             }
 
-            // removing a judge is not removing the judge fromt he Judge Rooms dropdown
+            // Reload audition judges dropdown
+            if (Page.IsPostBack && Session[auditionJudges] != null) 
+            {
+                string selectedValue = ddlAuditionJudges.SelectedValue;
+                ddlAuditionJudges.Items.Clear();
+
+                ListItem[] itemArray = (ListItem[])Session[auditionJudges];
+
+                for (int i = 0; i < itemArray.Length; i++)
+                    ddlAuditionJudges.Items.Add(new ListItem(itemArray[i].Text, itemArray[i].Value));
+
+                ddlAuditionJudges.SelectedValue = selectedValue;
+            }
+
+            // Reload judge rooms table
+            if (Page.IsPostBack && Session[judgeRoomsTable] != null)
+            {
+                TableRow[] rowArray = (TableRow[])Session[judgeRoomsTable];
+
+                for (int i = 1; i < rowArray.Length; i++)
+                    tblJudgeRooms.Rows.Add(rowArray[i]);
+            }
         }
 
         /*
@@ -314,6 +345,8 @@ namespace WMTA.Events
                 foreach (Judge judge in judges)
                 {
                     AddJudge(judge.id.ToString(), judge.lastName + ", " + judge.firstName);
+
+                    pnlJudges.Visible = true;
                 }
             }
             catch (Exception e)
@@ -341,6 +374,282 @@ namespace WMTA.Events
             {
                 showWarningMessage("Please enter a room name.");
             }
+        }
+
+        /*
+         * Pre:
+         * Post: Adds the new theory test room to the table, if the test
+         *       has not already been assigned a room
+         */
+        protected void btnAddTestRoom_Click(object sender, EventArgs e)
+        {
+            string test = ddlTheoryTest.SelectedValue.ToString();
+            string room = ddlRoom.SelectedValue.ToString();
+            room = ddlRoom.Text;
+
+            if (!test.Equals("") && !room.Equals("") && !TheoryTestExists(test))
+            {
+                AddTheoryRoom(test, room);
+
+                pnlTheoryRooms.Visible = true;
+            }
+            else if (test.Equals(""))
+            {
+                showWarningMessage("Please select a theory test.");
+            }
+            else if (room.Equals(""))
+            {
+                showWarningMessage("Please select a room for the theory test.");
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Add the new judge to the judges table and list of judges
+         *       in the Judge Rooms section
+         */
+        protected void btnAddJudge_Click(object sender, EventArgs e)
+        {
+            string id = ddlJudge.SelectedValue;
+            string name = ddlJudge.SelectedItem.Text;
+
+            if (!id.Equals("") && !JudgeExists(id))
+            {
+                AddJudge(id, name);
+
+                pnlJudges.Visible = true;
+            }
+            else
+            {
+                showWarningMessage("Please select a judge.");
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Assign a new judge to a room and add that assignment to table
+         */
+        protected void btnAddJudgeRoom_Click(object sender, EventArgs e)
+        {
+            //use new methods to determine if the room or time have already been added for the judge so we know if the assignment should be added or edited
+            //TODO - need to add schedule order
+
+            if (ddlAuditionJudges.SelectedIndex > 0 && ddlJudgeRoom.SelectedIndex > 0 && chkLstTime.SelectedIndex >=0 )
+            {
+                string judgeId = ddlAuditionJudges.SelectedValue.ToString();
+                string judge = ddlAuditionJudges.SelectedItem.Text;
+                string room = ddlJudgeRoom.SelectedValue.ToString();
+                List<Tuple<string, string>> times = new List<Tuple<string, string>>();
+                List<string> timeIds = new List<string>();
+
+                foreach (ListItem time in chkLstTime.Items)
+                {
+                    if (time.Selected)
+                    {
+                        string timeId = time.Value;
+                        string timeStr = time.Text;
+
+                        times.Add(new Tuple<string, string>(timeId, timeStr));
+                        timeIds.Add(time.Value);
+                    }
+                }
+
+                bool judgeRoomExists = JudgeRoomExists(judgeId, room);
+                bool judgeTimeExists = JudgeTimeExists(judgeId, room, timeIds);
+
+                if (judgeRoomExists && judgeTimeExists)
+                {
+
+                }
+                else if (judgeRoomExists)
+                {
+
+                }
+                else if (judgeTimeExists)
+                {
+
+                } 
+                // else if judgeExists
+                else // Add new judge
+                {
+                    AddJudgeRoom(judgeId, judge, room, times);
+                }
+
+
+                pnlJudgeRooms.Visible = true;
+            }
+            else if (ddlAuditionJudges.SelectedIndex <= 0)
+            {
+                showWarningMessage("Please select a judge.");
+            }
+            else if (ddlJudgeRoom.SelectedIndex <= 0)
+            {
+                showWarningMessage("Please select a room for the judge.");
+            }
+            else if (chkLstTime.SelectedIndex < 0)
+            {
+                showWarningMessage("Please select at least one time for the judge to be scheduled.");
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Load the selected judge information to the inputs to be edited.
+         *       If multiple are selected, the first one is loaded.
+         */
+        protected void btnEditJudgeRoom_Click(object sender, EventArgs e) 
+        {
+            bool selected = false;
+            int i = 1;
+
+            // Load first checked row
+            while (!selected && i < tblJudgeRooms.Rows.Count)
+            {
+                if (((CheckBox)tblJudgeRooms.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    string judgeId = tblJudgeRooms.Rows[i].Cells[1].Text;
+                    string room = tblJudgeRooms.Rows[i].Cells[3].Text;
+                    string[] timeIds = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
+
+                    ddlAuditionJudges.SelectedValue = judgeId;
+                    ddlJudgeRoom.SelectedValue = room;
+
+                    foreach (ListItem time in chkLstTime.Items)
+                    {
+                        time.Selected = timeIds.Contains(time.Value);
+                    }
+
+                    selected = true;
+                }
+
+                i++;
+            }
+
+            // Display a message if no assignment was selected
+            if (!selected)
+            {
+                showWarningMessage("Please select a judge room assignment to edit.");
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Remove selected rooms
+         */
+        protected void btnRemoveRoom_Click(object sender, EventArgs e)
+        {
+            bool roomSelected = false;
+
+            // Remove any checked rows
+            for (int i = 1; i < tblRooms.Rows.Count; i++)
+            {
+                if (((CheckBox)tblRooms.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    string room = tblRooms.Rows[i].Cells[1].Text;
+
+                    // Remove from table
+                    tblRooms.Rows.Remove(tblRooms.Rows[i]);
+
+                    // Remove from dropdowns
+                    ddlRoom.Items.Remove(new ListItem(room, room));
+                    ddlJudgeRoom.Items.Remove(new ListItem(room, room));
+
+                    roomSelected = true;
+                    i--;
+                }
+            }
+
+            // Display a message if no room was selected
+            if (!roomSelected)
+            {
+                showWarningMessage("Please select a room to remove.");
+            }
+            else // Save changes
+            {
+                saveTableToSession(tblRooms, roomsTable);
+                saveDropdownToSession(ddlRoom, theoryRooms);
+                saveDropdownToSession(ddlJudgeRoom, judgeRooms);
+            }
+        }
+    
+        /*
+         * Pre:
+         * Post: Remove selected theory test rooms
+         */
+        protected void btnRemoveTestRoom_Click(object sender, EventArgs e)
+        {
+            bool roomSelected = false;
+
+            // Remove any checked rows
+            for (int i = 1; i < tblTheoryRooms.Rows.Count; i++)
+            {
+                if (((CheckBox)tblTheoryRooms.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    tblTheoryRooms.Rows.Remove(tblTheoryRooms.Rows[i]);
+                    roomSelected = true;
+                    i--;
+                }
+            }
+
+            // Display a message if no room was selected
+            if (!roomSelected)
+            {
+                showWarningMessage("Please select a theory test room to remove.");
+            }
+            else // Save changes
+            {
+                saveTableToSession(tblTheoryRooms, theoryRoomsTable);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Removes the selected judge from the judges table and
+         *       the judge dropdown in the Judge Rooms section
+         */
+        protected void btnRemoveJudge_Click(object sender, EventArgs e)
+        {
+            bool judgeSelected = false;
+
+            // Remove any checked judges
+            for (int i = 1; i < tblJudges.Rows.Count; i++)
+            {
+                if (((CheckBox)tblJudges.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    string contactId = tblJudges.Rows[i].Cells[1].Text;
+                    string name = tblJudges.Rows[i].Cells[2].Text;
+
+                    // Remove from dropdown
+                    ddlAuditionJudges.Items.Remove(new ListItem(name, contactId));
+                    
+                    // Remove from table
+                    tblJudges.Rows.Remove(tblJudges.Rows[i]);
+                    judgeSelected = true;
+                    i--;
+                }
+            }
+
+            // Hide the table if there are no judges left
+            if (tblJudges.Rows.Count == 1)
+            {
+                pnlJudges.Visible = false;
+            }
+
+            // Display a message if no judge was selected
+            if (!judgeSelected)
+            {
+                showWarningMessage("Please select a judge to remove.");
+            }
+            else // Save changes
+            {
+                saveTableToSession(tblJudges, judgesTable);
+                saveDropdownToSession(ddlAuditionJudges, auditionJudges);
+            }
+        }
+
+        protected void btnRemoveJudgeRoom_Click(object sender, EventArgs e)
+        {
+
         }
 
         /*
@@ -409,7 +718,8 @@ namespace WMTA.Events
         }
 
         /*
-         * Pre: Add a new row to the judges table
+         * Pre:
+         * Post: Add a new row to the judges table
          */
         private void AddJudge(string contactId, string name)
         {
@@ -434,11 +744,78 @@ namespace WMTA.Events
             // Add the new row to the table
             tblJudges.Rows.Add(row);
 
-            // Add the new judge tot he judges dropdown in the Judge Rooms section
+            // Add the new judge to the judges dropdown in the Judge Rooms section
             ddlAuditionJudges.Items.Add(new ListItem(name, contactId));
 
             // Save the updated table to the session
             saveTableToSession(tblJudges, judgesTable);
+            saveDropdownToSession(ddlAuditionJudges, auditionJudges);
+        }
+
+        /*
+         * Pre:
+         * Post: Add a new row to the judge times table
+         */
+        private void AddJudgeRoom(string judgeId, string judge, string room, List<Tuple<string, string>> times)
+        {
+            TableRow row = new TableRow();
+            TableCell chkBoxCell = new TableCell();
+            TableCell judgeIdCell = new TableCell();
+            TableCell judgeCell = new TableCell();
+            TableCell roomCell = new TableCell();
+            TableCell timeIdCell = new TableCell();
+            TableCell timeCell = new TableCell();
+            CheckBox chkBox = new CheckBox();
+
+            // Add a checkbox to column 1
+            chkBoxCell.Controls.Add(chkBox);
+
+            // Add columns for judge info, the room, and time info
+            judgeIdCell.Text = judgeId;
+            judgeCell.Text = judge;
+            roomCell.Text = room;
+
+            string timeIds = "", timeStr = "";
+            foreach (Tuple<string, string> timeInfo in times)
+            {
+                if (timeIds.Equals(""))
+                {
+                    timeIds = timeInfo.Item1;
+                    timeStr = timeInfo.Item2;
+                }
+                else
+                {
+                    timeIds += "," + timeInfo.Item1;
+                    timeStr += ", " + timeInfo.Item2;
+                }
+            }
+
+            timeIdCell.Text = timeIds;
+            timeIdCell.Visible = false;
+            timeCell.Text = timeStr;
+
+            // Add the cells to the new row
+            row.Cells.Add(chkBoxCell);
+            row.Cells.Add(judgeIdCell);
+            row.Cells.Add(judgeCell);
+            row.Cells.Add(roomCell);
+            row.Cells.Add(timeIdCell);
+            row.Cells.Add(timeCell);
+
+            // Add the new row to the table
+            tblJudgeRooms.Rows.Add(row);
+
+            // Save the updated table to the session
+            saveTableToSession(tblJudgeRooms, judgeRoomsTable);
+        }
+
+        /*
+         * Pre:
+         * Post: Update the judge assignment identified by the judge id and room
+         */
+        private void UpdateJudgeRoom(string judgeId, string oldRoom, string newRoom, List<Tuple<string, string>> times)
+        {
+            //make sure the judge hasn't already been assigned to the new room as well
         }
 
         /*
@@ -500,94 +877,60 @@ namespace WMTA.Events
 
         /*
          * Pre:
-         * Post: Remove selected rooms
+         * Post: Determine if the input judge has already been assigned to the specified room.
+         *       If the judge has already been assigned to this room, the times will just be updated.
          */
-        protected void btnRemoveRoom_Click(object sender, EventArgs e)
+        private bool JudgeRoomExists(string judgeId, string room)
         {
-            bool roomSelected = false;
+            bool exists = false;
+            int i = 1;
 
-            // Remove any checked rows
-            for (int i = 1; i < tblRooms.Rows.Count; i++)
+            while (!exists && i < tblJudgeRooms.Rows.Count)
             {
-                if (((CheckBox)tblRooms.Rows[i].Cells[0].Controls[0]).Checked)
+                if (tblJudgeRooms.Rows[0].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[0].Cells[3].Text.Equals(room))
                 {
-                    tblRooms.Rows.Remove(tblRooms.Rows[i]);
-                    roomSelected = true;
-                    i--;
+                    exists = true;
                 }
+
+                i++;
             }
 
-            // Display a message if no room was selected
-            if (!roomSelected)
-            {
-                showWarningMessage("Please select a room to remove.");
-            }
-            else // Save changes
-            {
-                saveTableToSession(tblRooms, roomsTable);
-            }
+            return exists;
         }
-    
+
+        /*
+         * Pre:
+         * Post: Determine if the input judge has already been assigned to the specified room
+         *       If the judge has already been assigned this time in a different room, an error message should be shown
+         */
+        private bool JudgeTimeExists(string judgeId, string room, List<string> timeIds)
+        {
+            bool exists = false;
+            int i = 1;
+
+            while (!exists && i < tblJudgeRooms.Rows.Count)
+            {
+                if (tblJudgeRooms.Rows[0].Cells[1].Text.Equals(judgeId) && !tblJudgeRooms.Rows[0].Cells[3].Text.Equals(room))
+                {
+                    foreach (string timeId in timeIds)
+                    {
+                        if (tblJudgeRooms.Rows[0].Cells[4].Text.Contains(timeId))
+                        {
+                            exists = true;
+                        }
+                    }
+                }
+
+                i++;
+            }
+
+            return exists;
+        }
+
 
         protected void tblRooms_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-        }
-
-        /*
-         * Pre:
-         * Post: Adds the new theory test room to the table, if the test
-         *       has not already been assigned a room
-         */
-        protected void btnAddTestRoom_Click(object sender, EventArgs e)
-        {
-            string test = ddlTheoryTest.SelectedValue.ToString();
-            string room = ddlRoom.SelectedValue.ToString();
-
-            if (!test.Equals("") && !room.Equals("") && !TheoryTestExists(test))
-            {
-                AddTheoryRoom(test, room);
-
-                pnlRooms.Visible = true;
-            }
-            else if (test.Equals(""))
-            {
-                showWarningMessage("Please select a theory test.");
-            }
-            else if (room.Equals(""))
-            {
-                showWarningMessage("Please select a room for the theory test.");
-            }
-        }
-
-        /*
-         * Pre:
-         * Post: Remove selected theory test rooms
-         */
-        protected void btnRemoveTestRoom_Click(object sender, EventArgs e)
-        {
-            bool roomSelected = false;
-
-            // Remove any checked rows
-            for (int i = 1; i < tblTheoryRooms.Rows.Count; i++)
-            {
-                if (((CheckBox)tblTheoryRooms.Rows[i].Cells[0].Controls[0]).Checked)
-                {
-                    tblTheoryRooms.Rows.Remove(tblTheoryRooms.Rows[i]);
-                    roomSelected = true;
-                    i--;
-                }
-            }
-
-            // Display a message if no room was selected
-            if (!roomSelected)
-            {
-                showWarningMessage("Please select a theory test room to remove.");
-            }
-            else // Save changes
-            {
-                saveTableToSession(tblTheoryRooms, theoryRoomsTable);
-            }
         }
 
         protected void gvTestRooms_SelectedIndexChanged(object sender, EventArgs e)
@@ -595,77 +938,7 @@ namespace WMTA.Events
 
         }
 
-        /*
-         * Pre:
-         * Post: Add the new judge to the judges table and list of judges
-         *       in the Judge Rooms section
-         */
-        protected void btnAddJudge_Click(object sender, EventArgs e)
-        {
-            string id = ddlJudge.SelectedValue;
-            string name = ddlJudge.SelectedItem.Text;
-
-            if (!id.Equals("") && !JudgeExists(id))
-            {
-                AddJudge(id, name);
-
-                pnlJudges.Visible = true;
-            }
-            else
-            {
-                showWarningMessage("Please select a judge.");
-            }
-        }
-
-        /*
-         * Pre:
-         * Post: Removes the selected judge from the judges table and
-         *       the judge dropdown in the Judge Rooms section
-         */
-        protected void btnRemoveJudge_Click(object sender, EventArgs e)
-        {
-            bool judgeSelected = false;
-
-            // Remove any checked judges
-            for (int i = 1; i < tblJudges.Rows.Count; i++)
-            {
-                if (((CheckBox)tblJudges.Rows[i].Cells[0].Controls[0]).Checked)
-                {
-                    string contactId = tblJudges.Rows[i].Cells[1].Text;
-                    string name = tblJudges.Rows[i].Cells[2].Text;
-
-                    // Remove from dropdown
-                    ddlAuditionJudges.Items.Remove(new ListItem(name, contactId));
-
-                    // Remove from table
-                    tblJudges.Rows.Remove(tblJudges.Rows[i]);
-                    judgeSelected = true;
-                    i--;
-                }
-            }
-
-            // Display a message if no judge was selected
-            if (!judgeSelected)
-            {
-                showWarningMessage("Please select a judge to remove.");
-            }
-            else // Save changes
-            {
-                saveTableToSession(tblJudges, judgesTable);
-            }
-        }
-
         protected void gvJudges_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnAddJudgeRoom_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnRemoveJudgeRoom_Click(object sender, EventArgs e)
         {
 
         }
@@ -764,20 +1037,11 @@ namespace WMTA.Events
             PageIndexChanging(gvAuditionSearch, e);
         }
 
-        protected void gvJudgeRooms_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            PageIndexChanging(gvJudgeRooms, e);
-        }
-
         protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvAuditionSearch, e);
         }
 
-        protected void gvJudgeRooms_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvJudgeRooms, e);
-        }
         #endregion gridview events
 
         /*
@@ -829,6 +1093,7 @@ namespace WMTA.Events
             // Save changes to session
             saveTableToSession(tblRooms, roomsTable);
             saveDropdownToSession(ddlRoom, theoryRooms);
+            saveDropdownToSession(ddlJudgeRoom, judgeRooms);
         }
 
         private void clearTheoryRooms()

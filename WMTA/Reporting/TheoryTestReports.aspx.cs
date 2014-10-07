@@ -82,8 +82,8 @@ namespace WMTA.Reporting
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string[] theoryTests = new string[] { "AA", "AB", "EA-alto", "EA-bass", "EA-keybrd", "EA-treble", "EB-alto", "EB-bass", "EB-keybrd", "EB-treble", "IA", "IB", "IC" };
-            ReportViewer[] rptViewers = new ReportViewer[] { rptAA, rptAB, rptEAalto, rptEAbass, rptEAkeybrd, rptEAtreble, rptEBalto, rptEBbass, rptEBkeybrd, rptEBtreble, rptIA, rptIB, rptIC };
+            string[] theoryTests = new string[] { "AA", "AB", "EA-alto", "EA-bass", "EA-keybrd", "EA-treble", "EB-alto", "EB-bass", "EB-keybrd", "EB-treble", "EC", "IA", "IB", "IC" };
+            ReportViewer[] rptViewers = new ReportViewer[] { rptAA, rptAB, rptEAalto, rptEAbass, rptEAkeybrd, rptEAtreble, rptEBalto, rptEBbass, rptEBkeybrd, rptEBtreble, rptEC, rptIA, rptIB, rptIC };
 
             Tuple<int, string> orgIdAndSeries = DbInterfaceAudition.GetAuditionOrgIdAndTestSeries(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
                                                                                                   Convert.ToInt32(ddlYear.SelectedValue));

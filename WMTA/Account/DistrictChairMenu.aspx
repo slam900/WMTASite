@@ -116,7 +116,7 @@
                             </asp:Panel>
                             <asp:Panel runat="server" ID="pnlNoCompositionPermissions">
                                 <div class="list-group smaller-font">
-                                    <a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="list-group-item">Add Composition</a>
+                                    <a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="list-group-item">Manage Composition</a>
                                 </div>
                             </asp:Panel>
                             <asp:Panel runat="server" ID="pnlHelp" Visible="false">

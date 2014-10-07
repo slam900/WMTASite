@@ -97,6 +97,10 @@
             <rsweb:ReportViewer ID="rptEBtreble" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
         <div>
+            <div class="text-align-center"><h3 class="center">Theory Test EC</h3></div>
+            <rsweb:ReportViewer ID="rptEC" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+        </div>
+        <div>
             <div class="text-align-center"><h3 class="center">Theory Test IA</h3></div>
             <rsweb:ReportViewer ID="rptIA" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>

@@ -163,7 +163,7 @@
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="chkLstTrack" CssClass="col-md-3 control-label float-left">Track</asp:Label>
                                                         <div class="float-left">
-                                                            <asp:CheckBoxList ID="chkLstTrack" runat="server">
+                                                            <asp:CheckBoxList ID="chkLstTrack" runat="server" CssClass="checkboxlist">
                                                                 <asp:ListItem>District</asp:ListItem>
                                                                 <asp:ListItem>State</asp:ListItem>
                                                             </asp:CheckBoxList>
@@ -172,7 +172,7 @@
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="chkLstType" CssClass="col-md-3 control-label float-left">Type</asp:Label>
                                                         <div class="float-left">
-                                                            <asp:CheckBoxList ID="chkLstType" runat="server">
+                                                            <asp:CheckBoxList ID="chkLstType" runat="server" CssClass="checkboxlist">
                                                                 <asp:ListItem>Solo</asp:ListItem>
                                                                 <asp:ListItem>Duet</asp:ListItem>
                                                             </asp:CheckBoxList>
@@ -181,7 +181,7 @@
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="chkLstCompLevel" CssClass="col-md-3 control-label float-left">Composition Level</asp:Label>
                                                         <div class="float-left">
-                                                            <asp:CheckBoxList ID="chkLstCompLevel" runat="server" DataSourceID="SqlDataSource3" DataTextField="Description" DataValueField="CompLevelId">
+                                                            <asp:CheckBoxList ID="chkLstCompLevel" runat="server" CssClass="checkboxlist" DataSourceID="SqlDataSource3" DataTextField="Description" DataValueField="CompLevelId">
                                                             </asp:CheckBoxList>
                                                         </div>
                                                         <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
@@ -189,7 +189,7 @@
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="chkLstInstrument" CssClass="col-md-3 control-label float-left">Instruments</asp:Label>
                                                         <div class="float-left">
-                                                            <asp:CheckBoxList runat="server" ID="chkLstInstrument" DataSourceID="SqlDataSource4" DataTextField="Instrument" DataValueField="Instrument">
+                                                            <asp:CheckBoxList runat="server" ID="chkLstInstrument" CssClass="checkboxlist" DataSourceID="SqlDataSource4" DataTextField="Instrument" DataValueField="Instrument">
                                                             </asp:CheckBoxList>
                                                         </div>
                                                         <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownInstrument" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
@@ -197,7 +197,7 @@
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="chkLstTime" CssClass="col-md-3 control-label float-left">Time Preference</asp:Label>
                                                         <div class="float-left">
-                                                            <asp:CheckBoxList runat="server" ID="chkLstTime" DataSourceID="SqlDataSource6" DataTextField="TimeRange" DataValueField="ScheduleId" />
+                                                            <asp:CheckBoxList runat="server" ID="chkLstTime" CssClass="checkboxlist" DataSourceID="SqlDataSource6" DataTextField="TimeRange" DataValueField="ScheduleId" />
                                                         </div>
                                                         <asp:SqlDataSource ID="SqlDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownJudgeTimePref" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>

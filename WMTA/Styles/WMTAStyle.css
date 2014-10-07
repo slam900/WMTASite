@@ -56,6 +56,10 @@
     margin-left: 14%;
 }
 
+.col-md-11-margin {
+    margin-left: 6%;
+}
+
 .margin-left-1percent {
     margin-left: 1% !important;
 }
@@ -235,4 +239,9 @@
 {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.checkboxlist input {
+    margin-right: 10px !important;
+    margin-left: 15px !important;
 }

@@ -14,7 +14,7 @@ namespace WMTA.Contacts
     {
         private static Student student;
         private Utility.Action action;
-        private bool canAddDuplicates; //indicates whether the current user has sufficient permissions to add duplicate students
+        private bool canAddDuplicatesAndDelete; //indicates whether the current user has sufficient permissions to add duplicate students or delete students
         //Session variables
         private string studentSearch = "StudentData";
         private string studentVar = "Student";
@@ -53,10 +53,10 @@ namespace WMTA.Contacts
 
                 if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A'))
                 {
-                    canAddDuplicates = true;
+                    canAddDuplicatesAndDelete = true;
                 }
                 else
-                    canAddDuplicates = false;
+                    canAddDuplicatesAndDelete = false;
             }
         }
         
@@ -102,7 +102,7 @@ namespace WMTA.Contacts
 
                 // Allow district chairs and above edit legacy points
                 User user = (User)Session[Utility.userRole];
-                if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A'))
+                if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('A'))
                 {
                     lblLegacyPoints.Visible = true;
                     txtLegacyPoints.Visible = true;
@@ -110,6 +110,11 @@ namespace WMTA.Contacts
             }
             else if (action == Utility.Action.Delete)
             {
+                if (!canAddDuplicatesAndDelete)
+                {
+                    Response.Redirect("/Default.aspx");
+                }
+
                 pnlStudentSearch.Visible = true;
                 pnlFullPage.Visible = false;
                 lblLegacyPoints.Visible = false;
@@ -248,14 +253,14 @@ namespace WMTA.Contacts
                     }
                 }
                 //if the student is a duplicate and the user is a district chair or above, ask if they would like to continue adding the student
-                else if (duplicate && canAddDuplicates)
+                else if (duplicate && canAddDuplicatesAndDelete)
                 {
                     pnlConfirmDuplicate.Visible = true;
                     pnlButtons.Visible = false;
                     result = false;
                 }
                 //if the student is a duplicate and the user is a teacher, have them contact their district chair
-                else if (duplicate && !canAddDuplicates)
+                else if (duplicate && !canAddDuplicatesAndDelete)
                 {
                     showWarningMessage("There is already a student with the name you have entered.  Please contact your district chair if you still wish for this student to be added.");
                     return false;
