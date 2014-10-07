@@ -173,8 +173,7 @@
                                                 <asp:SqlDataSource ID="SqlDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownJudgeTimePref" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                             </div>
                                             <asp:Panel ID="pnlJudgeRooms" runat="server" Visible="false">
-                                                <asp:Button ID="btnEditJudgeRoom" runat="server" Text="Edit" CssClass="btn btn-link btn-sm col-md-11-margin" OnClick="btnEditJudgeRoom_Click" />
-                                                <asp:Button ID="btnRemoveJudgeRoom" runat="server" Text="Remove" CssClass="btn btn-link btn-sm" OnClick="btnRemoveJudgeRoom_Click" />
+                                                <asp:Button ID="btnRemoveJudgeRoom" runat="server" Text="Remove" CssClass="btn btn-link btn-sm col-md-11-margin" OnClick="btnRemoveJudgeRoom_Click" />
                                                 <div class="form-group col-md-11 center">
                                                     <asp:Table ID="tblJudgeRooms" runat="server" CssClass="table table-striped table-bordered table-hover center text-align-center">
                                                         <asp:TableHeaderRow BorderStyle="Solid">

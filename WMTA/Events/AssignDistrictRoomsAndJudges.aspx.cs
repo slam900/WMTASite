@@ -319,7 +319,7 @@ namespace WMTA.Events
                 // Load each judge to the dropdown
                 foreach (Judge judge in judges)
                 {
-                    ddlJudge.Items.Add(new ListItem(judge.lastName + judge.firstName, judge.id.ToString()));
+                    ddlJudge.Items.Add(new ListItem(judge.lastName + ", " + judge.firstName, judge.id.ToString()));
                 }
             }
             catch (Exception e)
@@ -368,9 +368,10 @@ namespace WMTA.Events
             {
                 AddRoom(room);
 
+                txtRoom.Text = "";
                 pnlRooms.Visible = true;
             }
-            else
+            else if (room.Equals(""))
             {
                 showWarningMessage("Please enter a room name.");
             }
@@ -391,6 +392,8 @@ namespace WMTA.Events
             {
                 AddTheoryRoom(test, room);
 
+                ddlTheoryTest.SelectedIndex = -1;
+                ddlRoom.SelectedIndex = -1;
                 pnlTheoryRooms.Visible = true;
             }
             else if (test.Equals(""))
@@ -417,9 +420,10 @@ namespace WMTA.Events
             {
                 AddJudge(id, name);
 
+                ddlJudge.SelectedIndex = -1;
                 pnlJudges.Visible = true;
             }
-            else
+            else if (id.Equals(""))
             {
                 showWarningMessage("Please select a judge.");
             }
@@ -431,7 +435,6 @@ namespace WMTA.Events
          */
         protected void btnAddJudgeRoom_Click(object sender, EventArgs e)
         {
-            //use new methods to determine if the room or time have already been added for the judge so we know if the assignment should be added or edited
             //TODO - need to add schedule order
 
             if (ddlAuditionJudges.SelectedIndex > 0 && ddlJudgeRoom.SelectedIndex > 0 && chkLstTime.SelectedIndex >=0 )
@@ -454,29 +457,37 @@ namespace WMTA.Events
                     }
                 }
 
+                bool judgesOverlap = JudgesOverlap(judgeId, room, timeIds);
                 bool judgeRoomExists = JudgeRoomExists(judgeId, room);
                 bool judgeTimeExists = JudgeTimeExists(judgeId, room, timeIds);
 
-                if (judgeRoomExists && judgeTimeExists)
+                if (judgesOverlap)
                 {
-
+                    showWarningMessage("There is another judge scheduled in the selected room at the same time.");
                 }
-                else if (judgeRoomExists)
+                else if (judgeRoomExists) // Update the times for the room
                 {
+                    UpdateJudgeRoom(judgeId, room, times);
 
+                    ddlAuditionJudges.SelectedIndex = -1;
+                    ddlJudgeRoom.SelectedIndex = -1;
+                    foreach (ListItem item in chkLstTime.Items)
+                        item.Selected = false;
                 }
-                else if (judgeTimeExists)
+                else if (judgeTimeExists) // Judge has been assigned a duplicate time in a different room, show error
                 {
-
+                    showWarningMessage("The judge has been assigned to a different room for one or more of the specified times.");
                 } 
-                // else if judgeExists
-                else // Add new judge
+                else // Add new judge (can have multiple entries in the table for different rooms)
                 {
                     AddJudgeRoom(judgeId, judge, room, times);
+
+                    ddlAuditionJudges.SelectedIndex = -1;
+                    ddlJudgeRoom.SelectedIndex = -1;
+                    foreach (ListItem item in chkLstTime.Items)
+                        item.Selected = false;
+                    pnlJudgeRooms.Visible = true;
                 }
-
-
-                pnlJudgeRooms.Visible = true;
             }
             else if (ddlAuditionJudges.SelectedIndex <= 0)
             {
@@ -489,46 +500,6 @@ namespace WMTA.Events
             else if (chkLstTime.SelectedIndex < 0)
             {
                 showWarningMessage("Please select at least one time for the judge to be scheduled.");
-            }
-        }
-
-        /*
-         * Pre:
-         * Post: Load the selected judge information to the inputs to be edited.
-         *       If multiple are selected, the first one is loaded.
-         */
-        protected void btnEditJudgeRoom_Click(object sender, EventArgs e) 
-        {
-            bool selected = false;
-            int i = 1;
-
-            // Load first checked row
-            while (!selected && i < tblJudgeRooms.Rows.Count)
-            {
-                if (((CheckBox)tblJudgeRooms.Rows[i].Cells[0].Controls[0]).Checked)
-                {
-                    string judgeId = tblJudgeRooms.Rows[i].Cells[1].Text;
-                    string room = tblJudgeRooms.Rows[i].Cells[3].Text;
-                    string[] timeIds = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
-
-                    ddlAuditionJudges.SelectedValue = judgeId;
-                    ddlJudgeRoom.SelectedValue = room;
-
-                    foreach (ListItem time in chkLstTime.Items)
-                    {
-                        time.Selected = timeIds.Contains(time.Value);
-                    }
-
-                    selected = true;
-                }
-
-                i++;
-            }
-
-            // Display a message if no assignment was selected
-            if (!selected)
-            {
-                showWarningMessage("Please select a judge room assignment to edit.");
             }
         }
 
@@ -813,9 +784,43 @@ namespace WMTA.Events
          * Pre:
          * Post: Update the judge assignment identified by the judge id and room
          */
-        private void UpdateJudgeRoom(string judgeId, string oldRoom, string newRoom, List<Tuple<string, string>> times)
+        private void UpdateJudgeRoom(string judgeId, string room, List<Tuple<string, string>> times)
         {
-            //make sure the judge hasn't already been assigned to the new room as well
+            bool found = false;
+            int i = 1;
+
+            while (!found && i < tblJudgeRooms.Rows.Count)
+            {
+                // If the judge id and room match, update the times in the current row
+                if (tblJudgeRooms.Rows[i].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[i].Cells[3].Text.Equals(room))
+                {
+                    // Construct time strings
+                    string timeIds = "", timeStr = "";
+                    foreach (Tuple<string, string> timeInfo in times)
+                    {
+                        if (timeIds.Equals(""))
+                        {
+                            timeIds = timeInfo.Item1;
+                            timeStr = timeInfo.Item2;
+                        }
+                        else
+                        {
+                            timeIds += "," + timeInfo.Item1;
+                            timeStr += ", " + timeInfo.Item2;
+                        }
+                    }
+
+                    tblJudgeRooms.Rows[i].Cells[4].Text = timeIds;
+                    tblJudgeRooms.Rows[i].Cells[5].Text = timeStr;
+
+                    found = true;
+                }
+
+                i++;
+            }
+
+            if (found)
+                saveTableToSession(tblJudgeRooms, judgeRoomsTable);
         }
 
         /*
@@ -877,6 +882,34 @@ namespace WMTA.Events
 
         /*
          * Pre:
+         * Post: Determines whether or not adding this judge assignment will cause any
+         *       scheduling problems, i.e. two judges being in the same room at the same time
+         */
+        private bool JudgesOverlap(string judgeId, string room, List<string> timeIds)
+        {
+            bool overlap = false;
+            int i = 1;
+
+            while (!overlap && i < tblJudgeRooms.Rows.Count)
+            {
+                if (!tblJudgeRooms.Rows[i].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[i].Cells[3].Text.Equals(room)) 
+                {
+                    string[] times = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
+                    foreach (string time in timeIds)
+                    {
+                        if (times.Contains(time))
+                            overlap = true;
+                    }
+                }
+
+                i++;
+            }
+
+            return overlap;
+        }
+
+        /*
+         * Pre:
          * Post: Determine if the input judge has already been assigned to the specified room.
          *       If the judge has already been assigned to this room, the times will just be updated.
          */
@@ -887,7 +920,7 @@ namespace WMTA.Events
 
             while (!exists && i < tblJudgeRooms.Rows.Count)
             {
-                if (tblJudgeRooms.Rows[0].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[0].Cells[3].Text.Equals(room))
+                if (tblJudgeRooms.Rows[i].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[i].Cells[3].Text.Equals(room))
                 {
                     exists = true;
                 }
@@ -910,11 +943,11 @@ namespace WMTA.Events
 
             while (!exists && i < tblJudgeRooms.Rows.Count)
             {
-                if (tblJudgeRooms.Rows[0].Cells[1].Text.Equals(judgeId) && !tblJudgeRooms.Rows[0].Cells[3].Text.Equals(room))
+                if (tblJudgeRooms.Rows[i].Cells[1].Text.Equals(judgeId) && !tblJudgeRooms.Rows[i].Cells[3].Text.Equals(room))
                 {
                     foreach (string timeId in timeIds)
                     {
-                        if (tblJudgeRooms.Rows[0].Cells[4].Text.Contains(timeId))
+                        if (tblJudgeRooms.Rows[i].Cells[4].Text.Contains(timeId))
                         {
                             exists = true;
                         }
