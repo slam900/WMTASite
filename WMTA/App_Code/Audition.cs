@@ -21,11 +21,7 @@ public class Audition
     public TimeSpan startTime { get; private set; }
     public TimeSpan endTime { get; private set; }
     public bool duetsAllowed { get; private set; }  /*Used for State auditions only - should only have one Badger Keyboard site per year where duets are allowed */
-    /* Scheduling */
-    public List<string> rooms { get; set; }
-    public List<Tuple<string, string>> theoryRooms { get; set; }
-    public List<Judge> availableJudges { get; set; }
-    public List<Judge> scheduledJudges { get; set; }
+    private ScheduleData scheduleData { get; set; }
 
     /* Constructor to instantiate audition as well as create it in the database */
 	public Audition(int districtId, int numJudges, string venue, string chairpersonId, 
@@ -115,12 +111,7 @@ public class Audition
      */
     public List<string> GetRooms(bool refresh = false)
     {
-        if (rooms == null || refresh)
-        {
-            rooms = DbInterfaceScheduling.GetAuditionRooms(auditionId);
-        }
-
-        return rooms;
+        return scheduleData.GetRooms(auditionId, refresh);
     }
 
     /*
@@ -131,12 +122,7 @@ public class Audition
      */
     public List<Tuple<string, string>> GetTheoryRooms(bool refresh = false)
     {
-        if (theoryRooms == null || refresh) 
-        {
-            theoryRooms = DbInterfaceScheduling.GetAuditionTheoryRooms(auditionId);
-        }
-
-        return theoryRooms;
+        return scheduleData.GetTheoryRooms(auditionId, refresh);
     }
 
     /*
@@ -147,12 +133,7 @@ public class Audition
      */
     public List<Judge> GetAvailableJudges(bool refresh = false)
     {
-        if (availableJudges == null || refresh)
-        {
-            availableJudges = DbInterfaceScheduling.GetDistrictJudges(auditionId);
-        }
-
-        return availableJudges;
+        return scheduleData.GetAvailableJudges(auditionId, refresh);
     }
 
     /*
@@ -163,11 +144,42 @@ public class Audition
      */
     public List<Judge> GetEventJudges(bool refresh = false)
     {
-        if (scheduledJudges == null || refresh)
-        {
-            scheduledJudges = DbInterfaceScheduling.GetAuditionJudges(auditionId);
-        }
+        return scheduleData.GetEventJudges(auditionId, refresh);
+    }
 
-        return scheduledJudges;
+    /*
+     * Pre:
+     * Post: Add a new room to use for the audition
+     */
+    public void AddRoom(string room) 
+    {
+        scheduleData.AddRoom(room);
+    }
+
+    /*
+     * Pre:
+     * Post: Add a new room to use for theory tests at the audition
+     */
+    public void AddTheoryRoom(string test, string room)
+    {
+        scheduleData.AddTheoryRoom(test, room);
+    }
+
+    /*
+     * Pre:
+     * Post: Add a new judge to use for the audition
+     */
+    public void AddJudge(int contactId)
+    {
+        scheduleData.AddJudge(new Judge(contactId));
+    }
+
+    /*
+     * Pre:
+     * Post: Add a new judge/room assignment to the audition
+     */
+    public void AddJudgeRoom(int contactId, string room, List<Tuple<int, string>> times, int scheduleOrder)
+    {
+        scheduleData.AddJudgeRoom(new Judge(contactId), room, times, scheduleOrder);
     }
 }

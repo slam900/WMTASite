@@ -408,7 +408,9 @@
     <Compile Include="App_Code\HsVirtuosoCompositionAudition.cs" />
     <Compile Include="App_Code\Judge.cs" />
     <Compile Include="App_Code\JudgePreference.cs" />
+    <Compile Include="App_Code\JudgeRoomAssignment.cs" />
     <Compile Include="App_Code\Person.cs" />
+    <Compile Include="App_Code\ScheduleData.cs" />
     <Compile Include="App_Code\StateAudition.cs" />
     <Compile Include="App_Code\Student.cs" />
     <Compile Include="App_Code\StudentCoordinate.cs" />

@@ -11,6 +11,7 @@ namespace WMTA.Events
 {
     public partial class AssignDistrictRoomsAndJudges : System.Web.UI.Page
     {
+        private Audition audition;
         /* session variables */
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
         private string auditionSession = "Audition";
@@ -29,6 +30,11 @@ namespace WMTA.Events
                 Session[judgeRooms] = null;
 
                 loadYearDropdown();
+            }
+
+            if (Page.IsPostBack && Session[auditionSession] != null)
+            {
+                audition = (Audition)Session[auditionSession];
             }
 
             // If there were rooms added before the postback, add them back to the table
@@ -196,7 +202,7 @@ namespace WMTA.Events
                 ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
                             gvAuditionSearch.Rows[index].Cells[3].Text));
 
-                Audition audition = loadAuditionData(auditionId);
+                audition = loadAuditionData(auditionId);
                 LoadRooms(audition);
                 LoadTheoryRooms(audition);
                 LoadAvailableJudgesToDropdown(audition);
@@ -440,7 +446,7 @@ namespace WMTA.Events
                 string judgeId = ddlAuditionJudges.SelectedValue.ToString();
                 string judge = ddlAuditionJudges.SelectedItem.Text;
                 string room = ddlJudgeRoom.SelectedValue.ToString();
-                List<Tuple<string, string>> times = new List<Tuple<string, string>>();
+                List<Tuple<int, string>> times = new List<Tuple<int, string>>();
                 List<string> timeIds = new List<string>();
 
                 //Get schedule order/priority if one was entered
@@ -462,7 +468,7 @@ namespace WMTA.Events
                         string timeId = time.Value;
                         string timeStr = time.Text;
 
-                        times.Add(new Tuple<string, string>(timeId, timeStr));
+                        times.Add(new Tuple<int, string>(Convert.ToInt32(timeId), timeStr));
                         timeIds.Add(time.Value);
                     }
                 }
@@ -765,10 +771,14 @@ namespace WMTA.Events
             ddlRoom.Items.Add(new ListItem(room));
             ddlJudgeRoom.Items.Add(new ListItem(room));
 
-            // Save the updated table to the session
+            // Add the room to the audition
+            audition.AddRoom(room);
+
+            // Save the updated table, dropdowns, and audition to the session
             saveTableToSession(tblRooms, roomsTable);
             saveDropdownToSession(ddlRoom, theoryRooms);
             saveDropdownToSession(ddlJudgeRoom, judgeRooms);
+            Session[auditionSession] = audition;
         }
 
         /*
@@ -798,8 +808,12 @@ namespace WMTA.Events
             // Add the new row to the table
             tblTheoryRooms.Rows.Add(row);
 
-            // Save the updated table to the session
+            //Add the room to the audition
+            audition.AddTheoryRoom(theoryTest, room);
+
+            // Save the updated table and audition to the session
             saveTableToSession(tblTheoryRooms, theoryRoomsTable);
+            Session[auditionSession] = audition;
         }
 
         /*
@@ -832,16 +846,20 @@ namespace WMTA.Events
             // Add the new judge to the judges dropdown in the Judge Rooms section
             ddlAuditionJudges.Items.Add(new ListItem(name, contactId));
 
-            // Save the updated table to the session
+            // Add the judge to the audition
+            audition.AddJudge(Convert.ToInt32(contactId));
+
+            // Save the updated table, dropdown, and audition to the session
             saveTableToSession(tblJudges, judgesTable);
             saveDropdownToSession(ddlAuditionJudges, auditionJudges);
+            Session[auditionSession] = audition;
         }
 
         /*
          * Pre:
          * Post: Add a new row to the judge times table
          */
-        private void AddJudgeRoom(string judgeId, string judge, string room, List<Tuple<string, string>> times, int priority)
+        private void AddJudgeRoom(string judgeId, string judge, string room, List<Tuple<int, string>> times, int priority)
         {
             TableRow row = new TableRow();
             TableCell chkBoxCell = new TableCell();
@@ -862,11 +880,11 @@ namespace WMTA.Events
             roomCell.Text = room;
 
             string timeIds = "", timeStr = "";
-            foreach (Tuple<string, string> timeInfo in times)
+            foreach (Tuple<int, string> timeInfo in times)
             {
                 if (timeIds.Equals(""))
                 {
-                    timeIds = timeInfo.Item1;
+                    timeIds = timeInfo.Item1.ToString();
                     timeStr = timeInfo.Item2;
                 }
                 else
@@ -895,15 +913,19 @@ namespace WMTA.Events
             // Add the new row to the table
             tblJudgeRooms.Rows.Add(row);
 
-            // Save the updated table to the session
+            // Add the assignment to the audition
+            audition.AddJudgeRoom(Convert.ToInt32(judgeId), room, times, priority);
+
+            // Save the updated table and audition to the session
             saveTableToSession(tblJudgeRooms, judgeRoomsTable);
+            Session[auditionSession] = audition;
         }
 
         /*
          * Pre:
          * Post: Update the judge assignment identified by the judge id and room
          */
-        private void UpdateJudgeRoom(string judgeId, string room, List<Tuple<string, string>> times, int priority)
+        private void UpdateJudgeRoom(string judgeId, string room, List<Tuple<int, string>> times, int priority)
         {
             bool found = false;
             int i = 1;
@@ -915,11 +937,11 @@ namespace WMTA.Events
                 {
                     // Construct time strings
                     string timeIds = "", timeStr = "";
-                    foreach (Tuple<string, string> timeInfo in times)
+                    foreach (Tuple<int, string> timeInfo in times)
                     {
                         if (timeIds.Equals(""))
                         {
-                            timeIds = timeInfo.Item1;
+                            timeIds = timeInfo.Item1.ToString();
                             timeStr = timeInfo.Item2;
                         }
                         else
