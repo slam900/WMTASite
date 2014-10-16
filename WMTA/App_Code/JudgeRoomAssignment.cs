@@ -22,4 +22,15 @@ public class JudgeRoomAssignment
         this.times = times;
         this.scheduleOrder = scheduleOrder;
     }
+
+    public override bool Equals(object obj)
+    {
+        JudgeRoomAssignment other = (JudgeRoomAssignment)obj;
+        return other.judge.Equals(judge) && other.room.Equals(room);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

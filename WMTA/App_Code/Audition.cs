@@ -38,6 +38,7 @@ public class Audition
         this.startTime = startTime;
         this.endTime = endTime;
         this.duetsAllowed = duetsAllowed;
+        scheduleData = new ScheduleData();
 
         addNewAudition();
 	}
@@ -58,6 +59,7 @@ public class Audition
         this.startTime = startTime;
         this.endTime = endTime;
         this.duetsAllowed = duetsAllowed;
+        scheduleData = new ScheduleData();
     }
 
     /*
@@ -181,5 +183,41 @@ public class Audition
     public void AddJudgeRoom(int contactId, string room, List<Tuple<int, string>> times, int scheduleOrder)
     {
         scheduleData.AddJudgeRoom(new Judge(contactId), room, times, scheduleOrder);
+    }
+
+    /*
+     * Pre:
+     * Post: Removes an existing room for the audition
+     */
+    public void RemoveRoom(string room)
+    {
+        scheduleData.RemoveRoom(room);
+    }
+
+    /*
+     * Pre:
+     * Post: Removes an existing theory room for the audition
+     */
+    public void RemoveTheoryRoom(string test, string room)
+    {
+        scheduleData.RemoveTheoryRoom(test, room);
+    }
+
+    /*
+     * Pre:
+     * Post: Remove a judge from the audition
+     */
+    public void RemoveJudge(int contactId)
+    {
+        scheduleData.RemoveJudge(new Judge(contactId));
+    }
+
+    /*
+     * Pre:
+     * Post:Removes a judge/room assignment from the audition
+     */
+    public void RemoveJudgeRoom(int contactId, string room, List<Tuple<int, string>> times, int scheduleOrder)
+    {
+        scheduleData.RemoveJudgeRoom(new Judge(contactId), room, times, scheduleOrder);
     }
 }

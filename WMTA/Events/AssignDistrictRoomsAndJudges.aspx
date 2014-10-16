@@ -151,7 +151,7 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlAuditionJudges" CssClass="col-md-3 control-label">Judge</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlAuditionJudges_SelectedIndexChanged1">
                                                         <asp:ListItem Selected="True" Text="" Value="" />
                                                     </asp:DropDownList>
                                                 </div>

@@ -130,4 +130,9 @@ public class Contact : Person
         this.state = state;
         this.zip = zip;
     }
+
+    public override bool Equals(object obj)
+    {
+        return ((Contact)obj).id == id;
+    }
 }

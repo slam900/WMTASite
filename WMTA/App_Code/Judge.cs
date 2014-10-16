@@ -88,4 +88,9 @@ public class Judge : Contact
 
         return result;
     }
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
 }

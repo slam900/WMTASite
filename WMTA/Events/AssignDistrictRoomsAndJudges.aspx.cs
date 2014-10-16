@@ -264,7 +264,7 @@ namespace WMTA.Events
 
             try
             {
-                List<string> rooms = audition.GetRooms();
+                List<string> rooms = audition.GetRooms(true);
 
                 // Load each room to the table and all room dropdowns
                 foreach (string room in rooms)
@@ -292,7 +292,7 @@ namespace WMTA.Events
 
             try
             {
-                List<Tuple<string, string>> theoryRooms = audition.GetTheoryRooms();
+                List<Tuple<string, string>> theoryRooms = audition.GetTheoryRooms(true);
 
                 // Load each room to the table
                 foreach (Tuple<string, string> room in theoryRooms)
@@ -320,7 +320,7 @@ namespace WMTA.Events
 
             try
             {
-                List<Judge> judges = audition.GetAvailableJudges();
+                List<Judge> judges = audition.GetAvailableJudges(true);
 
                 // Load each judge to the dropdown
                 foreach (Judge judge in judges)
@@ -345,7 +345,7 @@ namespace WMTA.Events
 
             try
             {
-                List<Judge> judges = audition.GetEventJudges();
+                List<Judge> judges = audition.GetEventJudges(true);
 
                 //Load each judge to the table
                 foreach (Judge judge in judges)
@@ -549,6 +549,9 @@ namespace WMTA.Events
                     ddlRoom.Items.Remove(new ListItem(room, room));
                     ddlJudgeRoom.Items.Remove(new ListItem(room, room));
 
+                    //Remove from audition
+                    audition.RemoveRoom(room);
+
                     roomSelected = true;
                     i--;
                 }
@@ -564,6 +567,7 @@ namespace WMTA.Events
                 saveTableToSession(tblRooms, roomsTable);
                 saveDropdownToSession(ddlRoom, theoryRooms);
                 saveDropdownToSession(ddlJudgeRoom, judgeRooms);
+                Session[auditionSession] = audition;
             }
         }
     
@@ -581,6 +585,12 @@ namespace WMTA.Events
                 if (((CheckBox)tblTheoryRooms.Rows[i].Cells[0].Controls[0]).Checked)
                 {
                     tblTheoryRooms.Rows.Remove(tblTheoryRooms.Rows[i]);
+
+                    // Remove from the audition
+                    string test = tblTheoryRooms.Rows[i].Cells[1].Text;
+                    string room = tblTheoryRooms.Rows[i].Cells[2].Text;
+                    audition.RemoveTheoryRoom(test, room);
+
                     roomSelected = true;
                     i--;
                 }
@@ -594,6 +604,7 @@ namespace WMTA.Events
             else // Save changes
             {
                 saveTableToSession(tblTheoryRooms, theoryRoomsTable);
+                Session[auditionSession] = audition;
             }
         }
 
@@ -621,6 +632,10 @@ namespace WMTA.Events
                     
                     // Remove from table
                     tblJudges.Rows.Remove(tblJudges.Rows[i]);
+
+                    // Remove from audition
+                    audition.RemoveJudge(Convert.ToInt32(contactId));
+
                     judgeSelected = true;
                 }
             }
@@ -640,6 +655,7 @@ namespace WMTA.Events
             {
                 saveTableToSession(tblJudges, judgesTable);
                 saveDropdownToSession(ddlAuditionJudges, auditionJudges);
+                Session[auditionSession] = audition;
             }
         }
 
@@ -657,6 +673,21 @@ namespace WMTA.Events
                 if (((CheckBox)tblJudgeRooms.Rows[i].Cells[0].Controls[0]).Checked)
                 {
                     tblJudgeRooms.Rows.Remove(tblJudgeRooms.Rows[i]);
+
+                    // Remove from audition
+                    string contactId = tblJudgeRooms.Rows[i].Cells[1].Text;
+                    //string room = tblJudgeRooms.Rows[i].Cells[3].Text;
+                    //string scheduleOrder = !tblJudgeRooms.Rows[i].Cells[6].Text.Equals("") ? tblJudgeRooms.Rows[i].Cells[6].Text : "-1";
+                    //string[] timeIds = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
+                    //string[] times = tblJudgeRooms.Rows[i].Cells[5].Text.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
+                    //List<Tuple<string, string>> timeList = new List<Tuple<string, string>>();
+                    //for (int j = 0; j < timeIds.Length; j++)
+                    //{
+                    //    Tuple<string, string> time = new Tuple<string, string>(timeIds[j], times[j]);
+                    //    timeList.Add(time);
+                    //}
+                    
                     rowSelected = true;
                 }
             }
@@ -957,6 +988,9 @@ namespace WMTA.Events
                     if (priority > 0)
                         tblJudgeRooms.Rows[i].Cells[6].Text = priority.ToString();
 
+                    // Add the assignment to the audition
+                    audition.AddJudgeRoom(Convert.ToInt32(judgeId), room, times, priority);
+
                     found = true;
                 }
 
@@ -964,7 +998,10 @@ namespace WMTA.Events
             }
 
             if (found)
+            {
                 saveTableToSession(tblJudgeRooms, judgeRoomsTable);
+                Session[auditionSession] = audition;
+            }
         }
 
         /*
@@ -1127,40 +1164,39 @@ namespace WMTA.Events
             return exists;
         }
 
-
-        protected void tblRooms_SelectedIndexChanged(object sender, EventArgs e)
+        /*
+         * Pre:
+         * Post: Load the judge's preferred times when a new judge is selected
+         */
+        protected void ddlAuditionJudges_SelectedIndexChanged1(object sender, EventArgs e)
         {
+            try
+            {
+                // Clear all selected times
+                foreach (ListItem chkBox in chkLstTime.Items)
+                {
+                    chkBox.Selected = false;
+                }
 
-        }
+                if (ddlAuditionJudges.SelectedIndex > 0)
+                {
+                    int contactId = Convert.ToInt32(ddlAuditionJudges.SelectedValue);
+                    Judge judge = new Judge(contactId);
 
-        protected void gvTestRooms_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvJudges_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvJudgeRooms_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        protected void ddlJudge_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlAuditionJudges_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlJudgeRoom_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+                    foreach (JudgePreference pref in judge.preferences)
+                    {
+                        if (pref.preferenceType == Utility.JudgePreferences.Time)
+                        {
+                            chkLstTime.Items[Convert.ToInt32(pref.preference) - 1].Selected = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                showErrorMessage("Error: The judge's time preferences could not be loaded.");
+                Utility.LogError("AssignDistrictRoomsAndJudges", "BindSessionData", "", "Message: " + ex.Message + "   Stack Trace: " + ex.StackTrace, -1);
+            }
         }
 
         private void PageIndexChanging(GridView gv, GridViewPageEventArgs e)
@@ -1438,6 +1474,5 @@ namespace WMTA.Events
             //Pass error on to error page
             Server.Transfer("ErrorPage.aspx", true);
         }
-
     }
 }

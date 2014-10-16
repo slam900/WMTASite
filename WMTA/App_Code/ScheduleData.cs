@@ -28,6 +28,7 @@ public class ScheduleData
         theoryRooms = new List<Tuple<string, string>>();
         availableJudges = new List<Judge>();
         scheduledJudges = new List<Judge>();
+        judgeRooms = new List<JudgeRoomAssignment>();
         roomsToRemove = new List<string>();
         theoryRoomsToRemove = new List<Tuple<string, string>>();
         scheduledJudgesToRemove = new List<Judge>();
@@ -148,5 +149,56 @@ public class ScheduleData
         {
             judgeRooms.Add(assignment);
         }
+        else // Update, if it already exists
+        {
+            judgeRooms.Remove(assignment);
+            judgeRooms.Add(assignment);
+        }
+    }
+
+    /*
+     * Pre:
+     * Post: Removes the room from the list of active rooms
+     *       and adds it to the list of rooms to remove
+     */
+    public void RemoveRoom(string room)
+    {
+        rooms.Remove(room);
+        roomsToRemove.Add(room);
+    }
+
+    /*
+     * Pre:
+     * Post: Removes the theory room from the list of active rooms
+     *       and adds it to the list of theory rooms to remove
+     */
+    public void RemoveTheoryRoom(string test, string room)
+    {
+        Tuple<string, string> testRoom = new Tuple<string, string>(test, room);
+        theoryRooms.Remove(testRoom);
+        theoryRoomsToRemove.Add(testRoom);
+    }
+
+    /*
+     * Pre:
+     * Post: Removes the judge from the list of active judges
+     *       and adds them to the list of judges to remove
+     */
+    public void RemoveJudge(Judge judge)
+    {
+        scheduledJudges.Remove(judge);
+        scheduledJudgesToRemove.Add(judge);
+    }
+
+    /*
+     * Pre:
+     * Post: Remove a judge/room assignment from the audition
+     */
+    public void RemoveJudgeRoom(Judge judge, string room, List<Tuple<int, string>> times, int scheduleOrder)
+    {
+        JudgeRoomAssignment assignment = new JudgeRoomAssignment(judge, room, times, scheduleOrder);
+
+        judgeRooms.Remove(assignment);
+        judgeRoomsToRemove.Add(assignment);
     }
 }
