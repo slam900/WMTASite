@@ -22,17 +22,6 @@
                                 </div>
                                 <div class="btn-group full-width smaller-font">
                                     <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
-                                        District Registration
-                                    <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="../Events/DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
-                                        <li><a href="../Events/DistrictRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
-                                        <li><a href="../Events/DistrictRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
-                                    </ul>
-                                </div>
-                                <div class="btn-group full-width smaller-font">
-                                    <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
                                         Badger Registration
                                     <span class="caret"></span>
                                     </button>
@@ -70,55 +59,6 @@
                             </div>
                         </div>
                         <div class="control-column smaller-font">
-                            <h4>People</h4>
-                            <div class="list-group">
-                                <div class="btn-group full-width smaller-font">
-                                    <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
-                                        Manage Students
-                                    <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="../Contacts/ManageStudents.aspx?action=1" class="smaller-font">Add Students</a></li>
-                                        <li><a href="../Contacts/ManageStudents.aspx?action=2" class="smaller-font">Edit Students</a></li>
-                                        <li><a href="../Contacts/ManageStudents.aspx?action=3" class="smaller-font">Delete Students</a></li>
-                                    </ul>
-                                </div>
-                                <div class="btn-group full-width smaller-font">
-                                    <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
-                                        Manage Contacts
-                                    <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="../Contacts/ManageContacts.aspx?action=1" class="smaller-font">Add Contacts</a></li>
-                                        <li><a href="../Contacts/ManageContacts.aspx?action=2" class="smaller-font">Edit Contacts</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <h4>Repertoire</h4>
-                            <asp:Panel runat="server" ID="pnlCompositionPermissions" Visible="false">
-                                <div class="list-group smaller-font">
-                                    <div class="btn-group full-width smaller-font">
-                                        <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
-                                            Manage Repertoire
-                                    <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="smaller-font">Add Composition</a></li>
-                                            <li><a href="../CompositionTools/ManageRepertoire.aspx?action=2" class="smaller-font">Edit Composition</a></li>
-                                            <li><a href="../CompositionTools/ManageRepertoire.aspx?action=3" class="smaller-font">Delete Composition</a></li>
-                                        </ul>
-                                    </div>
-                                    <a href="../CompositionTools/ReplaceComposerName.aspx" class="list-group-item">Replace Composer Name</a>
-                                    <a href="../CompositionTools/ReplaceComposition.aspx" class="list-group-item">Replace Composition</a>
-                                    <a href="../CompositionTools/TitleLookup.aspx" class="list-group-item">Composition Title Finder</a>
-                                    <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage</a>
-                                </div>
-                            </asp:Panel>
-                            <asp:Panel runat="server" ID="pnlNoCompositionPermissions">
-                                <div class="list-group smaller-font">
-                                    <a href="../CompositionTools/ManageRepertoire.aspx?action=1" class="list-group-item">Manage Composition</a>
-                                </div>
-                            </asp:Panel>
                             <asp:Panel runat="server" ID="pnlHelp" Visible="false">
                                 <h4>Help Requests</h4>
                                 <div class="list-group smaller-font">

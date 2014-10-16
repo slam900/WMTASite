@@ -26,14 +26,6 @@ namespace WMTA.Account
                 //make sure the user has sufficient permissions
                 if (!user.permissionLevel.Contains("S"))
                     Response.Redirect("/Default.aspx");
-
-                //show composition tools if user has C permissions
-                if (user.permissionLevel.Contains("C"))
-                {
-                    pnlCompositionPermissions.Visible = true;
-                    pnlNoCompositionPermissions.Visible = false;
-                    pnlHelp.Visible = true;
-                }
             }
         }
 

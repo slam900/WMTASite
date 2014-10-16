@@ -13,24 +13,6 @@ namespace WMTA.Account {
     public partial class StateAdminMenu {
         
         /// <summary>
-        /// pnlCompositionPermissions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlCompositionPermissions;
-        
-        /// <summary>
-        /// pnlNoCompositionPermissions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlNoCompositionPermissions;
-        
-        /// <summary>
         /// pnlHelp control.
         /// </summary>
         /// <remarks>

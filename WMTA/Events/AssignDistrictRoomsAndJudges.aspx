@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="well bs-component col-md-6 main-div center">
+        <div class="well bs-component col-md-7 main-div center">
             <section id="registrationForm">
                 <asp:UpdatePanel ID="upFullPage" runat="server">
                     <ContentTemplate>
@@ -127,7 +127,7 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlJudge" CssClass="col-md-3 control-label float-left">Judge</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlJudge" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlJudge_SelectedIndexChanged">
+                                                    <asp:DropDownList ID="ddlJudge" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
@@ -151,7 +151,7 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlAuditionJudges" CssClass="col-md-3 control-label">Judge</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlAuditionJudges_SelectedIndexChanged">
+                                                    <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                                         <asp:ListItem Selected="True" Text="" Value="" />
                                                     </asp:DropDownList>
                                                 </div>
@@ -160,9 +160,16 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlJudgeRoom" CssClass="col-md-3 control-label">Room</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlJudgeRoom" runat="server" CssClass="dropdown-list form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlJudgeRoom_SelectedIndexChanged">
+                                                    <asp:DropDownList ID="ddlJudgeRoom" runat="server" CssClass="dropdown-list form-control">
                                                         <asp:ListItem Selected="True" Text="" Value="" />
                                                     </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="txtSchedulePriority" CssClass="col-md-3 control-label float-left">Schedule Order</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:TextBox runat="server" ID="txtSchedulePriority" CssClass="form-control small-txtbx-width display-inline" TextMode="Number" />
+                                                    <asp:Label runat="server" Text="(Optional)" CssClass="text-info smaller-font" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -183,6 +190,7 @@
                                                             <asp:TableHeaderCell Scope="Column" Text="Room" />
                                                             <asp:TableHeaderCell Scope="Column" Text="TimeId" Visible="false" />
                                                             <asp:TableHeaderCell Scope="Column" Text="Time" />
+                                                            <asp:TableHeaderCell Scope="Column" Text="Order" />
                                                         </asp:TableHeaderRow>
                                                     </asp:Table>
                                                 </div>
@@ -192,8 +200,8 @@
                                                 <ContentTemplate>
                                                     <div class="form-group">
                                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" />
-                                                            <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" />
+                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                                            <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                                         </div>
                                                     </div>
                                                 </ContentTemplate>
