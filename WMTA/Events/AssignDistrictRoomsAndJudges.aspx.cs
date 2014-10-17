@@ -260,7 +260,7 @@ namespace WMTA.Events
          */
         private void LoadRooms(Audition audition)
         {
-            clearRooms();
+            ClearRooms();
 
             try
             {
@@ -538,22 +538,26 @@ namespace WMTA.Events
             for (int i = 1; i < tblRooms.Rows.Count; i++)
             {
                 string room = tblRooms.Rows[i].Cells[1].Text;
-                roomScheduled = RoomScheduled(room);
 
-                if (((CheckBox)tblRooms.Rows[i].Cells[0].Controls[0]).Checked && !roomScheduled)
+                if (((CheckBox)tblRooms.Rows[i].Cells[0].Controls[0]).Checked)
                 {
-                    // Remove from table
-                    tblRooms.Rows.Remove(tblRooms.Rows[i]);
+                    roomScheduled = RoomScheduled(room);
 
-                    // Remove from dropdowns
-                    ddlRoom.Items.Remove(new ListItem(room, room));
-                    ddlJudgeRoom.Items.Remove(new ListItem(room, room));
+                    if (!roomScheduled)
+                    {
+                        // Remove from table
+                        tblRooms.Rows.Remove(tblRooms.Rows[i]);
 
-                    //Remove from audition
-                    audition.RemoveRoom(room);
+                        // Remove from dropdowns
+                        ddlRoom.Items.Remove(new ListItem(room, room));
+                        ddlJudgeRoom.Items.Remove(new ListItem(room, room));
 
-                    roomSelected = true;
-                    i--;
+                        //Remove from audition
+                        audition.RemoveRoom(room);
+
+                        roomSelected = true;
+                        i--;
+                    }
                 }
             }
 
@@ -584,11 +588,12 @@ namespace WMTA.Events
             {
                 if (((CheckBox)tblTheoryRooms.Rows[i].Cells[0].Controls[0]).Checked)
                 {
+                    string test = tblTheoryRooms.Rows[i].Cells[1].Text;
+                    string room = tblTheoryRooms.Rows[i].Cells[2].Text;
+
                     tblTheoryRooms.Rows.Remove(tblTheoryRooms.Rows[i]);
 
                     // Remove from the audition
-                    string test = tblTheoryRooms.Rows[i].Cells[1].Text;
-                    string room = tblTheoryRooms.Rows[i].Cells[2].Text;
                     audition.RemoveTheoryRoom(test, room);
 
                     roomSelected = true;
@@ -637,6 +642,7 @@ namespace WMTA.Events
                     audition.RemoveJudge(Convert.ToInt32(contactId));
 
                     judgeSelected = true;
+                    i--;
                 }
             }
 
@@ -672,23 +678,26 @@ namespace WMTA.Events
             {
                 if (((CheckBox)tblJudgeRooms.Rows[i].Cells[0].Controls[0]).Checked)
                 {
+                    string contactId = tblJudgeRooms.Rows[i].Cells[1].Text;
+                    string room = tblJudgeRooms.Rows[i].Cells[3].Text;
+                    string scheduleOrder = !tblJudgeRooms.Rows[i].Cells[6].Text.Equals("") ? tblJudgeRooms.Rows[i].Cells[6].Text : "-1";
+                    string[] timeIds = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
+                    string[] times = tblJudgeRooms.Rows[i].Cells[5].Text.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
                     tblJudgeRooms.Rows.Remove(tblJudgeRooms.Rows[i]);
 
                     // Remove from audition
-                    string contactId = tblJudgeRooms.Rows[i].Cells[1].Text;
-                    //string room = tblJudgeRooms.Rows[i].Cells[3].Text;
-                    //string scheduleOrder = !tblJudgeRooms.Rows[i].Cells[6].Text.Equals("") ? tblJudgeRooms.Rows[i].Cells[6].Text : "-1";
-                    //string[] timeIds = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
-                    //string[] times = tblJudgeRooms.Rows[i].Cells[5].Text.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+                    List<Tuple<int, string>> timeList = new List<Tuple<int, string>>();
+                    for (int j = 0; j < timeIds.Length; j++)
+                    {
+                        Tuple<int, string> time = new Tuple<int, string>(Convert.ToInt32(timeIds[j]), times[j]);
+                        timeList.Add(time);
+                    }
 
-                    //List<Tuple<string, string>> timeList = new List<Tuple<string, string>>();
-                    //for (int j = 0; j < timeIds.Length; j++)
-                    //{
-                    //    Tuple<string, string> time = new Tuple<string, string>(timeIds[j], times[j]);
-                    //    timeList.Add(time);
-                    //}
+                    audition.RemoveJudgeRoom(Convert.ToInt32(contactId), room, timeList, Convert.ToInt32(scheduleOrder));
                     
                     rowSelected = true;
+                    i--;
                 }
             }
 
@@ -706,6 +715,7 @@ namespace WMTA.Events
             else // Save changes
             {
                 saveTableToSession(tblJudgeRooms, judgeRoomsTable);
+                Session[auditionSession] = audition;
             }
         }
 
@@ -1280,30 +1290,35 @@ namespace WMTA.Events
 
         #endregion gridview events
 
+        /*
+         * Pre:
+         * Post: Save the changes to the audition schedule information
+         */
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+            try
+            {
+                bool success = audition.SaveScheduleData();
 
+                if (success)
+                {
+                    ClearPage();
+                    showSuccessMessage("The scheduling data has been successfully saved.");
+                }
+                else
+                {
+                    showErrorMessage("Error: Some schedule data could not be saved.  Please verify the entered information.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError("AssignDistrictRoomsAndJudges", "btnSubmit_Click", "", "Message: " + ex.Message + "   Stack Trace: " + ex.StackTrace, -1);
+            }
         }
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
-            ClearSearch();
-            clearRooms();
-            ClearTheoryRooms();
-            ClearAvailableJudges();
-            ClearAuditionJudges();
-            ClearAuditionRooms();
-
-            // Clear inputs
-            txtRoom.Text = "";
-            ddlTheoryTest.SelectedIndex = -1;
-            ddlRoom.SelectedIndex = -1;
-            ddlJudge.SelectedIndex = -1;
-            ddlAuditionJudges.SelectedIndex = -1;
-            ddlJudgeRoom.SelectedIndex = -1;
-            txtSchedulePriority.Text = "";
-            foreach (ListItem item in chkLstTime.Items)
-                item.Selected = false;
+            ClearPage();
         }
 
         /*
@@ -1336,7 +1351,28 @@ namespace WMTA.Events
             gv.DataBind();
         }
 
-        private void clearRooms()
+        private void ClearPage() 
+        {
+            ClearSearch();
+            ClearRooms();
+            ClearTheoryRooms();
+            ClearAvailableJudges();
+            ClearAuditionJudges();
+            ClearAuditionRooms();
+
+            // Clear inputs
+            txtRoom.Text = "";
+            ddlTheoryTest.SelectedIndex = -1;
+            ddlRoom.SelectedIndex = -1;
+            ddlJudge.SelectedIndex = -1;
+            ddlAuditionJudges.SelectedIndex = -1;
+            ddlJudgeRoom.SelectedIndex = -1;
+            txtSchedulePriority.Text = "";
+            foreach (ListItem item in chkLstTime.Items)
+                item.Selected = false;
+        }
+
+        private void ClearRooms()
         {
             // Clear the rooms table
             while (tblRooms.Rows.Count > 1)

@@ -37,6 +37,35 @@ public class ScheduleData
 
     /*
      * Pre:
+     * Post: The scheduling data is updated in the database for the input audition id
+     */
+    public bool Save(int auditionId)
+    {
+        bool success = true;
+
+        // Delete items in delete lists
+        foreach (string room in roomsToRemove)
+            success = success && DbInterfaceScheduling.DeleteRoom(auditionId, room);
+        foreach (Tuple<string, string> theoryRoom in theoryRoomsToRemove)
+            success = success && DbInterfaceScheduling.DeleteTheoryRoom(auditionId, theoryRoom.Item1, theoryRoom.Item2);
+        foreach (Judge judge in scheduledJudgesToRemove)
+            success = success && DbInterfaceScheduling.DeleteJudge(auditionId, judge.id);
+
+        // Update
+        foreach (string room in rooms)
+            success = success && DbInterfaceScheduling.AddRoom(auditionId, room);
+        foreach (Tuple<string, string> theoryRoom in theoryRooms)
+            success = success && DbInterfaceScheduling.AddTheoryRoom(auditionId, theoryRoom.Item1, theoryRoom.Item2);
+        foreach (Judge judge in scheduledJudges)
+            success = success && DbInterfaceScheduling.AddJudge(auditionId, judge.id, -1);
+
+        // TODO - still need to figure out if room assignment object needs to be saved
+
+        return success;
+    }
+
+    /*
+     * Pre:
      * Post: Returns the list of rooms for the audition
      * @param refresh is an optional parameter to force a refresh of the list of rooms
      * @returns the list of rooms

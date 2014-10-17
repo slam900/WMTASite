@@ -83,6 +83,15 @@ public class Audition
 
     /*
      * Pre:
+     * Post: The audition's scheduling data is updated in the database
+     */
+    public bool SaveScheduleData()
+    {
+        return scheduleData.Save(auditionId);
+    }
+
+    /*
+     * Pre:
      * Post: Returns the audition type based on the input district id.
      *       15 = State Keyboard
      *       16 = State Non-Keyboard
