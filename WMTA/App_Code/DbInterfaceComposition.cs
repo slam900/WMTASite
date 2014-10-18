@@ -388,10 +388,11 @@ public class DbInterfaceComposition
      *       in their title.  Also retrieves the number of times the composition
      *       has been used in a student event
      * @param title is the title string to search for
+     * @param composer is an optional parameter to search only the composer with the input name
      * @returns tuples of composition data with the number of times the composition
      *          has been used.  Returns null if there was an error
      */
-    public static List<Tuple<Composition, int>> CompositionTitleQuery(string titleQuery)
+    public static List<Tuple<Composition, int>> CompositionTitleQuery(string titleQuery, string composerName)
     {
         List<Tuple<Composition, int>> results = new List<Tuple<Composition, int>>();
         DataTable table = new DataTable();
@@ -409,6 +410,7 @@ public class DbInterfaceComposition
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@titleQuery", titleQuery);
+            cmd.Parameters.AddWithValue("@composer", composerName);
 
             adapter.Fill(table);
 

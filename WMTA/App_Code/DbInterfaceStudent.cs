@@ -416,6 +416,47 @@ public partial class DbInterfaceStudent
     }
 
     /*
+     * Pre:  The student id must exist in the system
+     * Post: Retrieves the total points awarded to the student with the input id
+     * @param studentId is the id of the student whose point total is being requested
+     * @returns the current point total of the student
+     */
+    public static int GetTotalPoints(int studentId)
+    {
+        int pointTotal = 0;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_StudentPointsTotal";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentId", studentId);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+                Int32.TryParse(table.Rows[0]["TotalPoints"].ToString(), out pointTotal);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudent", "GetPointTotal", "studentId: " + studentId, "Message: " +
+                             e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return pointTotal;
+    }
+
+    /*
      * Pre:  id must be either the empty string or an integer
      * Post: If an id is entered, a data table containing the information for the associated
      *       student is returned.  If a partial first and/or last name are entered, a data table

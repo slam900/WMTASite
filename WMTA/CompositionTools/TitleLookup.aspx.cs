@@ -43,37 +43,29 @@ namespace WMTA.CompositionTools
          */
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            Page.Validate();
+            //check for compositions containing string
+            string queryString = txtComposition.Text;
+            string composer = ddlComposer.SelectedValue.ToString();
 
-            if (Page.IsValid)
+            List<Tuple<Composition, int>> qryResults = DbInterfaceComposition.CompositionTitleQuery(queryString, composer);
+
+            if (qryResults != null)
             {
-                //check for compositions containing string
-                string queryString = txtComposition.Text;
+                loadResults(qryResults);
 
-                List<Tuple<Composition, int>> qryResults = DbInterfaceComposition.CompositionTitleQuery(queryString);
-
-                if (qryResults != null)
+                if (qryResults.Count > 0)
                 {
-                    loadResults(qryResults);
-
-                    if (qryResults.Count > 1)
-                    {
-                        tblCompositions.Visible = true;
-                    }
-                    else
-                    {
-                        tblCompositions.Visible = false;
-                        showInfoMessage("No compositions were found with titles matching the input search string.");
-                    }
+                    tblCompositions.Visible = true;
                 }
                 else
                 {
-                    showErrorMessage("Error: There was an error finding all titles containing the entered characters.");
+                    tblCompositions.Visible = false;
+                    showInfoMessage("No compositions were found with titles matching the input search string.");
                 }
             }
-            else //show error message if required data is missing
+            else
             {
-                showWarningMessage("Please fill in all required fields.");
+                showErrorMessage("Error: There was an error finding all titles containing the entered characters.");
             }
         }
 

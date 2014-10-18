@@ -452,7 +452,7 @@ namespace WMTA.Events
                             {
                                 cboSite.DataSource = table;
                                 cboSite.DataValueField = "AuditionOrgId";
-                                cboSite.DataTextField = "Venue";
+                                cboSite.DataTextField = "GeoName";
                                 cboSite.Items.Add(new ListItem(""));
                                 cboSite.DataBind();
                           }

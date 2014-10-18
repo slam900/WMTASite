@@ -203,6 +203,13 @@
     text-align: center;
 }
 
+.units-label {
+    font-size: 11px;
+    margin-left: 0px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
 .flyover {
     margin-top: -1000px;
     overflow: hidden;

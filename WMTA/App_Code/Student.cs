@@ -16,6 +16,7 @@ public class Student : Person
     public int prevTeacherId { get; private set; }
     public string grade { get; set; }
     public string theoryLevel { get; set; }
+    public int totalPoints { get; set; }
 
 	public Student(int id, int districtId, int currTeacherId, int prevTeacherId) : base(id)
 	{
@@ -116,5 +117,16 @@ public class Student : Person
     private void getYearsTheoryLevel()
     {
         theoryLevel = DbInterfaceStudent.GetTheoryLevel(id);
+    }
+
+    /*
+     * Pre:
+     * Post: Retrieves the total points awarded to the student
+     */
+    public int getTotalPoints()
+    {
+        totalPoints = DbInterfaceStudent.GetTotalPoints(id);
+
+        return totalPoints;
     }
 }

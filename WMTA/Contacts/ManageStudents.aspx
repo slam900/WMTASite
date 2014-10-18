@@ -85,7 +85,7 @@
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtGrade" CssClass="col-md-3 control-label">Grade</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox runat="server" ID="txtGrade" CssClass="form-control"  />
+                                                        <asp:TextBox runat="server" ID="txtGrade" CssClass="form-control" />
                                                     </div>
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtGrade" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Grade is required" />
@@ -129,7 +129,15 @@
                                                         <asp:TextBox ID="txtLegacyPoints" runat="server" TextMode="Number" CssClass="form-control">0</asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <asp:Label runat="server" ID="lblId" Visible =" false" />
+                                                <asp:Panel runat="server" ID="pnlTotalPoints" Visible="false">
+                                                    <asp:Label runat="server" ID="lblId" Visible=" false" />
+                                                    <div class="form-group">
+                                                        <asp:Label runat="server" AssociatedControlID="lblTotalPoints" CssClass="col-md-3 control-label float-left">Total Points</asp:Label>
+                                                        <div class="col-md-6" style="padding-top: 8px">
+                                                            <asp:Label ID="lblTotalPoints" runat="server" CssClass="label-top-margin">0</asp:Label>
+                                                        </div>
+                                                    </div>
+                                                </asp:Panel>
                                             </div>
                                         </asp:Panel>
                                     </ContentTemplate>
@@ -163,39 +171,39 @@
             </section>
         </div>
     </div>
-        <script>
-            $(document).ready(function () {
-                $('#searchHint').popover(
-                {
-                    trigger: 'hover',
-                    html: true,
-                    placement: 'right',
-                    content: 'Fill in any number of the search fields and click "Search" to find students. Clicking "Search" without filling in any fields will return all students linked to you. First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
-                });
+    <script>
+        $(document).ready(function () {
+            $('#searchHint').popover(
+            {
+                trigger: 'hover',
+                html: true,
+                placement: 'right',
+                content: 'Fill in any number of the search fields and click "Search" to find students. Clicking "Search" without filling in any fields will return all students linked to you. First and last names do not need to be complete in order to search.  Ex: entering "sch" in the Last Name field would find all students with last names containing "sch"."',
             });
+        });
 
-            function showMainError() {
-                var message = $('#MainContent_lblErrorMessage').text();
+        function showMainError() {
+            var message = $('#MainContent_lblErrorMessage').text();
 
-                $.notify(message.toString(), { position: 'left-top', className: 'error' });
-            };
-            function showWarningMessage() {
-                var message = $('#MainContent_lblWarningMessage').text();
+            $.notify(message.toString(), { position: 'left-top', className: 'error' });
+        };
+        function showWarningMessage() {
+            var message = $('#MainContent_lblWarningMessage').text();
 
-                $.notify(message.toString(), { position: 'left-top', className: 'warning' });
-            };
-            function showInfoMessage() {
-                var message = $('#MainContent_lblInfoMessage').text();
+            $.notify(message.toString(), { position: 'left-top', className: 'warning' });
+        };
+        function showInfoMessage() {
+            var message = $('#MainContent_lblInfoMessage').text();
 
-                $.notify(message.toString(), { position: 'left-top', className: 'info' });
-            }
+            $.notify(message.toString(), { position: 'left-top', className: 'info' });
+        }
 
-            //show a success message
-            function showSuccessMessage() {
-                var message = $('#MainContent_lblSuccessMessage').text();
+        //show a success message
+        function showSuccessMessage() {
+            var message = $('#MainContent_lblSuccessMessage').text();
 
-                $.notify(message.toString(), { position: "left-top", className: "success" });
-            };
+            $.notify(message.toString(), { position: "left-top", className: "success" });
+        };
 
     </script>
 </asp:Content>

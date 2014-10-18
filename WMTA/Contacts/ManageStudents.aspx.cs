@@ -95,6 +95,7 @@ namespace WMTA.Contacts
                 lblLegacyPoints.Visible = false;
                 txtLegacyPoints.Visible = false;
                 pnlButtons.Visible = false;
+                pnlTotalPoints.Visible = true;
                 enableControls();
                 legend.InnerHtml = "Edit Students";
 
@@ -120,6 +121,7 @@ namespace WMTA.Contacts
                 lblLegacyPoints.Visible = false;
                 txtLegacyPoints.Visible = false;
                 pnlButtons.Visible = false;
+                pnlTotalPoints.Visible = true;
                 disableControls();
                 legend.InnerText = "Delete Students";
 
@@ -447,6 +449,7 @@ namespace WMTA.Contacts
             cboCurrTeacher.SelectedIndex = -1;
             cboPrevTeacher.SelectedIndex = -1;
             txtLegacyPoints.Text = "0";
+            lblTotalPoints.Text = "0";
             pnlButtons.Visible = true;
             pnlConfirmDuplicate.Visible = false;
 
@@ -693,6 +696,7 @@ namespace WMTA.Contacts
                 cboCurrTeacher.SelectedIndex = cboCurrTeacher.Items.IndexOf(cboCurrTeacher.Items.FindByValue(student.currTeacherId.ToString()));
                 cboPrevTeacher.SelectedIndex = cboPrevTeacher.Items.IndexOf(cboPrevTeacher.Items.FindByValue(student.prevTeacherId.ToString()));
                 txtLegacyPoints.Text = student.legacyPoints.ToString();
+                lblTotalPoints.Text = student.getTotalPoints().ToString();
 
                 pnlButtons.Visible = true;
                 pnlFullPage.Visible = true;

@@ -121,8 +121,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="txtDriveTime" CssClass="col-md-3 control-label float-left">Drive Time</asp:Label>
-                                                <div class="col-md-6">
+                                                <div class="col-md-5" style="padding-right: 5px">
                                                     <asp:TextBox ID="txtDriveTime" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
+                                                </div>
+                                                <div class="units-label">
+                                                    Minutes
                                                 </div>
                                                 <div>
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDriveTime" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Drive Time is required" />

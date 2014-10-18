@@ -13,13 +13,19 @@
                                     <legend>Composition Title Finder</legend>
                                     <br />
                                     <div class="form-group">
-                                        <asp:Label runat="server" AssociatedControlID="txtComposition" CssClass="col-md-4 control-label float-left">Title Search String</asp:Label>
+                                        <asp:Label runat="server" AssociatedControlID="txtComposition" CssClass="col-md-4 control-label float-left">Title Search String *</asp:Label>
                                         <div class="col-md-5">
                                             <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control" />
                                         </div>
-                                        <div>
-                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" /><br />
+                                    </div>
+                                    <div class="form-group">
+                                        <asp:Label runat="server" AssociatedControlID="ddlComposer" CssClass="col-md-4 control-label float-left">Composer</asp:Label>
+                                        <div class="col-md-5">
+                                            <asp:DropDownList ID="ddlComposer" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource5" DataTextField="Composer" DataValueField="Composer" AppendDataBoundItems="true">
+                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                            </asp:DropDownList>
                                         </div>
+                                        <asp:SqlDataSource ID="WmtaDataSource5" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposer" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                     </div>
                                     <div class="form-group">
                                         <asp:Table ID="tblCompositions" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center" Visible="false">

@@ -31,6 +31,24 @@ namespace WMTA.CompositionTools {
         protected global::System.Web.UI.WebControls.TextBox txtComposition;
         
         /// <summary>
+        /// ddlComposer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlComposer;
+        
+        /// <summary>
+        /// WmtaDataSource5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource WmtaDataSource5;
+        
+        /// <summary>
         /// tblCompositions control.
         /// </summary>
         /// <remarks>
