@@ -86,7 +86,10 @@ public partial class DbInterfaceStudent
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
 
         if (DateTime.Today.Month >= 6) year = year + 1;
-        year = DateTime.Today.Year; //delete this
+
+        // Look at current year no matter what if on the test site
+        if (Utility.reportSuffix.Equals("Test")) //delete this
+            year = DateTime.Today.Year; 
 
         try
         {
@@ -285,7 +288,10 @@ public partial class DbInterfaceStudent
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             connection.Open();
             string storedProc = "sp_StudentAuditionGrade2";
@@ -345,7 +351,10 @@ public partial class DbInterfaceStudent
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             connection.Open();
             string storedProc = "sp_StudentTheoryLevelSelect";
@@ -571,7 +580,10 @@ public partial class DbInterfaceStudent
 
         //set year to next year if it is June or later
         if (DateTime.Now.Month >= 6) year = year + 1;
-        year = DateTime.Today.Year; //delete this
+
+        // Look at current year no matter what if on the test site
+        if (Utility.reportSuffix.Equals("Test")) //delete this
+            year = DateTime.Today.Year; 
 
         try
         {

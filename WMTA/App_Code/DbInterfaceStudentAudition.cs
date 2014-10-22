@@ -290,7 +290,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             int auditionOrgId = GetAuditionOrgId(audition.districtId, year);
 
@@ -411,7 +414,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             int auditionOrgId = GetAuditionOrgId(audition.districtId, year);
 
@@ -569,7 +575,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             connection.Open();
             string storedProc = "sp_StudentAuditionUpdate";
@@ -675,7 +684,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             connection.Open();
             string storedProc = "sp_StudentAuditionNew";
@@ -1286,7 +1298,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             int auditionOrgId = GetAuditionOrgId(audition.districtId, year);
 
@@ -1395,7 +1410,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             int auditionOrgId = GetAuditionOrgId(audition.districtId, year);
 
@@ -1489,7 +1507,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             connection.Open();
             string storedProc = "sp_StudentAuditionUpdate";
@@ -1564,7 +1585,10 @@ public partial class DbInterfaceStudentAudition
                 year = DateTime.Today.AddYears(1).Year;
             else
                 year = DateTime.Today.Year;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             connection.Open();
             string storedProc = "sp_StudentAuditionNew";

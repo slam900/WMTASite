@@ -335,7 +335,10 @@ namespace WMTA.Events
 
             //get audition year
             if (DateTime.Today.Month >= 6) year = year + 1;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             if (index >= 0 && index < gvStudentSearch.Rows.Count)
             {
@@ -927,7 +930,10 @@ namespace WMTA.Events
             int year = DateTime.Today.Year;
 
             if (DateTime.Today.Month >= 6) year = year + 1;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             if (!ddlSite.SelectedValue.ToString().Equals(""))
                 getAuditionDate(Convert.ToInt32(ddlSite.SelectedValue), year);
@@ -1924,7 +1930,9 @@ namespace WMTA.Events
             if (DateTime.Today.Month >= 6)
                 year = year + 1;
 
-            year = DateTime.Today.Year; //delete this
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             //see if the audition has been created
             if (DbInterfaceStudentAudition.GetAuditionOrgId(Convert.ToInt32(ddlSite.SelectedValue), year) == -1)
@@ -1950,7 +1958,9 @@ namespace WMTA.Events
             if (DateTime.Today.Month >= 6)
                 year = year + 1;
 
-            year = DateTime.Today.Year; //delete this
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             //see if the audition has been created
             if (DbInterfaceStudentAudition.GetAuditionOrgId(Convert.ToInt32(ddlSite.SelectedValue), year) == -1)
@@ -1973,7 +1983,10 @@ namespace WMTA.Events
             int year = DateTime.Today.Year;
 
             if (DateTime.Today.Month >= 6) year = year + 1;
-            year = DateTime.Today.Year; //delete this
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
 
             if (!ddlSite.SelectedIndex.ToString().Equals(""))
             {

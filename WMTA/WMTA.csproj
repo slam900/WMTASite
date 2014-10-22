@@ -261,6 +261,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\bs.pagination.js" />
     <Content Include="MasterPages\WidePage.Master" />
+    <None Include="Properties\PublishProfiles\WMTALive.pubxml" />
     <None Include="Properties\PublishProfiles\WMTATest.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
