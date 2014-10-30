@@ -93,7 +93,7 @@ namespace WMTA.Events
             }
 
             // Reload audition judges dropdown
-            if (Page.IsPostBack && Session[auditionJudges] != null) 
+            if (Page.IsPostBack && Session[auditionJudges] != null)
             {
                 string selectedValue = ddlAuditionJudges.SelectedValue;
                 ddlAuditionJudges.Items.Clear();
@@ -195,7 +195,7 @@ namespace WMTA.Events
                 int auditionId = Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text);
 
                 //populate event information
-                ddlDistrictSearch.SelectedIndex = 
+                ddlDistrictSearch.SelectedIndex =
                             ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
                             gvAuditionSearch.Rows[index].Cells[2].Text));
 
@@ -208,7 +208,7 @@ namespace WMTA.Events
                 LoadAvailableJudgesToDropdown(audition);
                 LoadAuditionJudges(audition);
 
-                
+
                 //TODO load judge rooms
 
                 Session[auditionSession] = audition;
@@ -441,7 +441,7 @@ namespace WMTA.Events
          */
         protected void btnAddJudgeRoom_Click(object sender, EventArgs e)
         {
-            if (ddlAuditionJudges.SelectedIndex > 0 && ddlJudgeRoom.SelectedIndex > 0 && chkLstTime.SelectedIndex >=0 )
+            if (ddlAuditionJudges.SelectedIndex > 0 && ddlJudgeRoom.SelectedIndex > 0 && chkLstTime.SelectedIndex >= 0)
             {
                 string judgeId = ddlAuditionJudges.SelectedValue.ToString();
                 string judge = ddlAuditionJudges.SelectedItem.Text;
@@ -499,7 +499,7 @@ namespace WMTA.Events
                 else if (judgeTimeExists) // Judge has been assigned a duplicate time in a different room, show error
                 {
                     showWarningMessage("The judge has been assigned to a different room for one or more of the specified times.");
-                } 
+                }
                 else // Add new judge (can have multiple entries in the table for different rooms)
                 {
                     AddJudgeRoom(judgeId, judge, room, times, priority);
@@ -574,7 +574,7 @@ namespace WMTA.Events
                 Session[auditionSession] = audition;
             }
         }
-    
+
         /*
          * Pre:
          * Post: Remove selected theory test rooms
@@ -620,7 +620,7 @@ namespace WMTA.Events
          */
         protected void btnRemoveJudge_Click(object sender, EventArgs e)
         {
-            bool judgeSelected = false, judgeScheduled = false;
+            bool judgeSelected = false, judgeScheduled = false, messageShown = false;
 
             // Remove any checked judges
             for (int i = 1; i < tblJudges.Rows.Count; i++)
@@ -634,7 +634,7 @@ namespace WMTA.Events
 
                     // Remove from dropdown
                     ddlAuditionJudges.Items.Remove(new ListItem(name, contactId));
-                    
+
                     // Remove from table
                     tblJudges.Rows.Remove(tblJudges.Rows[i]);
 
@@ -643,6 +643,11 @@ namespace WMTA.Events
 
                     judgeSelected = true;
                     i--;
+                }
+                else if (((CheckBox)tblJudges.Rows[i].Cells[0].Controls[0]).Checked && judgeScheduled)
+                {
+                    showWarningMessage("A selected judge has been scheduled in a room. Please edit the judge rooms to continue.");
+                    messageShown = true;
                 }
             }
 
@@ -653,7 +658,7 @@ namespace WMTA.Events
             }
 
             // Display a message if no judge was selected
-            if (!judgeSelected && !judgeScheduled)
+            if (!judgeSelected && !judgeScheduled && !messageShown)
             {
                 showWarningMessage("Please select a judge to remove.");
             }
@@ -695,7 +700,7 @@ namespace WMTA.Events
                     }
 
                     audition.RemoveJudgeRoom(Convert.ToInt32(contactId), room, timeList, Convert.ToInt32(scheduleOrder));
-                    
+
                     rowSelected = true;
                     i--;
                 }
@@ -772,7 +777,7 @@ namespace WMTA.Events
             // Check judge/room schedule
             while (!judgeScheduled && idx < tblJudgeRooms.Rows.Count)
             {
-                if (tblJudgeRooms.Rows[idx].Cells[1].Text.Equals(contactId)) 
+                if (tblJudgeRooms.Rows[idx].Cells[1].Text.Equals(contactId))
                 {
                     showWarningMessage("The judge with id " + contactId + " has been scheduled in a room. Please edit the judge rooms to continue.");
                     judgeScheduled = true;
@@ -1076,7 +1081,7 @@ namespace WMTA.Events
          * Post: Determines whether or not adding/updating this judge will cause
          *       a duplicated priority/schedule order
          */
-        private bool DuplicateJudgePriority(string judgeId, int priority) 
+        private bool DuplicateJudgePriority(string judgeId, int priority)
         {
             bool duplicate = false;
             int i = 1;
@@ -1106,7 +1111,7 @@ namespace WMTA.Events
 
             while (!overlap && i < tblJudgeRooms.Rows.Count)
             {
-                if (!tblJudgeRooms.Rows[i].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[i].Cells[3].Text.Equals(room)) 
+                if (!tblJudgeRooms.Rows[i].Cells[1].Text.Equals(judgeId) && tblJudgeRooms.Rows[i].Cells[3].Text.Equals(room))
                 {
                     string[] times = tblJudgeRooms.Rows[i].Cells[4].Text.Split(',');
                     foreach (string time in timeIds)
@@ -1176,36 +1181,15 @@ namespace WMTA.Events
 
         /*
          * Pre:
-         * Post: Load the judge's preferred times when a new judge is selected
+         * Post: Clear selected times when a new judge is selected
          */
         protected void ddlAuditionJudges_SelectedIndexChanged1(object sender, EventArgs e)
         {
-            try
-            {
-                // Clear all selected times
-                foreach (ListItem chkBox in chkLstTime.Items)
-                {
-                    chkBox.Selected = false;
-                }
+            ddlJudgeRoom.SelectedIndex = -1;
 
-                if (ddlAuditionJudges.SelectedIndex > 0)
-                {
-                    int contactId = Convert.ToInt32(ddlAuditionJudges.SelectedValue);
-                    Judge judge = new Judge(contactId);
-
-                    foreach (JudgePreference pref in judge.preferences)
-                    {
-                        if (pref.preferenceType == Utility.JudgePreferences.Time)
-                        {
-                            chkLstTime.Items[Convert.ToInt32(pref.preference) - 1].Selected = true;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
+            foreach (ListItem chkBox in chkLstTime.Items)
             {
-                showErrorMessage("Error: The judge's time preferences could not be loaded.");
-                Utility.LogError("AssignDistrictRoomsAndJudges", "BindSessionData", "", "Message: " + ex.Message + "   Stack Trace: " + ex.StackTrace, -1);
+                chkBox.Selected = false;
             }
         }
 
@@ -1351,7 +1335,7 @@ namespace WMTA.Events
             gv.DataBind();
         }
 
-        private void ClearPage() 
+        private void ClearPage()
         {
             ClearSearch();
             ClearRooms();

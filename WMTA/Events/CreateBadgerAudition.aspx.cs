@@ -310,7 +310,7 @@ namespace WMTA.Events
 
             //if duets are enabled, make sure there isn't already a state audition for the upcoming year
             //that already has duets enabled
-            if (ddlDuets.SelectedValue.Equals("Yes") && !ddlDistrict.SelectedItem.Text.Contains("Non"))
+            if (ddlDuets.SelectedValue.Equals("Yes") && !ddlDistrict.SelectedItem.Text.Contains("Vocal/Instrumental"))
             {
                 if (DbInterfaceAudition.StateDuetSiteExists(DateTime.Parse(txtDate.Value).Year, Convert.ToInt32(ddlDistrict.SelectedValue)))
                 {
@@ -677,12 +677,12 @@ namespace WMTA.Events
 
         /*
          * Pre:
-         * Post:  If the a Non-Keyboard site is selected, set the Duets Allowed dropdown to
+         * Post:  If the a Vocal/Instrumental site is selected, set the Duets Allowed dropdown to
          *        yes and disable it.  Otherwise set it to no and enable it
          */
         protected void ddlDistrict_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlDistrict.SelectedItem.Text.Contains("Non"))
+            if (ddlDistrict.SelectedItem.Text.Contains("Vocal/Instrumental"))
             {
                 ddlDuets.SelectedValue = "Yes";
                 ddlDuets.Enabled = false;

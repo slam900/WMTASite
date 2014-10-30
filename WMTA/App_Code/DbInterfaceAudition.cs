@@ -580,7 +580,7 @@ public partial class DbInterfaceAudition
      *       audition is returned.  If an audition type, district, and/or year are included, the 
      *       existing auditions are filtered based on that information
      * @param id is the student id being searched for
-     * @param auditionType is the type of the audition being searched for - District, State Keyboard, State Non-Keyboard
+     * @param auditionType is the type of the audition being searched for - District, State Keyboard, State Vocal/Instrumental
      * @param districtId is the district id of the audition being searched for
      * @param year is the year of the audition being searched for
      */

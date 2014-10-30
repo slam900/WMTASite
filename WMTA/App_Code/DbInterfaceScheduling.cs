@@ -59,7 +59,7 @@ public class DbInterfaceScheduling
      */
     public static bool DeleteRoom(int auditionOrgId, string room)
     {
-        bool success = false;
+        bool success = true;
         DataTable table = new DataTable();
         SqlConnection connection = new
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
@@ -243,7 +243,7 @@ public class DbInterfaceScheduling
      */
     public static bool DeleteTheoryRoom(int auditionOrgId, string theoryTest, string room)
     {
-        bool success = false;
+        bool success = true;
         DataTable table = new DataTable();
         SqlConnection connection = new
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
@@ -442,7 +442,7 @@ public class DbInterfaceScheduling
      */
     public static bool DeleteJudge(int auditionOrgId, int contactId)
     {
-        bool success = false;
+        bool success = true;
         DataTable table = new DataTable();
         SqlConnection connection = new
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
@@ -465,6 +465,93 @@ public class DbInterfaceScheduling
         catch (Exception e)
         {
             Utility.LogError("DbInterfaceScheduling", "DeleteJudge", "auditionOrgId: " + auditionOrgId + ", contactId: " + contactId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
+     * Pre:
+     * Post: The new room is associated with a theory test for the audition
+     * @param auditionOrgId is the unique id of the audition to assign the room to
+     * @param theoryTest is the theory test
+     * @param room is the room identifier
+     * @returns true if there were no errors
+     */
+    public static bool AddJudgeTime(int auditionOrgId, int contactId, int scheduleId, string room)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_JudgePrefTimeNew";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@contactId", contactId);
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@schedule", scheduleId);
+            cmd.Parameters.AddWithValue("@room", room);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "AddJudgeTime", "auditionOrgId: " + auditionOrgId + ", contactId: " + contactId + ", scheduleOrder: " + scheduleId + ", room: " + room,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
+     * Pre:  
+     * Post: The room is deleted, for theory test purposes from the audition
+     * @param auditionOrgId is the unique id of the audition to assign the room to
+     * @param theoryTest is the theory test
+     * @param room is the room identifier
+     * @returns true if there were no errors
+     */
+    public static bool DeleteJudgeTime(int auditionOrgId, int contactId, int scheduleId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_JudgePrefTimeDelete";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@contactId", contactId);
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@schedule", scheduleId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "DeleteJudgeTime", "auditionOrgId: " + auditionOrgId + ", contactId: " + contactId + ", scheduleId: " + scheduleId,
                              "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             success = false;
         }

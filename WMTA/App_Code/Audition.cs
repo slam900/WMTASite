@@ -94,7 +94,7 @@ public class Audition
      * Pre:
      * Post: Returns the audition type based on the input district id.
      *       15 = State Keyboard
-     *       16 = State Non-Keyboard
+     *       16 = State Vocal/Instrumental
      *       All others = District
      * @returns the audition type
      */
@@ -105,7 +105,7 @@ public class Audition
         if (districtId == 15)
             type = "State Keyboard";
         else if (districtId == 16 || districtId == 20 || districtId == 21 || districtId == 22)
-            type = "State Non-Keyboard";
+            type = "State Vocal/Instrumental";
         else if (districtId == 23)
             type = "HS Virtuoso";
         else if (districtId == 24)

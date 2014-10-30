@@ -160,7 +160,7 @@ namespace WMTA.Events
          * Post: The input parameters are used to search for existing auditions.  Matchin audition
          *       information is displayed in the input gridview
          * @param gridview is the gridview in which the search results will be displayed
-         * @param auditionType is the type of audition being searched for - district, badger keyboard, or badger non-keyboard
+         * @param auditionType is the type of audition being searched for - district, badger keyboard, or badger Vocal/Instrumental
          * @param district is the district id of the audition being searched for
          * @param year is the year of the audition being searched for
          */

@@ -382,8 +382,8 @@ namespace WMTA.Contacts
                     HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Instrument, item);
 
                 //add time preferences
-                foreach (ListItem item in chkLstTime.Items)
-                    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Time, item);
+                //foreach (ListItem item in chkLstTime.Items)
+                //    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Time, item);
 
                 //delete preferences that were not found
                 if (prefArr != null)
@@ -869,14 +869,14 @@ namespace WMTA.Contacts
                                 if (idx >= 0) chkLstInstrument.Items.FindByValue(pref.preference).Selected = true;
                             }
                             //time
-                            else if (pref.preferenceType == Utility.JudgePreferences.Time)
-                            {
-                                if (chkLstTime.Items.Count == 0) chkLstTime.DataBind();
+                            //else if (pref.preferenceType == Utility.JudgePreferences.Time)
+                            //{
+                            //    if (chkLstTime.Items.Count == 0) chkLstTime.DataBind();
 
-                                idx = chkLstTime.Items.IndexOf(chkLstTime.Items.FindByValue(pref.preference));
+                            //    idx = chkLstTime.Items.IndexOf(chkLstTime.Items.FindByValue(pref.preference));
 
-                                if (idx >= 0) chkLstTime.Items.FindByValue(pref.preference).Selected = true;
-                            }
+                            //    if (idx >= 0) chkLstTime.Items.FindByValue(pref.preference).Selected = true;
+                            //}
                         }
                     }
                     else

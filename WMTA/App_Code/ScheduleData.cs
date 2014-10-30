@@ -50,6 +50,11 @@ public class ScheduleData
             success = success && DbInterfaceScheduling.DeleteTheoryRoom(auditionId, theoryRoom.Item1, theoryRoom.Item2);
         foreach (Judge judge in scheduledJudgesToRemove)
             success = success && DbInterfaceScheduling.DeleteJudge(auditionId, judge.id);
+        foreach (JudgeRoomAssignment assignment in judgeRoomsToRemove)
+        {
+            foreach (Tuple<int, string> time in assignment.times)
+                success = success && DbInterfaceScheduling.DeleteJudgeTime(auditionId, assignment.judge.id, time.Item1);
+        } 
 
         // Update
         foreach (string room in rooms)
@@ -57,11 +62,39 @@ public class ScheduleData
         foreach (Tuple<string, string> theoryRoom in theoryRooms)
             success = success && DbInterfaceScheduling.AddTheoryRoom(auditionId, theoryRoom.Item1, theoryRoom.Item2);
         foreach (Judge judge in scheduledJudges)
-            success = success && DbInterfaceScheduling.AddJudge(auditionId, judge.id, -1);
-
-        // TODO - still need to figure out if room assignment object needs to be saved
+            success = success && DbInterfaceScheduling.AddJudge(auditionId, judge.id, GetScheduleOrder(judge));
+        foreach (JudgeRoomAssignment assignment in judgeRooms)
+        {
+            foreach (Tuple<int, string> time in assignment.times)
+                success = success && DbInterfaceScheduling.AddJudgeTime(auditionId, assignment.judge.id, time.Item1, assignment.room);
+        }
 
         return success;
+    }
+
+    /*
+     * Pre:
+     * Post: If the input judge has been scheduled in a room, retrieve their schedule order, if there is one
+     * @param judge is the judge to retrieve the schedule order of
+     * @returns the schedule order/priority or -1 if one is not found
+     */
+    private int GetScheduleOrder(Judge judge)
+    {
+        bool found = false;
+        int order = -1, i = 0;
+
+        while (!found && i < judgeRooms.Count)
+        {
+            if (judgeRooms[i].judge.id == judge.id)
+            {
+                order = judgeRooms[i].scheduleOrder;
+                found = true;
+            }
+
+            i++;
+        }
+
+        return order;
     }
 
     /*
