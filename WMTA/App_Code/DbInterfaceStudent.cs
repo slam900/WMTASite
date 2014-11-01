@@ -111,6 +111,7 @@ public partial class DbInterfaceStudent
             cmd.Parameters.AddWithValue("@grade", student.grade);
             cmd.Parameters.AddWithValue("@year", year);
             cmd.Parameters.AddWithValue("@legacyPoints", student.legacyPoints);
+            cmd.Parameters.AddWithValue("@legacyPtsYear", student.legacyPtsYear);
 
             adapter.Fill(table);
         }
@@ -251,7 +252,7 @@ public partial class DbInterfaceStudent
                     legacyPoints = Convert.ToInt32(table.Rows[0]["LegacyPoints"]);
 
                 student = new Student(id, firstName, middleInitial, lastName, districtId, teacherId, prevTeacherId);
-                student.legacyPoints = legacyPoints;
+                student.SetLegacyPoints(legacyPoints, DateTime.Today.Year);
             }
         }
         catch (Exception e)
@@ -463,6 +464,46 @@ public partial class DbInterfaceStudent
         connection.Close();
 
         return pointTotal;
+    }
+
+    /*
+     * Pre:
+     * Post: Retrieves the number of legacy points that the student has for the input year
+     */
+    public static int GetLegacyPointsForYear(int studentId, int year)
+    {
+        int legacyPoints = 0;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_StudentLegacyPoints";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentId", studentId);
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+                Int32.TryParse(table.Rows[0]["LegacyPoints"].ToString(), out legacyPoints);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudent", "GetLegacyPointsForYear", "studentId: " + studentId + ", year: " + year,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return legacyPoints;
     }
 
     /*

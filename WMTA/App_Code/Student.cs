@@ -11,7 +11,8 @@ using System.Web;
 public class Student : Person
 {
     public int districtId { get; private set; }
-    public int legacyPoints { get; set; }
+    public int legacyPoints { get; private set; }
+    public int legacyPtsYear { get; private set; }
     public int currTeacherId { get; private set; }
     public int prevTeacherId { get; private set; }
     public string grade { get; set; }
@@ -45,6 +46,12 @@ public class Student : Person
         this.currTeacherId = currTeacherId;
         this.prevTeacherId = prevTeacherId;
         this.grade = grade;
+    }
+
+    public void SetLegacyPoints(int points, int year)
+    {
+        legacyPoints = points;
+        legacyPtsYear = year;
     }
 
     /*

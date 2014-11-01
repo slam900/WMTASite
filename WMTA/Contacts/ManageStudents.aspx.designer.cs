@@ -193,6 +193,24 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.DropDownList cboPrevTeacher;
         
         /// <summary>
+        /// pnlLegacyPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlLegacyPoints;
+        
+        /// <summary>
+        /// lblId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblId;
+        
+        /// <summary>
         /// lblLegacyPoints control.
         /// </summary>
         /// <remarks>
@@ -200,6 +218,33 @@ namespace WMTA.Contacts {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblLegacyPoints;
+        
+        /// <summary>
+        /// btnEditLegacyPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEditLegacyPoints;
+        
+        /// <summary>
+        /// pnlEditLegacyPts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlEditLegacyPts;
+        
+        /// <summary>
+        /// lblLegacyPtsEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLegacyPtsEdit;
         
         /// <summary>
         /// txtLegacyPoints control.
@@ -211,6 +256,24 @@ namespace WMTA.Contacts {
         protected global::System.Web.UI.WebControls.TextBox txtLegacyPoints;
         
         /// <summary>
+        /// lblLegacyPtsYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLegacyPtsYear;
+        
+        /// <summary>
+        /// ddlLegacyPtsYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlLegacyPtsYear;
+        
+        /// <summary>
         /// pnlTotalPoints control.
         /// </summary>
         /// <remarks>
@@ -218,15 +281,6 @@ namespace WMTA.Contacts {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlTotalPoints;
-        
-        /// <summary>
-        /// lblId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblId;
         
         /// <summary>
         /// lblTotalPoints control.

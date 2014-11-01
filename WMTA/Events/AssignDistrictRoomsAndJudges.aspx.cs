@@ -207,9 +207,7 @@ namespace WMTA.Events
                 LoadTheoryRooms(audition);
                 LoadAvailableJudgesToDropdown(audition);
                 LoadAuditionJudges(audition);
-
-
-                //TODO load judge rooms
+                LoadAuditionJudgeRooms(audition);
 
                 Session[auditionSession] = audition;
                 pnlMain.Visible = true;
@@ -359,6 +357,35 @@ namespace WMTA.Events
             {
                 showErrorMessage("Error: An error occurred while loading the event's judges.");
                 Utility.LogError("AssignDistrictRoomsAndJudges", "LoadAuditionJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Load the judge rooms for the input audition
+         */
+        private void LoadAuditionJudgeRooms(Audition audition)
+        {
+            ClearAuditionRooms();
+
+            try
+            {
+                List<JudgeRoomAssignment> roomAssignments = audition.GetEventJudgeRoomAssignments(true);
+
+                //Load each room assignment to the table
+                JudgeRoomAssignment[] arr = roomAssignments.ToArray(); // Copy to array because positions are shifting around in list for some reason
+                for (int i = 0; i < arr.Count(); i++)
+                {
+                    JudgeRoomAssignment assignment = arr[i];
+                    AddJudgeRoom(assignment.judge.id.ToString(), assignment.judge.lastName + ", " + assignment.judge.firstName, assignment.room, assignment.times, assignment.scheduleOrder);
+                }
+
+                if (roomAssignments.Count > 0) pnlJudgeRooms.Visible = true;
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while loading the event's judging rooms.");
+                Utility.LogError("AssignDistrictRoomsAndJudges", "LoadAuditionRooms", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 
@@ -1354,6 +1381,16 @@ namespace WMTA.Events
             txtSchedulePriority.Text = "";
             foreach (ListItem item in chkLstTime.Items)
                 item.Selected = false;
+
+            // Clear event information
+            lblAuditionSite.Text = "";
+            lblAuditionDate.Text = "";
+
+            // Go back to search panel
+            pnlMain.Visible = false;
+            clearGridView(gvAuditionSearch);
+            upAuditionSearch.Visible = true;
+
         }
 
         private void ClearRooms()

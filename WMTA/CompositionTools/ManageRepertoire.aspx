@@ -39,7 +39,7 @@
                                             <label id="txtCompositionId" runat="server" visible="false" />
                                         </div>
                                         <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Style</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Period</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlStyleSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged" AutoPostBack="True">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
@@ -189,7 +189,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlStyle" CssClass="col-md-3 control-label float-left">Style</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlStyle" CssClass="col-md-3 control-label float-left">Period</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlStyle" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" DataSourceID="WmtaDataSource2" DataTextField="Style" DataValueField="Style">
                                                         <asp:ListItem Selected="True" Text="" Value="" />

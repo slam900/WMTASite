@@ -123,21 +123,43 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <asp:Label runat="server" AssociatedControlID="txtLegacyPoints" ID="lblLegacyPoints" CssClass="col-md-3 control-label float-left">Legacy Points</asp:Label>
-                                                    <div class="col-md-6">
-                                                        <asp:TextBox ID="txtLegacyPoints" runat="server" TextMode="Number" CssClass="form-control">0</asp:TextBox>
-                                                    </div>
-                                                </div>
-                                                <asp:Panel runat="server" ID="pnlTotalPoints" Visible="false">
-                                                    <asp:Label runat="server" ID="lblId" Visible=" false" />
-                                                    <div class="form-group">
-                                                        <asp:Label runat="server" AssociatedControlID="lblTotalPoints" CssClass="col-md-3 control-label float-left">Total Points</asp:Label>
-                                                        <div class="col-md-6" style="padding-top: 8px">
-                                                            <asp:Label ID="lblTotalPoints" runat="server" CssClass="label-top-margin">0</asp:Label>
-                                                        </div>
-                                                    </div>
-                                                </asp:Panel>
+                                                <asp:UpdatePanel runat="server">
+                                                    <ContentTemplate>
+                                                        <asp:Panel runat="server" ID="pnlLegacyPoints" Visible="false">
+                                                            <asp:Label runat="server" ID="lblId" Visible=" false" />
+                                                            <div class="form-group">
+                                                                <asp:Label runat="server" AssociatedControlID="lblLegacyPoints" CssClass="col-md-3 control-label float-left">Legacy Points</asp:Label>
+                                                                <div class="col-md-6" style="padding-top: 8px">
+                                                                    <asp:Label ID="lblLegacyPoints" runat="server" CssClass="label-top-margin">0</asp:Label>
+                                                                    <asp:Button runat="server" ID="btnEditLegacyPoints" CssClass="btn btn-link" Text="Edit" Visible="false" OnClick="btnEditLegacyPoints_Click" />
+                                                                </div>
+                                                            </div>
+                                                        </asp:Panel>
+                                                        <asp:Panel runat="server" ID="pnlEditLegacyPts" Visible="false">
+                                                            <div class="form-group">
+                                                                <asp:Label runat="server" ID="lblLegacyPtsEdit" AssociatedControlID="txtLegacyPoints" CssClass="col-md-3 control-label float-left">Legacy Points</asp:Label>
+                                                                <div class="col-md-2">
+                                                                    <asp:TextBox ID="txtLegacyPoints" runat="server" TextMode="Number" CssClass="form-control">0</asp:TextBox>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <asp:Label runat="server" ID="lblLegacyPtsYear" AssociatedControlID="ddlLegacyPtsYear" CssClass="col-md-3 control-label float-left">Year</asp:Label>
+                                                                    <div class="col-md-9">
+                                                                        <asp:DropDownList ID="ddlLegacyPtsYear" runat="server" CssClass="dropdown-list form-control float-left" AutoPostBack="true" OnSelectedIndexChanged="ddlLegacyPtsYear_SelectedIndexChanged">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </asp:Panel>
+                                                        <asp:Panel runat="server" ID="pnlTotalPoints" Visible="false">
+                                                            <div class="form-group">
+                                                                <asp:Label runat="server" AssociatedControlID="lblTotalPoints" CssClass="col-md-3 control-label float-left">Total Points</asp:Label>
+                                                                <div class="col-md-6" style="padding-top: 8px">
+                                                                    <asp:Label ID="lblTotalPoints" runat="server" CssClass="label-top-margin">0</asp:Label>
+                                                                </div>
+                                                            </div>
+                                                        </asp:Panel>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
                                             </div>
                                         </asp:Panel>
                                     </ContentTemplate>

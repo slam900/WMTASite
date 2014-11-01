@@ -22,13 +22,25 @@ namespace WMTA.Contacts
         protected void Page_Load(object sender, EventArgs e)
         {
             checkPermissions();
-            initializePage();
+
+            //get requested action - default to adding
+            string actionIndicator = Request.QueryString["action"];
+            if (actionIndicator == null || actionIndicator.Equals(""))
+            {
+                action = Utility.Action.Add;
+            }
+            else
+            {
+                action = (Utility.Action)Convert.ToInt32(actionIndicator);
+            }
 
             //clear session variables
             if (!Page.IsPostBack)
             {
                 Session[studentSearch] = null;
                 Session[studentVar] = null;
+                loadYearDropdown();
+                initializePage();
             }
 
             //if an audition object has been instantiated, reload
@@ -66,24 +78,14 @@ namespace WMTA.Contacts
          */
         protected void initializePage()
         {
-            //get requested action - default to adding
-            string actionIndicator = Request.QueryString["action"];
-            if (actionIndicator == null || actionIndicator.Equals(""))
-            {
-                action = Utility.Action.Add;
-            }
-            else
-            {
-                action = (Utility.Action)Convert.ToInt32(actionIndicator);
-            }
-
             //initialize page based on action
             if (action == Utility.Action.Add)
             {
                 pnlFullPage.Visible = true;
                 pnlStudentSearch.Visible = false;
-                lblLegacyPoints.Visible = true;
-                txtLegacyPoints.Visible = true;
+                pnlEditLegacyPts.Visible = true;
+                lblLegacyPtsYear.Visible = false;
+                ddlLegacyPtsYear.Visible = false;
                 enableControls();
 
                 filterDistrictsAndTeachers();
@@ -92,9 +94,8 @@ namespace WMTA.Contacts
             {
                 pnlStudentSearch.Visible = true;
                 pnlFullPage.Visible = false;
-                lblLegacyPoints.Visible = false;
-                txtLegacyPoints.Visible = false;
                 pnlButtons.Visible = false;
+                pnlLegacyPoints.Visible = true;
                 pnlTotalPoints.Visible = true;
                 enableControls();
                 legend.InnerHtml = "Edit Students";
@@ -105,8 +106,7 @@ namespace WMTA.Contacts
                 User user = (User)Session[Utility.userRole];
                 if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('A'))
                 {
-                    lblLegacyPoints.Visible = true;
-                    txtLegacyPoints.Visible = true;
+                    btnEditLegacyPoints.Visible = true;
                 }
             }
             else if (action == Utility.Action.Delete)
@@ -127,6 +127,18 @@ namespace WMTA.Contacts
 
                 btnSubmit.Attributes.Add("onclick", "return confirm('Are you sure that you wish to permanently delete this student and all associated auditions and data?');");
             }
+        }
+
+        /*
+         * Pre:
+         * Post: Loads the appropriate years in the dropdown
+         */
+        private void loadYearDropdown()
+        {
+            int firstYear = DbInterfaceStudentAudition.GetFirstAuditionYear();
+
+            for (int i = DateTime.Now.Year; i >= firstYear; i--)
+                ddlLegacyPtsYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
 
         /*
@@ -183,7 +195,12 @@ namespace WMTA.Contacts
 
             Student newStudent = new Student(-1, firstName, middleInitial, lastName, grade, districtId,
                                      currTeacherId, prevTeacherId);
-            newStudent.legacyPoints = legacyPoints;
+            
+            // Use the previous audition year for legacy points
+            int year = DateTime.Today.Year;
+            if (DateTime.Today.Month < 6) year = year - 1;
+
+            newStudent.SetLegacyPoints(legacyPoints, year);
 
             //add to database
             newStudent.addToDatabase();
@@ -240,7 +257,12 @@ namespace WMTA.Contacts
                 {
                     Student newStudent = new Student(-1, firstName, middleInitial, lastName, grade, districtId,
                                          currTeacherId, prevTeacherId);
-                    newStudent.legacyPoints = legacyPoints;
+
+                    // Use the previous audition year for legacy points
+                    int year = DateTime.Today.Year;
+                    if (DateTime.Today.Month < 6) year = year - 1;
+
+                    newStudent.SetLegacyPoints(legacyPoints, year);
 
                     //add to database
                     newStudent.addToDatabase();
@@ -305,7 +327,7 @@ namespace WMTA.Contacts
             //if the entered information is valid, edit the student information
             if (verifyInformation())
             {
-                int studentId, districtId, currTeacherId, prevTeacherId = 0, legacyPoints = -1;
+                int studentId, districtId, currTeacherId, prevTeacherId = 0, legacyPoints = -1, legacyPtsYear = DateTime.Today.Year;
                 string firstName, middleInitial, lastName, grade;
 
                 studentId = Convert.ToInt32(lblId.Text);
@@ -321,10 +343,11 @@ namespace WMTA.Contacts
                 if (!txtLegacyPoints.Text.Equals(""))
                 {
                     Int32.TryParse(txtLegacyPoints.Text, out legacyPoints);
+                    legacyPtsYear = Int32.Parse(ddlLegacyPtsYear.SelectedValue);
                 }
                 
                 student = new Student(studentId, firstName, middleInitial, lastName, grade, districtId, currTeacherId, prevTeacherId);
-                student.legacyPoints = legacyPoints;
+                student.SetLegacyPoints(legacyPoints, legacyPtsYear);
                                 
                 if (!student.editDatabaseInformation())
                 {
@@ -450,6 +473,8 @@ namespace WMTA.Contacts
             cboPrevTeacher.SelectedIndex = -1;
             txtLegacyPoints.Text = "0";
             lblTotalPoints.Text = "0";
+            btnEditLegacyPoints.Visible = true;
+            pnlEditLegacyPts.Visible = false;
             pnlButtons.Visible = true;
             pnlConfirmDuplicate.Visible = false;
 
@@ -652,7 +677,7 @@ namespace WMTA.Contacts
         {
             pnlFullPage.Visible = true;
             pnlButtons.Visible = true;
-           
+            
             int index = gvStudentSearch.SelectedIndex;
 
             if (index >= 0 && index < gvStudentSearch.Rows.Count)
@@ -695,7 +720,7 @@ namespace WMTA.Contacts
                 txtGrade.Text = student.grade;
                 cboCurrTeacher.SelectedIndex = cboCurrTeacher.Items.IndexOf(cboCurrTeacher.Items.FindByValue(student.currTeacherId.ToString()));
                 cboPrevTeacher.SelectedIndex = cboPrevTeacher.Items.IndexOf(cboPrevTeacher.Items.FindByValue(student.prevTeacherId.ToString()));
-                txtLegacyPoints.Text = student.legacyPoints.ToString();
+                lblLegacyPoints.Text = student.legacyPoints.ToString();
                 lblTotalPoints.Text = student.getTotalPoints().ToString();
 
                 pnlButtons.Visible = true;
@@ -835,6 +860,33 @@ namespace WMTA.Contacts
 
         /*
          * Pre:
+         * Post: Load the student's legacy points for the selected year
+         */
+        protected void ddlLegacyPtsYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadYearsLegacyPoints();
+        }
+
+        private void LoadYearsLegacyPoints()
+        {
+            int studentId = Convert.ToInt32(lblId.Text);
+            int points = DbInterfaceStudent.GetLegacyPointsForYear(studentId, Convert.ToInt32(ddlLegacyPtsYear.SelectedValue));
+            txtLegacyPoints.Text = points.ToString();
+        }
+
+        /*
+         * Pre:
+         * Post: Show controls allowing the user to edit legacy points
+         */
+        protected void btnEditLegacyPoints_Click(object sender, EventArgs e)
+        {
+            pnlEditLegacyPts.Visible = true;
+            btnEditLegacyPoints.Visible = false;
+            LoadYearsLegacyPoints();
+        }
+
+        /*
+         * Pre:
          * Post: All controls on the page are disabled
          */
         private void disableControls()
@@ -927,6 +979,5 @@ namespace WMTA.Contacts
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowSuccess", "showSuccessMessage()", true);
         }
-
     }
 }

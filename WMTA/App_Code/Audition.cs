@@ -160,6 +160,17 @@ public class Audition
 
     /*
      * Pre:
+     * Post: Returns the list of judge room assignments scheduled for the audition
+     * @param refresh is an optional parameter to force a refresh of the list of judge room assignments
+     * @returns the list of judge room assignments
+     */
+    public List<JudgeRoomAssignment> GetEventJudgeRoomAssignments(bool refresh = false)
+    {
+        return scheduleData.GetEventJudgeRoomAssignments(auditionId, refresh);
+    }
+
+    /*
+     * Pre:
      * Post: Add a new room to use for the audition
      */
     public void AddRoom(string room) 

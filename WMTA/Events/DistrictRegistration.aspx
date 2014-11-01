@@ -256,7 +256,7 @@
                                                     <div>
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlStyle" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Style is required" ValidationGroup="NewComposition" /><br />
                                                     </div>
-                                                    <asp:Label runat="server" AssociatedControlID="ddlStyle" CssClass="col-md-3 control-label float-left">Style</asp:Label>
+                                                    <asp:Label runat="server" AssociatedControlID="ddlStyle" CssClass="col-md-3 control-label float-left">Period</asp:Label>
                                                     <div class="col-md-6">
                                                         <asp:DropDownList ID="ddlStyle" runat="server" CssClass="dropdown-list form-control" AutoPostBack="true" AppendDataBoundItems="true" DataSourceID="WmtaDataSource2" DataTextField="Style" DataValueField="Style" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged">
                                                             <asp:ListItem Selected="True" Text="" Value="" />
@@ -353,7 +353,7 @@
                                                             <asp:TableHeaderCell Scope="Column" Text="Id" Visible="false" />
                                                             <asp:TableHeaderCell Scope="Column" Text="Composition" />
                                                             <asp:TableHeaderCell Scope="Column" Text="Composer" />
-                                                            <asp:TableHeaderCell Scope="Column" Text="Style" />
+                                                            <asp:TableHeaderCell Scope="Column" Text="Period" />
                                                             <asp:TableHeaderCell Scope="Column" Text="Level" />
                                                             <asp:TableHeaderCell Scope="Column" Text="Time" />
                                                         </asp:TableHeaderRow>

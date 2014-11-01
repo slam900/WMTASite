@@ -368,7 +368,7 @@ public class DbInterfaceScheduling
                 string mi = table.Rows[i]["MI"].ToString();
                 string lastName = table.Rows[i]["LastName"].ToString();
                 string phone = table.Rows[i]["Phone"].ToString();
-                string email = table.Rows[i]["Email"].ToString();
+                string email = table.Rows[i]["EmailAddress"].ToString();
                 int districtId = Convert.ToInt32(table.Rows[i]["GeoId"].ToString());
                 string contactType = table.Rows[i]["ContactType"].ToString();
                 List<JudgePreference> preferences = new List<JudgePreference>();
@@ -387,6 +387,86 @@ public class DbInterfaceScheduling
         connection.Close();
 
         return judges;
+    }
+
+    /*
+     * Pre:
+     * Post: Retrieves the judge room assignments that are associated with the input audition id
+     * @param auditionId is the id of the audition
+     * @returns a list of all judge room assignments currently associated with the audition 
+     */
+    public static List<JudgeRoomAssignment> GetAuditionJudgeRoomAssignments(int auditionOrgId)
+    {
+        List<JudgeRoomAssignment> judgeRoomAssignments = new List<JudgeRoomAssignment>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionJudgeRoomSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                // Get the judge information
+                int id = Convert.ToInt32(table.Rows[i]["ContactId"]);
+                string firstName = table.Rows[i]["FirstName"].ToString();
+                string mi = table.Rows[i]["MI"].ToString();
+                string lastName = table.Rows[i]["LastName"].ToString();
+                string phone = table.Rows[i]["Phone"].ToString();
+                string email = table.Rows[i]["EmailAddress"].ToString();
+                int districtId = Convert.ToInt32(table.Rows[i]["GeoId"].ToString());
+                string contactType = table.Rows[i]["ContactType"].ToString();
+                List<JudgePreference> preferences = new List<JudgePreference>();
+                Judge judge = new Judge(id, firstName, mi, lastName, email, phone, districtId, contactType, preferences, true);
+
+                // Get the schedule information
+                string room = table.Rows[i]["Room"].ToString();
+                string startTime = table.Rows[i]["DisplayTimeStart"].ToString();
+                string endTime = table.Rows[i]["DisplayTimeEnd"].ToString();
+                int scheduleId = Convert.ToInt32(table.Rows[i]["ScheduleId"]);
+                int scheduleOrder = 0;
+                if (!table.Rows[i]["ScheduleOrder"].ToString().Equals("")) scheduleOrder = Convert.ToInt32(table.Rows[i]["ScheduleOrder"]);
+
+                List<Tuple<int, string>> times = new List<Tuple<int, string>>();
+                times.Add(new Tuple<int, string>(scheduleId, startTime + " to " + endTime));
+
+                // If the judge has already been added for the current room, just add the new time
+                JudgeRoomAssignment assignment = new JudgeRoomAssignment(judge, room, times, scheduleOrder);
+                if (judgeRoomAssignments.Contains(assignment))
+                {
+                    int idx = judgeRoomAssignments.IndexOf(assignment);
+                    JudgeRoomAssignment assignmentToUpdate = judgeRoomAssignments.ElementAt(idx);
+                    assignmentToUpdate.times.AddRange(times);
+                    judgeRoomAssignments.RemoveAt(idx);
+                    judgeRoomAssignments.Add(assignmentToUpdate);
+                }
+                else
+                {
+                    judgeRoomAssignments.Add(assignment);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "GetAuditionJudgeRoomAssignments", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            judgeRoomAssignments = null;
+        }
+
+        connection.Close();
+
+        return judgeRoomAssignments;
     }
 
     /*

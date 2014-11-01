@@ -28,7 +28,7 @@ namespace WMTA.CompositionTools
             {
                 User user = (User)Session[Utility.userRole];
 
-                if (!(user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C")))
+                if (!(user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C") || user.permissionLevel.Contains("T")))
                 {
                     Response.Redirect("/Default.aspx");
                 }
@@ -39,7 +39,7 @@ namespace WMTA.CompositionTools
 
         /*
          * Pre:
-         * Post: The selected composer name is changed to the input composer name
+         * Post: Find compositions matching the input query string
          */
         protected void btnSubmit_Click(object sender, EventArgs e)
         {

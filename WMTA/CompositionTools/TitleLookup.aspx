@@ -33,7 +33,7 @@
                                                 <asp:TableHeaderCell Scope="Column" Text="Id" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Title" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Composer" />
-                                                <asp:TableHeaderCell Scope="Column" Text="Style" />
+                                                <asp:TableHeaderCell Scope="Column" Text="Period" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Level" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Time" />
                                                 <asp:TableHeaderCell Scope="Column" Text="Times Used" />

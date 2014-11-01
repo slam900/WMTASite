@@ -233,7 +233,7 @@
                                                                 <asp:TableHeaderCell Scope="Column" Text="Id" Visible="false" />
                                                                 <asp:TableHeaderCell Scope="Column" Text="Composition" />
                                                                 <asp:TableHeaderCell Scope="Column" Text="Composer" />
-                                                                <asp:TableHeaderCell Scope="Column" Text="Style" />
+                                                                <asp:TableHeaderCell Scope="Column" Text="Period" />
                                                                 <asp:TableHeaderCell Scope="Column" Text="Level" />
                                                                 <asp:TableHeaderCell Scope="Column" Text="Time" />
                                                             </asp:TableHeaderRow>

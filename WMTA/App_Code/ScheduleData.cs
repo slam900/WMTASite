@@ -163,6 +163,22 @@ public class ScheduleData
 
     /*
      * Pre:
+     * Post: Returns the list of judge room assignments scheduled for the audition
+     * @param refresh is an optional parameter to force a refresh of the list of assignments
+     * @returns the list of judge room assignments
+     */
+    public List<JudgeRoomAssignment> GetEventJudgeRoomAssignments(int auditionId, bool refresh)
+    {
+        if (judgeRooms == null || refresh)
+        {
+            judgeRooms = DbInterfaceScheduling.GetAuditionJudgeRoomAssignments(auditionId);
+        }
+
+        return judgeRooms;
+    }
+
+    /*
+     * Pre:
      * Post: Add a new room for scheduling
      */
     public void AddRoom(string room)
