@@ -475,6 +475,7 @@ namespace WMTA.Contacts
             lblTotalPoints.Text = "0";
             btnEditLegacyPoints.Visible = true;
             pnlEditLegacyPts.Visible = false;
+            ddlLegacyPtsYear.SelectedIndex = 0;
             pnlButtons.Visible = true;
             pnlConfirmDuplicate.Visible = false;
 
