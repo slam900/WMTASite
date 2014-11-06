@@ -8,7 +8,8 @@
                     <h2>Help</h2>
                     <hr />
                     <div class="help-site-group">
-                        <h4>*More Help Content Coming Soon!*</h4>
+                        <h4>Resources</h4>
+                        <a href="../Resource Files/Ovation Users Guide - 2015 Teacher-Judge.pdf" target="_blank">Teacher/Judge User Guide</a>
                     </div>
                     <hr />
                     <div class="help-site-group">
