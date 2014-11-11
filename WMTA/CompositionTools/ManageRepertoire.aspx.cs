@@ -53,6 +53,7 @@ namespace WMTA.CompositionTools
                 pnlTitleEdit.Visible = false;
                 pnlTitleNew.Visible = true;
                 lblSearchNote.Visible = true;
+                pnlCompositionId.Visible = false;
             }
             else if (action == Utility.Action.Edit && (user.permissionLevel.Contains("A") || user.permissionLevel.Contains("C")))
             {
@@ -431,6 +432,35 @@ namespace WMTA.CompositionTools
 
         #region Search
 
+
+        /*
+         * Pre:
+         * Post: Get the information of the composition with the input id
+         */
+        protected void btnSearchId_Click(object sender, EventArgs e)
+        {
+            int compId = 0;
+
+            if (Int32.TryParse(txtId.Text, out compId))
+            {
+                ListItem item = ddlComposition.Items.FindByValue(compId.ToString());
+
+                if (item != null)
+                {
+                    ddlComposition.SelectedValue = compId.ToString();
+                    LoadComposition();
+                }
+                else
+                {
+                    showInfoMessage("The entered composition id was not found.");
+                }
+            }
+            else
+            {
+                showInfoMessage("Please enter a numeric composition id to search.");
+            }
+        }
+
         /*
          * Pre:
          * Post: The options in the "Composer" and "Composition" dropdowns 
@@ -469,9 +499,15 @@ namespace WMTA.CompositionTools
 
         protected void ddlComposition_SelectedIndexChanged(object sender, EventArgs e)
         {
-            double length, seconds;
-            int minutes;
+            LoadComposition();            
+        }
 
+        /*
+         * Pre:
+         * Post: Load the data of the selected composition
+         */
+        private void LoadComposition()
+        {
             if (action != Utility.Action.Add && !ddlComposition.SelectedValue.ToString().Equals(""))
             {
                 int selectedCompId = Convert.ToInt32(ddlComposition.SelectedValue);
@@ -479,6 +515,9 @@ namespace WMTA.CompositionTools
 
                 if (composition != null)
                 {
+                    double length, seconds;
+                    int minutes;
+
                     txtCompositionId.InnerText = composition.compositionId.ToString();
                     txtComposition.Text = composition.title;
                     ddlStyle.Text = composition.style;
@@ -643,6 +682,7 @@ namespace WMTA.CompositionTools
          */
         private void clearCompSelect()
         {
+            txtId.Text = "";
             ddlStyleSearch.SelectedIndex = -1;
             ddlComposerSearch.SelectedIndex = -1;
             ddlComposition.SelectedIndex = -1;
@@ -700,6 +740,18 @@ namespace WMTA.CompositionTools
             lblWarningMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowWarning", "showWarningMessage()", true);
+        }
+
+        /*
+         * Pre: 
+         * Post: Displays the input informational message in the top left corner of the screen
+         * @param message is the message text to be displayed
+         */
+        private void showInfoMessage(string message)
+        {
+            lblInfoMessage.InnerText = message;
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowInfo", "showInfoMessage()", true);
         }
 
         /*

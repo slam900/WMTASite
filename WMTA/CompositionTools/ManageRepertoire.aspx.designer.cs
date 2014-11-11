@@ -49,6 +49,33 @@ namespace WMTA.CompositionTools {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSearchNote;
         
         /// <summary>
+        /// pnlCompositionId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCompositionId;
+        
+        /// <summary>
+        /// txtId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtId;
+        
+        /// <summary>
+        /// btnSearchId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSearchId;
+        
+        /// <summary>
         /// ddlComposerSearch control.
         /// </summary>
         /// <remarks>
@@ -416,5 +443,14 @@ namespace WMTA.CompositionTools {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        
+        /// <summary>
+        /// lblInfoMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
     }
 }

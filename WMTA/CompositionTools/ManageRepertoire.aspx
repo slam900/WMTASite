@@ -16,8 +16,16 @@
                                         <div>
                                             <h4>Composition Search</h4>
                                             <br />
-                                            <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">This section is for verifying that the composition you are about to enter does not already exist. Please confirm the compoisition is not in the system before you proceed with adding it.</label>
-                                            
+                                            <label runat="server" id="lblSearchNote" visible="false" class="instruction-label">This section is for verifying that the composition you are about to enter does not already exist. Please confirm the composition is not in the system before you proceed with adding it.</label>
+                                            <asp:Panel runat="server" ID="pnlCompositionId">
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="txtId" CssClass="col-md-3 control-label float-left">Composition Id</asp:Label>
+                                                    <div class="col-md-6">
+                                                        <asp:TextBox runat="server" ID="txtId" CssClass="form-control" />
+                                                    </div>
+                                                    <asp:Button ID="btnSearchId" runat="server" Text="Search Id" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearchId_Click" CausesValidation="false" />
+                                                </div>
+                                            </asp:Panel>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlComposerSearch" CssClass="col-md-3 control-label float-left">Composer</asp:Label>
                                                 <div class="col-md-6">
@@ -39,15 +47,15 @@
                                             <label id="txtCompositionId" runat="server" visible="false" />
                                         </div>
                                         <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Period</asp:Label>
-                                                <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlStyleSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged" AutoPostBack="True">
-                                                        <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
-                                                </div>
-                                                <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" CausesValidation="false" OnClick="btnClearCompSearch_Click" />
+                                            <asp:Label runat="server" AssociatedControlID="ddlStyleSearch" CssClass="col-md-3 control-label float-left">Period</asp:Label>
+                                            <div class="col-md-6">
+                                                <asp:DropDownList ID="ddlStyleSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="Style" DataValueField="Style" AppendDataBoundItems="true" OnSelectedIndexChanged="cboStyle_SelectedIndexChanged" AutoPostBack="True">
+                                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                                </asp:DropDownList>
+                                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="SELECT [Style] FROM [ConfigStyles] ORDER BY [Style]"></asp:SqlDataSource>
                                             </div>
+                                            <asp:Button ID="btnClearCompSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" CausesValidation="false" OnClick="btnClearCompSearch_Click" />
+                                        </div>
                                         <hr />
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -68,7 +76,7 @@
                                                 </div>
                                             </asp:Panel>
                                             <asp:Panel ID="pnlTitleNew" runat="server" Visible="false">
-                                                <label for="CompositionInstructions" class="instruction-label"> Please include all known information, especially for Masterworks.</label>
+                                                <label for="CompositionInstructions" class="instruction-label">Please include all known information, especially for Masterworks.</label>
                                                 <div class="form-group">
                                                     <asp:Label runat="server" AssociatedControlID="txtTitleNew" CssClass="col-md-3 control-label float-left">Title</asp:Label>
                                                     <div class="col-md-6">
@@ -235,6 +243,7 @@
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
+                        <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -254,6 +263,12 @@
 
             $.notify(message.toString(), { position: "left-top", className: "warning" });
         };
+
+        function showInfoMessage() {
+            var message = $('#MainContent_lblInfoMessage').text();
+
+            $.notify(message.toString(), { position: 'left-top', className: 'info' });
+        }
 
         //show a success message
         function showSuccessMessage() {
