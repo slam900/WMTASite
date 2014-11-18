@@ -252,3 +252,13 @@
     margin-right: 10px !important;
     margin-left: 15px !important;
 }
+
+.resource {
+    margin-bottom: 15px;
+}
+
+.resource-note {
+    font-weight: normal;
+    margin-left: 10px;
+    font-size: 13px;
+}

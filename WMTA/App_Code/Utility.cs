@@ -28,12 +28,12 @@ public class Utility
     /***  Live Variables ***/
     public const string ssrsDomain = "localhost";
     public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service"; 
-    //public const string reportSuffix = "";
+    public const string reportSuffix = "";
     
     /*** Test Variables ***/
     //public const string ssrsDomain = "sunflower.arvixe.com"; 
     //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service"; 
-    public const string reportSuffix = "Test";
+    //public const string reportSuffix = "Test";
 
     //Ovation email and password
     public const string ovationEmail = "WMTAOvation@gmail.com";
