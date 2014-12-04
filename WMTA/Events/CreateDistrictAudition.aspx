@@ -47,7 +47,6 @@
                                 <asp:UpdatePanel ID="upMain" runat="server">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlMain" runat="server">
-                                            <h4>Event Information</h4>
                                             <asp:TextBox ID="txtIdHidden" runat="server" Visible="false"></asp:TextBox>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">District</asp:Label>
@@ -110,7 +109,7 @@
                                                     <input type="text" runat="server" class="form-control" data-date-format="mm/dd/yy" id="txtDate" />
                                                 </div>
                                                 <div>
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Date is required" F />
+                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Date is required" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -122,70 +121,281 @@
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFreezeDate" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Freeze Date is required" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlHourStart" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
-                                                <div class="col-md-2" style="width: 16%">
-                                                    <asp:DropDownList ID="ddlHourStart" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
-                                                        <asp:ListItem Text="1" Value="01" />
-                                                        <asp:ListItem Text="2" Value="02" />
-                                                        <asp:ListItem Text="3" Value="03" />
-                                                        <asp:ListItem Text="4" Value="04" />
-                                                        <asp:ListItem Text="5" Value="05" />
-                                                        <asp:ListItem Text="6" Value="06" />
-                                                        <asp:ListItem Text="7" Value="07" />
-                                                        <asp:ListItem Text="8" Value="08" Selected="True" />
-                                                        <asp:ListItem Text="9" Value="09" />
-                                                        <asp:ListItem Text="10" Value="10" />
-                                                        <asp:ListItem Text="11" Value="11" />
-                                                        <asp:ListItem Text="12" Value="12" />
-                                                    </asp:DropDownList>
+                                            <h4 class="margin-bottom-5">Event Schedule</h4>
+                                            <div id="session1">
+                                                <h5 class="label-top-margin">Session 1</h5>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourStart1" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourStart1" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" Selected="True" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesStart1" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Selected="True" Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmStart1" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" />
+                                                        </asp:DropDownList>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-2" style="width: 16%">
-                                                    <asp:DropDownList ID="ddlMinutesStart" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
-                                                        <asp:ListItem Selected="True" Text="00" Value="00" />
-                                                        <asp:ListItem Text="15" Value="15" />
-                                                        <asp:ListItem Text="30" Value="30" />
-                                                        <asp:ListItem Text="45" Value="45" />
-                                                    </asp:DropDownList>
-                                                </div>
-                                                <div class="col-md-2" style="width: 16%">
-                                                    <asp:DropDownList ID="ddlAmPmStart" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
-                                                        <asp:ListItem Selected="True" Text="AM" Value="AM" />
-                                                        <asp:ListItem Text="PM" Value="PM" />
-                                                    </asp:DropDownList>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourEnd1" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourEnd1" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" Selected="True"/>
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesEnd1" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" Selected="True"/>
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmEnd1" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Text="AM" Value="AM" />
+                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                        </asp:DropDownList>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlHourEnd" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
-                                                <div class="col-md-2" style="width: 16%">
-                                                    <asp:DropDownList ID="ddlHourEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
-                                                        <asp:ListItem Text="1" Value="01" />
-                                                        <asp:ListItem Text="2" Value="02" />
-                                                        <asp:ListItem Text="3" Value="03" />
-                                                        <asp:ListItem Text="4" Value="04" Selected="True" />
-                                                        <asp:ListItem Text="5" Value="05" />
-                                                        <asp:ListItem Text="6" Value="06" />
-                                                        <asp:ListItem Text="7" Value="07" />
-                                                        <asp:ListItem Text="8" Value="08" />
-                                                        <asp:ListItem Text="9" Value="09" />
-                                                        <asp:ListItem Text="10" Value="10" />
-                                                        <asp:ListItem Text="11" Value="11" />
-                                                        <asp:ListItem Text="12" Value="12" />
-                                                    </asp:DropDownList>
+                                            <div id="session2">
+                                                <h5 class="label-top-margin">Session 2</h5>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourStart2" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourStart2" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" Selected="True" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesStart2" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Selected="True" Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmStart2" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" />
+                                                        </asp:DropDownList>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-2" style="width: 16%">
-                                                    <asp:DropDownList ID="ddlMinutesEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
-                                                        <asp:ListItem Selected="True" Text="00" Value="00" />
-                                                        <asp:ListItem Text="15" Value="15" />
-                                                        <asp:ListItem Text="30" Value="30" />
-                                                        <asp:ListItem Text="45" Value="45" />
-                                                    </asp:DropDownList>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourEnd2" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourEnd2" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" Selected="True" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesEnd2" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" Selected="True" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmEnd2" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Text="AM" Value="AM" />
+                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                        </asp:DropDownList>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-2" style="width: 16%">
-                                                    <asp:DropDownList ID="ddlAmPmEnd" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
-                                                        <asp:ListItem Text="AM" Value="AM" />
-                                                        <asp:ListItem Selected="True" Text="PM" Value="PM" />
-                                                    </asp:DropDownList>
+                                            </div>
+                                            <div id="session3">
+                                                <h5 class="label-top-margin">Session 3</h5>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourStart3" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourStart3" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" Selected="True" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesStart3" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" Selected="True" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmStart3" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" Selected="True" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourEnd3" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourEnd3" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" Selected="True" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesEnd3" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Selected="True" Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmEnd3" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Text="AM" Value="AM" />
+                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="session4">
+                                                <h5 class="label-top-margin">Session 4</h5>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourStart4" CssClass="col-md-3 control-label float-left">Start Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourStart4" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" Selected="True" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesStart4" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" Selected="True" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmStart4" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" Selected="True" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="ddlHourEnd4" CssClass="col-md-3 control-label float-left">End Time</asp:Label>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlHourEnd4" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Text="1" Value="01" />
+                                                            <asp:ListItem Text="2" Value="02" />
+                                                            <asp:ListItem Text="3" Value="03" />
+                                                            <asp:ListItem Text="4" Value="04" Selected="True" />
+                                                            <asp:ListItem Text="5" Value="05" />
+                                                            <asp:ListItem Text="6" Value="06" />
+                                                            <asp:ListItem Text="7" Value="07" />
+                                                            <asp:ListItem Text="8" Value="08" />
+                                                            <asp:ListItem Text="9" Value="09" />
+                                                            <asp:ListItem Text="10" Value="10" />
+                                                            <asp:ListItem Text="11" Value="11" />
+                                                            <asp:ListItem Text="12" Value="12" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlMinutesEnd4" runat="server" CssClass="dropdown-list form-control float-left" Width="70px">
+                                                            <asp:ListItem Selected="True" Text="00" Value="00" />
+                                                            <asp:ListItem Text="15" Value="15" />
+                                                            <asp:ListItem Text="30" Value="30" />
+                                                            <asp:ListItem Text="45" Value="45" />
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                    <div class="col-md-2" style="width: 16%">
+                                                        <asp:DropDownList ID="ddlAmPmEnd4" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
+                                                            <asp:ListItem Text="AM" Value="AM" />
+                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                        </asp:DropDownList>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </asp:Panel>

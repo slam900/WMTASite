@@ -183,38 +183,16 @@ namespace WMTA.Events
                 DateTime auditionDate, freezeDate;
                 DateTime.TryParse(txtDate.Value, out auditionDate);
                 DateTime.TryParse(txtFreezeDate.Value, out freezeDate);
-                TimeSpan startTime, endTime;
 
-                //get start time
-                string tempTime;
-                if (ddlAmPmStart.SelectedValue.Equals("AM"))
-                {
-                    tempTime = ddlHourStart.SelectedValue + ":" + ddlMinutesStart.SelectedValue + ":00";
-                }
-                else if (ddlHourStart.SelectedValue.ToString().Equals("12"))
-                {
-                    tempTime = ddlHourStart.SelectedValue + ":" + ddlMinutesStart.SelectedValue + ":00";
-                }
-                else
-                {
-                    tempTime = (Convert.ToInt32(ddlHourStart.SelectedValue) + 12).ToString() + ":" + ddlMinutesStart.SelectedValue + ":00";
-                }
-                TimeSpan.TryParse(tempTime, out startTime);
-
-                //get end time
-                if (ddlAmPmEnd.SelectedValue.Equals("AM"))
-                {
-                    tempTime = ddlHourEnd.SelectedValue + ":" + ddlMinutesEnd.SelectedValue + ":00";
-                }
-                else if (ddlHourEnd.SelectedValue.ToString().Equals("12"))
-                {
-                    tempTime = ddlHourEnd.SelectedValue + ":" + ddlMinutesEnd.SelectedValue + ":00";
-                }
-                else
-                {
-                    tempTime = (Convert.ToInt32(ddlHourEnd.SelectedValue) + 12).ToString() + ":" + ddlMinutesEnd.SelectedValue + ":00";
-                }
-                TimeSpan.TryParse(tempTime, out endTime);
+                // Get session start and end times
+                TimeSpan session1StartTime = GetTime(ddlAmPmStart1, ddlHourStart1, ddlMinutesStart1);
+                TimeSpan session1EndTime = GetTime(ddlAmPmEnd1, ddlHourEnd1, ddlMinutesEnd1);
+                TimeSpan session2StartTime = GetTime(ddlAmPmStart2, ddlHourStart2, ddlMinutesStart2);
+                TimeSpan session2EndTime = GetTime(ddlAmPmEnd2, ddlHourEnd2, ddlMinutesEnd2);
+                TimeSpan session3StartTime = GetTime(ddlAmPmStart3, ddlHourStart3, ddlMinutesStart3);
+                TimeSpan session3EndTime = GetTime(ddlAmPmEnd3, ddlHourEnd3, ddlMinutesEnd3);
+                TimeSpan session4StartTime = GetTime(ddlAmPmStart4, ddlHourStart4, ddlMinutesStart4);
+                TimeSpan session4EndTime = GetTime(ddlAmPmEnd4, ddlHourEnd4, ddlMinutesEnd4);
 
                 bool duetsAllowed = false;
                 if (ddlDuets.SelectedValue.Equals("Yes"))
@@ -223,8 +201,9 @@ namespace WMTA.Events
                 //if a new audition is being created and the same audition doesn't already exist, add it
                 if (action == Utility.Action.Add && !DbInterfaceAudition.AuditionExists(districtId, auditionDate.Year))
                 {
-                    audition = new Audition(districtId, numJudges, txtVenue.Text, chairperson, "",
-                                            auditionDate, freezeDate, startTime, endTime, duetsAllowed);
+                    audition = new Audition(districtId, numJudges, txtVenue.Text, chairperson, "", auditionDate, freezeDate, 
+                                            session1StartTime, session1EndTime, session2StartTime, session2EndTime, 
+                                            session3StartTime, session3EndTime, session4StartTime, session4EndTime, duetsAllowed);
 
                     //if the audition was successfully created, display a success message
                     if (audition.auditionId != -1)
@@ -242,8 +221,9 @@ namespace WMTA.Events
                     int auditionId = Convert.ToInt32(txtIdHidden.Text);
 
                     audition = new Audition(auditionId, districtId, numJudges, txtVenue.Text,
-                                            chairperson, "", auditionDate, freezeDate, startTime,
-                                            endTime, duetsAllowed);
+                                            chairperson, "", auditionDate, freezeDate, session1StartTime,
+                                            session1EndTime, session2StartTime, session2EndTime, session3StartTime,
+                                            session3EndTime, session4StartTime, session4EndTime, duetsAllowed);
 
                     if (audition.auditionId != -1 && audition.updateInDatabase())
                     {
@@ -260,6 +240,33 @@ namespace WMTA.Events
                     showWarningMessage("An competition for this venue already exists.");
                 }
             }
+        }
+
+        /*
+         * Pre:
+         * Post: Parse the time out of a group of time controls
+         */
+        private TimeSpan GetTime(DropDownList ddlAmPm, DropDownList ddlHour, DropDownList ddlMinute)
+        {
+            TimeSpan time;
+            string tempTime;
+
+            if (ddlAmPm.SelectedValue.Equals("AM"))
+            {
+                tempTime = ddlHour.SelectedValue + ":" + ddlMinute.SelectedValue + ":00";
+            }
+            else if (ddlHour.SelectedValue.ToString().Equals("12"))
+            {
+                tempTime = ddlHour.SelectedValue + ":" + ddlMinute.SelectedValue + ":00";
+            }
+            else
+            {
+                tempTime = (Convert.ToInt32(ddlHour.SelectedValue) + 12).ToString() + ":" + ddlMinute.SelectedValue + ":00";
+            }
+
+            TimeSpan.TryParse(tempTime, out time);
+
+            return time;
         }
 
         /*
@@ -301,10 +308,42 @@ namespace WMTA.Events
                 result = false;
             }
 
-            //make sure end time is after start time
-            if (!endAfterStart())
+            // Make sure end time is after start time for each session
+            if (!endAfterStart(ddlAmPmStart1, ddlAmPmEnd1, ddlHourStart1, ddlHourEnd1))
             {
-                showWarningMessage("The Start Time must be before the End Time.");
+                showWarningMessage("The Start Time for Session 1 must be before the End Time.");
+                result = false;
+            }
+            else if (!endAfterStart(ddlAmPmStart2, ddlAmPmEnd2, ddlHourStart2, ddlHourEnd2))
+            {
+                showWarningMessage("The Start Time for Session 2 must be before the End Time.");
+                result = false;
+            }
+            else if (!endAfterStart(ddlAmPmStart3, ddlAmPmEnd3, ddlHourStart3, ddlHourEnd3))
+            {
+                showWarningMessage("The Start Time for Session 3 must be before the End Time.");
+                result = false;
+            }
+            else if (!endAfterStart(ddlAmPmStart4, ddlAmPmEnd4, ddlHourStart4, ddlHourEnd4))
+            {
+                showWarningMessage("The Start Time for Session 4 must be before the End Time.");
+                result = false;
+            }
+
+            // Make sure the sessions are set in order
+            if (!sessionsInOrder(ddlAmPmEnd1, ddlAmPmStart2, ddlHourEnd1, ddlHourStart2, ddlMinutesEnd1, ddlMinutesStart2))
+            {
+                showWarningMessage("Session 2 must start after session 1");
+                result = false;
+            }
+            else if (!sessionsInOrder(ddlAmPmEnd2, ddlAmPmStart3, ddlHourEnd2, ddlHourStart3, ddlMinutesEnd2, ddlMinutesStart3))
+            {
+                showWarningMessage("Session 3 must start after session 2");
+                result = false;
+            }
+            else if (!sessionsInOrder(ddlAmPmEnd3, ddlAmPmStart4, ddlHourEnd3, ddlHourStart4, ddlMinutesEnd3, ddlMinutesStart4))
+            {
+                showWarningMessage("Session 4 must start after session 3");
                 result = false;
             }
 
@@ -328,21 +367,55 @@ namespace WMTA.Events
          *       that the start and end times must be at least an hour apart
          * @returns true if the end time is after the start time by at least 1 hour and false otherwise
          */
-        private bool endAfterStart()
+        private bool endAfterStart(DropDownList amPmStart, DropDownList amPmEnd, DropDownList hourStart, DropDownList hourEnd)
         {
             bool result = true;
 
             //if the start time is not in the morning or the end time 
             //is not in the afternoon, make sure the times are valid
-            if (!(ddlAmPmEnd.SelectedValue.Equals("PM") && ddlAmPmStart.SelectedValue.Equals("AM")))
+            if (!(amPmEnd.SelectedValue.Equals("PM") && amPmStart.SelectedValue.Equals("AM")))
             {
                 //if the start time is in the afternoon and end time is in the morning return false
-                if (ddlAmPmEnd.SelectedValue.Equals("AM") && ddlAmPmStart.SelectedValue.Equals("PM"))
+                if (amPmEnd.SelectedValue.Equals("AM") && amPmStart.SelectedValue.Equals("PM"))
                 {
                     result = false;
                 }
                 //if the AM/PM values are the same and the start hour is greater than the end hour return false
-                else if (Convert.ToInt32(ddlHourEnd.SelectedValue) < Convert.ToInt32(ddlHourStart.SelectedValue))
+                else if (Convert.ToInt32(hourEnd.SelectedValue) < Convert.ToInt32(hourStart.SelectedValue))
+                {
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        /*
+         * Pre:
+         * Post: Determines whether the later session starts after the first session
+         * @returns true if the session are in the proper order
+         */
+        private bool sessionsInOrder(DropDownList amPmEnd1, DropDownList amPmStart2, DropDownList hourEnd1,
+            DropDownList hourStart2, DropDownList minuteEnd1, DropDownList minuteStart2)
+        {
+            bool result = true;
+
+            //if the start time of session 2 is not in the morning or the end time of session 1 is not in the afternoon, make sure the times are valid
+            if (!(amPmStart2.SelectedValue.Equals("PM") && amPmEnd1.SelectedValue.Equals("AM")))
+            {
+                //if the start time of session 2 is in the afternoon and end time of session 1 is in the morning return false
+                if (amPmStart2.SelectedValue.Equals("AM") && amPmEnd1.SelectedValue.Equals("PM"))
+                {
+                    result = false;
+                }
+                //if the AM/PM values are the same and the start hour is greater than the end hour return false
+                else if (Convert.ToInt32(hourStart2.SelectedValue) < Convert.ToInt32(hourEnd1.SelectedValue))
+                {
+                    result = false;
+                }
+                // if the hours are the same  and the start minutes for the second session are before the end minutes for the first session, return false
+                else if (Convert.ToInt32(hourStart2.SelectedValue) == Convert.ToInt32(hourEnd1.SelectedValue) &&
+                         Convert.ToInt32(minuteStart2.SelectedValue) < Convert.ToInt32(minuteEnd1))
                 {
                     result = false;
                 }
@@ -438,85 +511,15 @@ namespace WMTA.Events
                     ddlChairPerson.SelectedIndex = ddlChairPerson.Items.IndexOf(
                                                 ddlChairPerson.Items.FindByValue(audition.chairpersonId));
 
-                    //set start time
-                    if (audition.startTime.Hours < 10)
-                    {
-                        ddlHourStart.SelectedValue = "0" + audition.startTime.Hours.ToString();
-                        ddlAmPmStart.SelectedValue = "AM";
-                    }
-                    else if (audition.startTime.Hours < 12)
-                    {
-                        ddlHourStart.SelectedValue = audition.startTime.Hours.ToString();
-                        ddlAmPmStart.SelectedValue = "AM";
-                    }
-                    else if (audition.startTime.Hours > 12)
-                    {
-                        int hours = audition.startTime.Hours - 12;
-
-                        if (hours < 10)
-                        {
-                            ddlHourStart.SelectedValue = "0" + hours.ToString();
-                        }
-                        else
-                        {
-                            ddlHourStart.SelectedValue = hours.ToString();
-                        }
-
-                        ddlAmPmStart.SelectedValue = "PM";
-                    }
-                    else
-                    {
-                        ddlHourStart.SelectedValue = "12";
-                        ddlAmPmStart.SelectedValue = "PM";
-                    }
-
-                    if (audition.startTime.Minutes > 0)
-                        ddlMinutesStart.SelectedValue = audition.startTime.Minutes.ToString();
-                    else
-                        ddlMinutesStart.SelectedValue = "00";
-
-
-                    //set end time
-                    if (audition.endTime.Hours < 10)
-                    {
-                        ddlHourEnd.SelectedValue = "0" + audition.endTime.Hours.ToString();
-                        ddlAmPmEnd.SelectedValue = "AM";
-                    }
-                    else if (audition.endTime.Hours < 12)
-                    {
-                        ddlHourEnd.SelectedValue = audition.endTime.Hours.ToString();
-                        ddlAmPmEnd.SelectedValue = "AM";
-                    }
-                    else if (audition.endTime.Hours > 12)
-                    {
-                        int hours = audition.endTime.Hours - 12;
-
-                        if (hours < 10)
-                        {
-                            ddlHourEnd.SelectedValue = "0" + hours.ToString();
-                        }
-                        else
-                        {
-                            ddlHourEnd.SelectedValue = hours.ToString();
-                        }
-
-                        ddlAmPmEnd.SelectedValue = "PM";
-                    }
-                    else
-                    {
-                        ddlHourEnd.SelectedValue = "12";
-                        ddlAmPmEnd.SelectedValue = "PM";
-                    }
-
-                    if (audition.endTime.Minutes > 0)
-                        ddlMinutesEnd.SelectedValue = audition.endTime.Minutes.ToString();
-                    else
-                        ddlMinutesEnd.SelectedValue = "00";
-
-                    if (audition.duetsAllowed)
-                        ddlDuets.SelectedValue = "Yes";
-                    else
-                        ddlDuets.SelectedValue = "No";
+                    // Set session times
+                    SetTime(audition.startTimeSession1, ddlAmPmStart1, ddlHourStart1, ddlMinutesStart1);
+                    SetTime(audition.endTimeSession1, ddlAmPmEnd1, ddlHourEnd1, ddlMinutesEnd1);
+                    SetTime(audition.startTimeSession2, ddlAmPmStart2, ddlHourStart2, ddlMinutesStart2);
+                    SetTime(audition.endTimeSession2, ddlAmPmEnd2, ddlHourEnd2, ddlMinutesEnd2);
+                    SetTime(audition.startTimeSession3, ddlAmPmStart3, ddlHourStart3, ddlMinutesStart3);
+                    SetTime(audition.endTimeSession3, ddlAmPmEnd3, ddlHourEnd3, ddlMinutesEnd3);
+                    SetTime(audition.startTimeSession4, ddlAmPmStart4, ddlHourStart4, ddlMinutesStart4);
+                    SetTime(audition.endTimeSession4, ddlAmPmEnd4, ddlHourEnd4, ddlMinutesEnd4);
 
                     //dates must be in form of YYYY-MM-DD
                     string month = audition.auditionDate.Month.ToString();
@@ -546,6 +549,49 @@ namespace WMTA.Events
 
                 Utility.LogError("Create Badger Audition", "loadAuditionData", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
+        }
+        
+        /*
+         * Pre:
+         * Post: Set the given dropdown lists with the input time
+         */
+        private void SetTime(TimeSpan time, DropDownList amPmStart, DropDownList hourStart, DropDownList minutesStart)
+        {
+            if (time.Hours < 10)
+            {
+                hourStart.SelectedValue = "0" + time.Hours.ToString();
+                amPmStart.SelectedValue = "AM";
+            }
+            else if (time.Hours < 12)
+            {
+                hourStart.SelectedValue = time.Hours.ToString();
+                amPmStart.SelectedValue = "AM";
+            }
+            else if (time.Hours > 12)
+            {
+                int hours = time.Hours - 12;
+
+                if (hours < 10)
+                {
+                    hourStart.SelectedValue = "0" + hours.ToString();
+                }
+                else
+                {
+                    hourStart.SelectedValue = hours.ToString();
+                }
+
+                amPmStart.SelectedValue = "PM";
+            }
+            else
+            {
+                hourStart.SelectedValue = "12";
+                amPmStart.SelectedValue = "PM";
+            }
+
+            if (time.Minutes > 0)
+                minutesStart.SelectedValue = time.Minutes.ToString();
+            else
+                minutesStart.SelectedValue = "00";
         }
 
         /*
@@ -632,22 +678,10 @@ namespace WMTA.Events
         private void clearPage()
         {
             clearAuditionSearch();
+            clearAllExceptSearch();
 
             if (action != Utility.Action.Add)
                 pnlMain.Visible = false;
-
-            ddlDistrict.SelectedIndex = 0;
-            txtVenue.Text = "";
-            txtNumJudges.Text = "";
-            ddlChairPerson.SelectedIndex = 0;
-            txtDate.Value = "";
-            ddlHourStart.SelectedValue = "08";
-            ddlMinutesStart.SelectedValue = "00";
-            ddlAmPmStart.SelectedValue = "AM";
-            ddlHourEnd.SelectedValue = "04";
-            ddlMinutesEnd.SelectedValue = "00";
-            ddlAmPmEnd.SelectedValue = "PM";
-            txtFreezeDate.Value = "";
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
         }
@@ -664,12 +698,34 @@ namespace WMTA.Events
             txtNumJudges.Text = "";
             ddlChairPerson.SelectedIndex = 0;
             txtDate.Value = "";
-            ddlHourStart.SelectedValue = "08";
-            ddlMinutesStart.SelectedValue = "00";
-            ddlAmPmStart.SelectedValue = "AM";
-            ddlHourEnd.SelectedValue = "04";
-            ddlMinutesEnd.SelectedValue = "00";
-            ddlAmPmEnd.SelectedValue = "PM";
+
+            ddlHourStart1.SelectedValue = "08";
+            ddlMinutesStart1.SelectedValue = "00";
+            ddlAmPmStart1.SelectedValue = "AM";
+            ddlHourEnd1.SelectedValue = "09";
+            ddlMinutesEnd1.SelectedValue = "30";
+            ddlAmPmEnd1.SelectedValue = "AM";
+
+            ddlHourStart2.SelectedValue = "10";
+            ddlMinutesStart2.SelectedValue = "00";
+            ddlAmPmStart2.SelectedValue = "AM";
+            ddlHourEnd2.SelectedValue = "11";
+            ddlMinutesEnd2.SelectedValue = "30";
+            ddlAmPmEnd2.SelectedValue = "PM";
+
+            ddlHourStart3.SelectedValue = "12";
+            ddlMinutesStart3.SelectedValue = "30";
+            ddlAmPmStart3.SelectedValue = "AM";
+            ddlHourEnd3.SelectedValue = "02";
+            ddlMinutesEnd3.SelectedValue = "00";
+            ddlAmPmEnd3.SelectedValue = "PM";
+
+            ddlHourStart4.SelectedValue = "02";
+            ddlMinutesStart4.SelectedValue = "30";
+            ddlAmPmStart4.SelectedValue = "AM";
+            ddlHourEnd4.SelectedValue = "04";
+            ddlMinutesEnd4.SelectedValue = "00";
+            ddlAmPmEnd4.SelectedValue = "PM";
             txtFreezeDate.Value = "";
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);

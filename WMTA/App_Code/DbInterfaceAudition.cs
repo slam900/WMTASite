@@ -291,12 +291,18 @@ public partial class DbInterfaceAudition
             cmd.Parameters.AddWithValue("@chairpersonId", audition.chairpersonId);
             cmd.Parameters.AddWithValue("@theoryTest", audition.theoryTestSeries);
             cmd.Parameters.AddWithValue("@scheduleId", 1);
-            cmd.Parameters.AddWithValue("@startTime", audition.startTime);
-            cmd.Parameters.AddWithValue("@endTime", audition.endTime);
+            cmd.Parameters.AddWithValue("@startTime1", audition.startTimeSession1);
+            cmd.Parameters.AddWithValue("@endTime1", audition.endTimeSession1);
+            cmd.Parameters.AddWithValue("@startTime2", audition.startTimeSession2);
+            cmd.Parameters.AddWithValue("@endTime2", audition.endTimeSession2);
+            cmd.Parameters.AddWithValue("@startTime3", audition.startTimeSession3);
+            cmd.Parameters.AddWithValue("@endTime3", audition.endTimeSession3);
+            cmd.Parameters.AddWithValue("@startTime4", audition.startTimeSession4);
+            cmd.Parameters.AddWithValue("@endTime4", audition.endTimeSession4);
             cmd.Parameters.AddWithValue("@auditionDate", audition.auditionDate);
             cmd.Parameters.AddWithValue("@freezeDate", audition.freezeDate);
             cmd.Parameters.AddWithValue("@duetsAllowed", audition.duetsAllowed);
-
+            
             adapter.Fill(table);
 
             if (table.Rows.Count == 1)
@@ -309,8 +315,7 @@ public partial class DbInterfaceAudition
             Utility.LogError("DbInterfaceAudition", "AddNewAudition", "Attributes of input audition - districtId: " + 
                              audition.districtId + ", numJudges: " + audition.numJudges + ", venue: " + audition.venue
                              + ", chairpersonId: " + audition.chairpersonId + ", theoryTest: " + audition.theoryTestSeries
-                             + ", startTime: " + audition.startTime+ ", endTime: " + audition.endTime + ", date: " +
-                             audition.auditionDate + ", freezeDate: " + audition.freezeDate + ", duetsAllowed: " +
+                             + ", date: " + audition.auditionDate + ", freezeDate: " + audition.freezeDate + ", duetsAllowed: " +
                              audition.duetsAllowed, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
 
             audition.auditionId = -1;
@@ -351,8 +356,14 @@ public partial class DbInterfaceAudition
             cmd.Parameters.AddWithValue("@venue", audition.venue);
             cmd.Parameters.AddWithValue("@chairpersonId", audition.chairpersonId);
             cmd.Parameters.AddWithValue("@theoryTest", audition.theoryTestSeries);
-            cmd.Parameters.AddWithValue("@startTime", audition.startTime);
-            cmd.Parameters.AddWithValue("@endTime", audition.endTime);
+            cmd.Parameters.AddWithValue("@startTime1", audition.startTimeSession1);
+            cmd.Parameters.AddWithValue("@endTime1", audition.endTimeSession1);
+            cmd.Parameters.AddWithValue("@startTime2", audition.startTimeSession2);
+            cmd.Parameters.AddWithValue("@endTime2", audition.endTimeSession2);
+            cmd.Parameters.AddWithValue("@startTime3", audition.startTimeSession3);
+            cmd.Parameters.AddWithValue("@endTime3", audition.endTimeSession3);
+            cmd.Parameters.AddWithValue("@startTime4", audition.startTimeSession4);
+            cmd.Parameters.AddWithValue("@endTime4", audition.endTimeSession4);
             cmd.Parameters.AddWithValue("@auditionDate", audition.auditionDate);
             cmd.Parameters.AddWithValue("@freezeDate", audition.freezeDate);
             cmd.Parameters.AddWithValue("@duetsAllowed", audition.duetsAllowed);
@@ -365,8 +376,7 @@ public partial class DbInterfaceAudition
                              audition.auditionId + ", district id: " + audition.districtId + 
                              ", numJudges: " + audition.numJudges + ", venue: " + audition.venue + ", chairpersonId: " 
                              + audition.chairpersonId + ", theoryTest: " + audition.theoryTestSeries
-                             + ", startTime: " + audition.startTime + ", endTime: " + audition.endTime+ ", date: " +
-                             audition.auditionId + ", freezeDate: " + audition.freezeDate + ", duetsAllowed: " +
+                             + ", date: " + audition.auditionId + ", freezeDate: " + audition.freezeDate + ", duetsAllowed: " +
                              audition.duetsAllowed, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
 
             success = false;
@@ -417,19 +427,17 @@ public partial class DbInterfaceAudition
                 string theoryTest = table.Rows[0]["TheoryTestSeries"].ToString();
                 
                 DateTime auditionDate, freezeDate;
-                TimeSpan startTime, endTime;
                 bool duetsAllowed = true;
 
                 DateTime.TryParse(table.Rows[0]["Date"].ToString(), out auditionDate);
                 DateTime.TryParse(table.Rows[0]["FreezeDate"].ToString(), out freezeDate);
-                TimeSpan.TryParse(table.Rows[0]["AudStartTime"].ToString(), out startTime);
-                TimeSpan.TryParse(table.Rows[0]["AudEndTime"].ToString(), out endTime);
 
                 if (!table.Rows[0]["DuetsAllowed"].ToString().Equals(""))
                     duetsAllowed = (bool)table.Rows[0]["DuetsAllowed"];
 
                 audition = new Audition(id, districtId, numJudges, venue, chairperson, theoryTest, 
-                                        auditionDate, freezeDate, startTime, endTime, duetsAllowed);
+                                        auditionDate, freezeDate, duetsAllowed);
+                GetAuditionSchedule(audition);
             }
         }
         catch (Exception e)
@@ -442,6 +450,59 @@ public partial class DbInterfaceAudition
         connection.Close();
 
         return audition;
+    }
+
+    /*
+     * Pre:
+     * Post: Sets the schedule of the input audition
+     */
+    public static void GetAuditionSchedule(Audition audition)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionScheduleSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", audition.auditionId);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 4)
+            {
+                TimeSpan startTime1 = TimeSpan.Parse(table.Rows[0]["TimePeriodStart"].ToString());
+                TimeSpan endTime1 = TimeSpan.Parse(table.Rows[0]["TimePeriodEnd"].ToString());
+                TimeSpan startTime2 = TimeSpan.Parse(table.Rows[1]["TimePeriodStart"].ToString());
+                TimeSpan endTime2 = TimeSpan.Parse(table.Rows[1]["TimePeriodEnd"].ToString());
+                TimeSpan startTime3 = TimeSpan.Parse(table.Rows[2]["TimePeriodStart"].ToString());
+                TimeSpan endTime3 = TimeSpan.Parse(table.Rows[2]["TimePeriodEnd"].ToString());
+                TimeSpan startTime4 = TimeSpan.Parse(table.Rows[3]["TimePeriodStart"].ToString());
+                TimeSpan endTime4 = TimeSpan.Parse(table.Rows[3]["TimePeriodEnd"].ToString());
+
+                audition.startTimeSession1 = startTime1;
+                audition.startTimeSession2 = startTime2;
+                audition.startTimeSession3 = startTime3;
+                audition.startTimeSession4 = startTime4;
+                audition.endTimeSession1 = endTime1;
+                audition.endTimeSession2 = endTime2;
+                audition.endTimeSession3 = endTime3;
+                audition.endTimeSession4 = endTime4;
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetAuditionSchedule", "id: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
     }
 
     /*

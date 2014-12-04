@@ -473,13 +473,19 @@ namespace WMTA.Contacts
             cboPrevTeacher.SelectedIndex = -1;
             txtLegacyPoints.Text = "0";
             lblTotalPoints.Text = "0";
-            btnEditLegacyPoints.Visible = true;
             pnlEditLegacyPts.Visible = false;
             ddlLegacyPtsYear.SelectedIndex = 0;
             pnlButtons.Visible = true;
             pnlConfirmDuplicate.Visible = false;
 
             btnClear.Visible = true;
+
+            // Allow district chairs and above edit legacy points
+            User user = (User)Session[Utility.userRole];
+            if (user.permissionLevel.Contains('D') || user.permissionLevel.Contains('A'))
+            {
+                btnEditLegacyPoints.Visible = true;
+            }
 
             Session[studentSearch] = null;
             Session[studentVar] = null;

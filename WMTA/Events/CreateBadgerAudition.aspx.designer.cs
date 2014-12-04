@@ -193,58 +193,220 @@ namespace WMTA.Events {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtFreezeDate;
         
         /// <summary>
-        /// ddlHourStart control.
+        /// ddlHourStart1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlHourStart;
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourStart1;
         
         /// <summary>
-        /// ddlMinutesStart control.
+        /// ddlMinutesStart1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesStart;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesStart1;
         
         /// <summary>
-        /// ddlAmPmStart control.
+        /// ddlAmPmStart1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmStart;
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmStart1;
         
         /// <summary>
-        /// ddlHourEnd control.
+        /// ddlHourEnd1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlHourEnd;
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourEnd1;
         
         /// <summary>
-        /// ddlMinutesEnd control.
+        /// ddlMinutesEnd1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesEnd;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesEnd1;
         
         /// <summary>
-        /// ddlAmPmEnd control.
+        /// ddlAmPmEnd1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmEnd;
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmEnd1;
+        
+        /// <summary>
+        /// ddlHourStart2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourStart2;
+        
+        /// <summary>
+        /// ddlMinutesStart2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesStart2;
+        
+        /// <summary>
+        /// ddlAmPmStart2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmStart2;
+        
+        /// <summary>
+        /// ddlHourEnd2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourEnd2;
+        
+        /// <summary>
+        /// ddlMinutesEnd2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesEnd2;
+        
+        /// <summary>
+        /// ddlAmPmEnd2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmEnd2;
+        
+        /// <summary>
+        /// ddlHourStart3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourStart3;
+        
+        /// <summary>
+        /// ddlMinutesStart3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesStart3;
+        
+        /// <summary>
+        /// ddlAmPmStart3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmStart3;
+        
+        /// <summary>
+        /// ddlHourEnd3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourEnd3;
+        
+        /// <summary>
+        /// ddlMinutesEnd3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesEnd3;
+        
+        /// <summary>
+        /// ddlAmPmEnd3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmEnd3;
+        
+        /// <summary>
+        /// ddlHourStart4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourStart4;
+        
+        /// <summary>
+        /// ddlMinutesStart4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesStart4;
+        
+        /// <summary>
+        /// ddlAmPmStart4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmStart4;
+        
+        /// <summary>
+        /// ddlHourEnd4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHourEnd4;
+        
+        /// <summary>
+        /// ddlMinutesEnd4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinutesEnd4;
+        
+        /// <summary>
+        /// ddlAmPmEnd4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmPmEnd4;
         
         /// <summary>
         /// upButtons control.

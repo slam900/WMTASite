@@ -18,15 +18,22 @@ public class Audition
     public string theoryTestSeries { get; private set; }
     public DateTime auditionDate { get; private set; }
     public DateTime freezeDate { get; private set; }
-    public TimeSpan startTime { get; private set; }
-    public TimeSpan endTime { get; private set; }
+    public TimeSpan startTimeSession1 { get; set; }
+    public TimeSpan endTimeSession1 { get; set; }
+    public TimeSpan startTimeSession2 { get; set; }
+    public TimeSpan endTimeSession2 { get; set; }
+    public TimeSpan startTimeSession3 { get; set; }
+    public TimeSpan endTimeSession3 { get; set; }
+    public TimeSpan startTimeSession4 { get; set; }
+    public TimeSpan endTimeSession4 { get; set; }
+
     public bool duetsAllowed { get; private set; }  /*Used for State auditions only - should only have one Badger Keyboard site per year where duets are allowed */
     private ScheduleData scheduleData { get; set; }
 
     /* Constructor to instantiate audition as well as create it in the database */
-	public Audition(int districtId, int numJudges, string venue, string chairpersonId, 
-                    string theoryTestSeries, DateTime auditionDate, DateTime freezeDate,
-                    TimeSpan startTime, TimeSpan endTime, bool duetsAllowed)
+	public Audition(int districtId, int numJudges, string venue, string chairpersonId, string theoryTestSeries,
+        DateTime auditionDate, DateTime freezeDate, TimeSpan startTime1, TimeSpan endTime1, TimeSpan startTime2, 
+        TimeSpan endTime2, TimeSpan startTime3, TimeSpan endTime3, TimeSpan startTime4, TimeSpan endTime4, bool duetsAllowed)
 	{
         this.districtId = districtId;
         this.numJudges = numJudges;
@@ -35,8 +42,14 @@ public class Audition
         this.theoryTestSeries = theoryTestSeries;
         this.auditionDate = auditionDate;
         this.freezeDate = freezeDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTimeSession1 = startTime1;
+        this.endTimeSession1 = endTime1;
+        this.startTimeSession2 = startTime2;
+        this.endTimeSession2 = endTime2;
+        this.startTimeSession3 = startTime3;
+        this.endTimeSession3 = endTime3;
+        this.startTimeSession4 = startTime4;
+        this.endTimeSession4 = endTime4;
         this.duetsAllowed = duetsAllowed;
         scheduleData = new ScheduleData();
 
@@ -44,9 +57,9 @@ public class Audition
 	}
 
     /* Constructor to instantiate existing audition */
-    public Audition(int auditionId, int districtId, int numJudges, string venue, 
-                    string chairpersonId, string theoryTestSeries, DateTime auditionDate, 
-                    DateTime freezeDate, TimeSpan startTime, TimeSpan endTime, bool duetsAllowed)
+    public Audition(int auditionId, int districtId, int numJudges, string venue, string chairpersonId, string theoryTestSeries,
+        DateTime auditionDate, DateTime freezeDate, TimeSpan startTime1, TimeSpan endTime1, TimeSpan startTime2, TimeSpan endTime2, 
+        TimeSpan startTime3, TimeSpan endTime3, TimeSpan startTime4, TimeSpan endTime4, bool duetsAllowed)
     {
         this.auditionId = auditionId;
         this.districtId = districtId;
@@ -56,8 +69,30 @@ public class Audition
         this.theoryTestSeries = theoryTestSeries;
         this.auditionDate = auditionDate;
         this.freezeDate = freezeDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTimeSession1 = startTime1;
+        this.endTimeSession1 = endTime1;
+        this.startTimeSession2 = startTime2;
+        this.endTimeSession2 = endTime2;
+        this.startTimeSession3 = startTime3;
+        this.endTimeSession3 = endTime3;
+        this.startTimeSession4 = startTime4;
+        this.endTimeSession4 = endTime4;
+        this.duetsAllowed = duetsAllowed;
+        scheduleData = new ScheduleData();
+    }
+
+    /* Constructor to instantiate existing audition without session times */
+    public Audition(int auditionId, int districtId, int numJudges, string venue, string chairpersonId, string theoryTestSeries,
+        DateTime auditionDate, DateTime freezeDate, bool duetsAllowed)
+    {
+        this.auditionId = auditionId;
+        this.districtId = districtId;
+        this.numJudges = numJudges;
+        this.venue = venue;
+        this.chairpersonId = chairpersonId;
+        this.theoryTestSeries = theoryTestSeries;
+        this.auditionDate = auditionDate;
+        this.freezeDate = freezeDate;
         this.duetsAllowed = duetsAllowed;
         scheduleData = new ScheduleData();
     }
