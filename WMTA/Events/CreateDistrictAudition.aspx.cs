@@ -68,12 +68,12 @@ namespace WMTA.Events
             if (action == Utility.Action.Add)
             {
                 upAuditionSearch.Visible = false;
+                pnlButtons.Visible = true;
+                pnlMain.Visible = true;
             }
             else if (action == Utility.Action.Edit)
             {
                 upAuditionSearch.Visible = true;
-                pnlButtons.Visible = false;
-                pnlMain.Visible = false;
                 legend.InnerText = "Edit District Event";
             }
             //else if (action == Utility.Action.Delete)
@@ -214,7 +214,7 @@ namespace WMTA.Events
             if (dataIsValid())
             {
                 int districtId = Convert.ToInt32(ddlDistrict.SelectedValue);
-                int numJudges = Convert.ToInt32(txtNumJudges.Text);
+                //int numJudges = Convert.ToInt32(txtNumJudges.Text);
                 string chairperson = ddlChairPerson.SelectedValue;
                 DateTime auditionDate, freezeDate;
                 DateTime.TryParse(txtDate.Value, out auditionDate);
@@ -229,14 +229,25 @@ namespace WMTA.Events
                 TimeSpan session3EndTime = GetTime(ddlAmPmEnd3, ddlHourEnd3, ddlMinutesEnd3); 
                 TimeSpan session4StartTime = GetTime(ddlAmPmStart4, ddlHourStart4, ddlMinutesStart4);
                 TimeSpan session4EndTime = GetTime(ddlAmPmEnd4, ddlHourEnd4, ddlMinutesEnd4);
+                string session1StartDisplayTime = GetDisplayTime(ddlAmPmStart1, ddlHourStart1, ddlMinutesStart1);
+                string session2StartDisplayTime = GetDisplayTime(ddlAmPmStart2, ddlHourStart2, ddlMinutesStart2);
+                string session3StartDisplayTime = GetDisplayTime(ddlAmPmStart3, ddlHourStart3, ddlMinutesStart3);
+                string session4StartDisplayTime = GetDisplayTime(ddlAmPmStart4, ddlHourStart4, ddlMinutesStart4);
+                string session1EndDisplayTime = GetDisplayTime(ddlAmPmEnd1, ddlHourEnd1, ddlMinutesEnd1);
+                string session2EndDisplayTime = GetDisplayTime(ddlAmPmEnd2, ddlHourEnd2, ddlMinutesEnd2);
+                string session3EndDisplayTime = GetDisplayTime(ddlAmPmEnd3, ddlHourEnd3, ddlMinutesEnd3);
+                string session4EndDisplayTime = GetDisplayTime(ddlAmPmEnd4, ddlHourEnd4, ddlMinutesEnd4);
 
                 //if a new audition is being created and the same audition doesn't already exist, add it
                 if (action == Utility.Action.Add && !DbInterfaceAudition.AuditionExists(districtId, auditionDate.Year))
                 {
-                    audition = new Audition(districtId, numJudges, txtVenue.Text, chairperson,
+                    audition = new Audition(districtId, /*numJudges*/ 0, txtVenue.Text, chairperson,
                                             ddlTheorySeries.Text, auditionDate, freezeDate, session1StartTime, 
                                             session1EndTime, session2StartTime, session2EndTime, session3StartTime, 
-                                            session3EndTime, session4StartTime, session4EndTime, true);
+                                            session3EndTime, session4StartTime, session4EndTime, session1StartDisplayTime,
+                                            session2StartDisplayTime, session3StartDisplayTime, session4StartDisplayTime, 
+                                            session1EndDisplayTime, session2EndDisplayTime, session3EndDisplayTime, session4EndDisplayTime,
+                                            true);
 
                     //if the audition was successfully created, display a success message and clear the page
                     if (audition.auditionId != -1)
@@ -254,9 +265,11 @@ namespace WMTA.Events
                 {
                     int auditionId = Convert.ToInt32(txtIdHidden.Text);
 
-                    audition = new Audition(auditionId, districtId, numJudges, txtVenue.Text, chairperson, ddlTheorySeries.SelectedValue, 
-                                            auditionDate, freezeDate, session1StartTime, session1EndTime, session2StartTime, 
-                                            session2EndTime, session3StartTime, session3EndTime, session4StartTime, session4EndTime, true);
+                    audition = new Audition(auditionId, districtId, /*numJudges*/ 0, txtVenue.Text, chairperson, ddlTheorySeries.SelectedValue, 
+                                            auditionDate, freezeDate, session1StartTime, session1EndTime, session2StartTime, session2EndTime, 
+                                            session3StartTime, session3EndTime, session4StartTime, session4EndTime, session1StartDisplayTime,
+                                            session2StartDisplayTime, session3StartDisplayTime, session4StartDisplayTime, session1EndDisplayTime, 
+                                            session2EndDisplayTime, session3EndDisplayTime, session4EndDisplayTime, true);
 
                     if (audition.auditionId != -1 && audition.updateInDatabase())
                     {
@@ -307,6 +320,19 @@ namespace WMTA.Events
 
         /*
          * Pre:
+         * Post: Returns the display time out of a group of time controls
+         */
+        private string GetDisplayTime(DropDownList ddlAmPm, DropDownList ddlHour, DropDownList ddlMinute)
+        {
+            string time = ddlHour.SelectedValue + ":" + ddlMinute.SelectedValue + " " + ddlAmPm.SelectedValue;
+
+            if (time.ElementAt(0).Equals("0")) time = time.Substring(1);
+
+            return time;
+        }
+
+        /*
+         * Pre:
          * Post: Determines whether all required fields contain data and all
          *       data is in a valid format
          * @returns true if all required fields contain data and all
@@ -317,13 +343,13 @@ namespace WMTA.Events
             bool result = true;
 
             //make sure the number of judges is a positive integer
-            int num;
-            bool isNum = Int32.TryParse(txtNumJudges.Text, out num);
-            if (!isNum || num < 0)
-            {
-                showWarningMessage("The number of judges must be a positive integer.");
-                result = false;
-            }
+            //int num;
+            //bool isNum = Int32.TryParse(txtNumJudges.Text, out num);
+            //if (!isNum || num < 0)
+            //{
+            //    showWarningMessage("The number of judges must be a positive integer.");
+            //    result = false;
+            //}
 
             //make sure freeze date is before audition date
             DateTime date;
@@ -344,22 +370,22 @@ namespace WMTA.Events
             }
 
             // Make sure end time is after start time for each session
-            if (!endAfterStart(ddlAmPmStart1, ddlAmPmEnd1, ddlHourStart1, ddlHourEnd1))
+            if (!endAfterStart(ddlAmPmStart1, ddlAmPmEnd1, ddlHourStart1, ddlHourEnd1, ddlMinutesStart1, ddlMinutesEnd1))
             {
                 showWarningMessage("The Start Time for Session 1 must be before the End Time.");
                 result = false;
-            } 
-            else if (!endAfterStart(ddlAmPmStart2, ddlAmPmEnd2, ddlHourStart2, ddlHourEnd2))
+            }
+            else if (!endAfterStart(ddlAmPmStart2, ddlAmPmEnd2, ddlHourStart2, ddlHourEnd2, ddlMinutesStart2, ddlMinutesEnd2))
             {
                 showWarningMessage("The Start Time for Session 2 must be before the End Time.");
                 result = false;
-            } 
-            else if (!endAfterStart(ddlAmPmStart3, ddlAmPmEnd3, ddlHourStart3, ddlHourEnd3))
+            }
+            else if (!endAfterStart(ddlAmPmStart3, ddlAmPmEnd3, ddlHourStart3, ddlHourEnd3, ddlMinutesStart3, ddlMinutesEnd3))
             {
                 showWarningMessage("The Start Time for Session 3 must be before the End Time.");
                 result = false;
-            } 
-            else if (!endAfterStart(ddlAmPmStart4, ddlAmPmEnd4, ddlHourStart4, ddlHourEnd4))
+            }
+            else if (!endAfterStart(ddlAmPmStart4, ddlAmPmEnd4, ddlHourStart4, ddlHourEnd4, ddlMinutesStart4, ddlMinutesEnd4))
             {
                 showWarningMessage("The Start Time for Session 4 must be before the End Time.");
                 result = false;
@@ -391,7 +417,7 @@ namespace WMTA.Events
          *       that the start and end times must be at least an hour apart
          * @returns true if the end time is after the start time by at least 1 hour and false otherwise
          */
-        private bool endAfterStart(DropDownList amPmStart, DropDownList amPmEnd, DropDownList hourStart, DropDownList hourEnd)
+        private bool endAfterStart(DropDownList amPmStart, DropDownList amPmEnd, DropDownList hourStart, DropDownList hourEnd, DropDownList minuteStart, DropDownList minuteEnd)
         {
             bool result = true;
 
@@ -405,7 +431,8 @@ namespace WMTA.Events
                     result = false;
                 }
                 //if the AM/PM values are the same and the start hour is greater than the end hour return false
-                else if (Convert.ToInt32(hourEnd.SelectedValue) < Convert.ToInt32(hourStart.SelectedValue))
+                else if (Convert.ToInt32(hourStart.SelectedValue) != 12 && (Convert.ToInt32(hourEnd.SelectedValue) < Convert.ToInt32(hourStart.SelectedValue) || 
+                        (Convert.ToInt32(hourEnd.SelectedValue) == Convert.ToInt32(hourStart.SelectedValue) && Convert.ToInt32(minuteEnd.SelectedValue) < Convert.ToInt32(minuteStart.SelectedValue))))
                 {
                     result = false;
                 } 
@@ -439,7 +466,7 @@ namespace WMTA.Events
                 }
                 // if the hours are the same  and the start minutes for the second session are before the end minutes for the first session, return false
                 else if (Convert.ToInt32(hourStart2.SelectedValue) == Convert.ToInt32(hourEnd1.SelectedValue) &&
-                         Convert.ToInt32(minuteStart2.SelectedValue) < Convert.ToInt32(minuteEnd1))
+                         Convert.ToInt32(minuteStart2.SelectedValue) < Convert.ToInt32(minuteEnd1.SelectedValue))
                 {
                     result = false;
                 }
@@ -504,7 +531,7 @@ namespace WMTA.Events
                                           ddlDistrict.Items.IndexOf(ddlDistrict.Items.FindByValue(
                                           audition.districtId.ToString()));
                     txtVenue.Text = audition.venue;
-                    txtNumJudges.Text = audition.numJudges.ToString();
+                    //txtNumJudges.Text = audition.numJudges.ToString();
                     ddlChairPerson.DataBind();
                     ListItem item = ddlChairPerson.Items.FindByValue(audition.chairpersonId);
                     ddlChairPerson.SelectedIndex = ddlChairPerson.Items.IndexOf(
@@ -701,7 +728,7 @@ namespace WMTA.Events
         {
             ddlDistrict.SelectedIndex = 0;
             txtVenue.Text = "";
-            txtNumJudges.Text = "";
+            //txtNumJudges.Text = "";
             ddlChairPerson.SelectedIndex = 0;
             ddlTheorySeries.SelectedIndex = 0;
             txtDate.Value = "";

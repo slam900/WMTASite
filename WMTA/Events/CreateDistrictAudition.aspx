@@ -46,7 +46,7 @@
                                 </asp:UpdatePanel>
                                 <asp:UpdatePanel ID="upMain" runat="server">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlMain" runat="server">
+                                        <asp:Panel ID="pnlMain" runat="server" Visible="false">
                                             <asp:TextBox ID="txtIdHidden" runat="server" Visible="false"></asp:TextBox>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrict" CssClass="col-md-3 control-label float-left">District</asp:Label>
@@ -68,7 +68,7 @@
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtVenue" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Venue is required" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                           <%-- <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="txtNumJudges" CssClass="col-md-3 control-label float-left"># of Judges</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:TextBox ID="txtNumJudges" runat="server" CssClass="form-control small-txtbx-width" TextMode="Number"></asp:TextBox>
@@ -76,7 +76,7 @@
                                                 <div>
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumJudges" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Number of Judges is required" />
                                                 </div>
-                                            </div>
+                                            </div>--%>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlChairPerson" CssClass="col-md-3 control-label float-left">Chairperson</asp:Label>
                                                 <div class="col-md-6">
@@ -185,8 +185,8 @@
                                                     </div>
                                                     <div class="col-md-2" style="width: 16%">
                                                         <asp:DropDownList ID="ddlAmPmEnd1" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
-                                                            <asp:ListItem Text="AM" Value="AM" />
-                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                            <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" />
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -254,8 +254,8 @@
                                                     </div>
                                                     <div class="col-md-2" style="width: 16%">
                                                         <asp:DropDownList ID="ddlAmPmEnd2" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
-                                                            <asp:ListItem Text="AM" Value="AM" />
-                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                            <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" />
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -403,7 +403,7 @@
                                 </asp:UpdatePanel>
                                 <asp:UpdatePanel ID="upButtons" runat="server">
                                     <ContentTemplate>
-                                        <asp:Panel ID="pnlButtons" runat="server">
+                                        <asp:Panel ID="pnlButtons" runat="server" Visible="false">
                                             <div class="col-lg-10 col-lg-offset-2 float-right">
                                                 <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                                 <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />

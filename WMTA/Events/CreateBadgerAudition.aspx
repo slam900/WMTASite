@@ -70,7 +70,7 @@
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <%--<div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="txtNumJudges" CssClass="col-md-3 control-label float-left">Number of Judges</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:TextBox ID="txtNumJudges" runat="server" CssClass="form-control"></asp:TextBox>
@@ -78,7 +78,7 @@
                                                 <div>
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumJudges" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Number of Judges is required" />
                                                 </div>
-                                            </div>
+                                            </div>--%>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlChairPerson" CssClass="col-md-3 control-label float-left">Chairperson</asp:Label>
                                                 <div class="col-md-6">
@@ -173,8 +173,8 @@
                                                     </div>
                                                     <div class="col-md-2" style="width: 16%">
                                                         <asp:DropDownList ID="ddlAmPmEnd1" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
-                                                            <asp:ListItem Text="AM" Value="AM" />
-                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                            <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" />
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -242,8 +242,8 @@
                                                     </div>
                                                     <div class="col-md-2" style="width: 16%">
                                                         <asp:DropDownList ID="ddlAmPmEnd2" runat="server" CssClass="dropdown-list form-control float-left" Width="75px">
-                                                            <asp:ListItem Text="AM" Value="AM" />
-                                                            <asp:ListItem Selected="True" Text="PM" Value="PM" />
+                                                            <asp:ListItem Selected="True" Text="AM" Value="AM" />
+                                                            <asp:ListItem Text="PM" Value="PM" />
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>

@@ -26,6 +26,14 @@ public class Audition
     public TimeSpan endTimeSession3 { get; set; }
     public TimeSpan startTimeSession4 { get; set; }
     public TimeSpan endTimeSession4 { get; set; }
+    public string startTimeDisplaySession1 { get; set; }
+    public string startTimeDisplaySession2 { get; set; }
+    public string startTimeDisplaySession3 { get; set; }
+    public string startTimeDisplaySession4 { get; set; }
+    public string endTimeDisplaySession1 { get; set; }
+    public string endTimeDisplaySession2 { get; set; }
+    public string endTimeDisplaySession3 { get; set; }
+    public string endTimeDisplaySession4 { get; set; }
 
     public bool duetsAllowed { get; private set; }  /*Used for State auditions only - should only have one Badger Keyboard site per year where duets are allowed */
     private ScheduleData scheduleData { get; set; }
@@ -33,7 +41,10 @@ public class Audition
     /* Constructor to instantiate audition as well as create it in the database */
 	public Audition(int districtId, int numJudges, string venue, string chairpersonId, string theoryTestSeries,
         DateTime auditionDate, DateTime freezeDate, TimeSpan startTime1, TimeSpan endTime1, TimeSpan startTime2, 
-        TimeSpan endTime2, TimeSpan startTime3, TimeSpan endTime3, TimeSpan startTime4, TimeSpan endTime4, bool duetsAllowed)
+        TimeSpan endTime2, TimeSpan startTime3, TimeSpan endTime3, TimeSpan startTime4, TimeSpan endTime4,
+        string startTimeDisplaySession1, string startTimeDisplaySession2, string startTimeDisplaySession3,
+        string startTimeDisplaySession4, string endTimeDisplaySession1, string endTimeDisplaySession2,
+        string endTimeDisplaySession3, string endTimeDisplaySession4, bool duetsAllowed)
 	{
         this.districtId = districtId;
         this.numJudges = numJudges;
@@ -50,6 +61,14 @@ public class Audition
         this.endTimeSession3 = endTime3;
         this.startTimeSession4 = startTime4;
         this.endTimeSession4 = endTime4;
+        this.startTimeDisplaySession1 = startTimeDisplaySession1;
+        this.startTimeDisplaySession2 = startTimeDisplaySession2;
+        this.startTimeDisplaySession3 = startTimeDisplaySession3;
+        this.startTimeDisplaySession4 = startTimeDisplaySession4;
+        this.endTimeDisplaySession1 = endTimeDisplaySession1;
+        this.endTimeDisplaySession2 = endTimeDisplaySession2;
+        this.endTimeDisplaySession3 = endTimeDisplaySession3;
+        this.endTimeDisplaySession4 = endTimeDisplaySession4;
         this.duetsAllowed = duetsAllowed;
         scheduleData = new ScheduleData();
 
@@ -58,8 +77,10 @@ public class Audition
 
     /* Constructor to instantiate existing audition */
     public Audition(int auditionId, int districtId, int numJudges, string venue, string chairpersonId, string theoryTestSeries,
-        DateTime auditionDate, DateTime freezeDate, TimeSpan startTime1, TimeSpan endTime1, TimeSpan startTime2, TimeSpan endTime2, 
-        TimeSpan startTime3, TimeSpan endTime3, TimeSpan startTime4, TimeSpan endTime4, bool duetsAllowed)
+        DateTime auditionDate, DateTime freezeDate, TimeSpan startTime1, TimeSpan endTime1, TimeSpan startTime2, TimeSpan endTime2,
+        TimeSpan startTime3, TimeSpan endTime3, TimeSpan startTime4, TimeSpan endTime4, string startTimeDisplaySession1, 
+        string startTimeDisplaySession2, string startTimeDisplaySession3, string startTimeDisplaySession4, string endTimeDisplaySession1, 
+        string endTimeDisplaySession2, string endTimeDisplaySession3, string endTimeDisplaySession4, bool duetsAllowed)
     {
         this.auditionId = auditionId;
         this.districtId = districtId;
@@ -77,6 +98,14 @@ public class Audition
         this.endTimeSession3 = endTime3;
         this.startTimeSession4 = startTime4;
         this.endTimeSession4 = endTime4;
+        this.startTimeDisplaySession1 = startTimeDisplaySession1;
+        this.startTimeDisplaySession2 = startTimeDisplaySession2;
+        this.startTimeDisplaySession3 = startTimeDisplaySession3;
+        this.startTimeDisplaySession4 = startTimeDisplaySession4;
+        this.endTimeDisplaySession1 = endTimeDisplaySession1;
+        this.endTimeDisplaySession2 = endTimeDisplaySession2;
+        this.endTimeDisplaySession3 = endTimeDisplaySession3;
+        this.endTimeDisplaySession4 = endTimeDisplaySession4;
         this.duetsAllowed = duetsAllowed;
         scheduleData = new ScheduleData();
     }
