@@ -521,7 +521,7 @@ namespace WMTA.Events
                     ddlJudgeRoom.SelectedIndex = -1;
                     txtSchedulePriority.Text = "";
                     foreach (ListItem item in chkLstTime.Items)
-                        item.Selected = false;
+                        item.Selected = true;
                 }
                 else if (judgeTimeExists) // Judge has been assigned a duplicate time in a different room, show error
                 {
@@ -535,7 +535,7 @@ namespace WMTA.Events
                     ddlJudgeRoom.SelectedIndex = -1;
                     txtSchedulePriority.Text = "";
                     foreach (ListItem item in chkLstTime.Items)
-                        item.Selected = false;
+                        item.Selected = true;
                     pnlJudgeRooms.Visible = true;
                 }
             }
@@ -1216,7 +1216,7 @@ namespace WMTA.Events
 
             foreach (ListItem chkBox in chkLstTime.Items)
             {
-                chkBox.Selected = false;
+                chkBox.Selected = true;
             }
         }
 
@@ -1380,7 +1380,7 @@ namespace WMTA.Events
             ddlJudgeRoom.SelectedIndex = -1;
             txtSchedulePriority.Text = "";
             foreach (ListItem item in chkLstTime.Items)
-                item.Selected = false;
+                item.Selected = true;
 
             // Clear event information
             lblAuditionSite.Text = "";
@@ -1530,6 +1530,14 @@ namespace WMTA.Events
 
             //Pass error on to error page
             Server.Transfer("ErrorPage.aspx", true);
+        }
+
+        protected void chkLstTime_DataBound(object sender, EventArgs e)
+        {
+            foreach (ListItem item in chkLstTime.Items)
+            {
+                item.Selected = true;
+            }         
         }
     }
 }
