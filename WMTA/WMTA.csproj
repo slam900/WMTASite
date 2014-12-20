@@ -225,6 +225,7 @@
     <Content Include="Events\DistrictPointEntry.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
     <Content Include="Events\HsVirtuosoCompositionPointEntry.aspx" />
+    <Content Include="Events\ScheduleView.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Http404ErrorPage.aspx" />
@@ -408,6 +409,7 @@
     <Compile Include="App_Code\DbInterfaceStudent.cs" />
     <Compile Include="App_Code\DbInterfaceStudentAudition.cs" />
     <Compile Include="App_Code\DistrictAudition.cs" />
+    <Compile Include="App_Code\EventSchedule.cs" />
     <Compile Include="App_Code\Feedback.cs" />
     <Compile Include="App_Code\HsVirtuosoCompositionAudition.cs" />
     <Compile Include="App_Code\Judge.cs" />
@@ -415,6 +417,7 @@
     <Compile Include="App_Code\JudgeRoomAssignment.cs" />
     <Compile Include="App_Code\Person.cs" />
     <Compile Include="App_Code\ScheduleData.cs" />
+    <Compile Include="App_Code\ScheduleSlot.cs" />
     <Compile Include="App_Code\StateAudition.cs" />
     <Compile Include="App_Code\Student.cs" />
     <Compile Include="App_Code\StudentCoordinate.cs" />
@@ -569,6 +572,13 @@
     </Compile>
     <Compile Include="Events\HsVirtuosoCompositionPointEntry.aspx.designer.cs">
       <DependentUpon>HsVirtuosoCompositionPointEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ScheduleView.aspx.cs">
+      <DependentUpon>ScheduleView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\ScheduleView.aspx.designer.cs">
+      <DependentUpon>ScheduleView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

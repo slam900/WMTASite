@@ -468,6 +468,102 @@ public partial class DbInterfaceAudition
     }
 
     /*
+     * Pre:  The entered id must exist in the system
+     * Post: The audition data associated with the id is returned in
+     *       the form of an Audition object, including the schedule
+     * @param id is the id of the audition whose information is being requested
+     * @return the audition's information in the form of an Audition object
+     */
+    public static Audition LoadAuditionDataWithSchedule(int id)
+    {
+        Audition audition = LoadAuditionData(id);
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionEventScheduleSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", id);
+
+            adapter.Fill(table);
+
+            EventSchedule schedule = new EventSchedule();
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int auditionId = -1, minutes = -1, judgeId = -1;
+                TimeSpan startTime = TimeSpan.MinValue;
+                if (!table.Rows[i]["AuditionId"].ToString().Equals(""))
+                    auditionId = Convert.ToInt32(table.Rows[i]["AuditionId"]);
+                if (!table.Rows[i]["Minutes"].ToString().Equals(""))
+                    minutes = Convert.ToInt32(table.Rows[i]["Minutes"]);
+                if (!table.Rows[i]["JudgeId"].ToString().Equals(""))
+                    auditionId = Convert.ToInt32(table.Rows[i]["JudgeId"]);
+                if (!table.Rows[i]["AuditionStartTime"].ToString().Equals(""))
+                    startTime = TimeSpan.Parse(table.Rows[i]["AuditionStartTime"].ToString());
+                string judgeName = table.Rows[i]["JudgeName"].ToString();
+
+                schedule.Add(judgeId, judgeName, minutes, startTime);
+            }
+
+            audition.Schedule = schedule;  
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "LoadAuditionDataWithSchedule", "id: " + id, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+
+            audition = null;
+        }
+
+        connection.Close();
+
+        return audition;
+    }
+
+    /*
+     * Pre:
+     * Post: Returns the schedule information for the event in a data table
+     */
+    public static DataTable LoadEventScheduleDataTable(int auditionOrgId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionEventScheduleSelectForDataTable";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "LoadEventScheduleDataTable", "auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
      * Pre:
      * Post: Sets the schedule of the input audition
      */
