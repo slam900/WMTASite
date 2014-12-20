@@ -85,6 +85,7 @@ namespace WMTA.Contacts
                 legend.InnerText = "Add Contact";
                 btnSubmit.Text = "Add";
                 enableControls();
+                defaultCheckBoxes();
             }
             else if (action == Utility.Action.Edit)
             {
@@ -868,15 +869,6 @@ namespace WMTA.Contacts
 
                                 if (idx >= 0) chkLstInstrument.Items.FindByValue(pref.preference).Selected = true;
                             }
-                            //time
-                            //else if (pref.preferenceType == Utility.JudgePreferences.Time)
-                            //{
-                            //    if (chkLstTime.Items.Count == 0) chkLstTime.DataBind();
-
-                            //    idx = chkLstTime.Items.IndexOf(chkLstTime.Items.FindByValue(pref.preference));
-
-                            //    if (idx >= 0) chkLstTime.Items.FindByValue(pref.preference).Selected = true;
-                            //}
                         }
                     }
                     else
@@ -1013,14 +1005,19 @@ namespace WMTA.Contacts
             //clear preferences and hide judge panel
             pnlJudges.Visible = false;
 
-            foreach (ListItem item in chkLstType.Items)
-                item.Selected = false;
-            foreach (ListItem item in chkLstTrack.Items)
-                item.Selected = false;
-            foreach (ListItem item in chkLstCompLevel.Items)
-                item.Selected = false;
-            foreach (ListItem item in chkLstInstrument.Items)
-                item.Selected = false;
+            if (action != Utility.Action.Add)
+            {
+                foreach (ListItem item in chkLstType.Items)
+                    item.Selected = false;
+                foreach (ListItem item in chkLstTrack.Items)
+                    item.Selected = false;
+                foreach (ListItem item in chkLstCompLevel.Items)
+                    item.Selected = false;
+                foreach (ListItem item in chkLstInstrument.Items)
+                    item.Selected = false;
+            }
+            else
+                defaultCheckBoxes();
 
             Session[contactSearch] = null;
             Session[contactVar] = null;
@@ -1191,6 +1188,35 @@ namespace WMTA.Contacts
         }
 
         /*
+         * Pre:
+         * Post: All checkboxes are defaulted to being checked
+         */
+        private void defaultCheckBoxes()
+        {
+            if (action == Utility.Action.Add)
+            {
+                foreach (ListItem item in chkLstTrack.Items)
+                    item.Selected = true;
+                foreach (ListItem item in chkLstType.Items)
+                    item.Selected = true;
+                foreach (ListItem item in chkLstCompLevel.Items)
+                    item.Selected = true;
+                foreach (ListItem item in chkLstInstrument.Items)
+                    item.Selected = true;
+            }
+        }
+
+        protected void chkLstCompLevel_DataBound(object sender, EventArgs e)
+        {
+            defaultCheckBoxes();
+        }
+
+        protected void chkLstInstrument_DataBound(object sender, EventArgs e)
+        {
+            defaultCheckBoxes();
+        }
+
+        /*
          * Show the contact preferences if a type containing a J (for Judge) is chosen
          * and hide the preferences otherwise
          */
@@ -1339,5 +1365,6 @@ namespace WMTA.Contacts
         }
 
         #endregion Messages
+
     }
 }
