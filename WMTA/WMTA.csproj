@@ -225,6 +225,7 @@
     <Content Include="Events\DistrictPointEntry.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
     <Content Include="Events\HsVirtuosoCompositionPointEntry.aspx" />
+    <Content Include="Events\Schedule.aspx" />
     <Content Include="Events\ScheduleView.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -572,6 +573,13 @@
     </Compile>
     <Compile Include="Events\HsVirtuosoCompositionPointEntry.aspx.designer.cs">
       <DependentUpon>HsVirtuosoCompositionPointEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\Schedule.aspx.cs">
+      <DependentUpon>Schedule.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\Schedule.aspx.designer.cs">
+      <DependentUpon>Schedule.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\ScheduleView.aspx.cs">
       <DependentUpon>ScheduleView.aspx</DependentUpon>

@@ -164,9 +164,7 @@
                                                         <asp:Label runat="server" AssociatedControlID="chkLstTrack" CssClass="col-md-3 control-label float-left">Track</asp:Label>
                                                         <div class="float-left">
                                                             <asp:CheckBoxList ID="chkLstTrack" runat="server" CssClass="checkboxlist">
-                                                                <asp:ListItem>D2</asp:ListItem>
-                                                                <asp:ListItem>D2NM</asp:ListItem>
-                                                                <asp:ListItem>D3</asp:ListItem>
+                                                                <asp:ListItem>District</asp:ListItem>
                                                                 <asp:ListItem>State</asp:ListItem>
                                                             </asp:CheckBoxList>
                                                         </div>

@@ -9,10 +9,9 @@ using System.Web.UI.WebControls;
 
 namespace WMTA.Events
 {
-    public partial class ScheduleView : System.Web.UI.Page
+    public partial class Schedule : System.Web.UI.Page
     {
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
-        private string scheduleData = "ScheduleData";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,7 +20,6 @@ namespace WMTA.Events
                 checkPermissions();
 
                 Session[auditionSearch] = null;
-                Session[scheduleData] = null;
                 loadYearDropdown();
                 loadDistrictDropdown();
             }
@@ -146,7 +144,7 @@ namespace WMTA.Events
             {
                 showErrorMessage("Error: An error occurred during the search.");
 
-                Utility.LogError("Schedule View", "searchAuditions", "gridView: " + gridview + ", districtId: " +
+                Utility.LogError("Schedule", "searchAuditions", "gridView: " + gridview + ", districtId: " +
                                  districtId + ", year: " + year + ", session: " + session, "Message: " + e.Message +
                                  "   StackTrace: " + e.StackTrace, -1);
             }
@@ -164,20 +162,9 @@ namespace WMTA.Events
             BindSessionData();
         }
 
-        protected void gvSchedule_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvSchedule.PageIndex = e.NewPageIndex;
-            BindSessionData();
-        }
-
         protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvAuditionSearch, e);
-        }
-
-        protected void gvSchedule_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvSchedule, e);
         }
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
@@ -228,7 +215,7 @@ namespace WMTA.Events
             {
                 showErrorMessage("Error: An error occurred while loading the audition data.");
 
-                Utility.LogError("Schedule View", "loadSchedule", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("Schedule", "loadSchedule", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
@@ -365,7 +352,7 @@ namespace WMTA.Events
             Exception exc = Server.GetLastError();
 
             //log exception
-            Utility.LogError("Schedule View", "OnError", "", "Message: " + exc.Message + "   Stack Trace: " + exc.StackTrace, -1);
+            Utility.LogError("Schedule", "OnError", "", "Message: " + exc.Message + "   Stack Trace: " + exc.StackTrace, -1);
 
             //show error label
             showErrorMessage("Error: An error occurred.");

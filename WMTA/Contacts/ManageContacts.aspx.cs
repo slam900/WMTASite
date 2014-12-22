@@ -368,7 +368,26 @@ namespace WMTA.Contacts
 
                 //add audition track preferences
                 foreach (ListItem item in chkLstTrack.Items)
-                    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item);
+                {
+                    if (item.Value.Equals("District")) // Convert District to D2, D2NM, and D3
+                    {
+                        ListItem item2 = new ListItem("D2", "D2");
+                        item2.Selected = item.Selected;
+                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
+
+                        item2 = new ListItem("D2NM", "D2NM");
+                        item2.Selected = item.Selected;
+                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
+
+                        item2 = new ListItem("D3", "D3");
+                        item2.Selected = item.Selected;
+                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
+                    }
+                    else
+                    {
+                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item);
+                    }
+                }
 
                 //add audition type preferences
                 foreach (ListItem item in chkLstType.Items)
@@ -839,9 +858,18 @@ namespace WMTA.Contacts
                             //audition level
                             if (pref.preferenceType == Utility.JudgePreferences.AuditionLevel)
                             {
-                                idx = chkLstTrack.Items.IndexOf(new ListItem(pref.preference));
+                                if (pref.preference.Equals("D2") || pref.preference.Equals("D2NM") || pref.preference.Equals("D3")) // Convert D2, D2NM, and D3 to District
+                                {
+                                    idx = chkLstTrack.Items.IndexOf(new ListItem("District"));
 
-                                if (idx >= 0) chkLstTrack.Items.FindByValue(pref.preference).Selected = true;
+                                    if (idx >= 0) chkLstTrack.Items.FindByValue("District").Selected = true;
+                                }
+                                else
+                                {
+                                    idx = chkLstTrack.Items.IndexOf(new ListItem(pref.preference));
+
+                                    if (idx >= 0) chkLstTrack.Items.FindByValue(pref.preference).Selected = true;
+                                }
                             }
                             //audition type
                             else if (pref.preferenceType == Utility.JudgePreferences.AuditionType)
