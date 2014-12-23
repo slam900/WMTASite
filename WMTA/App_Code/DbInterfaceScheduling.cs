@@ -642,4 +642,41 @@ public class DbInterfaceScheduling
     }
 
     #endregion Judges
+
+    /*
+     * Pre:
+     * Post: Returns a data table containing the categories that do not
+     *       have enough judges
+     */
+    public static DataTable ValidateEventJudges(int auditionOrgId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionValidateJudgeMatrix";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "ValidateEventJudges", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
 }

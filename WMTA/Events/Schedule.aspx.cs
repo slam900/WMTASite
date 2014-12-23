@@ -12,7 +12,8 @@ namespace WMTA.Events
     public partial class Schedule : System.Web.UI.Page
     {
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
-
+        private string judgeValidation = "JudgeValidation";
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -20,6 +21,7 @@ namespace WMTA.Events
                 checkPermissions();
 
                 Session[auditionSearch] = null;
+                Session[judgeValidation] = null;
                 loadYearDropdown();
                 loadDistrictDropdown();
             }
@@ -80,6 +82,18 @@ namespace WMTA.Events
 
                 ddlDistrictSearch.DataBind();
             }
+        }
+
+        /*
+         * Pre:
+         * Post: The scheduling routine is ran and the schedule is displayed
+         */
+        protected void btnCreateSchedule_Click(object sender, EventArgs e)
+        {
+            // run schedule
+            // display schedule
+            // give link to where schedule report is available
+            // tell where the schedule can be switched around
         }
 
         /*
@@ -162,15 +176,25 @@ namespace WMTA.Events
             BindSessionData();
         }
 
+        protected void gvJudgeValidation_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvJudgeValidation.PageIndex = e.NewPageIndex;
+            BindSessionData();
+        }
+
         protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvAuditionSearch, e);
         }
 
+        protected void gvJudgeValidation_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            setHeaderRowColor(gvJudgeValidation, e);
+        }
+
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
             upAuditionSearch.Visible = false;
-            pnlMain.Visible = true;
 
             int index = gvAuditionSearch.SelectedIndex;
 
@@ -182,7 +206,9 @@ namespace WMTA.Events
                 ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
                                         gvAuditionSearch.Rows[index].Cells[3].Text));
 
-                lblSchedule.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
+                lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
+                lblAudition2.Text = lblAudition.Text;
+
                 loadSchedule(Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text));
             }
         }
@@ -197,23 +223,33 @@ namespace WMTA.Events
         {
             try
             {
-                DataTable scheduleTable = DbInterfaceAudition.LoadEventScheduleDataTable(auditionId);
-                //load data to page
-                if (scheduleTable != null)
+                DataTable table = DbInterfaceScheduling.ValidateEventJudges(auditionId);
+
+                if (table != null && table.Rows.Count == 0) // No errors, give option to create schedule
                 {
-                    gvSchedule.DataSource = scheduleTable;
-                    gvSchedule.DataBind();
-                    Session[scheduleData] = scheduleTable;
+                    pnlCreateSchedule.Visible = true;
+
+                    Session[judgeValidation] = table;
+                }
+                else if (table != null & table.Rows.Count > 0) // Display errors
+                {
+                    pnlValidateSchedule.Visible = true;
+
+                    gvJudgeValidation.DataSource = table;
+                    gvJudgeValidation.DataBind();
+
+                    Session[judgeValidation] = table;
                 }
                 else
                 {
-                    showErrorMessage("Error: The schedule information could not be loaded.");
-                    Session[scheduleData] = null;
+                    upAuditionSearch.Visible = true;
+                    showErrorMessage("Error: The event information could not be loaded.");
+                    Session[judgeValidation] = null;
                 }
             }
             catch (Exception e)
             {
-                showErrorMessage("Error: An error occurred while loading the audition data.");
+                showErrorMessage("Error: An error occurred while loading the event data.");
 
                 Utility.LogError("Schedule", "loadSchedule", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
@@ -233,13 +269,13 @@ namespace WMTA.Events
                 gvAuditionSearch.DataSource = data;
                 gvAuditionSearch.DataBind();
 
-                data = (DataTable)Session[scheduleData];
-                gvSchedule.DataSource = data;
-                gvSchedule.DataBind();
+                data = (DataTable)Session[judgeValidation];
+                gvJudgeValidation.DataSource = data;
+                gvJudgeValidation.DataBind();
             }
             catch (Exception e)
             {
-                Utility.LogError("ScheduleView", "BindSessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("Schedule", "BindSessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 

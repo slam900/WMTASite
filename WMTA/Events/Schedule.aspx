@@ -1,12 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="Schedule.aspx.cs" Inherits="WMTA.Events.Schedule" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
-            <section id="scheduleViewForm">
-                <div class="form-horizontal">
-                    <asp:UpdatePanel ID="upAuditionSearch" runat="server">
-                        <ContentTemplate>
-                            <div class="well bs-component col-md-6 main-div center">
+            <div class="well bs-component col-md-6 main-div center">
+                <section id="scheduleViewForm">
+                    <div class="form-horizontal">
+                        <asp:UpdatePanel ID="upAuditionSearch" runat="server">
+                            <ContentTemplate>
                                 <h4>Validate Scheduling Data</h4>
                                 <hr />
                                 <div>
@@ -38,25 +39,42 @@
                                         </asp:GridView>
                                     </div>
                                 </div>
-                            </div>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                    <asp:UpdatePanel ID="pnlValidateSchedule" runat="server">
-                        <ContentTemplate>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                        <asp:UpdatePanel ID="pnlValidateSchedule" runat="server" Visible="false">
+                            <ContentTemplate>
+                                <h4>
+                                    <asp:Label ID="lblAudition" runat="server" />
+                                </h4>
+                                <hr />
+                                <div class="center text-center">
+                                    <asp:Label runat="server">The table below displays the amount of time not covered<br /> by the event's current judges</asp:Label>
+                                    <asp:GridView ID="gvJudgeValidation" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered label-top-margin" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvJudgeValidation_PageIndexChanging" OnRowDataBound="gvJudgeValidation_RowDataBound" />
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                        <asp:UpdatePanel ID="pnlCreateSchedule" runat="server" Visible="false">
+                            <ContentTemplate>
+                                <h4>
+                                    <asp:Label ID="lblAudition2" runat="server" />
+                                </h4>
+                                <hr />
+                                <div class="center text-center">
+                                    <asp:Label runat="server">This event has the required amount of judges. <br />Would you like to create the event schedule now?</asp:Label>
+                                    <div>
+                                        <asp:Button ID="btnCreateSchedule" Text="Create Schedule" runat="server" CssClass="btn btn-primary label-top-margin" OnClick="btnCreateSchedule_Click" />
+                                    </div>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </section>
+                <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
+                <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
+                <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
+                <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
 
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                    <asp:UpdatePanel ID="pnlCreateSchedule" runat="server">
-                        <ContentTemplate>
-
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                </div>
-            </section>
-            <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
-            <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
-            <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
-            <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
+            </div>
         </ContentTemplate>
     </asp:UpdatePanel>
     <script>
