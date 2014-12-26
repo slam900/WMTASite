@@ -3,9 +3,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
-            <div class="well bs-component col-md-6 main-div center">
-                <section id="scheduleViewForm">
-                    <div class="form-horizontal">
+            <section id="scheduleViewForm">
+                <div class="form-horizontal">
+                    <div class="well bs-component col-md-6 main-div center">
                         <asp:UpdatePanel ID="upAuditionSearch" runat="server">
                             <ContentTemplate>
                                 <h4>Validate Scheduling Data</h4>
@@ -44,7 +44,7 @@
                         <asp:UpdatePanel ID="pnlValidateSchedule" runat="server" Visible="false">
                             <ContentTemplate>
                                 <h4>
-                                    <asp:Label ID="lblAudition" runat="server" />
+                                    <asp:Label ID="lblAudition" runat="server" /><asp:Label ID="lblAuditionId" runat="server" Visible="false" />
                                 </h4>
                                 <hr />
                                 <div class="center text-center">
@@ -68,13 +68,27 @@
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>
-                </section>
-                <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
-                <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
-                <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
-                <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
-
-            </div>
+                    <div class="well bs-component col-md-12 main-div center">
+                        <asp:UpdatePanel ID="pnlViewSchedule" runat="server" Visible="false">
+                            <ContentTemplate>
+                                <h4>
+                                    <asp:Label ID="lblAudition3" runat="server" />
+                                </h4>
+                                <hr />
+                                <div class="form-group">
+                                    <div class="col-md-12 center">
+                                        <asp:GridView ID="gvSchedule" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvSchedule_PageIndexChanging" OnRowDataBound="gvSchedule_RowDataBound" />
+                                    </div>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+            </section>
+            <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
+            <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
+            <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
+            <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
         </ContentTemplate>
     </asp:UpdatePanel>
     <script>

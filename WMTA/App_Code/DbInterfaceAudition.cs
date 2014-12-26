@@ -313,7 +313,7 @@ public partial class DbInterfaceAudition
             adapter.Fill(table);
 
             if (table.Rows.Count == 1)
-                audition.auditionId = Convert.ToInt32(table.Rows[0]["New Audition Id"]);
+                audition.auditionId = Convert.ToInt32(table.Rows[0][0]);
             else
                 audition.auditionId = -1;
         }
@@ -614,6 +614,41 @@ public partial class DbInterfaceAudition
         }
 
         connection.Close();
+    }
+
+    /*
+     * Pre:
+     * Post: Return a data table with information to be bound to a 
+     *      checkbox list for judge time preferences
+     */
+    public static DataTable LoadJudgeTimePreferenceOptions(int auditionId) 
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownJudgeTimePref";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "LoadJudgeTimePreferenceOptions", "id: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
     }
 
     /*

@@ -236,6 +236,10 @@ namespace WMTA.Events
                     txtIdHidden.Text = audition.auditionId.ToString();
                     lblAuditionSite.Text = audition.venue;
                     lblAuditionDate.Text = audition.auditionDate.ToShortDateString();
+
+                    DataTable timePreferences = DbInterfaceAudition.LoadJudgeTimePreferenceOptions(auditionId);
+                    chkLstTime.DataSource = timePreferences;
+                    chkLstTime.DataBind();
                 }
                 else
                 {

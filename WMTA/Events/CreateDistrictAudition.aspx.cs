@@ -16,7 +16,7 @@ namespace WMTA.Events
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            initializePage();
+            initializePage();  //need to automatically know whether to add or edit the event
 
             //clear session variables
             if (!Page.IsPostBack)
@@ -116,6 +116,15 @@ namespace WMTA.Events
                 //add new items to dropdown
                 ddlDistrict.Items.Add(new ListItem(districtName, user.districtId.ToString()));
                 ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+
+                ddlDistrict.SelectedIndex = 1;
+                ddlDistrictSearch.SelectedIndex = 1;
+
+                //load the audition
+                if (action == Utility.Action.Edit || action == Utility.Action.Delete)
+                {
+                    selectAudition();
+                }
             }
             else //if the user is an administrator, add all districts
             {
@@ -492,21 +501,40 @@ namespace WMTA.Events
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectAudition();
+        }
+
+        private void selectAudition()
+        {
             pnlMain.Visible = true;
             pnlButtons.Visible = true;
+            upAuditionSearch.Visible = false;
             clearAllExceptSearch();
 
-            int index = gvAuditionSearch.SelectedIndex;
+             User user = (User)Session[Utility.userRole];
 
-            if (index >= 0 && index < gvAuditionSearch.Rows.Count)
-            {
-                ddlDistrictSearch.SelectedIndex =
-                            ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
-                            gvAuditionSearch.Rows[index].Cells[2].Text));
-                ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
-                                        gvAuditionSearch.Rows[index].Cells[3].Text));
-                loadAuditionData(Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text));
-            }
+             if (!user.permissionLevel.Contains('A') && ddlDistrictSearch.SelectedIndex > 0)
+             {
+                 int year = DateTime.Today.Year;
+                 if (DateTime.Today.Month >= 6)
+                     year = year + 1;
+
+                 loadAuditionData(DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue), year));
+             }
+             else if (user.permissionLevel.Contains('A'))
+             {
+                 int index = gvAuditionSearch.SelectedIndex;
+
+                 if (index >= 0 && index < gvAuditionSearch.Rows.Count)
+                 {
+                     ddlDistrictSearch.SelectedIndex =
+                                 ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
+                                 gvAuditionSearch.Rows[index].Cells[2].Text));
+                     ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
+                                             gvAuditionSearch.Rows[index].Cells[3].Text));
+                     loadAuditionData(Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text));
+                 }
+             }
         }
 
         /*
@@ -714,6 +742,7 @@ namespace WMTA.Events
             {
                 pnlMain.Visible = false;
                 pnlButtons.Visible = false;
+                upAuditionSearch.Visible = true;
             }
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
@@ -749,14 +778,14 @@ namespace WMTA.Events
 
             ddlHourStart3.SelectedValue = "12";
             ddlMinutesStart3.SelectedValue = "30";
-            ddlAmPmStart3.SelectedValue = "AM";
+            ddlAmPmStart3.SelectedValue = "PM";
             ddlHourEnd3.SelectedValue = "02";
             ddlMinutesEnd3.SelectedValue = "00";
             ddlAmPmEnd3.SelectedValue = "PM";
 
             ddlHourStart4.SelectedValue = "02";
             ddlMinutesStart4.SelectedValue = "30";
-            ddlAmPmStart4.SelectedValue = "AM";
+            ddlAmPmStart4.SelectedValue = "PM";
             ddlHourEnd4.SelectedValue = "04";
             ddlMinutesEnd4.SelectedValue = "00";
             ddlAmPmEnd4.SelectedValue = "PM";

@@ -85,6 +85,15 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.Label lblAudition;
         
         /// <summary>
+        /// lblAuditionId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAuditionId;
+        
+        /// <summary>
         /// gvJudgeValidation control.
         /// </summary>
         /// <remarks>
@@ -119,6 +128,33 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCreateSchedule;
+        
+        /// <summary>
+        /// pnlViewSchedule control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel pnlViewSchedule;
+        
+        /// <summary>
+        /// lblAudition3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAudition3;
+        
+        /// <summary>
+        /// gvSchedule control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvSchedule;
         
         /// <summary>
         /// lblErrorMessage control.

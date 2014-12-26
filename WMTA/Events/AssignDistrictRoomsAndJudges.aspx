@@ -175,9 +175,8 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="chkLstTime" CssClass="col-md-3 control-label float-left">Time(s)</asp:Label>
                                                 <div class="float-left">
-                                                    <asp:CheckBoxList runat="server" ID="chkLstTime" CssClass="checkboxlist" DataSourceID="SqlDataSource6" DataTextField="TimeRange" DataValueField="ScheduleId" OnDataBound="chkLstTime_DataBound" />
+                                                    <asp:CheckBoxList runat="server" ID="chkLstTime" CssClass="checkboxlist" DataTextField="TimeRange" DataValueField="ScheduleId" OnDataBound="chkLstTime_DataBound" />
                                                 </div>
-                                                <asp:SqlDataSource ID="SqlDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownJudgeTimePref" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                             </div>
                                             <asp:Panel ID="pnlJudgeRooms" runat="server" Visible="false">
                                                 <asp:Button ID="btnRemoveJudgeRoom" runat="server" Text="Remove" CssClass="btn btn-link btn-sm col-md-11-margin" OnClick="btnRemoveJudgeRoom_Click" />

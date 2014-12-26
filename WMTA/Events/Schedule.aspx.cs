@@ -13,6 +13,7 @@ namespace WMTA.Events
     {
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
         private string judgeValidation = "JudgeValidation";
+        private string scheduleData = "ScheduleData";
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,6 +23,7 @@ namespace WMTA.Events
 
                 Session[auditionSearch] = null;
                 Session[judgeValidation] = null;
+                Session[scheduleData] = null;
                 loadYearDropdown();
                 loadDistrictDropdown();
             }
@@ -90,10 +92,25 @@ namespace WMTA.Events
          */
         protected void btnCreateSchedule_Click(object sender, EventArgs e)
         {
-            // run schedule
-            // display schedule
-            // give link to where schedule report is available
-            // tell where the schedule can be switched around
+            DataTable schedule = DbInterfaceScheduling.CreateSchedule(Convert.ToInt32(lblAuditionId.Text));
+
+            if (schedule != null && schedule.Rows.Count > 0)
+            {
+                pnlViewSchedule.Visible = true;
+                pnlCreateSchedule.Visible = false;
+                
+                gvSchedule.DataSource = schedule;
+                gvSchedule.DataBind();
+
+                Session[scheduleData] = schedule;
+
+                showSuccessMessage("The schedule has been successfully created.");
+            }
+            else
+            {
+                showErrorMessage("Error: An error occurred while creating the schedule.");
+                Session[scheduleData] = null;
+            }
         }
 
         /*
@@ -182,6 +199,12 @@ namespace WMTA.Events
             BindSessionData();
         }
 
+        protected void gvSchedule_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvSchedule.PageIndex = e.NewPageIndex;
+            BindSessionData();
+        }
+
         protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvAuditionSearch, e);
@@ -190,6 +213,11 @@ namespace WMTA.Events
         protected void gvJudgeValidation_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvJudgeValidation, e);
+        }
+
+        protected void gvSchedule_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            setHeaderRowColor(gvSchedule, e);
         }
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
@@ -208,8 +236,10 @@ namespace WMTA.Events
 
                 lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
                 lblAudition2.Text = lblAudition.Text;
+                lblAudition3.Text = lblAudition.Text;
+                lblAuditionId.Text = gvAuditionSearch.Rows[index].Cells[1].Text;
 
-                loadSchedule(Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text));
+                loadSchedule(Convert.ToInt32(lblAuditionId.Text));
             }
         }
 
@@ -272,6 +302,10 @@ namespace WMTA.Events
                 data = (DataTable)Session[judgeValidation];
                 gvJudgeValidation.DataSource = data;
                 gvJudgeValidation.DataBind();
+
+                data = (DataTable)Session[scheduleData];
+                gvSchedule.DataSource = data;
+                gvSchedule.DataBind();
             }
             catch (Exception e)
             {

@@ -742,14 +742,14 @@ namespace WMTA.Events
 
             ddlHourStart3.SelectedValue = "12";
             ddlMinutesStart3.SelectedValue = "30";
-            ddlAmPmStart3.SelectedValue = "AM";
+            ddlAmPmStart3.SelectedValue = "PM";
             ddlHourEnd3.SelectedValue = "02";
             ddlMinutesEnd3.SelectedValue = "00";
             ddlAmPmEnd3.SelectedValue = "PM";
 
             ddlHourStart4.SelectedValue = "02";
             ddlMinutesStart4.SelectedValue = "30";
-            ddlAmPmStart4.SelectedValue = "AM";
+            ddlAmPmStart4.SelectedValue = "PM";
             ddlHourEnd4.SelectedValue = "04";
             ddlMinutesEnd4.SelectedValue = "00";
             ddlAmPmEnd4.SelectedValue = "PM";

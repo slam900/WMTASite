@@ -679,4 +679,40 @@ public class DbInterfaceScheduling
 
         return table;
     }
+
+    /*
+     * Pre:
+     * Post: Returns a data table containing the newly created schedule
+     */
+    public static DataTable CreateSchedule(int auditionOrgId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionDistrictScheduleCreate";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "CreateSchedule", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
 }
