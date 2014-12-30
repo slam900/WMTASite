@@ -18,6 +18,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=1" class="smaller-font">Add Event</a></li>
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=2" class="smaller-font">Edit Event</a></li>
+                                        <li><a href="../Events/AssignDistrictRoomsAndJudges.aspx" class="smaller-font">Assign Rooms and Judges</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">

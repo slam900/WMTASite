@@ -49,15 +49,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlDistrictSearch;
         
         /// <summary>
-        /// SqlDataSourceDistrict control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceDistrict;
-        
-        /// <summary>
         /// btnAuditionSearch control.
         /// </summary>
         /// <remarks>
@@ -362,15 +353,6 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table tblJudgeRooms;
-        
-        /// <summary>
-        /// btnClear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClear;
         
         /// <summary>
         /// btnSubmit control.

@@ -16,7 +16,7 @@ namespace WMTA.Events
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            initializePage();  //need to automatically know whether to add or edit the event
+            initializePage();  //need to automatically know whether to add or edit the event...maybe
 
             //clear session variables
             if (!Page.IsPostBack)
@@ -53,6 +53,20 @@ namespace WMTA.Events
          */
         protected void initializePage()
         {
+            // Get the action based on whether we should add or edit 
+            // If before June and an audition exists for the current year, edit
+            // If before June and no audition exists for the current year, add
+            // If June or later and an audition exists for the next year, edit
+            // If before June and no audition exists for the next year, add
+
+            //int year = DateTime.Today.Year;
+            //if (DateTime.Today.Month >= 6) year = year + 1;
+
+            //// Look at current year no matter what if on the test site
+            //if (Utility.reportSuffix.Equals("Test")) //delete this
+            //    year = DateTime.Today.Year; 
+
+
             //get requested action - default to adding
             string actionIndicator = Request.QueryString["action"];
             if (actionIndicator == null || actionIndicator.Equals(""))

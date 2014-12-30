@@ -22,6 +22,8 @@ namespace WMTA.Events
         {
             if (!Page.IsPostBack)
             {
+                checkPermissions();
+
                 Session[auditionSearch] = null;
                 Session[auditionSession] = null;
                 Session[roomsTable] = null;
@@ -29,7 +31,9 @@ namespace WMTA.Events
                 Session[theoryRooms] = null;
                 Session[judgeRooms] = null;
 
+
                 loadYearDropdown();
+                loadDistrictDropdown();
             }
 
             if (Page.IsPostBack && Session[auditionSession] != null)
@@ -118,6 +122,24 @@ namespace WMTA.Events
 
         /*
          * Pre:
+         * Post: If the user is not logged in they will be redirected to the welcome screen
+         */
+        private void checkPermissions()
+        {
+            //if the user is not logged in, send them to login screen
+            if (Session[Utility.userRole] == null)
+                Response.Redirect("../Default.aspx");
+            else
+            {
+                User user = (User)Session[Utility.userRole];
+
+                if (!(user.permissionLevel.Contains("D") || user.permissionLevel.Contains("A")))
+                    Response.Redirect("../Default.aspx");
+            }
+        }
+
+        /*
+         * Pre:
          * Post: Loads the appropriate years in the dropdown
          */
         private void loadYearDropdown()
@@ -126,6 +148,40 @@ namespace WMTA.Events
 
             for (int i = DateTime.Now.Year + 1; i >= firstYear; i--)
                 ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+
+        /*
+         * Pre:
+         * Post:  If the current user is not an administrator, the district
+         *        dropdowns are filtered to containing only the current
+         *        user's district
+         */
+        private void loadDistrictDropdown()
+        {
+            User user = (User)Session[Utility.userRole];
+
+            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
+            {
+                //get own district dropdown info
+                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
+
+                //add new items to dropdown
+                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+
+                ddlDistrictSearch.SelectedIndex = 1;
+
+                //load the audition
+                selectAudition();
+            }
+            else //if the user is an administrator, add all districts
+            {
+                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
+
+                ddlDistrictSearch.DataTextField = "GeoName";
+                ddlDistrictSearch.DataValueField = "GeoId";
+
+                ddlDistrictSearch.DataBind();
+            }
         }
 
         /*
@@ -187,31 +243,41 @@ namespace WMTA.Events
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //clear all
-            int index = gvAuditionSearch.SelectedIndex;
+            selectAudition();
+        }
 
-            if (index >= 0 && index < gvAuditionSearch.Rows.Count)
+        private void selectAudition()
+        {
+            User user = (User)Session[Utility.userRole];
+
+            if (!user.permissionLevel.Contains('A') && ddlDistrictSearch.SelectedIndex > 0)
             {
-                int auditionId = Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text);
+                int year = DateTime.Today.Year;
+                if (DateTime.Today.Month >= 6 && !Utility.reportSuffix.Equals("Test"))
+                    year = year + 1;
 
-                //populate event information
-                ddlDistrictSearch.SelectedIndex =
-                            ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
-                            gvAuditionSearch.Rows[index].Cells[2].Text));
+                ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(year.ToString()));
 
-                ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
-                            gvAuditionSearch.Rows[index].Cells[3].Text));
+                loadAuditionData(DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue), year), year);
+            }
+            else if (user.permissionLevel.Contains('A'))
+            {
+                int index = gvAuditionSearch.SelectedIndex;
 
-                audition = loadAuditionData(auditionId);
-                LoadRooms(audition);
-                LoadTheoryRooms(audition);
-                LoadAvailableJudgesToDropdown(audition);
-                LoadAuditionJudges(audition);
-                LoadAuditionJudgeRooms(audition);
+                if (index >= 0 && index < gvAuditionSearch.Rows.Count)
+                {
+                    int auditionId = Convert.ToInt32(gvAuditionSearch.Rows[index].Cells[1].Text);
 
-                Session[auditionSession] = audition;
-                pnlMain.Visible = true;
-                upAuditionSearch.Visible = false;
+                    //populate event information
+                    ddlDistrictSearch.SelectedIndex =
+                                ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
+                                gvAuditionSearch.Rows[index].Cells[2].Text));
+
+                    ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
+                                gvAuditionSearch.Rows[index].Cells[3].Text));
+
+                    loadAuditionData(auditionId, Convert.ToInt32(ddlYear.SelectedValue));
+                }
             }
         }
 
@@ -222,7 +288,7 @@ namespace WMTA.Events
          * @param auditionId is the id of the audition being scheduled
          * @returns the audition data
          */
-        private Audition loadAuditionData(int auditionId)
+        private Audition loadAuditionData(int auditionId, int year)
         {
             Audition audition = null;
 
@@ -240,10 +306,20 @@ namespace WMTA.Events
                     DataTable timePreferences = DbInterfaceAudition.LoadJudgeTimePreferenceOptions(auditionId);
                     chkLstTime.DataSource = timePreferences;
                     chkLstTime.DataBind();
+
+                    LoadRooms(audition);
+                    LoadTheoryRooms(audition);
+                    LoadAvailableJudgesToDropdown(audition);
+                    LoadAuditionJudges(audition);
+                    LoadAuditionJudgeRooms(audition);
+
+                    Session[auditionSession] = audition;
+                    pnlMain.Visible = true;
+                    upAuditionSearch.Visible = false;
                 }
                 else
                 {
-                    showErrorMessage("Error: The audition information could not be loaded.");
+                    showErrorMessage("Error: The audition information could not be loaded. Please ensure one has been created for " + year + ".");
                 }
             }
             catch (Exception e)
@@ -1541,7 +1617,7 @@ namespace WMTA.Events
             foreach (ListItem item in chkLstTime.Items)
             {
                 item.Selected = true;
-            }         
+            }
         }
     }
 }

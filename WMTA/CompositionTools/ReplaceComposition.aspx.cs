@@ -274,6 +274,8 @@ namespace WMTA.CompositionTools
 
                     Composition comp = DbInterfaceComposition.GetComposition(num);
                     ddlStyleSearch.SelectedValue = comp.style;
+
+                    item = ddlComposerSearch.Items.FindByText(comp.composer);
                     ddlComposerSearch.SelectedValue = comp.composer;
                 }
                 else
