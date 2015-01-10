@@ -8,7 +8,7 @@ using System.Web;
 
 public class Utility
 {
-    public const string version = "2.5";
+    public const string version = "2.5.1";
 
     //enumeration for types of judge preferences - these numbers should be equal to the
     //type ids in the JudgePrefType database table

@@ -126,10 +126,11 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlJudge" CssClass="col-md-3 control-label float-left">Judge</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlJudge" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlJudge" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" DataSourceID="SqlDataSource2" DataTextField="ComboName" DataValueField="ContactId">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
+                                                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownJudge" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 <asp:Button ID="btnAddJudge" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddJudge_Click" />
                                             </div>
                                             <asp:Panel ID="pnlJudges" runat="server" Visible="false">
@@ -198,7 +199,7 @@
                                                 <ContentTemplate>
                                                     <div class="form-group">
                                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-<%--                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />--%>
+                                                            <%--                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />--%>
                                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                                         </div>
                                                     </div>

@@ -9,7 +9,7 @@
                         <div class="form-horizontal">
                             <%-- Start of form --%>
                             <fieldset>
-                                <legend>HS Virtuoso & Composition Point Entry</legend>
+                                <legend>Other WMTA Event Point Entry</legend>
                                 <%-- Student search --%>
                                 <asp:UpdatePanel ID="upStudentSearch" runat="server">
                                     <ContentTemplate>

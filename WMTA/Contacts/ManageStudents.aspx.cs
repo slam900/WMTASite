@@ -108,6 +108,11 @@ namespace WMTA.Contacts
                 {
                     btnEditLegacyPoints.Visible = true;
                 }
+                else
+                {
+                    cboCurrTeacher.Enabled = false;
+                    cboPrevTeacher.Enabled = false;
+                }
             }
             else if (action == Utility.Action.Delete)
             {

@@ -183,6 +183,8 @@ public class ScheduleData
      */
     public void AddRoom(string room)
     {
+        if (rooms == null) rooms = new List<string>();
+
         if (!rooms.Contains(room))
         {
             rooms.Add(room);

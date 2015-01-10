@@ -19,6 +19,7 @@
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=1" class="smaller-font">Add Event</a></li>
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=2" class="smaller-font">Edit Event</a></li>
                                         <li><a href="../Events/AssignDistrictRoomsAndJudges.aspx" class="smaller-font">Assign Rooms and Judges</a></li>
+                                        <li><a href="../Events/Schedule.aspx" class="smaller-font">Create Schedule</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">
@@ -45,7 +46,7 @@
                                 </div>
                                 <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>
                                 <a href="../Events/DistrictPointEntry.aspx" class="list-group-item">Enter District Points</a>
-                                <a href="../Events/HsVirtuosoCompositionPointEntry.aspx" class="list-group-item">Enter HS Virtuoso Points</a>
+                                <a href="../Events/HsVirtuosoCompositionPointEntry.aspx" class="list-group-item">Enter Other WMTA Event Points</a>
                             </div>
                             <h4>Tools</h4>
                             <div class="list-group smaller-font">

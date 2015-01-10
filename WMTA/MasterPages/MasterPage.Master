@@ -73,7 +73,7 @@
                                 <li class="divider"></li>
                                 <li><a href="../DistrictPointEntry.aspx" runat="server">Enter District Points</a></li>
                                 <li><a href="../BadgerPointEntry.aspx" runat="server">Enter Badger Points</a></li>
-                                <li><a href="../HsViruosoCompositionPointEntry.aspx" runat="server">Enter HS Virtuoso Points</a></li>
+                                <li><a href="../HsViruosoCompositionPointEntry.aspx" runat="server">Enter Other WMTA Event Points</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

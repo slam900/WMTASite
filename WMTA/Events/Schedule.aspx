@@ -5,72 +5,75 @@
         <ContentTemplate>
             <section id="scheduleViewForm">
                 <div class="form-horizontal">
-                    <div class="well bs-component col-md-6 main-div center">
-                        <asp:UpdatePanel ID="upAuditionSearch" runat="server">
-                            <ContentTemplate>
-                                <h4>Validate Scheduling Data</h4>
-                                <hr />
-                                <div>
-                                    <h4>Audition Search</h4>
-                                    <br />
-                                    <div class="form-group">
-                                        <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District</asp:Label>
-                                        <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
-                                                <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                            </asp:DropDownList>
-                                        </div>
-                                        <asp:Button ID="btnAuditionSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnAuditionSearch_Click" CausesValidation="false" />
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label float-left">Audition Year</asp:Label>
-                                        <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
-                                        </div>
-                                        <asp:Button ID="btnClearAuditionSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearAuditionSearch_Click" CausesValidation="false" />
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:GridView ID="gvAuditionSearch" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" OnPageIndexChanging="gvAuditionSearch_PageIndexChanging" OnRowDataBound="gvAuditionSearch_RowDataBound" OnSelectedIndexChanged="gvAuditionSearch_SelectedIndexChanged">
-                                            <Columns>
-                                                <asp:BoundField DataField="AuditionOrgId" HeaderText="AuditionOrgId" ItemStyle-Width="0%" />
-                                                <asp:BoundField DataField="GeoName" HeaderText="District" />
-                                                <asp:BoundField DataField="Year" HeaderText="Year" />
-                                            </Columns>
-                                        </asp:GridView>
-                                    </div>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                        <asp:UpdatePanel ID="pnlValidateSchedule" runat="server" Visible="false">
-                            <ContentTemplate>
-                                <h4>
-                                    <asp:Label ID="lblAudition" runat="server" /><asp:Label ID="lblAuditionId" runat="server" Visible="false" />
-                                </h4>
-                                <hr />
-                                <div class="center text-center">
-                                    <asp:Label runat="server">The table below displays the amount of time not covered<br /> by the event's current judges</asp:Label>
-                                    <asp:GridView ID="gvJudgeValidation" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered label-top-margin" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvJudgeValidation_PageIndexChanging" OnRowDataBound="gvJudgeValidation_RowDataBound" />
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                        <asp:UpdatePanel ID="pnlCreateSchedule" runat="server" Visible="false">
-                            <ContentTemplate>
-                                <h4>
-                                    <asp:Label ID="lblAudition2" runat="server" />
-                                </h4>
-                                <hr />
-                                <div class="center text-center">
-                                    <asp:Label runat="server">This event has the required amount of judges. <br />Would you like to create the event schedule now?</asp:Label>
+                    <asp:Panel runat="server" ID="pnlMinusSchedule">
+                        <div class="well bs-component col-md-6 main-div center">
+                            <asp:UpdatePanel ID="upAuditionSearch" runat="server">
+                                <ContentTemplate>
+                                    <h4>Create Event Schedule</h4>
+                                    <hr />
                                     <div>
-                                        <asp:Button ID="btnCreateSchedule" Text="Create Schedule" runat="server" CssClass="btn btn-primary label-top-margin" OnClick="btnCreateSchedule_Click" />
+                                        <h4>Audition Search</h4>
+                                        <br />
+                                        <div class="form-group">
+                                            <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District</asp:Label>
+                                            <div class="col-md-6">
+                                                <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                            <asp:Button ID="btnAuditionSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnAuditionSearch_Click" CausesValidation="false" />
+                                        </div>
+                                        <div class="form-group">
+                                            <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label float-left">Audition Year</asp:Label>
+                                            <div class="col-md-6">
+                                                <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
+                                            </div>
+                                            <asp:Button ID="btnClearAuditionSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearAuditionSearch_Click" CausesValidation="false" />
+                                        </div>
+                                        <div class="form-group">
+                                            <asp:GridView ID="gvAuditionSearch" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" OnPageIndexChanging="gvAuditionSearch_PageIndexChanging" OnRowDataBound="gvAuditionSearch_RowDataBound" OnSelectedIndexChanged="gvAuditionSearch_SelectedIndexChanged">
+                                                <Columns>
+                                                    <asp:BoundField DataField="AuditionOrgId" HeaderText="AuditionOrgId" ItemStyle-Width="0%" />
+                                                    <asp:BoundField DataField="GeoName" HeaderText="District" />
+                                                    <asp:BoundField DataField="Year" HeaderText="Year" />
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
                                     </div>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
-                    <div class="well bs-component col-md-12 main-div center">
-                        <asp:UpdatePanel ID="pnlViewSchedule" runat="server" Visible="false">
-                            <ContentTemplate>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <asp:UpdatePanel ID="pnlValidateSchedule" runat="server" Visible="false">
+                                <ContentTemplate>
+                                    <h4>
+                                        <asp:Label ID="lblAudition" runat="server" /><asp:Label ID="lblAuditionId" runat="server" Visible="false" />
+                                    </h4>
+                                    <hr />
+                                    <div class="center text-center">
+                                        <asp:Label runat="server">The table below displays the amount of time, in minutes, not covered<br /> by the event's currently assigned judges.<br /><br />Please go <a href="../Events/AssignDistrictRoomsAndJudges.aspx">here</a> to add additional judges to cover these categories before creating the schedule.</asp:Label>
+                                        <asp:GridView ID="gvJudgeValidation" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered label-top-margin" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvJudgeValidation_PageIndexChanging" OnRowDataBound="gvJudgeValidation_RowDataBound" />
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <asp:UpdatePanel ID="pnlCreateSchedule" runat="server" Visible="false">
+                                <ContentTemplate>
+                                    <h4>
+                                        <asp:Label ID="lblAudition2" runat="server" />
+                                    </h4>
+                                    <hr />
+                                    <div class="center text-center">
+                                        <asp:Label runat="server">This event has the required number of judges for each category. <br />Would you like to create the event schedule now?</asp:Label>
+                                        <div>
+                                            <asp:Button ID="btnCreateSchedule" Text="Create Schedule" runat="server" CssClass="btn btn-primary label-top-margin" OnClick="btnCreateSchedule_Click" />
+                                        </div>
+                                    </div>
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
+                    </asp:Panel>
+                    <asp:UpdatePanel ID="pnlViewSchedule" runat="server" Visible="false">
+                        <ContentTemplate>
+                            <div class="well bs-component col-md-12 main-div center">
                                 <h4>
                                     <asp:Label ID="lblAudition3" runat="server" />
                                 </h4>
@@ -80,9 +83,9 @@
                                         <asp:GridView ID="gvSchedule" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvSchedule_PageIndexChanging" OnRowDataBound="gvSchedule_RowDataBound" />
                                     </div>
                                 </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </section>
             <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>

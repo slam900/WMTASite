@@ -74,6 +74,11 @@ namespace WMTA.Events
 
                 //add new items to dropdown
                 ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+
+                ddlDistrictSearch.SelectedIndex = 1;
+
+                //load the audition
+                selectAudition();
             }
             else //if the user is an administrator, add all districts
             {
@@ -98,6 +103,7 @@ namespace WMTA.Events
             {
                 pnlViewSchedule.Visible = true;
                 pnlCreateSchedule.Visible = false;
+                pnlMinusSchedule.Visible = false;
                 
                 gvSchedule.DataSource = schedule;
                 gvSchedule.DataBind();
@@ -108,7 +114,7 @@ namespace WMTA.Events
             }
             else
             {
-                showErrorMessage("Error: An error occurred while creating the schedule.");
+                showErrorMessage("Error: An error occurred while creating the schedule.  Please ensure that you have students assigned to the audition.");
                 Session[scheduleData] = null;
             }
         }
@@ -222,24 +228,52 @@ namespace WMTA.Events
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            upAuditionSearch.Visible = false;
+            selectAudition();
+        }
 
-            int index = gvAuditionSearch.SelectedIndex;
+        private void selectAudition()
+        {
+            User user = (User)Session[Utility.userRole];
 
-            if (index >= 0 && index < gvAuditionSearch.Rows.Count)
+            if (!user.permissionLevel.Contains('A') && ddlDistrictSearch.SelectedIndex > 0)
             {
-                ddlDistrictSearch.SelectedIndex =
-                            ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
-                            gvAuditionSearch.Rows[index].Cells[2].Text));
-                ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
-                                        gvAuditionSearch.Rows[index].Cells[3].Text));
+                upAuditionSearch.Visible = false;
 
+                int year = DateTime.Today.Year;
+                if (DateTime.Today.Month >= 6 && !Utility.reportSuffix.Equals("Test"))
+                    year = year + 1;
+
+                ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(year.ToString()));
+
+                int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue), year);
                 lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
                 lblAudition2.Text = lblAudition.Text;
                 lblAudition3.Text = lblAudition.Text;
-                lblAuditionId.Text = gvAuditionSearch.Rows[index].Cells[1].Text;
+                lblAuditionId.Text = auditionOrgId.ToString();
 
-                loadSchedule(Convert.ToInt32(lblAuditionId.Text));
+                loadSchedule(auditionOrgId);
+            }
+            else if (user.permissionLevel.Contains('A'))
+            {
+                upAuditionSearch.Visible = false;
+
+                int index = gvAuditionSearch.SelectedIndex;
+
+                if (index >= 0 && index < gvAuditionSearch.Rows.Count)
+                {
+                    ddlDistrictSearch.SelectedIndex =
+                                ddlDistrictSearch.Items.IndexOf(ddlDistrictSearch.Items.FindByText(
+                                gvAuditionSearch.Rows[index].Cells[2].Text));
+                    ddlYear.SelectedIndex = ddlYear.Items.IndexOf(ddlYear.Items.FindByValue(
+                                            gvAuditionSearch.Rows[index].Cells[3].Text));
+
+                    lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
+                    lblAudition2.Text = lblAudition.Text;
+                    lblAudition3.Text = lblAudition.Text;
+                    lblAuditionId.Text = gvAuditionSearch.Rows[index].Cells[1].Text;
+
+                    loadSchedule(Convert.ToInt32(lblAuditionId.Text));
+                }
             }
         }
 

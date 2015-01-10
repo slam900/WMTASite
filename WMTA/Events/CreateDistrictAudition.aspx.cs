@@ -474,6 +474,13 @@ namespace WMTA.Events
         {
             bool result = true;
 
+            // Make sure they don't accidentally enter midnight instead of noon
+            if ((amPmEnd1.SelectedValue.Equals("AM") && Convert.ToInt32(hourEnd1.SelectedValue) == 12) ||
+                (amPmStart2.SelectedValue.Equals("AM") && Convert.ToInt32(hourStart2.SelectedValue) == 12))
+            {
+                result = false;
+            }
+
             //if the start time of session 2 is not in the morning or the end time of session 1 is not in the afternoon, make sure the times are valid
             if (!(amPmStart2.SelectedValue.Equals("PM") && amPmEnd1.SelectedValue.Equals("AM")))
             {
@@ -483,7 +490,7 @@ namespace WMTA.Events
                     result = false;
                 }
                 //if the AM/PM values are the same and the start hour is greater than the end hour return false
-                else if (Convert.ToInt32(hourStart2.SelectedValue) < Convert.ToInt32(hourEnd1.SelectedValue))
+                else if (Convert.ToInt32(hourEnd1.SelectedValue) != 12 && Convert.ToInt32(hourStart2.SelectedValue) < Convert.ToInt32(hourEnd1.SelectedValue))
                 {
                     result = false;
                 }
@@ -493,7 +500,7 @@ namespace WMTA.Events
                 {
                     result = false;
                 }
-            }
+            } 
 
             return result;
         }
