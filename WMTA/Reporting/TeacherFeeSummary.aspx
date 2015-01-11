@@ -17,7 +17,7 @@
                                         <div>
                                             <h4>Select a Year to Retrieve Reports On</h4>
                                             <br />
-                                            <%--<div class="form-group">
+                                            <div class="form-group">
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="District is required"></asp:RequiredFieldValidator>
                                                 </div>
@@ -34,7 +34,7 @@
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
                                                 </div>
-                                            </div>--%>
+                                            </div>
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
@@ -43,8 +43,6 @@
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
-                                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
-
                                             </div>
                                             <div class="center text-align-center">
                                                 <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>

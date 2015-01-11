@@ -17,9 +17,9 @@ public class EventSchedule
         ScheduleSlots = new List<ScheduleSlot>();
     }
 
-    public void Add(int judgeId, string judgeName, int minutes, TimeSpan startTime)
+    public void Add(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime)
     {
-        ScheduleSlot slot = new ScheduleSlot(judgeId, judgeName, minutes, startTime);
+        ScheduleSlot slot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime);
 
         ScheduleSlots.Add(slot);
     }

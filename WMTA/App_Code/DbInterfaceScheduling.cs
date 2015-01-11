@@ -715,4 +715,40 @@ public class DbInterfaceScheduling
 
         return table;
     }
+
+    /*
+     * Pre:
+     * Post: Returns a data table containing the event's schedule
+     */
+    public static DataTable LoadSchedule(int auditionOrgId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_EventScheduleSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "LoadSchedule", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
 }

@@ -9,12 +9,11 @@ using System.Web.UI.WebControls;
 
 namespace WMTA.Events
 {
-    public partial class Schedule : System.Web.UI.Page
+    public partial class ScheduleUpdate : System.Web.UI.Page
     {
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
-        private string judgeValidation = "JudgeValidation";
         private string scheduleData = "ScheduleData";
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -22,7 +21,6 @@ namespace WMTA.Events
                 checkPermissions();
 
                 Session[auditionSearch] = null;
-                Session[judgeValidation] = null;
                 Session[scheduleData] = null;
                 loadYearDropdown();
                 loadDistrictDropdown();
@@ -46,7 +44,7 @@ namespace WMTA.Events
                     Response.Redirect("../Default.aspx");
             }
         }
-        
+
         /*
          * Pre:
          * Post: Loads the appropriate years in the dropdown
@@ -94,31 +92,71 @@ namespace WMTA.Events
         }
 
         /*
-         * Pre:
-         * Post: The scheduling routine is ran and the schedule is displayed
+         * Pre: 
+         * Post: The entered audition is searched for and selected.  If a matching schedule
+         *       slot is found, some summary data is shown on the page
          */
-        protected void btnCreateSchedule_Click(object sender, EventArgs e)
+        protected void btnSelectAudition_Click(object sender, EventArgs e)
         {
-            DataTable schedule = DbInterfaceScheduling.CreateSchedule(Convert.ToInt32(lblAuditionId.Text));
+            int auditionId = -1;
 
-            if (schedule != null && schedule.Rows.Count > 0)
+            if (Int32.TryParse(txtAuditionId.Text, out auditionId))
             {
-                pnlViewSchedule.Visible = true;
-                pnlCreateSchedule.Visible = false;
-                pnlMinusSchedule.Visible = false;
-                
-                gvSchedule.DataSource = schedule;
-                gvSchedule.DataBind();
+                ScheduleSlot scheduleSlot = DbInterfaceStudentAudition.GetStudentAuditionSchedule(auditionId);
 
-                Session[scheduleData] = schedule;
-
-                showSuccessMessage("The schedule has been successfully created.");
+                if (scheduleSlot != null)
+                {
+                    lblAuditionInformation.Text = "Student: " + scheduleSlot.StudentName + ", Start Time: " + FormatTime(scheduleSlot.StartTime) + ", Judge: " + scheduleSlot.JudgeName;
+                    lblSelectedAuditionId.Text = auditionId.ToString();
+                }
+                else
+                {
+                    showWarningMessage("No matching audition schedule slots were found.");
+                }
             }
             else
             {
-                showErrorMessage("Error: An error occurred while creating the schedule.  Please ensure that you have students assigned to the audition.");
-                Session[scheduleData] = null;
+                showWarningMessage("Please enter a numeric audition id.");
             }
+        }
+
+        /*
+         * Pre:
+         * Post: Returns a AM/PM string of the input time
+         */
+        private string FormatTime(TimeSpan time)
+        {
+            int hour = time.Hours;
+            int minutes = time.Minutes;
+            string amPm = "AM";
+
+            if (hour > 12)
+            {
+                hour = hour - 12;
+                amPm = "PM";
+            }
+
+            return hour + ":" + minutes + " " + amPm;
+        }
+
+        protected void ddlAuditionJudges_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // load judge's times
+        }
+
+        protected void btnMoveAudition_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("../Default.aspx");
         }
 
         /*
@@ -183,7 +221,7 @@ namespace WMTA.Events
             {
                 showErrorMessage("Error: An error occurred during the search.");
 
-                Utility.LogError("Schedule", "searchAuditions", "gridView: " + gridview + ", districtId: " +
+                Utility.LogError("ScheduleUpdate", "searchAuditions", "gridView: " + gridview + ", districtId: " +
                                  districtId + ", year: " + year + ", session: " + session, "Message: " + e.Message +
                                  "   StackTrace: " + e.StackTrace, -1);
             }
@@ -191,41 +229,15 @@ namespace WMTA.Events
             return result;
         }
 
-        /*
-         * Pre:   
-         * Post:  The page of gvAuditionSearch is changed
-         */
         protected void gvAuditionSearch_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvAuditionSearch.PageIndex = e.NewPageIndex;
             BindSessionData();
         }
 
-        protected void gvJudgeValidation_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvJudgeValidation.PageIndex = e.NewPageIndex;
-            BindSessionData();
-        }
-
-        protected void gvSchedule_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvSchedule.PageIndex = e.NewPageIndex;
-            BindSessionData();
-        }
-
         protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             setHeaderRowColor(gvAuditionSearch, e);
-        }
-
-        protected void gvJudgeValidation_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvJudgeValidation, e);
-        }
-
-        protected void gvSchedule_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvSchedule, e);
         }
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
@@ -240,6 +252,9 @@ namespace WMTA.Events
             if (!user.permissionLevel.Contains('A') && ddlDistrictSearch.SelectedIndex > 0)
             {
                 upAuditionSearch.Visible = false;
+                upSelectAudition.Visible = true;
+                upViewSchedule.Visible = true;
+                pnlButtons.Visible = true;
 
                 int year = DateTime.Today.Year;
                 if (DateTime.Today.Month >= 6 && !Utility.reportSuffix.Equals("Test"))
@@ -249,15 +264,16 @@ namespace WMTA.Events
 
                 int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue), year);
                 lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
-                lblAudition2.Text = lblAudition.Text;
-                lblAudition3.Text = lblAudition.Text;
                 lblAuditionId.Text = auditionOrgId.ToString();
 
-                loadSchedule(auditionOrgId);
+                loadScheduleInformation(auditionOrgId);
             }
             else if (user.permissionLevel.Contains('A'))
             {
                 upAuditionSearch.Visible = false;
+                upSelectAudition.Visible = true;
+                upViewSchedule.Visible = true;
+                pnlButtons.Visible = true;
 
                 int index = gvAuditionSearch.SelectedIndex;
 
@@ -270,11 +286,9 @@ namespace WMTA.Events
                                             gvAuditionSearch.Rows[index].Cells[3].Text));
 
                     lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
-                    lblAudition2.Text = lblAudition.Text;
-                    lblAudition3.Text = lblAudition.Text;
                     lblAuditionId.Text = gvAuditionSearch.Rows[index].Cells[1].Text;
 
-                    loadSchedule(Convert.ToInt32(lblAuditionId.Text));
+                    loadScheduleInformation(Convert.ToInt32(lblAuditionId.Text));
                 }
             }
         }
@@ -285,42 +299,58 @@ namespace WMTA.Events
          *       is loaded to the page.
          * @param auditionId is the id of the audition being edited
          */
-        private void loadSchedule(int auditionId)
+        private void loadScheduleInformation(int auditionId)
         {
+            LoadAuditionJudges(DbInterfaceAudition.LoadAuditionData(auditionId));
+
+            //load schedule table
+            DataTable schedule = DbInterfaceScheduling.LoadSchedule(auditionId);
+
+            if (schedule != null && schedule.Rows.Count > 0)
+            {
+                gvSchedule.DataSource = schedule;
+                gvSchedule.DataBind();
+
+                Session[scheduleData] = schedule;
+            }
+            else
+            {
+                showErrorMessage("Error: The schedule could not be loaded.  Please make sure you have created it.");
+                Session[scheduleData] = null;
+            }
+        }
+
+        private void LoadAuditionJudges(Audition audition)
+        {
+            ddlAuditionJudges.Items.Clear();
+            ddlAuditionJudges.Items.Add(new ListItem("", ""));
+
             try
             {
-                DataTable table = DbInterfaceScheduling.ValidateEventJudges(auditionId);
+                List<Judge> judges = audition.GetEventJudges(true);
 
-                if (table != null && table.Rows.Count == 0) // No errors, give option to create schedule
+                //Load each judge to the dropdown
+                foreach (Judge judge in judges)
                 {
-                    pnlCreateSchedule.Visible = true;
-
-                    Session[judgeValidation] = table;
-                }
-                else if (table != null & table.Rows.Count > 0) // Display errors
-                {
-                    pnlValidateSchedule.Visible = true;
-
-                    gvJudgeValidation.DataSource = table;
-                    gvJudgeValidation.DataBind();
-
-                    Session[judgeValidation] = table;
-                }
-                else
-                {
-                    upAuditionSearch.Visible = true;
-                    showErrorMessage("Error: The event information could not be loaded.");
-                    Session[judgeValidation] = null;
+                    ddlAuditionJudges.Items.Add(new ListItem(judge.lastName + ", " + judge.firstName, judge.id.ToString()));
                 }
             }
             catch (Exception e)
             {
-                showErrorMessage("Error: An error occurred while loading the event data.");
-
-                Utility.LogError("Schedule", "loadSchedule", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                showErrorMessage("Error: An error occurred while loading the event's judges.");
+                Utility.LogError("ScheduleUpdate", "LoadAuditionJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
+        }
 
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
+        protected void gvSchedule_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvSchedule.PageIndex = e.NewPageIndex;
+            BindSessionData();
+        }
+
+        protected void gvSchedule_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            setHeaderRowColor(gvSchedule, e);
         }
 
         /*
@@ -335,18 +365,31 @@ namespace WMTA.Events
                 gvAuditionSearch.DataSource = data;
                 gvAuditionSearch.DataBind();
 
-                data = (DataTable)Session[judgeValidation];
-                gvJudgeValidation.DataSource = data;
-                gvJudgeValidation.DataBind();
-
                 data = (DataTable)Session[scheduleData];
                 gvSchedule.DataSource = data;
                 gvSchedule.DataBind();
             }
             catch (Exception e)
             {
-                Utility.LogError("Schedule", "BindSessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("ScheduleUpdate", "BindSessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
+        }
+
+        protected void btnClearAuditionSearch_Click(object sender, EventArgs e)
+        {
+            clearAuditionSearch();
+        }
+
+        /*
+         * Pre:
+         * Post: The Audition Search section is cleared
+         */
+        private void clearAuditionSearch()
+        {
+            ddlDistrictSearch.SelectedIndex = 0;
+            ddlYear.SelectedIndex = 0;
+            gvAuditionSearch.DataSource = null;
+            gvAuditionSearch.DataBind();
         }
 
         /*
@@ -376,27 +419,6 @@ namespace WMTA.Events
         {
             gv.DataSource = null;
             gv.DataBind();
-        }
-
-        /*
-         * Pre:
-         * Post: The Audition Search section is cleared
-         */
-        protected void btnClearAuditionSearch_Click(object sender, EventArgs e)
-        {
-            clearAuditionSearch();
-        }
-
-        /*
-         * Pre:
-         * Post: The Audition Search section is cleared
-         */
-        private void clearAuditionSearch()
-        {
-            ddlDistrictSearch.SelectedIndex = 0;
-            ddlYear.SelectedIndex = 0;
-            gvAuditionSearch.DataSource = null;
-            gvAuditionSearch.DataBind();
         }
 
         #region Messages

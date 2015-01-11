@@ -27,7 +27,7 @@ public class Utility
 
     /***  Live Variables ***/
     public const string ssrsDomain = "localhost";
-    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service"; 
+    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service";
     //public const string reportSuffix = "";
     
     /*** Test Variables ***/

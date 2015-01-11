@@ -510,7 +510,7 @@ public partial class DbInterfaceAudition
                     startTime = TimeSpan.Parse(table.Rows[i]["AuditionStartTime"].ToString());
                 string judgeName = table.Rows[i]["JudgeName"].ToString();
 
-                schedule.Add(judgeId, judgeName, minutes, startTime);
+                schedule.Add(auditionId, judgeId, judgeName, minutes, startTime);
             }
 
             audition.Schedule = schedule;  

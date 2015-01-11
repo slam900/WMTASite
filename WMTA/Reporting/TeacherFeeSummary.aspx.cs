@@ -18,6 +18,8 @@ namespace WMTA.Reporting
                 checkPermissions();
 
                 loadYearDropdown();
+                loadDistrictDropdown();
+                loadTeacherDropdown();
             }
         }
 
@@ -43,6 +45,110 @@ namespace WMTA.Reporting
             for (int i = DateTime.Now.Year + 1; i >= firstYear; i--)
                 ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
+        
+        /*
+         * Pre:
+         * Post:  If the current user is not an administrator, the district
+         *        dropdowns are filtered to containing only the current
+         *        user's district
+         */
+        private void loadDistrictDropdown()
+        {
+            User user = (User)Session[Utility.userRole];
+
+            if (!user.permissionLevel.Contains('A')) //if the user is a district admin or teacher, add only their district
+            {
+                //get own district dropdown info
+                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
+
+                //add new item to dropdown and select it
+                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+                ddlDistrictSearch.SelectedIndex = 1;
+                updateTeacherDropdown();
+            }
+            else //if the user is an administrator, add all districts
+            {
+                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
+
+                ddlDistrictSearch.DataTextField = "GeoName";
+                ddlDistrictSearch.DataValueField = "GeoId";
+
+                ddlDistrictSearch.DataBind();
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Update the list of available teachers
+         */
+        private void updateTeacherDropdown()
+        {
+            ddlTeacher.DataSource = null;
+            ddlTeacher.DataBind();
+            ddlTeacher.Items.Clear();
+
+            if (ddlDistrictSearch.SelectedIndex > 0 && !HighestPermissionTeacher())
+            {
+                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
+
+                DataTable table = DbInterfaceContact.GetTeachersFromDistrict(districtId);
+
+                if (table != null)
+                {
+                    //add empty item
+                    ddlTeacher.Items.Add(new ListItem("", ""));
+
+                    //add teachers from district
+                    ddlTeacher.DataSource = table;
+
+                    ddlTeacher.DataTextField = "ComboName";
+                    ddlTeacher.DataValueField = "ContactId";
+
+                    ddlTeacher.DataBind();
+                }
+                else
+                {
+                    showErrorMessage("Error: The teachers for the selected district could not be retrieved.");
+                }
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Determines whether or not the current user's highest permission level is Teacher
+         * @returns true if the current user's highest permission level is Teacher and false otherwise
+         */
+        private bool HighestPermissionTeacher()
+        {
+            User user = (User)Session[Utility.userRole];
+            bool teacherOnly = false;
+
+            if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+            {
+                teacherOnly = true;
+            }
+
+            return teacherOnly;
+        }
+
+        /*
+         * Pre:
+         * Post: If the current user is a teacher, the teacher dropdown
+         *       should only show the current user
+         */
+        private void loadTeacherDropdown()
+        {
+            if (HighestPermissionTeacher())
+            {
+                User user = (User)Session[Utility.userRole];
+                Contact contact = DbInterfaceContact.GetContact(user.contactId);
+
+                if (contact != null)
+                {
+                    ddlTeacher.Items.Add(new ListItem(contact.lastName + ", " + contact.firstName, user.contactId.ToString()));
+                }
+            }
+        }
 
         /*
          * Pre:
@@ -51,14 +157,24 @@ namespace WMTA.Reporting
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            int districtId = Utility.GetDistrictId((User)Session[Utility.userRole]);
+            //get selected teacher
+            int teacherId = 0;
+            if (ddlTeacher.SelectedIndex > 0)
+            {
+                teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
+            }
+
+            int districtId = 0;
+            if (ddlDistrictSearch.SelectedIndex > 0)
+            {
+                districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
+            }
+
             int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(districtId,
                                                                      Convert.ToInt32(ddlYear.SelectedValue));
 
             if (auditionOrgId != -1)
             {
-                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
-
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
                 createReport("DistrictTeacherDetail", rptTeacherDetail, auditionOrgId, teacherId);
@@ -104,6 +220,11 @@ namespace WMTA.Reporting
             }
         }
 
+        protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateTeacherDropdown();
+        }
+
         #region Messages
 
         /*
@@ -143,5 +264,6 @@ namespace WMTA.Reporting
         }
 
         #endregion
+
     }
 }

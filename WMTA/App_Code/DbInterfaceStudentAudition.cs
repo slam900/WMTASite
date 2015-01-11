@@ -2827,4 +2827,57 @@ public partial class DbInterfaceStudentAudition
 
         return result;
     }
+
+    /*
+     * Pre: The input audition id must have been previously created and scheduled
+     * Post: The schedule information for the input audition is retrieved
+     * @param auditionId is the id of the student's audition
+     */
+    public static ScheduleSlot GetStudentAuditionSchedule(int auditionId)
+    {
+        ScheduleSlot scheduleSlot = null;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_StudentAuditionScheduleSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionId);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)
+            {
+                int judgeId = -1, minutes = 0;
+                TimeSpan startTime = TimeSpan.MinValue;
+
+                string judgeName = table.Rows[0]["JudgeName"].ToString();
+                string studentName = table.Rows[0]["StudentName"].ToString();
+                Int32.TryParse(table.Rows[0]["JudgeId"].ToString(), out judgeId);
+                Int32.TryParse(table.Rows[0]["Minutes"].ToString(), out minutes);
+                TimeSpan.TryParse(table.Rows[0]["AuditionStartTime"].ToString(), out startTime);
+
+                scheduleSlot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime);
+                scheduleSlot.StudentName = studentName;
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "GetStudentAuditionSchedule", "auditionId: " + auditionId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            scheduleSlot = null;
+        }
+
+        connection.Close();
+
+        return scheduleSlot;
+    }
 }
