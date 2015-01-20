@@ -21,7 +21,7 @@
                                                             </div>
                                                             <asp:Label AssociatedControlID="ddlStudent1" runat="server" CssClass="col-md-3 control-label float-left">Student 1</asp:Label>
                                                             <div class="col-md-6">
-                                                                <asp:DropDownList ID="ddlStudent1" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="ComboName" DataValueField="StudentId" AppendDataBoundItems="true">
+                                                                <asp:DropDownList ID="ddlStudent1" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="ComboName" DataValueField="StudentId" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlStudent1_SelectedIndexChanged1">
                                                                     <asp:ListItem Selected="True" Text="" Value="" />
                                                                 </asp:DropDownList>
                                                             </div>
@@ -70,7 +70,7 @@
                                                             </div>
                                                             <asp:Label AssociatedControlID="ddlStudent2" runat="server" CssClass="col-md-3 control-label float-left">Student 2</asp:Label>
                                                             <div class="col-md-6">
-                                                                <asp:DropDownList ID="ddlStudent2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="ComboName" DataValueField="StudentId" AppendDataBoundItems="true">
+                                                                <asp:DropDownList ID="ddlStudent2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="ComboName" DataValueField="StudentId" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlStudent2_SelectedIndexChanged1">
                                                                     <asp:ListItem Selected="True" Text="" Value="" />
                                                                 </asp:DropDownList>
                                                             </div>
@@ -140,7 +140,7 @@
                                                 <ContentTemplate>
                                                     <div class="form-group">
                                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                                         </div>
                                                     </div>

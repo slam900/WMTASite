@@ -687,5 +687,15 @@ namespace WMTA.Events
             //Pass error on to error page
             Server.Transfer("ErrorPage.aspx", true);
         }
+
+        protected void ddlStudent2_SelectedIndexChanged1(object sender, EventArgs e)
+        {
+            lblStudent2Id.Text = ddlStudent2.SelectedValue;
+        }
+
+        protected void ddlStudent1_SelectedIndexChanged1(object sender, EventArgs e)
+        {
+            lblStudent1Id.Text = ddlStudent1.SelectedValue;
+        }
     }
 }
