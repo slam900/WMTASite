@@ -159,13 +159,13 @@ namespace WMTA.Reporting
         {
             //get selected teacher
             int teacherId = 0;
-            if (ddlTeacher.SelectedIndex > 0)
+            if (ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals(""))
             {
                 teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
             }
 
             int districtId = 0;
-            if (ddlDistrictSearch.SelectedIndex > 0)
+            if (ddlDistrictSearch.SelectedIndex >= 0 && !ddlDistrictSearch.SelectedValue.Equals(""))
             {
                 districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
             }

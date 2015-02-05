@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="ddlTimes" CssClass="col-md-3 control-label">Time</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:DropDownList ID="ddlTimes" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true"">
+                                        <asp:DropDownList ID="ddlTimes" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" >
                                             <asp:ListItem Selected="True" Text="" Value="" />
                                         </asp:DropDownList>
                                     </div>
@@ -111,7 +111,7 @@
             <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
             <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
         </ContentTemplate>
-    </asp:UpdatePanel>
+</asp:UpdatePanel>
     <script>
         //show an error message
         function showMainError() {

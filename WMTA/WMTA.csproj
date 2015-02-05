@@ -274,6 +274,7 @@
     <Content Include="Resource Files\Ovation Users Guide - 2015 Teacher-Judge.pdf" />
     <Content Include="Resource Files\Keyboard Repertoire Leveling Guideline.pdf" />
     <Content Include="Resource Files\ComposersTableLastName2014.pdf" />
+    <Content Include="Resource Files\WMTAChairsAddresses2015.pdf" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

@@ -1319,7 +1319,7 @@ public partial class DbInterfaceStudentAudition
                 cmd.Parameters.AddWithValue("@studentId", student.id);
                 cmd.Parameters.AddWithValue("@year", year);
                 cmd.Parameters.AddWithValue("@grade", student.grade);
-                cmd.Parameters.AddWithValue("@theoryLevel", audition.theoryLevel);
+                cmd.Parameters.AddWithValue("@theoryLevel", DbInterfaceStudent.GetTheoryLevel(student.id));
                 cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
                 cmd.Parameters.AddWithValue("@instrument", audition.instrument);
                 cmd.Parameters.AddWithValue("@accompanist", audition.hasAccompanist());
@@ -1431,7 +1431,7 @@ public partial class DbInterfaceStudentAudition
                 cmd.Parameters.AddWithValue("@auditionId", partnersId);
                 cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
                 cmd.Parameters.AddWithValue("@grade", student.grade);
-                cmd.Parameters.AddWithValue("@theoryLevel", audition.theoryLevel);
+                cmd.Parameters.AddWithValue("@theoryLevel", DbInterfaceStudent.GetTheoryLevel(student.id));
                 cmd.Parameters.AddWithValue("@instrument", audition.instrument);
                 cmd.Parameters.AddWithValue("@accompanist", audition.hasAccompanist());
                 cmd.Parameters.AddWithValue("@accompanistName", audition.accompanist);
@@ -1523,7 +1523,7 @@ public partial class DbInterfaceStudentAudition
             cmd.Parameters.AddWithValue("@auditionId", partnersId);
             cmd.Parameters.AddWithValue("@auditionOrgId", audition.auditionOrgId);
             cmd.Parameters.AddWithValue("@grade", student.grade);
-            cmd.Parameters.AddWithValue("@theoryLevel", audition.districtAudition.theoryLevel);
+            cmd.Parameters.AddWithValue("@theoryLevel", DbInterfaceStudent.GetTheoryLevel(partnersId));
             cmd.Parameters.AddWithValue("@instrument", audition.districtAudition.instrument);
             cmd.Parameters.AddWithValue("@accompanist", audition.districtAudition.hasAccompanist());
             cmd.Parameters.AddWithValue("@accompanistName", audition.districtAudition.accompanist);
@@ -1601,7 +1601,7 @@ public partial class DbInterfaceStudentAudition
             cmd.Parameters.AddWithValue("@studentId", student.id);
             cmd.Parameters.AddWithValue("@year", year);
             cmd.Parameters.AddWithValue("@grade", student.grade);
-            cmd.Parameters.AddWithValue("@theoryLevel", audition.districtAudition.theoryLevel);
+            cmd.Parameters.AddWithValue("@theoryLevel", DbInterfaceStudent.GetTheoryLevel(student.id));
             cmd.Parameters.AddWithValue("@auditionOrgId", audition.auditionOrgId);
             cmd.Parameters.AddWithValue("@instrument", audition.instrument);
             cmd.Parameters.AddWithValue("@accompanist", audition.districtAudition.hasAccompanist());

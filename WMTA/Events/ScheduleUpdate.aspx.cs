@@ -139,14 +139,54 @@ namespace WMTA.Events
             return hour + ":" + minutes + " " + amPm;
         }
 
+        /*
+         * Pre:
+         * Post: Load the current times of the selected judge or clear the times if no judge is selected
+         */
         protected void ddlAuditionJudges_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // load judge's times
+            ddlTimes.Items.Clear();
+            ddlTimes.Items.Add(new ListItem("", ""));
+
+            if (ddlAuditionJudges.SelectedIndex > 0)
+            {
+                int judgeId = Convert.ToInt32(ddlAuditionJudges.SelectedValue);
+
+                List<Tuple<int, string>> judgeTimes = DbInterfaceScheduling.LoadJudgeTimes(judgeId, Convert.ToInt32(lblAuditionId.Text));
+
+                foreach (Tuple<int, string> time in judgeTimes)
+                {
+                    ddlTimes.Items.Add(new ListItem(time.Item2, time.Item1.ToString()));
+                }
+            }
         }
 
+        /*
+         * Pre:
+         * Post: Switch the selected audition to the chosen time and update the schedule table
+         */
         protected void btnMoveAudition_Click(object sender, EventArgs e)
         {
+            int auditionId = -1;
 
+            // Make sure an audition id, judge, and time slot are selected
+            if (!txtAuditionId.Text.Equals("") && Int32.TryParse(txtAuditionId.Text, out auditionId) && ddlAuditionJudges.SelectedIndex > 0 && ddlTimes.SelectedIndex > 0)
+            {
+                int judgeId = Convert.ToInt32(ddlAuditionJudges.SelectedValue);
+                int auditionIdToSwitchWith = Convert.ToInt32(ddlTimes.SelectedValue);
+
+                DataTable schedule = (DataTable)Session[scheduleData];
+
+
+            }
+            else if (auditionId == -1)
+            {
+                showWarningMessage("Please select an audition to move.");
+            }
+            else if (ddlAuditionJudges.SelectedIndex <= 0 || ddlTimes.SelectedIndex <= 0)
+            {
+                showWarningMessage("Please select a judge and time slot to move the selected audition to.");
+            }
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

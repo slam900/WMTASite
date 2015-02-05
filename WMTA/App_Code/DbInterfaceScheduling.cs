@@ -751,4 +751,50 @@ public class DbInterfaceScheduling
 
         return table;
     }
+
+    /*
+     * Pre:
+     * Post: Returns a list of the judges times with the corresponding audition id
+     */
+    public static List<Tuple<int, string>> LoadJudgeTimes(int judgeId, int auditionOrgId)
+    {
+        List<Tuple<int, string>> judgeTimes = new List<Tuple<int, string>>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_JudgeEventTimesSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@judgeId", judgeId);
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int auditionId = Convert.ToInt32(table.Rows[i]["AuditionId"]);
+                string time = table.Rows[i]["Start_Time"].ToString();
+
+                judgeTimes.Add(new Tuple<int, string>(auditionId, time));
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "LoadJudgeTimes", "judgeId: " + judgeId + ", auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            judgeTimes = new List<Tuple<int, string>>();
+        }
+
+        connection.Close();
+
+        return judgeTimes;
+    }
 }

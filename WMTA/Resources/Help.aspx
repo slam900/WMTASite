@@ -21,6 +21,9 @@
                                 <label class="resource-note"><b>Note:</b> Some composers may be considered to be in more than one time period.  Based on historical acceptance and decisions made by the composition committee, please refer to what is designated in the above composer list; or to what is already assigned to a specific composition in the Ovation database.</label>
                             </div>
                         </div>
+                        <div class="resource">
+                            <a href="../Resource Files/WMTAChairsAddresses2015.pdf" target="_blank">2015 WMTA District Chair Addresses</a>
+                        </div>
                     </div>
                     <hr />
                     <div class="help-site-group">

@@ -90,7 +90,7 @@ namespace WMTA.Reporting
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("RegistrationReport", rptRegistration, auditionOrgId, teacherId);
+                createReport("RegistrationReport_V2", rptRegistration, auditionOrgId, teacherId);
             }
             else
             {
