@@ -837,6 +837,7 @@ namespace WMTA.Events
             {
                 pnlComposer.Visible = false;
                 ddlComposer.Visible = true;
+                chkNewTitle.Checked = false;
             }
         }
 
@@ -1334,9 +1335,12 @@ namespace WMTA.Events
                 if (composition != null)
                 {
                     ddlStyle.Text = composition.style;
-                    txtCompLevel.Text = composition.compLevel;
 
-                    ListItem item = ddlComposer.Items.FindByValue(composition.composer);
+                    ListItem item = ddlCompLevel.Items.FindByValue(composition.compLevel);
+                    if (item != null)
+                        ddlCompLevel.SelectedValue = composition.compLevel;
+
+                    item = ddlComposer.Items.FindByValue(composition.composer);
                     if (item != null)
                         ddlComposer.SelectedValue = composition.composer;
 
@@ -1486,7 +1490,7 @@ namespace WMTA.Events
                 {
                     length = Convert.ToDouble(txtMinutes.Text) + Convert.ToDouble(ddlSeconds.SelectedValue);
 
-                    composition = new Composition(txtComposition.Text, composer, ddlStyle.Text, "", length);
+                    composition = new Composition(txtComposition.Text, composer, ddlStyle.Text, ddlCompLevel.SelectedValue, length);
 
                     if (composition.compositionId == -1)
                     {
@@ -1618,10 +1622,6 @@ namespace WMTA.Events
                 (ddlComposer.SelectedIndex < 1 && txtComposerLast.Text.Equals(""))))
             {
                 showWarningMessage("Please fill in all required fields.  If you do not wish to add a new composition, uncheck the 'New Composition' box.");
-                //lblCompositionError.Text = "Please select a style and level, enter a composition and " +    
-                //            "composition time, and make sure you have either selected an existing composer " +
-                //            "or entered a new one.  If you do not wish to add a new composition, uncheck " +
-                //            "the 'New Composition' box.";
                 valid = false;
             }
             else if (!chkNewTitle.Checked && (!commonDataEntered || ddlComposer.SelectedIndex < 1 ||
@@ -2391,23 +2391,21 @@ namespace WMTA.Events
         private void clearCompositionSearch()
         {
             ddlStyle.SelectedIndex = -1;
-            txtCompLevel.Text = "";
             ddlComposer.SelectedIndex = -1;
             ddlComposition.SelectedIndex = -1;
-            //ddlComposer.Visible = true;
-            //ddlComposition.Visible = true;
-            //txtComposition.Visible = false;
+            ddlComposer.Visible = true;
+            pnlComposer.Visible = false;
+            ddlComposition.Visible = true;
+            txtComposition.Visible = false;
             txtMinutes.Text = "";
             ddlSeconds.SelectedIndex = 0;
+            txtComposition.Text = "";
             txtComposerLast.Text = "";
             txtComposerFI.Text = "";
             txtComposerMI.Text = "";
             chkNewTitle.Checked = false;
             chkNewComposer.Checked = false;
-            //pnlComposer.Visible = false;
-            //ddlComposer.Visible = true;
-            //ddlComposition.Visible = true;
-            //txtComposition.Visible = false;
+            ddlCompLevel.SelectedIndex = 0;
 
             //reset the dropdowns with all data
             searchComposers("", "");
@@ -2470,7 +2468,7 @@ namespace WMTA.Events
             chkNewComposer.Visible = false;
             ddlComposition.Enabled = false;
             chkNewTitle.Visible = false;
-            txtCompLevel.Enabled = false;
+            ddlCompLevel.Enabled = false;
             btnAddComposition.Enabled = false;
             txtMinutes.Enabled = false;
             ddlSeconds.Enabled = false;

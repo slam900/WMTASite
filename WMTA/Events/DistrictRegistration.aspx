@@ -278,8 +278,7 @@
                                                     </div>
                                                     <asp:SqlDataSource ID="WmtaDataSource5" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposer" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 </div>
-                                                <asp:Panel ID="pnlComposer" runat="server" CssClass="display-none">
-                                                    <%--Visible="false"--%>
+                                                <asp:Panel ID="pnlComposer" runat="server" Visible="false">
                                                     <div class="form-group" style="font-size: smaller">
                                                         <asp:Label runat="server" AssociatedControlID="txtComposerLast" CssClass="col-md-3 control-label float-left">Last Name</asp:Label>
                                                         <div class="col-md-6">
@@ -307,18 +306,21 @@
                                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                         </asp:DropDownList>
                                                         <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                                        <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control" Visible="false" />
                                                     </div>
-                                                    <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control display-none" />
-                                                    <%--Visible="false"--%>
                                                     <asp:CheckBox ID="chkNewTitle" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewTitle_CheckedChanged" AutoPostBack="true" />
                                                     <div>
-                                                        <asp:RequiredFieldValidator ID="rfvComposition" runat="server" ControlToValidate="ddlComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" ValidationGroup="NewComposition" /><br />
+                                                        <asp:RequiredFieldValidator ID="rfvComposition" runat="server" ControlToValidate="txtComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" ValidationGroup="NewComposition" /><br />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <asp:Label runat="server" AssociatedControlID="txtCompLevel" CssClass="col-md-3 control-label float-left">Level</asp:Label>
+                                                    <asp:Label runat="server" AssociatedControlID="ddlCompLevel" CssClass="col-md-3 control-label float-left">Level</asp:Label>
                                                     <div class="col-md-6">
-                                                        <asp:TextBox runat="server" ID="txtCompLevel" CssClass="form-control small-txtbx-width" />
+                                                        <%--<asp:TextBox runat="server" ID="txtCompLevel" CssClass="form-control small-txtbx-width" />--%>
+                                                        <asp:DropDownList ID="ddlCompLevel" runat="server" CssClass="dropdown-list form-control" DataSourceID="WmtaDataSource7" DataTextField="Description" DataValueField="CompLevelId" AppendDataBoundItems="true">
+                                                            <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                                        </asp:DropDownList>
+                                                        <asp:SqlDataSource ID="WmtaDataSource7" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownCompLevel" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -407,16 +409,16 @@
                                                 <hr />
                                                 <asp:Panel ID="pnlCoordinateParticipants" runat="server" Visible="false">
                                                     <h4>Coordinating Students</h4>
-                                                        <div class="form-group">
-                                                            <asp:Table ID="tblCoordinates" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center">
-                                                                <asp:TableHeaderRow ID="TableHeaderRow2" runat="server" BorderStyle="Solid">
-                                                                    <asp:TableHeaderCell Scope="Column" Text="Id" />
-                                                                    <asp:TableHeaderCell Scope="Column" Text="First Name" />
-                                                                    <asp:TableHeaderCell Scope="Column" Text="Last Name" />
-                                                                    <asp:TableHeaderCell Scope="Column" Text="Reason" />
-                                                                </asp:TableHeaderRow>
-                                                            </asp:Table>
-                                                        </div>
+                                                    <div class="form-group">
+                                                        <asp:Table ID="tblCoordinates" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center">
+                                                            <asp:TableHeaderRow ID="TableHeaderRow2" runat="server" BorderStyle="Solid">
+                                                                <asp:TableHeaderCell Scope="Column" Text="Id" />
+                                                                <asp:TableHeaderCell Scope="Column" Text="First Name" />
+                                                                <asp:TableHeaderCell Scope="Column" Text="Last Name" />
+                                                                <asp:TableHeaderCell Scope="Column" Text="Reason" />
+                                                            </asp:TableHeaderRow>
+                                                        </asp:Table>
+                                                    </div>
                                                 </asp:Panel>
                                             </div>
                                         </ContentTemplate>
