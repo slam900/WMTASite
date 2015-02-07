@@ -20,4 +20,18 @@ public class ScheduleSlot
         Minutes = minutes;
         StartTime = startTime;
     }
+
+    /*
+     * Pre:
+     * Post: Two schedule slots are equal if they have the same audition id...in theory
+     */
+    public override bool Equals(object obj)
+    {
+        return AuditionId == ((ScheduleSlot)obj).AuditionId;
+    }
+
+    public override int GetHashCode()
+    {
+        return AuditionId.GetHashCode();
+    }
 }

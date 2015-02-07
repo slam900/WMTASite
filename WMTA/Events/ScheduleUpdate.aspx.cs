@@ -172,12 +172,13 @@ namespace WMTA.Events
             // Make sure an audition id, judge, and time slot are selected
             if (!txtAuditionId.Text.Equals("") && Int32.TryParse(txtAuditionId.Text, out auditionId) && ddlAuditionJudges.SelectedIndex > 0 && ddlTimes.SelectedIndex > 0)
             {
+                int auditionOrgIdOfAuditionToSwitch = DbInterfaceStudentAudition.GetAuditionOrgIdByStudentAudition(auditionId);
                 int judgeId = Convert.ToInt32(ddlAuditionJudges.SelectedValue);
-                int auditionIdToSwitchWith = Convert.ToInt32(ddlTimes.SelectedValue);
 
-                DataTable schedule = (DataTable)Session[scheduleData];
+                EventSchedule fullSchedule = DbInterfaceScheduling.LoadScheduleData(auditionOrgIdOfAuditionToSwitch);
+                fullSchedule.MoveAudition(auditionId, Convert.ToInt32(ddlTimes.SelectedValue), judgeId);
 
-
+                //DataTable schedule = (DataTable)Session[scheduleData];
             }
             else if (auditionId == -1)
             {

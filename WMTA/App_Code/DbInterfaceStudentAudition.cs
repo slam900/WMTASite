@@ -1821,6 +1821,46 @@ public partial class DbInterfaceStudentAudition
     }
 
     /*
+     * Pre:
+     * Post: Returns the audition org id associated with the input student audition
+     */
+    public static int GetAuditionOrgIdByStudentAudition(int auditionId)
+    {
+        int auditionOrgId = -1;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionOrgIdSelectByStudentAuditionId";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentAuditionId", auditionId);
+
+            adapter.Fill(table);
+
+            //if a result was returned the audition has been created
+            if (table.Rows.Count == 1)
+                auditionOrgId = Convert.ToInt32(table.Rows[0]["AuditionOrgId"]);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "GetAuditionOrgIdByStudentAudition", "auditionId: " + auditionId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return auditionOrgId;
+    }
+
+    /*
      * Pre:  The audition must already exist in the system
      * Post: The composition for the audition are entered into the database
      * @param auditionId is the unique identifier of the audition

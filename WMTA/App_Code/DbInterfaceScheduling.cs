@@ -754,6 +754,99 @@ public class DbInterfaceScheduling
 
     /*
      * Pre:
+     * Post: Returns the information of an event's schedule
+     */
+    public static EventSchedule LoadScheduleData(int auditionOrgId)
+    {
+        EventSchedule schedule = new EventSchedule();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_EventScheduleDataSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int auditionId = Convert.ToInt32(table.Rows[i]["Audition Id"]);
+                TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["Start Time"].ToString());
+                int length = Convert.ToInt32(table.Rows[i]["Minutes"]);
+                int judgeId = Convert.ToInt32(table.Rows[i]["ContactId"]);
+                string judgeName = table.Rows[i]["Judge Name"].ToString();
+
+                schedule.Add(auditionId, judgeId, judgeName, length, startTime);
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "LoadScheduleData", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return schedule;
+    }
+
+    /*
+     * Pre:  The input audition must have been scheduled
+     * Post: Returns the schedule information for the input audition
+     */
+    public static ScheduleSlot LoadScheduleSlot(int auditionId)
+    {
+        ScheduleSlot slot = null;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_ScheduleSlotSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionId);
+
+            adapter.Fill(table);
+
+            if (table.Rows.Count == 1)
+            {
+                int length = Convert.ToInt32(table.Rows[0]["Minutes"]);
+                TimeSpan startTime = TimeSpan.Parse(table.Rows[0]["AuditionStartTime"].ToString());
+                int judgeId = Convert.ToInt32(table.Rows[0]["JudgeId"]);
+
+                slot = new ScheduleSlot(auditionId, judgeId, "", length, startTime);
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "LoadScheduleSlot", "auditionId: " + auditionId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            slot = null;
+        }
+
+        connection.Close();
+
+        return slot;
+    }
+
+    /*
+     * Pre:
      * Post: Returns a list of the judges times with the corresponding audition id
      */
     public static List<Tuple<int, string>> LoadJudgeTimes(int judgeId, int auditionOrgId)
