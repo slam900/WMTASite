@@ -44,6 +44,10 @@
     margin-right: 5px;
 }
 
+.margin-right-15px {
+    margin-right: 15px;
+}
+
 .col-md-3-margin {
     margin-left: 25%;
 }
@@ -135,6 +139,10 @@
 
 .small-txtbx-width {
     width: 60px !important;
+}
+
+.medium-txtbx-width {
+    width: 90px !important;
 }
 
 .dropdown-list {

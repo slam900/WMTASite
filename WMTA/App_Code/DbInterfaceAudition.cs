@@ -474,58 +474,58 @@ public partial class DbInterfaceAudition
      * @param id is the id of the audition whose information is being requested
      * @return the audition's information in the form of an Audition object
      */
-    public static Audition LoadAuditionDataWithSchedule(int id)
-    {
-        Audition audition = LoadAuditionData(id);
-        DataTable table = new DataTable();
-        SqlConnection connection = new
-            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+    //public static Audition LoadAuditionDataWithSchedule(int id)
+    //{
+    //    Audition audition = LoadAuditionData(id);
+    //    DataTable table = new DataTable();
+    //    SqlConnection connection = new
+    //        SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
 
-        try
-        {
-            connection.Open();
-            string storedProc = "sp_AuditionEventScheduleSelect";
+    //    try
+    //    {
+    //        connection.Open();
+    //        string storedProc = "sp_AuditionEventScheduleSelect";
 
-            SqlCommand cmd = new SqlCommand(storedProc, connection);
+    //        SqlCommand cmd = new SqlCommand(storedProc, connection);
 
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            cmd.CommandType = CommandType.StoredProcedure;
+    //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+    //        cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@auditionId", id);
+    //        cmd.Parameters.AddWithValue("@auditionId", id);
 
-            adapter.Fill(table);
+    //        adapter.Fill(table);
 
-            EventSchedule schedule = new EventSchedule();
-            for (int i = 0; i < table.Rows.Count; i++)
-            {
-                int auditionId = -1, minutes = -1, judgeId = -1;
-                TimeSpan startTime = TimeSpan.MinValue;
-                if (!table.Rows[i]["AuditionId"].ToString().Equals(""))
-                    auditionId = Convert.ToInt32(table.Rows[i]["AuditionId"]);
-                if (!table.Rows[i]["Minutes"].ToString().Equals(""))
-                    minutes = Convert.ToInt32(table.Rows[i]["Minutes"]);
-                if (!table.Rows[i]["JudgeId"].ToString().Equals(""))
-                    auditionId = Convert.ToInt32(table.Rows[i]["JudgeId"]);
-                if (!table.Rows[i]["AuditionStartTime"].ToString().Equals(""))
-                    startTime = TimeSpan.Parse(table.Rows[i]["AuditionStartTime"].ToString());
-                string judgeName = table.Rows[i]["JudgeName"].ToString();
+    //        EventSchedule schedule = new EventSchedule();
+    //        for (int i = 0; i < table.Rows.Count; i++)
+    //        {
+    //            int auditionId = -1, minutes = -1, judgeId = -1;
+    //            TimeSpan startTime = TimeSpan.MinValue;
+    //            if (!table.Rows[i]["AuditionId"].ToString().Equals(""))
+    //                auditionId = Convert.ToInt32(table.Rows[i]["AuditionId"]);
+    //            if (!table.Rows[i]["Minutes"].ToString().Equals(""))
+    //                minutes = Convert.ToInt32(table.Rows[i]["Minutes"]);
+    //            if (!table.Rows[i]["JudgeId"].ToString().Equals(""))
+    //                auditionId = Convert.ToInt32(table.Rows[i]["JudgeId"]);
+    //            if (!table.Rows[i]["AuditionStartTime"].ToString().Equals(""))
+    //                startTime = TimeSpan.Parse(table.Rows[i]["AuditionStartTime"].ToString());
+    //            string judgeName = table.Rows[i]["JudgeName"].ToString();
 
-                schedule.Add(auditionId, judgeId, judgeName, minutes, startTime);
-            }
+    //            schedule.Add(auditionId, judgeId, judgeName, minutes, startTime);
+    //        }
 
-            audition.Schedule = schedule;  
-        }
-        catch (Exception e)
-        {
-            Utility.LogError("DbInterfaceAudition", "LoadAuditionDataWithSchedule", "id: " + id, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+    //        audition.Schedule = schedule;  
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Utility.LogError("DbInterfaceAudition", "LoadAuditionDataWithSchedule", "id: " + id, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
 
-            audition = null;
-        }
+    //        audition = null;
+    //    }
 
-        connection.Close();
+    //    connection.Close();
 
-        return audition;
-    }
+    //    return audition;
+    //}
 
     /*
      * Pre:

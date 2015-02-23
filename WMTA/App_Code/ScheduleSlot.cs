@@ -10,15 +10,27 @@ public class ScheduleSlot
     public string JudgeName { get; set; } // If need more judge data can change this to a Judge object
     public int Minutes { get; set; }
     public TimeSpan StartTime { get; set; }
-    public string StudentName { get; set; } // optional
+    public int StudentId { get; set; }
+    public string StudentName { get; set; }     // optional
+    public string TimePreference { get; set; }  // optional
+    public string Grade { get; set; } // optional
+    public string AuditionType { get; set; } //optional
+    public string AuditionTrack { get; set; } //optional
 
-    public ScheduleSlot(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime)
+    public ScheduleSlot(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime, string timePref, 
+        string grade, string audType, string audTrack, string studentName, int studentId)
     {
         AuditionId = auditionId;
         JudgeId = judgeId;
         JudgeName = judgeName;
         Minutes = minutes;
         StartTime = startTime;
+        TimePreference = timePref;
+        Grade = grade;
+        AuditionType = audType;
+        AuditionTrack = audTrack;
+        StudentName = studentName;
+        StudentId = studentId;
     }
 
     /*

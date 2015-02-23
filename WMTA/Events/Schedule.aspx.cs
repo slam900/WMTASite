@@ -122,6 +122,18 @@ namespace WMTA.Events
         }
 
         /*
+         * Pre:
+         * Post: Commit the created schedule and show a message saying it has been commited
+         */
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            if (DbInterfaceScheduling.CommitSchedule(Convert.ToInt32(lblAuditionId.Text)))
+                showSuccessMessage("The schedule was successfully committed");
+            else
+                showErrorMessage("The schedule could not be committed");
+        }
+
+        /*
          * Pre:  The AuditionId field must be empty or contain an integer
          * Post: Auditions the match the search criteria are displayed
          */

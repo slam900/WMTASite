@@ -717,6 +717,43 @@ public class DbInterfaceScheduling
     }
 
     /*
+     * Pre:  Schedule must have been created and saved in TempAuditionSchedule
+     * Post: Schedule from TempAuditionSchedule is saved in the audition data
+     */
+    public static bool CommitSchedule(int auditionOrgId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionDistrictScheduleCommit";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "CreateSchedule", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
      * Pre:
      * Post: Returns a data table containing the event's schedule
      */
@@ -729,7 +766,7 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_EventScheduleSelect";
+            string storedProc = "sp_EventScheduleSelect"; // EventScheduleSelect copies data from DataStudentAuditionHistory to TempAuditionSchedule
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
@@ -780,12 +817,17 @@ public class DbInterfaceScheduling
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 int auditionId = Convert.ToInt32(table.Rows[i]["Audition Id"]);
+                int studentId = Convert.ToInt32(table.Rows[i]["Student Id"]);
+                string grade = table.Rows[i]["Grade"].ToString();
+                string audType = table.Rows[i]["Type"].ToString();
+                string audTrack = table.Rows[i]["Track"].ToString();
                 TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["Start Time"].ToString());
-                int length = Convert.ToInt32(table.Rows[i]["Minutes"]);
-                int judgeId = Convert.ToInt32(table.Rows[i]["ContactId"]);
+                int length = Convert.ToInt32(table.Rows[i]["Audition Length"]);
+                int judgeId = Convert.ToInt32(table.Rows[i]["Judge Id"]);
                 string judgeName = table.Rows[i]["Judge Name"].ToString();
+                string timePref = table.Rows[i]["Time Preference"].ToString();
 
-                schedule.Add(auditionId, judgeId, judgeName, length, startTime);
+                schedule.Add(auditionId, judgeId, judgeName, length, startTime, timePref, grade, audType, audTrack, "", studentId);
             }
         }
         catch (Exception e)
@@ -803,9 +845,55 @@ public class DbInterfaceScheduling
      * Pre:  The input audition must have been scheduled
      * Post: Returns the schedule information for the input audition
      */
-    public static ScheduleSlot LoadScheduleSlot(int auditionId)
+    //public static ScheduleSlot LoadScheduleSlot(int auditionId)
+    //{
+    //    ScheduleSlot slot = null;
+    //    DataTable table = new DataTable();
+    //    SqlConnection connection = new
+    //        SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+    //    try
+    //    {
+    //        connection.Open();
+    //        string storedProc = "sp_ScheduleSlotSelect";
+
+    //        SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+    //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+    //        cmd.CommandType = CommandType.StoredProcedure;
+
+    //        cmd.Parameters.AddWithValue("@auditionId", auditionId);
+
+    //        adapter.Fill(table);
+
+    //        if (table.Rows.Count == 1)
+    //        {
+    //            int length = Convert.ToInt32(table.Rows[0]["Minutes"]);
+    //            TimeSpan startTime = TimeSpan.Parse(table.Rows[0]["AuditionStartTime"].ToString());
+    //            int judgeId = Convert.ToInt32(table.Rows[0]["JudgeId"]);
+
+    //            slot = new ScheduleSlot(auditionId, judgeId, "", length, startTime);
+    //        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Utility.LogError("DbInterfaceScheduling", "LoadScheduleSlot", "auditionId: " + auditionId,
+    //                         "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+    //        slot = null;
+    //    }
+
+    //    connection.Close();
+
+    //    return slot;
+    //}
+
+    /*
+     * Pre:
+     * Post: Update the schedule information for each schedule slot
+     */
+    public static bool UpdateSchedule(EventSchedule schedule)
     {
-        ScheduleSlot slot = null;
+        bool success = true;
         DataTable table = new DataTable();
         SqlConnection connection = new
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
@@ -813,36 +901,32 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_ScheduleSlotSelect";
+            string storedProc = "sp_ScheduleSlotUpdate";
 
-            SqlCommand cmd = new SqlCommand(storedProc, connection);
-
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            cmd.Parameters.AddWithValue("@auditionId", auditionId);
-
-            adapter.Fill(table);
-
-            if (table.Rows.Count == 1)
+            foreach (ScheduleSlot slot in schedule.ScheduleSlots)
             {
-                int length = Convert.ToInt32(table.Rows[0]["Minutes"]);
-                TimeSpan startTime = TimeSpan.Parse(table.Rows[0]["AuditionStartTime"].ToString());
-                int judgeId = Convert.ToInt32(table.Rows[0]["JudgeId"]);
+                SqlCommand cmd = new SqlCommand(storedProc, connection);
 
-                slot = new ScheduleSlot(auditionId, judgeId, "", length, startTime);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@auditionId", slot.AuditionId);
+                cmd.Parameters.AddWithValue("@startTime", slot.StartTime);
+                cmd.Parameters.AddWithValue("@length", slot.Minutes);
+                cmd.Parameters.AddWithValue("@judgeId", slot.JudgeId);
+
+                adapter.Fill(table);
             }
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceScheduling", "LoadScheduleSlot", "auditionId: " + auditionId,
-                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            slot = null;
+            Utility.LogError("DbInterfaceScheduling", "UpdateSchedule", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
         }
 
         connection.Close();
 
-        return slot;
+        return success;
     }
 
     /*

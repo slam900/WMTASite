@@ -79,6 +79,9 @@
                                 </h4>
                                 <hr />
                                 <div class="form-group">
+                                    <asp:Button ID="btnSave" Text="Save Schedule" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSave_Click" />
+                                </div>
+                                <div class="form-group">
                                     <div class="col-md-12 center">
                                         <asp:GridView ID="gvSchedule" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvSchedule_PageIndexChanging" OnRowDataBound="gvSchedule_RowDataBound" />
                                     </div>

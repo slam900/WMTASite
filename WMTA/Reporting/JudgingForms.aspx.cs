@@ -87,13 +87,14 @@ namespace WMTA.Reporting
             if (auditionOrgId != -1)
             {
                 int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
+                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId, teacherId);
-                createReport("KeyboardJudgingForm", rptKeyboardForm, auditionOrgId, teacherId);
-                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId);
-                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId, teacherId);
+                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
+                createReport("KeyboardJudgingForm", rptKeyboardForm, auditionOrgId, teacherId, districtId);
+                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
+                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
             }
             else
             {
@@ -105,7 +106,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int districtId)
         {
             try
             {
@@ -122,6 +123,7 @@ namespace WMTA.Reporting
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
                 parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+                parameters.Add(new ReportParameter("districtId", districtId.ToString()));
 
                 rptViewer.ServerReport.SetParameters(parameters);
 

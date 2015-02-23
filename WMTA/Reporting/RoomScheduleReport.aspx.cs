@@ -118,7 +118,7 @@ namespace WMTA.Reporting
                 //set parameters
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+                //parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
 
                 rptViewer.ServerReport.SetParameters(parameters);
 

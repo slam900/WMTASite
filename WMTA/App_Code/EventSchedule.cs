@@ -17,11 +17,21 @@ public class EventSchedule
         ScheduleSlots = new List<ScheduleSlot>();
     }
 
-    public void Add(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime)
+    public void Add(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime, 
+        string timePref, string grade, string audType, string audTrack, string studentName, int studentId)
     {
-        ScheduleSlot slot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime);
+        ScheduleSlot slot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime, timePref, grade, audType, audTrack, studentName, studentId);
 
         ScheduleSlots.Add(slot);
+    }
+
+    /*
+     * Pre:  All audition schedule slots must exist in the database
+     * Post: Commit the updated schedule to the database
+     */
+    public bool UpdateSchedule()
+    {
+        return DbInterfaceScheduling.UpdateSchedule(this);
     }
 
     public void MoveAudition(int idToSwitch, int idToSwitchWith, Audition audition)
@@ -85,7 +95,7 @@ public class EventSchedule
         ShiftAuditionsLater(auditionToSwitchWith.StartTime, auditionToSwitch.StartTime.Subtract(TimeSpan.FromMinutes(1)), auditionToSwitch.Minutes, audition, auditionToSwitchWith.JudgeId);
 
         //move audition to it's new spot
-        ScheduleSlots.Where(s => s.AuditionId == auditionToSwitchWith.AuditionId).FirstOrDefault().StartTime = newTime;
+        ScheduleSlots.Where(s => s.AuditionId == auditionToSwitch.AuditionId).FirstOrDefault().StartTime = newTime;
     }
 
     //private void MoveAuditionsEarlierWithDifferentJudge(ScheduleSlot auditionToSwitch, ScheduleSlot auditionToSwitchWith, Audition audition)

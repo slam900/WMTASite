@@ -13,6 +13,7 @@ namespace WMTA.Events
     {
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
         private string scheduleData = "ScheduleData";
+        private string eventSchedule = "EventSchedule";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,6 +23,7 @@ namespace WMTA.Events
 
                 Session[auditionSearch] = null;
                 Session[scheduleData] = null;
+                Session[eventSchedule] = null;
                 loadYearDropdown();
                 loadDistrictDropdown();
             }
@@ -127,7 +129,7 @@ namespace WMTA.Events
         private string FormatTime(TimeSpan time)
         {
             int hour = time.Hours;
-            int minutes = time.Minutes;
+            string minutes = time.Minutes.ToString();
             string amPm = "AM";
 
             if (hour > 12)
@@ -135,6 +137,10 @@ namespace WMTA.Events
                 hour = hour - 12;
                 amPm = "PM";
             }
+
+            // Add 0 in front of single-digit minutes
+            if (minutes.Length == 1)
+                minutes = "0" + minutes;
 
             return hour + ":" + minutes + " " + amPm;
         }
@@ -178,7 +184,38 @@ namespace WMTA.Events
                 EventSchedule fullSchedule = DbInterfaceScheduling.LoadScheduleData(auditionOrgId);
                 fullSchedule.MoveAudition(auditionId, Convert.ToInt32(ddlTimes.SelectedValue), audition);
 
-                //DataTable schedule = (DataTable)Session[scheduleData];
+                // Update auditions in the schedule table
+                DataTable schedule = (DataTable)Session[scheduleData];
+                for (int i = 0; i < schedule.Rows.Count; i++)
+                {
+                    string audId = schedule.Rows[i]["Audition Id"].ToString();
+                    ScheduleSlot slot = fullSchedule.ScheduleSlots.Where(s => s.AuditionId.ToString().Equals(audId)).FirstOrDefault();
+
+                    // Update start time and judges in table
+                    if (slot != null)
+                    {
+                        schedule.Rows[i]["Start Time"] = slot.StartTime;
+                        schedule.Rows[i]["Judge Name"] = slot.JudgeName;
+                        schedule.Rows[i]["Judge Id"] = slot.JudgeId;
+                        schedule.Rows[i]["Grade"] = slot.Grade;
+                        schedule.Rows[i]["Type"] = slot.AuditionType;
+                        schedule.Rows[i]["Track"] = slot.AuditionTrack;
+                        schedule.Rows[i]["Time Preference"] = slot.TimePreference;
+                        schedule.Rows[i]["Student Id"] = slot.StudentId;
+                        schedule.Rows[i]["Audition Length"] = slot.Minutes;
+                    }
+                }
+
+                // Sort the table
+                DataView dataView = schedule.DefaultView;
+                dataView.Sort = "Judge Name ASC, Start Time ASC"; 
+                schedule = dataView.ToTable();
+
+                gvSchedule.DataSource = schedule;
+                gvSchedule.DataBind();
+
+                Session[scheduleData] = schedule;
+                Session[eventSchedule] = fullSchedule;
             }
             else if (auditionId == -1)
             {
@@ -190,14 +227,20 @@ namespace WMTA.Events
             }
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        /*
+         * Pre:
+         * Post: Commit the updated schedule and show a message saying it has been commited
+         */
+        protected void btnSave_Click(object sender, EventArgs e)
         {
+            EventSchedule fullSchedule = (EventSchedule)Session[eventSchedule];
 
-        }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("../Default.aspx");
+            if (fullSchedule != null && fullSchedule.UpdateSchedule())
+            {
+                showSuccessMessage("The schedule was successfully updated");
+            }
+            else
+                showErrorMessage("The schedule could not be updated");
         }
 
         /*
@@ -295,7 +338,7 @@ namespace WMTA.Events
                 upAuditionSearch.Visible = false;
                 upSelectAudition.Visible = true;
                 upViewSchedule.Visible = true;
-                pnlButtons.Visible = true;
+                //pnlButtons.Visible = true;
 
                 int year = DateTime.Today.Year;
                 if (DateTime.Today.Month >= 6 && !Utility.reportSuffix.Equals("Test"))
@@ -314,7 +357,7 @@ namespace WMTA.Events
                 upAuditionSearch.Visible = false;
                 upSelectAudition.Visible = true;
                 upViewSchedule.Visible = true;
-                pnlButtons.Visible = true;
+                //pnlButtons.Visible = true;
 
                 int index = gvAuditionSearch.SelectedIndex;
 
@@ -356,7 +399,7 @@ namespace WMTA.Events
             }
             else
             {
-                showErrorMessage("Error: The schedule could not be loaded.  Please make sure you have created it.");
+                showErrorMessage("Error: The schedule could not be loaded.  Please make sure it has been created and saved.");
                 Session[scheduleData] = null;
             }
         }
@@ -373,7 +416,7 @@ namespace WMTA.Events
                 //Load each judge to the dropdown
                 foreach (Judge judge in judges)
                 {
-                    ddlAuditionJudges.Items.Add(new ListItem(judge.lastName + ", " + judge.firstName, judge.id.ToString()));
+                    ddlAuditionJudges.Items.Add(new ListItem(judge.id + ": " + judge.lastName + ", " + judge.firstName, judge.id.ToString()));
                 }
             }
             catch (Exception e)
@@ -530,5 +573,6 @@ namespace WMTA.Events
             Server.Transfer("ErrorPage.aspx", true);
         }
         #endregion Messages
+
     }
 }

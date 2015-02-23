@@ -51,7 +51,7 @@
                                 <div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="txtAuditionId" CssClass="col-md-3 control-label">Id</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="txtAuditionId" CssClass="form-control small-txtbx-width float-left" />
+                                        <asp:TextBox runat="server" ID="txtAuditionId" CssClass="form-control medium-txtbx-width float-left" />
                                         <asp:Button ID="btnSelectAudition" Text="Search Id" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSelectAudition_Click" CausesValidation="false" />
                                     </div>
                                     <div style="margin-top: 50px" class="center text-align-center">
@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="ddlTimes" CssClass="col-md-3 control-label">Time</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:DropDownList ID="ddlTimes" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" >
+                                        <asp:DropDownList ID="ddlTimes" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                             <asp:ListItem Selected="True" Text="" Value="" />
                                         </asp:DropDownList>
                                     </div>
@@ -82,28 +82,23 @@
                                 </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>
-                        <asp:UpdatePanel ID="upViewSchedule" runat="server" Visible="false">
-                            <ContentTemplate>
+                    </div>
+                    <asp:UpdatePanel ID="upViewSchedule" runat="server" Visible="false">
+                        <ContentTemplate>
+                            <div class="well bs-component col-md-12 main-div center">
                                 <hr />
                                 <h4>Event Schedule</h4>
+                                <div class="form-group">
+                                    <asp:Button ID="btnSave" Text="Save Schedule" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSave_Click" />
+                                </div>
                                 <div class="form-group">
                                     <div class="col-md-12 center">
                                         <asp:GridView ID="gvSchedule" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvSchedule_PageIndexChanging" OnRowDataBound="gvSchedule_RowDataBound" />
                                     </div>
                                 </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                        <asp:UpdatePanel runat="server" ID="pnlButtons" Visible="false">
-                            <ContentTemplate>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2 float-right">
-                                        <asp:Button ID="btnCancel" Text="Cancel" runat="server" CssClass="btn btn-default float-right" OnClick="btnCancel_Click" />
-                                        <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
-                                    </div>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </section>
             <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
@@ -111,7 +106,7 @@
             <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
             <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
         </ContentTemplate>
-</asp:UpdatePanel>
+    </asp:UpdatePanel>
     <script>
         //show an error message
         function showMainError() {

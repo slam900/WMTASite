@@ -212,7 +212,7 @@ namespace WMTA.Events
             {
                 DataTable scheduleTable = DbInterfaceAudition.LoadEventScheduleDataTable(auditionId);
                 //load data to page
-                if (scheduleTable != null)
+                if (scheduleTable != null && scheduleTable.Rows.Count > 0)
                 {
                     gvSchedule.DataSource = scheduleTable;
                     gvSchedule.DataBind();
@@ -220,7 +220,7 @@ namespace WMTA.Events
                 }
                 else
                 {
-                    showErrorMessage("Error: The schedule information could not be loaded.");
+                    showErrorMessage("Error: The schedule information could not be loaded.  Please make sure that a schedule has been created and saved.");
                     Session[scheduleData] = null;
                 }
             }

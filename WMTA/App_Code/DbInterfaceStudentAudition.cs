@@ -2905,7 +2905,7 @@ public partial class DbInterfaceStudentAudition
                 Int32.TryParse(table.Rows[0]["Minutes"].ToString(), out minutes);
                 TimeSpan.TryParse(table.Rows[0]["AuditionStartTime"].ToString(), out startTime);
 
-                scheduleSlot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime);
+                scheduleSlot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime, "", "", "", "", "", -1);
                 scheduleSlot.StudentName = studentName;
             }
         }
