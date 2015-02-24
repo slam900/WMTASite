@@ -121,6 +121,8 @@ public class EventSchedule
 
     private void MoveAuditionWithDifferentJudge(ScheduleSlot auditionToSwitch, ScheduleSlot auditionToSwitchWith, Audition audition)
     {
+        TimeSpan newTime = auditionToSwitchWith.StartTime;
+
         // Shift all auditions in session/judge of slot being moved up to fill gap
         int session = GetNewAuditionSession(audition, auditionToSwitch.StartTime, auditionToSwitch.StartTime.Add(TimeSpan.FromMinutes(auditionToSwitch.Minutes)));
         TimeSpan endTime = audition.endTimeSession1;
@@ -137,7 +139,7 @@ public class EventSchedule
         ShiftAuditionsLater(auditionToSwitchWith.StartTime, TimeSpan.MaxValue, auditionToSwitch.Minutes, auditionToSwitchWith.JudgeId);
 
         // Change audition time and judge
-        ScheduleSlots.Where(s => s.AuditionId == auditionToSwitch.AuditionId).First().StartTime = auditionToSwitchWith.StartTime;
+        ScheduleSlots.Where(s => s.AuditionId == auditionToSwitch.AuditionId).First().StartTime = newTime;
         ScheduleSlots.Where(s => s.AuditionId == auditionToSwitch.AuditionId).First().JudgeId = auditionToSwitchWith.JudgeId;
         ScheduleSlots.Where(s => s.AuditionId == auditionToSwitch.AuditionId).First().JudgeName = auditionToSwitchWith.JudgeName;
     }

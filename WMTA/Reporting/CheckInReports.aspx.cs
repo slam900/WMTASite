@@ -91,8 +91,8 @@ namespace WMTA.Reporting
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("AuditionCheckIn", rptAuditionCheckIn, auditionOrgId, teacherId);
-                createReport("TheoryTestCheckIn", rptTheoryCheckIn, auditionOrgId, teacherId);
+                createReport("AuditionCheckIn", rptAuditionCheckIn, auditionOrgId);
+                createReport("TheoryTestCheckIn", rptTheoryCheckIn, auditionOrgId);
             }
             else
             {

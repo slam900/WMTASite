@@ -151,19 +151,24 @@ namespace WMTA.Events
          */
         protected void ddlAuditionJudges_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ddlAuditionJudges.SelectedIndex > 0)
+                LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
+        }
+
+        /*
+         * Pre:
+         * Post: Load the current times of the judge with the input id or clear the times if no judge is selected
+         */
+        private void LoadJudgeTimes(int judgeId)
+        {
             ddlTimes.Items.Clear();
             ddlTimes.Items.Add(new ListItem("", ""));
 
-            if (ddlAuditionJudges.SelectedIndex > 0)
+            List<Tuple<int, string>> judgeTimes = DbInterfaceScheduling.LoadJudgeTimes(judgeId, Convert.ToInt32(lblAuditionId.Text));
+
+            foreach (Tuple<int, string> time in judgeTimes)
             {
-                int judgeId = Convert.ToInt32(ddlAuditionJudges.SelectedValue);
-
-                List<Tuple<int, string>> judgeTimes = DbInterfaceScheduling.LoadJudgeTimes(judgeId, Convert.ToInt32(lblAuditionId.Text));
-
-                foreach (Tuple<int, string> time in judgeTimes)
-                {
-                    ddlTimes.Items.Add(new ListItem(time.Item2, time.Item1.ToString()));
-                }
+                ddlTimes.Items.Add(new ListItem(time.Item2, time.Item1.ToString()));
             }
         }
 
@@ -241,6 +246,10 @@ namespace WMTA.Events
             }
             else
                 showErrorMessage("The schedule could not be updated");
+
+            // Update the judge times
+            if (ddlAuditionJudges.SelectedIndex > 0)
+                LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
         }
 
         /*

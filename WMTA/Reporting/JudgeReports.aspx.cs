@@ -91,7 +91,7 @@ namespace WMTA.Reporting
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
                 createReport("DistrictAuditionJudgesReport", rptDistrictAuditionJudges, auditionOrgId);
-                createReport("AuditionJudgeSchedule", rptJudgeSchedule, auditionOrgId, teacherId);
+                createReport("AuditionJudgeSchedule", rptJudgeSchedule, auditionOrgId);
             }
             else
             {
@@ -133,36 +133,36 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
-        {
-            try
-            {
-                rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
-                rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
-                rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
+        //private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
+        //{
+        //    try
+        //    {
+        //        rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
+        //        rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
+        //        rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
 
-                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
+        //        rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
 
-                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
-                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
+        //        rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
+        //        rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
 
-                //set parameters
-                List<ReportParameter> parameters = new List<ReportParameter>();
-                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+        //        //set parameters
+        //        List<ReportParameter> parameters = new List<ReportParameter>();
+        //        parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+        //        parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
 
-                rptViewer.ServerReport.SetParameters(parameters);
+        //        rptViewer.ServerReport.SetParameters(parameters);
 
-                rptViewer.AsyncRendering = true;
-            }
-            catch (Exception e)
-            {
-                showErrorMessage("Error: An error occurred while generating reports.");
+        //        rptViewer.AsyncRendering = true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("JudgingForms", "createReport", "rptName: " + rptName +
-                                 ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            }
-        }
+        //        Utility.LogError("JudgingForms", "createReport", "rptName: " + rptName +
+        //                         ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        //    }
+        //}
 
         #region Messages
 
