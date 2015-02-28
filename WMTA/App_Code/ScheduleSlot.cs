@@ -16,9 +16,10 @@ public class ScheduleSlot
     public string Grade { get; set; } // optional
     public string AuditionType { get; set; } //optional
     public string AuditionTrack { get; set; } //optional
+    public string Instrument { get; set; } // optional
 
     public ScheduleSlot(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime, string timePref, 
-        string grade, string audType, string audTrack, string studentName, int studentId)
+        string grade, string audType, string audTrack, string studentName, int studentId, string instrument)
     {
         AuditionId = auditionId;
         JudgeId = judgeId;
@@ -31,6 +32,7 @@ public class ScheduleSlot
         AuditionTrack = audTrack;
         StudentName = studentName;
         StudentId = studentId;
+        Instrument = instrument;
     }
 
     /*

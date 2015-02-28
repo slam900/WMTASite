@@ -823,11 +823,14 @@ public class DbInterfaceScheduling
                 string audTrack = table.Rows[i]["Track"].ToString();
                 TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["Start Time"].ToString());
                 int length = Convert.ToInt32(table.Rows[i]["Audition Length"]);
-                int judgeId = Convert.ToInt32(table.Rows[i]["Judge Id"]);
+                int judgeId = -1;
+                if (!table.Rows[i]["Judge Id"].ToString().Equals(""))
+                    judgeId = Convert.ToInt32(table.Rows[i]["Judge Id"]);
                 string judgeName = table.Rows[i]["Judge Name"].ToString();
                 string timePref = table.Rows[i]["Time Preference"].ToString();
+                string instrument = table.Rows[i]["Instrument"].ToString();
 
-                schedule.Add(auditionId, judgeId, judgeName, length, startTime, timePref, grade, audType, audTrack, "", studentId);
+                schedule.Add(auditionId, judgeId, judgeName, length, startTime, timePref, grade, audType, audTrack, "", studentId, instrument);
             }
         }
         catch (Exception e)
@@ -911,6 +914,10 @@ public class DbInterfaceScheduling
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@auditionId", slot.AuditionId);
+
+                if (slot.StartTime.ToString().Substring(0, 1).Equals("-"))
+                    slot.StartTime = TimeSpan.Parse("00:00:00.0000000");
+
                 cmd.Parameters.AddWithValue("@startTime", slot.StartTime);
                 cmd.Parameters.AddWithValue("@length", slot.Minutes);
                 cmd.Parameters.AddWithValue("@judgeId", slot.JudgeId);

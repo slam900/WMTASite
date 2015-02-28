@@ -108,7 +108,7 @@ namespace WMTA.Events
 
                 if (scheduleSlot != null)
                 {
-                    lblAuditionInformation.Text = "Student: " + scheduleSlot.StudentName + ", Start Time: " + FormatTime(scheduleSlot.StartTime) + ", Judge: " + scheduleSlot.JudgeName;
+                    lblAuditionInformation.Text = "Student: " + scheduleSlot.StudentName + ", Start Time: " + FormatTime(scheduleSlot.StartTime) /*+ ", Judge: " + scheduleSlot.JudgeName*/;
                     lblSelectedAuditionId.Text = auditionId.ToString();
                 }
                 else
@@ -208,6 +208,7 @@ namespace WMTA.Events
                         schedule.Rows[i]["Time Preference"] = slot.TimePreference;
                         schedule.Rows[i]["Student Id"] = slot.StudentId;
                         schedule.Rows[i]["Audition Length"] = slot.Minutes;
+                        schedule.Rows[i]["Instrument"] = slot.Instrument;
                     }
                 }
 
@@ -215,6 +216,10 @@ namespace WMTA.Events
                 DataView dataView = schedule.DefaultView;
                 dataView.Sort = "Judge Name ASC, Start Time ASC"; 
                 schedule = dataView.ToTable();
+
+                // After sorting based on time, convert to AM/PM format
+                for (int i = 0; i < schedule.Rows.Count; i++)
+                    schedule.Rows[i]["Start Time"] = FormatTime(TimeSpan.Parse(schedule.Rows[i]["Start Time"].ToString()));
 
                 gvSchedule.DataSource = schedule;
                 gvSchedule.DataBind();

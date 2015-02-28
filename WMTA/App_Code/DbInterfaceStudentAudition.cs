@@ -2899,13 +2899,14 @@ public partial class DbInterfaceStudentAudition
                 int judgeId = -1, minutes = 0;
                 TimeSpan startTime = TimeSpan.MinValue;
 
-                string judgeName = table.Rows[0]["JudgeName"].ToString();
+                //string judgeName = table.Rows[0]["JudgeName"].ToString();
+                string judgeName = "";
                 string studentName = table.Rows[0]["StudentName"].ToString();
                 Int32.TryParse(table.Rows[0]["JudgeId"].ToString(), out judgeId);
                 Int32.TryParse(table.Rows[0]["Minutes"].ToString(), out minutes);
                 TimeSpan.TryParse(table.Rows[0]["AuditionStartTime"].ToString(), out startTime);
 
-                scheduleSlot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime, "", "", "", "", "", -1);
+                scheduleSlot = new ScheduleSlot(auditionId, judgeId, judgeName, minutes, startTime, "", "", "", "", "", -1, "");
                 scheduleSlot.StudentName = studentName;
             }
         }
