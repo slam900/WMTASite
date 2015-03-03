@@ -24,6 +24,24 @@
                         <div class="resource">
                             <a href="../Resource Files/WMTAChairsAddresses2015.pdf" target="_blank">2015 WMTA District Chair Addresses</a>
                         </div>
+                        <div style="margin-top: 30px">
+                            <h4>Blank Judging Forms</h4>
+                            <div class="resource">
+                                <a href="../Resource Files/District Judging Form - KEYBOARD PIANO - blank.pdf" target="_blank">Keyboard - Piano</a>
+                            </div>
+                            <div class="resource">
+                                <a href="../Resource Files/District Judging Form - KEYBOARD ORGAN - blank.pdf" target="_blank">Keyboard - Organ</a>
+                            </div>
+                            <div class="resource">
+                                <a href="../Resource Files/District Judging Form - INSTRUMENTAL - blank.pdf" target="_blank">Instrumental</a>
+                            </div>
+                            <div class="resource">
+                                <a href="../Resource Files/District Judging Form - STRINGS - blank.pdf" target="_blank">Strings</a>
+                            </div>
+                            <div class="resource">
+                                <a href="../Resource Files/District Judging Form - VOCAL - blank.pdf" target="_blank">Vocal</a>
+                            </div>
+                        </div>
                     </div>
                     <hr />
                     <div class="help-site-group">

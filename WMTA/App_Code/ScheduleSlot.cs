@@ -17,6 +17,7 @@ public class ScheduleSlot
     public string AuditionType { get; set; } //optional
     public string AuditionTrack { get; set; } //optional
     public string Instrument { get; set; } // optional
+    public bool ShiftedOnce { get; set; } // Used when shifting auditions
 
     public ScheduleSlot(int auditionId, int judgeId, string judgeName, int minutes, TimeSpan startTime, string timePref, 
         string grade, string audType, string audTrack, string studentName, int studentId, string instrument)
@@ -33,6 +34,7 @@ public class ScheduleSlot
         StudentName = studentName;
         StudentId = studentId;
         Instrument = instrument;
+        ShiftedOnce = false;
     }
 
     /*

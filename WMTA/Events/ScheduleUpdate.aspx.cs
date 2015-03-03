@@ -137,6 +137,8 @@ namespace WMTA.Events
                 hour = hour - 12;
                 amPm = "PM";
             }
+            else if (hour == 12)
+                amPm = "PM";
 
             // Add 0 in front of single-digit minutes
             if (minutes.Length == 1)

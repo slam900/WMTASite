@@ -275,6 +275,11 @@
     <Content Include="Resource Files\Keyboard Repertoire Leveling Guideline.pdf" />
     <Content Include="Resource Files\ComposersTableLastName2014.pdf" />
     <Content Include="Resource Files\WMTAChairsAddresses2015.pdf" />
+    <Content Include="Resource Files\District Judging Form - INSTRUMENTAL - blank.pdf" />
+    <Content Include="Resource Files\District Judging Form - KEYBOARD ORGAN - blank.pdf" />
+    <Content Include="Resource Files\District Judging Form - KEYBOARD PIANO - blank.pdf" />
+    <Content Include="Resource Files\District Judging Form - STRINGS - blank.pdf" />
+    <Content Include="Resource Files\District Judging Form - VOCAL - blank.pdf" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

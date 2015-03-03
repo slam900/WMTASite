@@ -31,8 +31,8 @@ public class Utility
     public const string reportSuffix = "";
     
     /*** Test Variables ***/
-    //public const string ssrsDomain = "sunflower.arvixe.com"; 
-    //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service"; 
+    //public const string ssrsDomain = "sunflower.arvixe.com";
+    //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service";
     //public const string reportSuffix = "Test";
 
     //Ovation email and password
