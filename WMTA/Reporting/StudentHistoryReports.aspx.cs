@@ -109,7 +109,7 @@ namespace WMTA.Reporting
         {
             //get selected teacher
             int teacherId = 0;
-            if (ddlTeacher.SelectedIndex >= 0)
+            if (ddlTeacher.SelectedIndex > 0)
             {
                 teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
             }

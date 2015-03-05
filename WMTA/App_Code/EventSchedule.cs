@@ -50,7 +50,7 @@ public class EventSchedule
             }
             else if (auditionToSwitch.JudgeId == auditionToSwitchWith.JudgeId && auditionToSwitch.StartTime > auditionToSwitchWith.StartTime) // Same judge, shifting earlier
             {
-                MoveAuditionEarlierWithSameJudge(auditionToSwitch, auditionToSwitchWith, audition);
+                MoveAuditionEarlierWithSameJudge(auditionToSwitch, auditionToSwitchWith, audition, auditionToSwitchWith.JudgeId);
             }
             else if (auditionToSwitch.JudgeId != auditionToSwitchWith.JudgeId)
             {
@@ -76,13 +76,27 @@ public class EventSchedule
         ScheduleSlots.Where(s => s.AuditionId == auditionToSwitch.AuditionId).FirstOrDefault().StartTime = newTime;
     }
 
-    private void MoveAuditionEarlierWithSameJudge(ScheduleSlot auditionToSwitch, ScheduleSlot auditionToSwitchWith, Audition audition)
+    private void MoveAuditionEarlierWithSameJudge(ScheduleSlot auditionToSwitch, ScheduleSlot auditionToSwitchWith, Audition audition, int judgeId)
     {
         TimeSpan newTime = auditionToSwitchWith.StartTime;
+        bool needsShift = false;
 
         //Shift auditions to make room for switch, if needed.  Otherwise just change the time
         int session = GetNewAuditionSession(audition, auditionToSwitchWith.StartTime, auditionToSwitchWith.StartTime.Add(TimeSpan.FromMinutes(auditionToSwitchWith.Minutes)));
-        if (FitsInNewSessionWithoutShift(audition, session, auditionToSwitch.Minutes, auditionToSwitchWith.JudgeId))
+        ScheduleSlot lastAuditionInSession; // Get the last audition in the session that is not the current audition
+        if (session == 1)
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession1, judgeId, auditionToSwitch.AuditionId);
+        else if (session == 2)
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession2, judgeId, auditionToSwitch.AuditionId);
+        else if (session == 3)
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession3, judgeId, auditionToSwitch.AuditionId);
+        else
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession4, judgeId, auditionToSwitch.AuditionId);
+
+        if (lastAuditionInSession != null && lastAuditionInSession.StartTime >= newTime)
+            needsShift = true;
+
+        if (!needsShift && FitsInNewSessionWithoutShift(audition, session, auditionToSwitch.Minutes, auditionToSwitchWith.JudgeId))
             newTime = auditionToSwitchWith.StartTime.Add(TimeSpan.FromMinutes(auditionToSwitchWith.Minutes));
         else
             ShiftAuditionsLater(auditionToSwitchWith.StartTime, auditionToSwitch.StartTime.Subtract(TimeSpan.FromMinutes(1)), auditionToSwitch.Minutes, audition, auditionToSwitchWith.JudgeId);
@@ -94,22 +108,41 @@ public class EventSchedule
     private void MoveAuditionWithDifferentJudge(ScheduleSlot auditionToSwitch, ScheduleSlot auditionToSwitchWith, Audition audition)
     {
         TimeSpan newTime = auditionToSwitchWith.StartTime;
+        bool needsShift = false;
 
         // Shift all auditions in session/judge of slot being moved up to fill gap
         int session = GetNewAuditionSession(audition, auditionToSwitch.StartTime, auditionToSwitch.StartTime.Add(TimeSpan.FromMinutes(auditionToSwitch.Minutes)));
-        TimeSpan endTime = audition.endTimeSession1;
-        if (session == 2)
+        ScheduleSlot lastAuditionInSession; // Get the last audition in the session that is not the current audition
+        TimeSpan endTime;
+        if (session == 1)
+        {
+            endTime = audition.endTimeSession1;
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession1, auditionToSwitchWith.JudgeId, auditionToSwitch.AuditionId);
+        }
+        else if (session == 2)
+        {
             endTime = audition.endTimeSession2;
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession2, auditionToSwitchWith.JudgeId, auditionToSwitch.AuditionId);
+        }
         else if (session == 3)
+        {
             endTime = audition.endTimeSession3;
-        else if (session == 4)
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession3, auditionToSwitchWith.JudgeId, auditionToSwitch.AuditionId);
+        }
+        else
+        {
             endTime = audition.endTimeSession4;
+            lastAuditionInSession = GetLastSessionAudition(audition.endTimeSession4, auditionToSwitchWith.JudgeId, auditionToSwitch.AuditionId);
+        }
+
+        if (lastAuditionInSession != null && lastAuditionInSession.StartTime <= newTime)
+            needsShift = true;
 
         ShiftAuditionsEarlier(auditionToSwitch.StartTime, endTime, auditionToSwitch.Minutes, auditionToSwitch.JudgeId);        
 
         // If there is room left in the session, just put it in there w/o shifting
         session = GetNewAuditionSession(audition, auditionToSwitchWith.StartTime, auditionToSwitchWith.StartTime.Add(TimeSpan.FromMinutes(auditionToSwitchWith.Minutes)));
-        if (FitsInNewSessionWithoutShift(audition, session, auditionToSwitch.Minutes, auditionToSwitchWith.JudgeId))
+        if (!needsShift && FitsInNewSessionWithoutShift(audition, session, auditionToSwitch.Minutes, auditionToSwitchWith.JudgeId))
             newTime = auditionToSwitchWith.StartTime.Add(TimeSpan.FromMinutes(auditionToSwitchWith.Minutes));
         // Shift all auditions in session/judge of slot to switch with with time greater than or equal to the audition later
         else
@@ -129,20 +162,26 @@ public class EventSchedule
     private void ShiftAuditionsEarlier(TimeSpan startTime, TimeSpan endTime, int numberMinutesToShift, Audition audition, int judgeId)
     {
         List<ScheduleSlot> slotsToConsider = ScheduleSlots.Where(s => s.JudgeId == judgeId).ToList();
-        bool doneShifting = false;
+        bool doneShifting = false, duetChecked = false;
+
+        foreach (ScheduleSlot slot in slotsToConsider)
+            slot.ShiftedOnce = false;
 
         for (int i = 0; !doneShifting && i < slotsToConsider.Count(); i++)
         {
             ScheduleSlot slot = slotsToConsider.ElementAt(i);
 
             // Check if we're done before changing the audition's start time so we don't shift more than we should
-            if (slot.StartTime >= endTime) doneShifting = true;
+            if (slot.StartTime >= endTime && (slotsToConsider.Select(s => s.StartTime == slot.StartTime).Count() == 1 || duetChecked)) // Added check to slots to consider in case of a duet
+                doneShifting = true;
+            else if (slot.StartTime >= endTime && slotsToConsider.Select(s => s.StartTime == slot.StartTime).Count() > 1)
+                duetChecked = true;
 
-            if (slot.StartTime >= startTime && slot.StartTime <= endTime && !DuringBreak(audition, slot.StartTime.Subtract(TimeSpan.FromMinutes(numberMinutesToShift)), slot.Minutes))
+            if (!slot.ShiftedOnce && slot.StartTime >= startTime && slot.StartTime <= endTime && !DuringBreak(audition, slot.StartTime.Subtract(TimeSpan.FromMinutes(numberMinutesToShift)), slot.Minutes))
             {
                 ScheduleSlots.Where(s => s.AuditionId == slot.AuditionId).FirstOrDefault().StartTime = slot.StartTime.Subtract(TimeSpan.FromMinutes(numberMinutesToShift));
             }
-            else if (slot.StartTime >= startTime && slot.StartTime <= endTime)
+            else if (!slot.ShiftedOnce && slot.StartTime >= startTime && slot.StartTime <= endTime)
             {
                 // The shift will move the audition into the break, so leave it where it is and shift other auditions out
                 int newSession = GetNewAuditionSession(audition, slot.StartTime, slot.StartTime.Add(TimeSpan.FromMinutes(slot.Minutes))); 
@@ -156,34 +195,49 @@ public class EventSchedule
                 else if (newSession == 3)
                 {
                     // Get last session 3 audition slot
-                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId);
+                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId, -1);
 
-                    //Shift session 4 auditions later by # of minutes of last session 3 audition
-                    ShiftAuditionsLater(audition.startTimeSession4, TimeSpan.MaxValue, lastSessionSlot.Minutes, judgeId);
+                    // If the current audition can't fit in session 3, move the last audition in session 3 to session 4
+                    if (DuringBreak(audition, lastSessionSlot.StartTime.Add(TimeSpan.FromMinutes(lastSessionSlot.Minutes)), slot.Minutes))
+                    {
+                        //Shift session 4 auditions later by # of minutes of last session 3 audition
+                        ShiftAuditionsLater(audition.startTimeSession4, TimeSpan.MaxValue, lastSessionSlot.Minutes, judgeId);
 
-                    //Move last session 3 to first session 4 slot
-                    ScheduleSlots.Where(s => s.AuditionId == lastSessionSlot.AuditionId).FirstOrDefault().StartTime = audition.startTimeSession4;
+                        //Move last session 3 to first session 4 slot
+                        ScheduleSlots.Where(s => s.AuditionId == lastSessionSlot.AuditionId).FirstOrDefault().StartTime = audition.startTimeSession4;
+                    }
 
                     //Shift session 3 as needed to insert new audition
                     ShiftAuditionsLater(endTime, audition.endTimeSession3, numberMinutesToShift, judgeId);
+
+                    /////////////////////// TODO - add if(DuringBreak...) to session 2 if-statement
                 }
                 else if (newSession == 2) 
                 {
                     // Get last session 3 audition slot
-                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId);
+                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId, -1);
 
-                    //Shift session 4 auditions later by # of minutes of last session 3 audition
-                    ShiftAuditionsLater(audition.startTimeSession4, TimeSpan.MaxValue, lastSessionSlot.Minutes, judgeId);
+                    // If the current audition can't fit in session 3, move the last audition in session 3 to session 4
+                    if (DuringBreak(audition, lastSessionSlot.StartTime.Add(TimeSpan.FromMinutes(lastSessionSlot.Minutes)), slot.Minutes))
+                    {
+                        //Shift session 4 auditions later by # of minutes of last session 3 audition
+                        ShiftAuditionsLater(audition.startTimeSession4, TimeSpan.MaxValue, lastSessionSlot.Minutes, judgeId);
 
-                    //Move last session 3 to first session 4 slot
-                    ScheduleSlots.Where(s => s.AuditionId == lastSessionSlot.AuditionId).FirstOrDefault().StartTime = audition.startTimeSession4;
+                        //Move last session 3 to first session 4 slot
+                        ScheduleSlots.Where(s => s.AuditionId == lastSessionSlot.AuditionId).FirstOrDefault().StartTime = audition.startTimeSession4;
+                    }
 
                     //Shfit session 3 auditions later by # of minutes of last session 2 audition
-                    lastSessionSlot = GetLastSessionAudition(audition.endTimeSession2, judgeId);
-                    ShiftAuditionsLater(audition.startTimeSession3, audition.endTimeSession3, lastSessionSlot.Minutes, judgeId);
+                    lastSessionSlot = GetLastSessionAudition(audition.endTimeSession2, judgeId, -1);
 
-                    //Move last session 2 to first session 3 slot
-                    ScheduleSlots.Where(s => s.AuditionId == lastSessionSlot.AuditionId).FirstOrDefault().StartTime = audition.startTimeSession3;
+                    // If curren't audition can't fit in session 2, move th last audition in session 2 to session 3
+                    if (DuringBreak(audition, lastSessionSlot.StartTime.Add(TimeSpan.FromMinutes(lastSessionSlot.Minutes)), slot.Minutes))
+                    {
+                        ShiftAuditionsLater(audition.startTimeSession3, audition.endTimeSession3, lastSessionSlot.Minutes, judgeId);
+
+                        //Move last session 2 to first session 3 slot
+                        ScheduleSlots.Where(s => s.AuditionId == lastSessionSlot.AuditionId).FirstOrDefault().StartTime = audition.startTimeSession3;
+                    }
 
                     //Shift session 2 as needed to insert new audition
                     ShiftAuditionsLater(endTime, audition.endTimeSession2, numberMinutesToShift, judgeId);
@@ -195,7 +249,7 @@ public class EventSchedule
     private void ShiftAuditionsLater(TimeSpan startTime, TimeSpan endTime, int numberMinutesToShift, Audition audition, int judgeId)
     {
         List<ScheduleSlot> slotsToConsider = ScheduleSlots.Where(s => s.JudgeId == judgeId).OrderBy(s => s.StartTime).ToList();
-        bool doneShifting = false;
+        bool doneShifting = false, duetChecked = false;
 
         foreach (ScheduleSlot slot in slotsToConsider)
             slot.ShiftedOnce = false;
@@ -205,7 +259,10 @@ public class EventSchedule
             ScheduleSlot slot = slotsToConsider.ElementAt(i);
 
             // Check if we're done before changing the audition's start time so we don't shift more than we should
-            if (slot.StartTime >= endTime) doneShifting = true;
+            if (slot.StartTime >= endTime && (slotsToConsider.Select(s => s.StartTime == slot.StartTime).Count() == 1 || duetChecked))
+                doneShifting = true;
+            else if (slot.StartTime >= endTime && slotsToConsider.Select(s => s.StartTime == slot.StartTime).Count() > 1)
+                duetChecked = true;
 
             if (!slot.ShiftedOnce && slot.StartTime >= startTime && slot.StartTime <= endTime && !DuringBreak(audition, slot.StartTime.Add(TimeSpan.FromMinutes(numberMinutesToShift)), slot.Minutes))
             {
@@ -226,7 +283,7 @@ public class EventSchedule
                 else if (newSession == 3)
                 {
                     // Get last session 3 audition slot
-                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId);
+                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId, -1);
 
                     // If the current audition can't fit in session 3, move the last audition in session 3 to session 4
                     if (DuringBreak(audition, lastSessionSlot.StartTime.Add(TimeSpan.FromMinutes(lastSessionSlot.Minutes)), slot.Minutes))
@@ -247,7 +304,7 @@ public class EventSchedule
                 else if (newSession == 2) 
                 {
                     // Get last session 3 audition slot
-                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId);
+                    ScheduleSlot lastSessionSlot = GetLastSessionAudition(audition.endTimeSession3, judgeId, -1);
 
                     // If the current audition can't fit in session 3, move the last audition in session 3 to session 4
                     if (DuringBreak(audition, lastSessionSlot.StartTime.Add(TimeSpan.FromMinutes(lastSessionSlot.Minutes)), slot.Minutes))
@@ -260,7 +317,7 @@ public class EventSchedule
                     }                    
 
                     // Shift session 3 auditions later by # of minutes of last session 2 audition
-                    lastSessionSlot = GetLastSessionAudition(audition.endTimeSession2, judgeId);
+                    lastSessionSlot = GetLastSessionAudition(audition.endTimeSession2, judgeId, -1);
 
                     // If curren't audition can't fit in session 2, move th last audition in session 2 to session 3
                     if (DuringBreak(audition, lastSessionSlot.StartTime.Add(TimeSpan.FromMinutes(lastSessionSlot.Minutes)), slot.Minutes))
@@ -351,14 +408,14 @@ public class EventSchedule
      * Pre:
      * Post: Returns the last audition that occurs before the input session end time
      */
-    private ScheduleSlot GetLastSessionAudition(TimeSpan endTimeOfSession, int judgeId)
+    private ScheduleSlot GetLastSessionAudition(TimeSpan endTimeOfSession, int judgeId, int auditionIdToIgnore)
     {
         TimeSpan timeClosestToSessionEnd = TimeSpan.MinValue;
         ScheduleSlot lastSlot = null;
 
         foreach (ScheduleSlot slot in ScheduleSlots.Where(s => s.JudgeId == judgeId))
         {
-            if (slot.StartTime < endTimeOfSession && slot.StartTime > timeClosestToSessionEnd)
+            if (slot.StartTime < endTimeOfSession && slot.StartTime > timeClosestToSessionEnd && (auditionIdToIgnore == -1 || auditionIdToIgnore != slot.AuditionId))
             {
                 lastSlot = slot;
                 timeClosestToSessionEnd = slot.StartTime;
@@ -385,7 +442,7 @@ public class EventSchedule
             sessionEndTime = audition.endTimeSession4;
 
         // Get current last audition in the session
-        ScheduleSlot lastSlot = GetLastSessionAudition(sessionEndTime, judgeId);
+        ScheduleSlot lastSlot = GetLastSessionAudition(sessionEndTime, judgeId, -1);
         if (lastSlot != null)
         {
             fits = lastSlot.StartTime.Add(TimeSpan.FromMinutes(lastSlot.Minutes + auditionLength)) <= sessionEndTime;
