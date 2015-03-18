@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="CheckInReports.aspx.cs" Inherits="WMTA.Reporting.CheckInReports" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictCheckInForms.aspx.cs" Inherits="WMTA.Reporting.CheckInReports" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -58,8 +58,8 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center"><h3>Audition Check-In</h3></div>
-            <rsweb:ReportViewer ID="rptAuditionCheckIn" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>District Registration Check-In</h3></div>
+            <rsweb:ReportViewer ID="rptDistrictCheckIn" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
         <div>
             <div class="text-align-center"><h3 class="center">Theory Test Check-In</h3></div>

@@ -46,7 +46,7 @@
                                         <li><a href="../Reporting/StudentReportsPerDistrict.aspx" class="smaller-font">Student Registration</a></li>
                                         <li><a href="../Reporting/StudentResultReports.aspx" class="smaller-font">Student Results</a></li>
                                         <li><a href="../Reporting/TeacherFeeSummary.aspx" class="smaller-font">Teacher Fee Summary</a></li>
-                                        <li><a href="../Reporting/JudgingForms.aspx" class="smaller-font">Judging Forms</a></li>
+                                        <li><a href="../Reporting/DistrictJudgingForms.aspx" class="smaller-font">District Judging Forms</a></li>
                                     </ul>
                                 </div>
                             </div>

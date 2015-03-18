@@ -58,8 +58,12 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center"><h3>District Audition Statistics</h3></div>
-            <rsweb:ReportViewer ID="rptStats" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>District Student Statistics</h3></div>
+            <rsweb:ReportViewer ID="rptDistrictStudentStats" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+        </div>
+        <div>
+            <div class="text-align-center"><h3>District Judge Statistics</h3></div>
+            <rsweb:ReportViewer ID="rptDistrictJudgeStats" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

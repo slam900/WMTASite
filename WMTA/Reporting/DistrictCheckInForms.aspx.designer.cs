@@ -10,7 +10,7 @@
 namespace WMTA.Reporting {
     
     
-    public partial class JudgeReports {
+    public partial class CheckInReports {
         
         /// <summary>
         /// upFullPage control.
@@ -103,21 +103,21 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
         
         /// <summary>
-        /// rptDistrictAuditionJudges control.
+        /// rptDistrictCheckIn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptDistrictAuditionJudges;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptDistrictCheckIn;
         
         /// <summary>
-        /// rptJudgeSchedule control.
+        /// rptTheoryCheckIn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptJudgeSchedule;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptTheoryCheckIn;
     }
 }

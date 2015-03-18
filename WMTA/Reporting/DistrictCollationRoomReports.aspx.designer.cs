@@ -10,7 +10,7 @@
 namespace WMTA.Reporting {
     
     
-    public partial class CheckInReports {
+    public partial class TeacherReportsPerDistrict {
         
         /// <summary>
         /// upFullPage control.
@@ -94,30 +94,21 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
         
         /// <summary>
-        /// lblSuccessMessage control.
+        /// rptShortRegistration control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptShortRegistration;
         
         /// <summary>
-        /// rptAuditionCheckIn control.
+        /// rptCollationCheckOff control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptAuditionCheckIn;
-        
-        /// <summary>
-        /// rptTheoryCheckIn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptTheoryCheckIn;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptCollationCheckOff;
     }
 }

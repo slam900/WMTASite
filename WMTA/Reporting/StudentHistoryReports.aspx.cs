@@ -107,6 +107,9 @@ namespace WMTA.Reporting
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+            int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
+                                                                     Convert.ToInt32(ddlYear.SelectedValue));
+
             //get selected teacher
             int teacherId = 0;
             if (ddlTeacher.SelectedIndex > 0)
@@ -130,7 +133,7 @@ namespace WMTA.Reporting
 
             showInfoMessage("Please allow several minutes for your reports to generate.");
 
-            createReport("StudentHistory", rptViewerStudentHistory, 0, teacherId, studentId, year);
+            createReport("StudentHistory", rptViewerStudentHistory, auditionOrgId, teacherId, studentId, year);
         }
 
         /*

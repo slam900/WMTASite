@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="JudgeReports.aspx.cs" Inherits="WMTA.Reporting.JudgeReports" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictCollationRoomReports.aspx.cs" Inherits="WMTA.Reporting.TeacherReportsPerDistrict" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -50,7 +50,6 @@
                         <label id="lblErrorMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblWarningMessage" runat="server" style="color: transparent">.</label>
                         <label id="lblInfoMessage" runat="server" style="color: transparent">.</label>
-                        <label id="lblSuccessMessage" runat="server" style="color: transparent">.</label>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </section>
@@ -58,12 +57,12 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center"><h3>District Audition Judges</h3></div>
-            <rsweb:ReportViewer ID="rptDistrictAuditionJudges" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>Short Registration Report</h3></div>
+            <rsweb:ReportViewer ID="rptShortRegistration" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
         <div>
-            <div class="text-align-center"><h3 class="center">Judge Schedule</h3></div>
-            <rsweb:ReportViewer ID="rptJudgeSchedule" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3 class="center">Collation Check Off</h3></div>
+            <rsweb:ReportViewer ID="rptCollationCheckOff" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

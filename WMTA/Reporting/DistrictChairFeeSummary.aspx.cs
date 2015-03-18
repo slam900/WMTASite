@@ -117,7 +117,7 @@ namespace WMTA.Reporting
             {
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("DistrictTeacherSummary", rptTeacherSummary, auditionOrgId, teacherId);
+                createReport("DistrictChairFeeSummary", rptDCFeeSummary, auditionOrgId, teacherId);
             }
             else
             {

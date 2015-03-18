@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="TeacherReportsPerDistrict.aspx.cs" Inherits="WMTA.Reporting.TeacherReportsPerDistrict" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictChairFeeSummary.aspx.cs" Inherits="WMTA.Reporting.TeacherReportsPerTeacher" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -23,11 +23,17 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
                                                 <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
@@ -57,12 +63,8 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center"><h3>Teacher Audition Report</h3></div>
-            <rsweb:ReportViewer ID="rptTeacherAudition" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Teacher Checklist</h3></div>
-            <rsweb:ReportViewer ID="rptTeacherChecklist" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>District Chair Fee Summary</h3></div>
+            <rsweb:ReportViewer ID="rptDCFeeSummary" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

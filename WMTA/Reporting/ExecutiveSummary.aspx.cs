@@ -8,7 +8,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class TeacherReportsPerDistrict : System.Web.UI.Page
+    public partial class ExecutiveSummary : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -17,7 +17,6 @@ namespace WMTA.Reporting
                 checkPermissions();
 
                 loadYearDropdown();
-                loadDistrictDropdown();
             }
         }
 
@@ -46,52 +45,16 @@ namespace WMTA.Reporting
 
         /*
          * Pre:
-         * Post:  If the current user is not an administrator, the district
-         *        dropdowns are filtered to containing only the current
-         *        user's district
-         */
-        private void loadDistrictDropdown()
-        {
-            User user = (User)Session[Utility.userRole];
-
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
-            {
-                //get own district dropdown info
-                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
-
-                //add new item to dropdown and select it
-                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
-                ddlDistrictSearch.SelectedIndex = 1;
-            }
-            else //if the user is an administrator, add all districts
-            {
-                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
-
-                ddlDistrictSearch.DataTextField = "GeoName";
-                ddlDistrictSearch.DataValueField = "GeoId";
-
-                ddlDistrictSearch.DataBind();
-            }
-        }
-
-        /*
-         * Pre:
          * Post: If an event matching the search criteria is found, execute
          *       the reports for that audition
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
-                                                                     Convert.ToInt32(ddlYear.SelectedValue));
-
-            if (auditionOrgId != -1)
+            if (ddlYear.SelectedIndex >= 0)
             {
-                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
-
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("TeacherAuditionReport", rptTeacherAudition, auditionOrgId, teacherId);
-                createReport("DistrictTeacherCheckList", rptTeacherChecklist, auditionOrgId, teacherId);
+                createReport("DistrictAuditionsExecutiveSummary", rptSummary, Convert.ToInt32(ddlYear.SelectedValue));
             }
             else
             {
@@ -103,7 +66,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
+        private void createReport(string rptName, ReportViewer rptViewer, int year)
         {
             try
             {
@@ -116,12 +79,7 @@ namespace WMTA.Reporting
                 rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
 
-                //set parameters
-                List<ReportParameter> parameters = new List<ReportParameter>();
-                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
-
-                rptViewer.ServerReport.SetParameters(parameters);
+                rptViewer.ServerReport.SetParameters(new ReportParameter("year", year.ToString()));
 
                 rptViewer.AsyncRendering = true;
             }
@@ -129,8 +87,8 @@ namespace WMTA.Reporting
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("TeacherReportsPerDistrict", "createReport", "rptName: " + rptName +
-                                 ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("ExecutiveSummary", "createReport", "rptName: " + rptName +
+                                 ", auditionOrgId: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 
@@ -143,8 +101,6 @@ namespace WMTA.Reporting
          */
         private void showErrorMessage(string message)
         {
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);

@@ -20,7 +20,7 @@
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=2" class="smaller-font">Edit Event</a></li>
                                         <li><a href="../Events/AssignDistrictRoomsAndJudges.aspx" class="smaller-font">Assign Rooms and Judges</a></li>
                                         <li><a href="../Events/Schedule.aspx" class="smaller-font">Create Schedule</a></li>
-                                        <li><a href="../Events/ScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>
+<%--                                        <li><a href="../Events/ScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>--%>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">
@@ -60,13 +60,12 @@
                                         <li><a href="../Reporting/StudentHistoryReports.aspx" class="smaller-font">Student History</a></li>
                                         <li><a href="../Reporting/StudentReportsPerDistrict.aspx" class="smaller-font">Student Registration</a></li>
                                         <li><a href="../Reporting/StudentResultReports.aspx" class="smaller-font">Student Results</a></li>
-                                        <li><a href="../Reporting/TeacherReportsPerDistrict.aspx" class="smaller-font">Teacher Reports by District</a></li>
-                                        <li><a href="../Reporting/TeacherReportsPerTeacher.aspx" class="smaller-font">Teacher Reports by Teacher</a></li>
+                                        <li><a href="../Reporting/DistrictCollationRoomReports.aspx" class="smaller-font">District Collation Room Reports</a></li>
+                                        <li><a href="../Reporting/DistrictChairFeeSummary.aspx" class="smaller-font">District Chair Fee Summary</a></li>
                                         <li><a href="../Reporting/TeacherFeeSummary.aspx" class="smaller-font">Teacher Fee Summary</a></li>
-                                        <li><a href="../Reporting/JudgeReports.aspx" class="smaller-font">Judge Reports</a></li>
-                                        <li><a href="../Reporting/JudgingForms.aspx" class="smaller-font">Judging Forms</a></li>
-                                        <li><a href="../Reporting/CheckInReports.aspx" class="smaller-font">Check-In Forms</a></li>
-                                        <li><a href="../Reporting/RoomScheduleReport.aspx" class="smaller-font">Room Schedule</a></li>
+                                        <li><a href="../Reporting/DistrictJudgingForms.aspx" class="smaller-font">District Judging Forms</a></li>
+                                        <li><a href="../Reporting/DistrictCheckInForms.aspx" class="smaller-font">District Check-In Forms</a></li>
+                                        <li><a href="../Reporting/DistrictRoomSchedules.aspx" class="smaller-font">District Room Schedules</a></li>
                                         <li><a href="../Reporting/DistrictAuditionStatsReport.aspx" class="smaller-font">District Audition Statistics</a></li>
                                         <li><a href="../Reporting/DistrictChairSummaryReport.aspx" class="smaller-font">District Chair Summary</a></li>
                                         <li><a href="../Reporting/TheoryTestReports.aspx" class="smaller-font">Theory Test Reports</a></li>

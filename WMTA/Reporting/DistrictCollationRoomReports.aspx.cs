@@ -8,7 +8,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class RoomScheduleReport : System.Web.UI.Page
+    public partial class TeacherReportsPerDistrict : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -90,7 +90,8 @@ namespace WMTA.Reporting
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("AuditionRoomSchedule", rptRoomSchedule, auditionOrgId, teacherId);
+                createReport("ShortRegistrationReport", rptShortRegistration, auditionOrgId, teacherId);
+                createReport("CollationCheckOff", rptCollationCheckOff, auditionOrgId, teacherId);
             }
             else
             {
@@ -118,7 +119,7 @@ namespace WMTA.Reporting
                 //set parameters
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-                //parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
 
                 rptViewer.ServerReport.SetParameters(parameters);
 
@@ -128,7 +129,7 @@ namespace WMTA.Reporting
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("RoomScheduleReport", "createReport", "rptName: " + rptName +
+                Utility.LogError("TeacherReportsPerDistrict", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
@@ -142,6 +143,8 @@ namespace WMTA.Reporting
          */
         private void showErrorMessage(string message)
         {
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);
