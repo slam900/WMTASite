@@ -136,11 +136,9 @@
                                     <%-- Start Time Constraints --%>
                                     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                                         <ContentTemplate>
-                                            <hr />
                                             <div>
-                                                <h4>Time Constraints</h4>
+                                                <%--<h4>Time Constraints</h4>
                                                 <div class="form-group">
-                                                    <%-- lblTimePrefError goes here --%>
                                                     <div class="col-lg-10">
                                                         <asp:RadioButtonList ID="rblTimePreference" runat="server" CssClass="radio" RepeatLayout="Flow" OnSelectedIndexChanged="rblTimePreference_SelectedIndexChanged" AutoPostBack="true">
                                                             <asp:ListItem Selected="True">No Preference</asp:ListItem>
@@ -174,8 +172,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </asp:Panel>
+                                                </asp:Panel>--%>
                                                 <asp:Panel ID="pnlCoordinateParticipants" runat="server" Visible="false">
+                                            <hr />
                                                     <h4>Coordinating Students</h4>
                                                     <div class="form-group">
                                                         <asp:Table ID="tblCoordinates" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center">
@@ -196,7 +195,7 @@
                                         <ContentTemplate>
                                             <div>
                                                 <hr />
-                                                <asp:Label AssociatedControlID="chkAdditionalInfo" runat="server" CssClass="col-md-5 control-label float-left">View Additional Information</asp:Label>
+                                                <asp:Label AssociatedControlID="chkAdditionalInfo" runat="server" CssClass="col-md-6 control-label float-left">View Additional Information</asp:Label>
                                                 <asp:CheckBox ID="chkAdditionalInfo" runat="server" CssClass="checkbox float-left" TextAlign="Right" AutoPostBack="true" OnCheckedChanged="chkAdditionalInfo_CheckedChanged" />
                                             </div>
                                             <br />

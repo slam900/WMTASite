@@ -483,7 +483,7 @@ namespace WMTA.Events
                                 txtDriveTime.Text = audition.driveTime.ToString();
 
                                 //load time constraints
-                                setTimePreference(audition.am, audition.pm, audition.earliest, audition.latest, false);
+                                //setTimePreference(audition.am, audition.pm, audition.earliest, audition.latest, false);
 
                                 //If there are coordinates, make the coordinate section visible
                                 if (audition.coordinates.Count > 0)
@@ -524,28 +524,28 @@ namespace WMTA.Events
          * @param early indicates whether the earliest possible time is preffered
          * @param late indicates whether the latest possible time is preferred
          */
-        private void setTimePreference(bool am, bool pm, bool early, bool late, bool hasPreference)
-        {
-            //determine whether or no there is a preference
-            if (am || pm || early || late || hasPreference)
-            {
-                pnlPreferredTime.Visible = true;
+        //private void setTimePreference(bool am, bool pm, bool early, bool late, bool hasPreference)
+        //{
+        //    //determine whether or no there is a preference
+        //    if (am || pm || early || late || hasPreference)
+        //    {
+        //        pnlPreferredTime.Visible = true;
 
-                rblTimePreference.SelectedIndex = 1;
-            }
-            else if (!hasPreference)
-            {
-                pnlPreferredTime.Visible = false;
+        //        rblTimePreference.SelectedIndex = 1;
+        //    }
+        //    else if (!hasPreference)
+        //    {
+        //        pnlPreferredTime.Visible = false;
 
-                rblTimePreference.SelectedIndex = 0;
-            }
+        //        rblTimePreference.SelectedIndex = 0;
+        //    }
 
-            //set time preference
-            opAM.Checked = am;
-            opPM.Checked = pm;
-            opEarly.Checked = early;
-            opLate.Checked = late;
-        }
+        //    //set time preference
+        //    opAM.Checked = am;
+        //    opPM.Checked = pm;
+        //    opEarly.Checked = early;
+        //    opLate.Checked = late;
+        //}
 
         /*
          * Pre:
@@ -820,7 +820,7 @@ namespace WMTA.Events
          */
         private void clearTimeConstraints()
         {
-            setTimePreference(false, false, false, false, false);
+            //setTimePreference(false, false, false, false, false);
 
             while (tblCoordinates.Rows.Count > 1)
                 tblCoordinates.Rows.Remove(tblCoordinates.Rows[tblCoordinates.Rows.Count - 1]);
@@ -836,15 +836,15 @@ namespace WMTA.Events
         protected void rblTimePreference_SelectedIndexChanged(object sender, EventArgs e)
         {
             //index 0 is "No Preference"
-            if (rblTimePreference.SelectedIndex == 0)
-            {
-                setTimePreference(false, false, false, false, false);
-            }
-            //index 1 is "Preference"
-            else
-            {
-                setTimePreference(false, false, false, false, true);
-            }
+            //if (rblTimePreference.SelectedIndex == 0)
+            //{
+            //    setTimePreference(false, false, false, false, false);
+            //}
+            ////index 1 is "Preference"
+            //else
+            //{
+            //    setTimePreference(false, false, false, false, true);
+            //}
         }
 
         /*
@@ -871,7 +871,7 @@ namespace WMTA.Events
             try
             {
                 //verify all entered information and create audition
-                if (action != Utility.Action.Delete && verifyRequiredDataEntered() && verifyTimePreference() && verifyAge() && duetsAllowed() && !checkFreezeDate())
+                if (action != Utility.Action.Delete && verifyRequiredDataEntered() /*&& verifyTimePreference()*/ && verifyAge() && duetsAllowed() && !checkFreezeDate())
                 {
                     if (audition == null) resetAuditionVar();
 
@@ -963,24 +963,24 @@ namespace WMTA.Events
          * Post: Verifies that if the user specifies that the student has a time preference
          *       that the time preference is entered/chosen.
          */
-        private bool verifyTimePreference()
-        {
-            bool result = true;
+        //private bool verifyTimePreference()
+        //{
+        //    bool result = true;
 
-            //if the user signified that there is a time preference, look for one
-            if (rblTimePreference.SelectedIndex == 1)
-            {
-                //if no preferred time option was selected, return false
-                if (!opAM.Checked && !opPM.Checked && !opEarly.Checked && !opLate.Checked)
-                {
-                    showWarningMessage("Please choose the preferred time or select 'No Preference'.");
+        //    //if the user signified that there is a time preference, look for one
+        //    if (rblTimePreference.SelectedIndex == 1)
+        //    {
+        //        //if no preferred time option was selected, return false
+        //        if (!opAM.Checked && !opPM.Checked && !opEarly.Checked && !opLate.Checked)
+        //        {
+        //            showWarningMessage("Please choose the preferred time or select 'No Preference'.");
 
-                    result = false;
-                }
-            }
+        //            result = false;
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         /*
          * Pre:
@@ -1013,7 +1013,7 @@ namespace WMTA.Events
             //if the audition is a duet, make sure duets are enabled at the chosen site
             if (lblAuditionType.Text.ToUpper().Equals("DUET"))
             {
-                if (!DbInterfaceAudition.StateSiteAllowsDuets(DateTime.Today.Year, Convert.ToInt32(cboSite.SelectedValue)))
+                if (!DbInterfaceAudition.StateSiteAllowsDuets(Convert.ToInt32(cboSite.SelectedValue)))
                 {
                     showWarningMessage("The chosen audition site does not allow duets.");
                     allowed = false;
@@ -1058,10 +1058,15 @@ namespace WMTA.Events
          */
         private void setAuditionTimeConstraints()
         {
-            bool am = opAM.Checked;
-            bool pm = opPM.Checked;
-            bool earliest = opEarly.Checked;
-            bool latest = opLate.Checked;
+            //bool am = opAM.Checked;
+            //bool pm = opPM.Checked;
+            //bool earliest = opEarly.Checked;
+            //bool latest = opLate.Checked;
+
+            bool am = false;
+            bool pm = false;
+            bool earliest = false;
+            bool latest = false;
 
             audition.setTimeConstraints(am, pm, earliest, latest);
         }
@@ -1142,11 +1147,11 @@ namespace WMTA.Events
         {
             cboSite.Enabled = false;
             txtDriveTime.Enabled = false;
-            opAM.Disabled = true;
-            opPM.Disabled = true;
-            opEarly.Disabled = true;
-            opLate.Disabled = true;
-            rblTimePreference.Enabled = false;
+            //opAM.Disabled = true;
+            //opPM.Disabled = true;
+            //opEarly.Disabled = true;
+            //opLate.Disabled = true;
+            //rblTimePreference.Enabled = false;
         }
 
         /*

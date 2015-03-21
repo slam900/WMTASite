@@ -8,7 +8,7 @@ using System.Web;
 
 public class Utility
 {
-    public const string version = "2.6";
+    public const string version = "2.8";
 
     //enumeration for types of judge preferences - these numbers should be equal to the
     //type ids in the JudgePrefType database table
@@ -26,13 +26,13 @@ public class Utility
     public const string ssrsPassword = "33wi8mu8ta44";
 
     /***  Live Variables ***/
-    //public const string ssrsDomain = "localhost";
-    //public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service";
+    public const string ssrsDomain = "localhost";
+    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service";
     public const string reportSuffix = "";
     
     /*** Test Variables ***/
-    public const string ssrsDomain = "sunflower.arvixe.com";
-    public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service";
+    //public const string ssrsDomain = "sunflower.arvixe.com";
+    //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service";
     //public const string reportSuffix = "Test";
 
     //Ovation email and password

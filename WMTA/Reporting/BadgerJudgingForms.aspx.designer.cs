@@ -10,7 +10,7 @@
 namespace WMTA.Reporting {
     
     
-    public partial class JudgingForms {
+    public partial class BadgerJudgingForms {
         
         /// <summary>
         /// upFullPage control.
@@ -49,6 +49,15 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.WebControls.DropDownList ddlDistrictSearch;
         
         /// <summary>
+        /// SqlDataSource1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
+        
+        /// <summary>
         /// btnSearch control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,15 @@ namespace WMTA.Reporting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlYear;
+        
+        /// <summary>
+        /// ddlTeacher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTeacher;
         
         /// <summary>
         /// lblErrorMessage control.
@@ -128,15 +146,6 @@ namespace WMTA.Reporting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Microsoft.Reporting.WebForms.ReportViewer rptVocalForm;
-        
-        /// <summary>
-        /// rptInstrumentalForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptInstrumentalForm;
         
         /// <summary>
         /// rptStringsForm control.

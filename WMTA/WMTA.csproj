@@ -237,10 +237,14 @@
     <Content Include="Images\music notes.jpg" />
     <Content Include="Images\Ovation-clapping1.jpg" />
     <Content Include="Images\question-mark.png" />
+    <Content Include="Reporting\BadgerExecutiveSummary.aspx" />
+    <Content Include="Reporting\BadgerJudgingForms.aspx" />
+    <Content Include="Reporting\BadgerResults.aspx" />
+    <Content Include="Reporting\BadgerTeacherFees.aspx" />
     <Content Include="Reporting\DistrictCheckInForms.aspx" />
     <Content Include="Reporting\DistrictAuditionStatsReport.aspx" />
     <Content Include="Reporting\DistrictChairSummaryReport.aspx" />
-    <Content Include="Reporting\ExecutiveSummary.aspx" />
+    <Content Include="Reporting\DistrictExecutiveSummary.aspx" />
     <Content Include="Reporting\DistrictJudgingForms.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reporting\DistrictRoomSchedules.aspx" />
@@ -653,6 +657,34 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\BadgerExecutiveSummary.aspx.cs">
+      <DependentUpon>BadgerExecutiveSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\BadgerExecutiveSummary.aspx.designer.cs">
+      <DependentUpon>BadgerExecutiveSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\BadgerJudgingForms.aspx.cs">
+      <DependentUpon>BadgerJudgingForms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\BadgerJudgingForms.aspx.designer.cs">
+      <DependentUpon>BadgerJudgingForms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\BadgerResults.aspx.cs">
+      <DependentUpon>BadgerResults.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\BadgerResults.aspx.designer.cs">
+      <DependentUpon>BadgerResults.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\BadgerTeacherFees.aspx.cs">
+      <DependentUpon>BadgerTeacherFees.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\BadgerTeacherFees.aspx.designer.cs">
+      <DependentUpon>BadgerTeacherFees.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\DistrictCheckInForms.aspx.cs">
       <DependentUpon>DistrictCheckInForms.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -674,12 +706,12 @@
     <Compile Include="Reporting\DistrictChairSummaryReport.aspx.designer.cs">
       <DependentUpon>DistrictChairSummaryReport.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Reporting\ExecutiveSummary.aspx.cs">
-      <DependentUpon>ExecutiveSummary.aspx</DependentUpon>
+    <Compile Include="Reporting\DistrictExecutiveSummary.aspx.cs">
+      <DependentUpon>DistrictExecutiveSummary.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Reporting\ExecutiveSummary.aspx.designer.cs">
-      <DependentUpon>ExecutiveSummary.aspx</DependentUpon>
+    <Compile Include="Reporting\DistrictExecutiveSummary.aspx.designer.cs">
+      <DependentUpon>DistrictExecutiveSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\DistrictJudgingForms.aspx.cs">
       <DependentUpon>DistrictJudgingForms.aspx</DependentUpon>

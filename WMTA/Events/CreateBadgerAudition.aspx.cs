@@ -533,6 +533,10 @@ namespace WMTA.Events
                                           ddlDistrict.Items.IndexOf(ddlDistrict.Items.FindByValue(
                                           audition.districtId.ToString()));
                     txtVenue.Text = audition.venue;
+
+                    if (audition.duetsAllowed)
+                        ddlDuets.SelectedIndex = 1;
+
                     //txtNumJudges.Text = audition.numJudges.ToString();
                     ddlChairPerson.DataBind();
                     ddlChairPerson.SelectedIndex = ddlChairPerson.Items.IndexOf(

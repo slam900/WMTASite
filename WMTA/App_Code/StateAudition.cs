@@ -201,7 +201,8 @@ public class StateAudition
             //update coordinates
             foreach (StudentCoordinate coord in coordinates)
             {
-                success = success && DbInterfaceStudentAudition.CreateAuditionCoordinate(auditionId, coord.auditionIds.ElementAt(0), coord.reason);
+                if (coord.auditionIds.Count() > 0)
+                    success = success && DbInterfaceStudentAudition.CreateAuditionCoordinate(auditionId, coord.auditionIds.ElementAt(0), coord.reason);
                 success = success && DbInterfaceStudentAudition.UpdateExistingCoordinates(DbInterfaceStudentAudition.GetStudentStateAuditionIds(DbInterfaceStudent.GetStudentYearId(coord.student.id)));
             }
 

@@ -1646,7 +1646,6 @@ public partial class DbInterfaceStudentAudition
                 foreach (AuditionCompositions comp in audition.districtAudition.compositions)
                     success = success && CreateAuditionCompositions(audId, comp);
             }
-            success = false;
         }
         catch (Exception e)
         {

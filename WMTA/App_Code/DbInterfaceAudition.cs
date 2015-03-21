@@ -745,7 +745,7 @@ public partial class DbInterfaceAudition
      * @param districtId is the district to check
      * @returns true if duets are enabled for the district's audition and false otherwise
      */
-    public static bool StateSiteAllowsDuets(int year, int districtId)
+    public static bool StateSiteAllowsDuets(int auditionOrgId)
     {
         bool allowed = false;
         DataTable table = new DataTable();
@@ -762,8 +762,7 @@ public partial class DbInterfaceAudition
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@year", year);
-            cmd.Parameters.AddWithValue("@geoId", districtId);
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
 
             adapter.Fill(table);
 
@@ -773,7 +772,7 @@ public partial class DbInterfaceAudition
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceAudition", "StateSiteAllowsDuets", "districtId: " + districtId + ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            Utility.LogError("DbInterfaceAudition", "StateSiteAllowsDuets", "auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
         }
 
         connection.Close();

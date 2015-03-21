@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -8,7 +9,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class JudgingForms : System.Web.UI.Page
+    public partial class BadgerResults : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -17,14 +18,15 @@ namespace WMTA.Reporting
                 checkPermissions();
 
                 loadYearDropdown();
-                loadDistrictDropdown();
+                //loadDistrictDropdown();
+                //loadTeacherDropdown();
             }
         }
 
         /*
-         * Pre:
-         * Post: If the user is not logged in they will be redirected to the welcome screen
-         */
+     * Pre:
+     * Post: If the user is not logged in they will be redirected to the welcome screen
+     */
         private void checkPermissions()
         {
             //if the user is not logged in, send them to login screen
@@ -50,29 +52,30 @@ namespace WMTA.Reporting
          *        dropdowns are filtered to containing only the current
          *        user's district
          */
-        private void loadDistrictDropdown()
-        {
-            User user = (User)Session[Utility.userRole];
+        //private void loadDistrictDropdown()
+        //{
+        //    User user = (User)Session[Utility.userRole];
 
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
-            {
-                //get own district dropdown info
-                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
+        //    if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
+        //    {
+        //        //get own district dropdown info
+        //        string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
 
-                //add new item to dropdown and select it
-                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
-                ddlDistrictSearch.SelectedIndex = 1;
-            }
-            else //if the user is an administrator, add all districts
-            {
-                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
+        //        //add new item to dropdown and select it
+        //        ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+        //        ddlDistrictSearch.SelectedIndex = 1;
+        //        updateTeacherDropdown();
+        //    }
+        //    else //if the user is an administrator, add all districts
+        //    {
+        //        ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
 
-                ddlDistrictSearch.DataTextField = "GeoName";
-                ddlDistrictSearch.DataValueField = "GeoId";
+        //        ddlDistrictSearch.DataTextField = "GeoName";
+        //        ddlDistrictSearch.DataValueField = "GeoId";
 
-                ddlDistrictSearch.DataBind();
-            }
-        }
+        //        ddlDistrictSearch.DataBind();
+        //    }
+        //}
 
         /*
          * Pre:
@@ -86,16 +89,10 @@ namespace WMTA.Reporting
 
             if (auditionOrgId != -1)
             {
-                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
-                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
-
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("PianoJudgingForm", rptPianoForm, auditionOrgId, teacherId, districtId);
-                createReport("OrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
-                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
-                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
-                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerKeyboardResults", rptKeyboardResults, ddlYear.SelectedValue, ddlDistrictSearch.SelectedValue, auditionOrgId);
+                createReport("BadgerKeyboardSiteResults", rptKeyboardSiteResults, ddlYear.SelectedValue, ddlDistrictSearch.SelectedValue, auditionOrgId);
             }
             else
             {
@@ -107,7 +104,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int districtId)
+        private void createReport(string rptName, ReportViewer rptViewer, string year, string districtId, int auditionOrgId)
         {
             try
             {
@@ -122,9 +119,9 @@ namespace WMTA.Reporting
 
                 //set parameters
                 List<ReportParameter> parameters = new List<ReportParameter>();
+                parameters.Add(new ReportParameter("year", year));
+                parameters.Add(new ReportParameter("geoId", districtId));
                 parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
-                parameters.Add(new ReportParameter("districtId", districtId.ToString()));
 
                 rptViewer.ServerReport.SetParameters(parameters);
 
@@ -134,10 +131,28 @@ namespace WMTA.Reporting
             {
                 showErrorMessage("Error: An error occurred while generating reports.");
 
-                Utility.LogError("JudgingForms", "createReport", "rptName: " + rptName +
+                Utility.LogError("StudentResultReports", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
+
+        /*
+         * Pre:
+         * Post: Determines whether or not the current user's highest permission level is Teacher
+         * @returns true if the current user's highest permission level is Teacher and false otherwise
+         */
+        //private bool HighestPermissionTeacher()
+        //{
+        //    User user = (User)Session[Utility.userRole];
+        //    bool teacherOnly = false;
+
+        //    if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+        //    {
+        //        teacherOnly = true;
+        //    }
+
+        //    return teacherOnly;
+        //}
 
         #region Messages
 

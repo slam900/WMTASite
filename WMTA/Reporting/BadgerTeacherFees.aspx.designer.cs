@@ -10,7 +10,7 @@
 namespace WMTA.Reporting {
     
     
-    public partial class JudgingForms {
+    public partial class BadgerTeacherFees {
         
         /// <summary>
         /// upFullPage control.
@@ -40,13 +40,13 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.UpdatePanel upSearch;
         
         /// <summary>
-        /// ddlDistrictSearch control.
+        /// ddlYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDistrictSearch;
+        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
         
         /// <summary>
         /// btnSearch control.
@@ -58,13 +58,13 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.WebControls.Button btnSearch;
         
         /// <summary>
-        /// ddlYear control.
+        /// ddlTeacher control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTeacher;
         
         /// <summary>
         /// lblErrorMessage control.
@@ -94,57 +94,21 @@ namespace WMTA.Reporting {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
         
         /// <summary>
-        /// lblSuccessMessage control.
+        /// rptKeyboardFees control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptKeyboardFees;
         
         /// <summary>
-        /// rptPianoForm control.
+        /// rptInstrumentalFees control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptPianoForm;
-        
-        /// <summary>
-        /// rptOrganForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptOrganForm;
-        
-        /// <summary>
-        /// rptVocalForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptVocalForm;
-        
-        /// <summary>
-        /// rptInstrumentalForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptInstrumentalForm;
-        
-        /// <summary>
-        /// rptStringsForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer rptStringsForm;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer rptInstrumentalFees;
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictJudgingForms.aspx.cs" Inherits="WMTA.Reporting.JudgingForms" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="BadgerJudgingForms.aspx.cs" Inherits="WMTA.Reporting.BadgerJudgingForms" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -23,9 +23,10 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="GeoName" DataValueField="GeoId" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true" >
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
+                                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownStateDistricts" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 </div>
                                                 <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
                                             </div>
@@ -35,7 +36,13 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
+                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" AutoPostBack="true" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
                                                 </div>
                                             </div>
                                             <div class="center text-align-center">
@@ -68,10 +75,6 @@
         <div>
             <div class="text-align-center"><h3>Vocal Judging Form</h3></div>
             <rsweb:ReportViewer ID="rptVocalForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Instrumental Judging Form</h3></div>
-            <rsweb:ReportViewer ID="rptInstrumentalForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
         <div>
             <div class="text-align-center"><h3 class="center">Strings Judging Form</h3></div>

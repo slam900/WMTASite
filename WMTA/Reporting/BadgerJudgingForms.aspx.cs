@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -8,7 +9,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class JudgingForms : System.Web.UI.Page
+    public partial class BadgerJudgingForms : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -17,7 +18,6 @@ namespace WMTA.Reporting
                 checkPermissions();
 
                 loadYearDropdown();
-                loadDistrictDropdown();
             }
         }
 
@@ -46,36 +46,6 @@ namespace WMTA.Reporting
 
         /*
          * Pre:
-         * Post:  If the current user is not an administrator, the district
-         *        dropdowns are filtered to containing only the current
-         *        user's district
-         */
-        private void loadDistrictDropdown()
-        {
-            User user = (User)Session[Utility.userRole];
-
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
-            {
-                //get own district dropdown info
-                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
-
-                //add new item to dropdown and select it
-                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
-                ddlDistrictSearch.SelectedIndex = 1;
-            }
-            else //if the user is an administrator, add all districts
-            {
-                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
-
-                ddlDistrictSearch.DataTextField = "GeoName";
-                ddlDistrictSearch.DataValueField = "GeoId";
-
-                ddlDistrictSearch.DataBind();
-            }
-        }
-
-        /*
-         * Pre:
          * Post: If an event matching the search criteria is found, execute
          *       the reports for that audition
          */
@@ -86,16 +56,18 @@ namespace WMTA.Reporting
 
             if (auditionOrgId != -1)
             {
-                int teacherId = Utility.GetTeacherId((User)Session[Utility.userRole]);
+                int teacherId = 0;
+                if (ddlTeacher.SelectedIndex > 0)
+                    teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
+
                 int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("PianoJudgingForm", rptPianoForm, auditionOrgId, teacherId, districtId);
-                createReport("OrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
-                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
-                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
-                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerPianoJudgingForm", rptPianoForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerOrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerVocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerStringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
             }
             else
             {
@@ -136,6 +108,53 @@ namespace WMTA.Reporting
 
                 Utility.LogError("JudgingForms", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateTeacherDropdown();
+        }
+
+        protected void ddlYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateTeacherDropdown();
+        }
+
+        /*
+         * Pre:
+         * Post: Update the list of available teachers
+         */
+        private void updateTeacherDropdown()
+        {
+            ddlTeacher.DataSource = null;
+            ddlTeacher.DataBind();
+            ddlTeacher.Items.Clear();
+
+            if (ddlDistrictSearch.SelectedIndex > 0)
+            {
+                int year = Convert.ToInt32(ddlYear.SelectedValue);
+                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
+
+                DataTable table = DbInterfaceContact.GetTeachersForEvent(districtId, year);
+
+                if (table != null)
+                {
+                    //add empty item
+                    ddlTeacher.Items.Add(new ListItem("", ""));
+
+                    //add teachers from district
+                    ddlTeacher.DataSource = table;
+
+                    ddlTeacher.DataTextField = "ComboName";
+                    ddlTeacher.DataValueField = "ContactId";
+
+                    ddlTeacher.DataBind();
+                }
+                else
+                {
+                    showErrorMessage("Error: The teachers for the selected event could not be retrieved.");
+                }
             }
         }
 

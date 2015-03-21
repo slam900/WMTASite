@@ -65,8 +65,8 @@
         <div>
             <div class="text-align-center">
                 <h3 class="center">District Audition Fee Summary</h3>
+                <rsweb:ReportViewer ID="rptTeacherDetail" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
             </div>
-            <rsweb:ReportViewer ID="rptTeacherDetail" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

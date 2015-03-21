@@ -778,6 +778,81 @@ public partial class DbInterfaceContact
     }
 
     /*
+     * Pre: 
+     * Post: A data table containing the dropdown information for the teachers of
+     *      students participating in the event indicated by the inputs
+     */
+    public static DataTable GetTeachersForEvent(int districtId, int year)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownEventTeachers";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@districtId", districtId);
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "GetTeachersForEvent", "districtId: " + districtId + ", year: " + year, "Message: " + e.Message +
+                             "   StackTrace: " + e.StackTrace, -1);
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
+     * Pre: 
+     * Post: A data table containing the dropdown information for the teachers of
+     *      students participating in the year's Badger events
+     */
+    public static DataTable GetTeachersForBadgerEvent(int year)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownBadgerTeachers";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "GetTeachersForBadgerEvent", "year: " + year, "Message: " + e.Message +
+                             "   StackTrace: " + e.StackTrace, -1);
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
      * Pre:  
      * Post:  Determines whether or not the contact is associated with any students
      * @param contactId is the unique id of the contact

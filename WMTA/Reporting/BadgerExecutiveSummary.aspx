@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictJudgingForms.aspx.cs" Inherits="WMTA.Reporting.JudgingForms" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="BadgerExecutiveSummary.aspx.cs" Inherits="WMTA.Reporting.BadgerExecutiveSummary" %>
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
@@ -15,20 +14,8 @@
                                 <asp:UpdatePanel ID="upSearch" runat="server">
                                     <ContentTemplate>
                                         <div>
-                                            <h4>Select an Audition to Retrieve Reports On</h4>
+                                            <h4>Select a Year to Retrieve Reports On</h4>
                                             <br />
-                                            <div class="form-group">
-                                                <div class="col-md-3-margin">
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="District is required"></asp:RequiredFieldValidator>
-                                                </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
-                                                <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
-                                                        <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                                    </asp:DropDownList>
-                                                </div>
-                                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
-                                            </div>
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
@@ -37,6 +24,7 @@
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
+                                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
                                             </div>
                                             <div class="center text-align-center">
                                                 <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
@@ -58,24 +46,12 @@
     </div>
     <div class="col-md-12">
         <div>
-            <div class="text-align-center"><h3 class="center">Piano Judging Form</h3></div>
-            <rsweb:ReportViewer ID="rptPianoForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>Keyboard Executive Summary</h3></div>
+            <rsweb:ReportViewer ID="rptKeyboardSummary" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
         <div>
-            <div class="text-align-center"><h3 class="center">Organ Judging Form</h3></div>
-            <rsweb:ReportViewer ID="rptOrganForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Vocal Judging Form</h3></div>
-            <rsweb:ReportViewer ID="rptVocalForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Instrumental Judging Form</h3></div>
-            <rsweb:ReportViewer ID="rptInstrumentalForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Strings Judging Form</h3></div>
-            <rsweb:ReportViewer ID="rptStringsForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+            <div class="text-align-center"><h3>Vocal/Instrumental Executive Summary</h3></div>
+            <rsweb:ReportViewer ID="rptInstrumentalSummary" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
     </div>
     <script>

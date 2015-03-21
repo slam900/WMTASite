@@ -229,60 +229,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.UpdatePanel UpdatePanel4;
         
         /// <summary>
-        /// rblTimePreference control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rblTimePreference;
-        
-        /// <summary>
-        /// pnlPreferredTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPreferredTime;
-        
-        /// <summary>
-        /// opAM control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opAM;
-        
-        /// <summary>
-        /// opPM control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opPM;
-        
-        /// <summary>
-        /// opEarly control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opEarly;
-        
-        /// <summary>
-        /// opLate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton opLate;
-        
-        /// <summary>
         /// pnlCoordinateParticipants control.
         /// </summary>
         /// <remarks>
