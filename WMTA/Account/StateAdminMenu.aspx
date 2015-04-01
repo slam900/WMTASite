@@ -29,6 +29,7 @@
                                         <li><a href="../Events/BadgerRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
                                         <li><a href="../Events/BadgerRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
                                         <li><a href="../Events/BadgerRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
+                                        <li><a href="../Reporting/BadgerChairDataDump.aspx" class="smaller-font">View Badger Registrations</a></li>
                                     </ul>
                                 </div>
                                 <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>
@@ -53,6 +54,7 @@
                                         <li><a href="../Reporting/DistrictAuditionStatsReport.aspx" class="smaller-font">District Audition Statistics</a></li>
                                         <li><a href="../Reporting/DistrictChairSummaryReport.aspx" class="smaller-font">District Chair Summary</a></li>
                                         <li><a href="../Reporting/TheoryTestReports.aspx" class="smaller-font">Theory Test Reports</a></li>
+                                        <li><a href="../Reporting/BadgerRegistrationReport.aspx" class="smaller-font">Badger Registration</a></li>
                                         <li><a href="../Reporting/BadgerResults.aspx" class="smaller-font">Badger Results</a></li>
                                         <li><a href="../Reporting/BadgerTeacherFees.aspx" class="smaller-font">Badger Teacher Fee Summary</a></li>
                                         <li><a href="../Reporting/BadgerJudgingForms.aspx" class="smaller-font">Badger Judging Forms</a></li>

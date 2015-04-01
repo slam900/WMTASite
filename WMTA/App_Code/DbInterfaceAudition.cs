@@ -872,4 +872,42 @@ public partial class DbInterfaceAudition
 
         return table;
     }
+
+    /*
+     * Pre:  The input audition org id must exist in the system.  The input teacher id must exist or be 0
+     * Post: Retrieves the audition information for the input audition
+     * @param auditionOrgId is the unique id of the audition
+     * @param teacher is either 0 or the id of the teacher to filter on
+     */
+    public static DataTable GetBadgerDataDump(int auditionOrgId, int teacherId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_BadgerDataDump";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@teacherId", teacherId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetBadgerDataDump", "auditionOrgId: " + auditionOrgId + ", teacherId: " + teacherId, 
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
 }

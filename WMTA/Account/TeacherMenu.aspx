@@ -30,6 +30,7 @@
                                         <li><a href="../Events/BadgerRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
                                         <li><a href="../Events/BadgerRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
                                         <li><a href="../Events/BadgerRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
+                                        <li><a href="../Reporting/BadgerChairDataDump.aspx" class="smaller-font">View Badger Registrations</a></li>
                                     </ul>
                                 </div>
                                 <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>
@@ -45,8 +46,10 @@
                                         <li><a href="../Reporting/StudentHistoryReports.aspx" class="smaller-font">Student History</a></li>
                                         <li><a href="../Reporting/StudentReportsPerDistrict.aspx" class="smaller-font">Student Registration</a></li>
                                         <li><a href="../Reporting/StudentResultReports.aspx" class="smaller-font">Student Results</a></li>
-                                        <li><a href="../Reporting/TeacherFeeSummary.aspx" class="smaller-font">Teacher Fee Summary</a></li>
                                         <li><a href="../Reporting/DistrictJudgingForms.aspx" class="smaller-font">District Judging Forms</a></li>
+                                        <li><a href="../Reporting/TeacherFeeSummary.aspx" class="smaller-font">Teacher Fee Summary</a></li>
+                                        <li><a href="../Reporting/BadgerRegistrationReport.aspx" class="smaller-font">Badger Registration</a></li>
+                                        <li><a href="../Reporting/BadgerTeacherFees.aspx" class="smaller-font">Badger Teacher Fee Summary</a></li>
                                     </ul>
                                 </div>
                             </div>

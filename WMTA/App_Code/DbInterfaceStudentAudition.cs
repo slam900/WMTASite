@@ -2455,7 +2455,7 @@ public partial class DbInterfaceStudentAudition
             //add each district audition id to list
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                int geoId = Convert.ToInt32(table.Rows[i]["DistrictId"]);
+                int geoId = Convert.ToInt32(table.Rows[i]["GeoId"]);
                 if (geoId != 15 && geoId != 16 && geoId != 19 && geoId != 20 && geoId != 21 && 
                     geoId != 22 && geoId != 23 && geoId != 24)
                     auditionIds.Add(Convert.ToInt32(table.Rows[i]["AuditionId"]));
@@ -2502,7 +2502,7 @@ public partial class DbInterfaceStudentAudition
             //add each state audition id to list
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                int geoId = Convert.ToInt32(table.Rows[i]["DistrictId"]);
+                int geoId = Convert.ToInt32(table.Rows[i]["GeoId"]);
                 if (geoId == 15 || geoId == 16 || geoId == 20 || geoId == 21 || geoId == 22)
                     auditionIds.Add(Convert.ToInt32(table.Rows[i]["AuditionId"]));
             }

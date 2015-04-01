@@ -237,8 +237,10 @@
     <Content Include="Images\music notes.jpg" />
     <Content Include="Images\Ovation-clapping1.jpg" />
     <Content Include="Images\question-mark.png" />
+    <Content Include="Reporting\BadgerChairDataDump.aspx" />
     <Content Include="Reporting\BadgerExecutiveSummary.aspx" />
     <Content Include="Reporting\BadgerJudgingForms.aspx" />
+    <Content Include="Reporting\BadgerRegistrationReport.aspx" />
     <Content Include="Reporting\BadgerResults.aspx" />
     <Content Include="Reporting\BadgerTeacherFees.aspx" />
     <Content Include="Reporting\DistrictCheckInForms.aspx" />
@@ -657,6 +659,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\BadgerChairDataDump.aspx.cs">
+      <DependentUpon>BadgerChairDataDump.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\BadgerChairDataDump.aspx.designer.cs">
+      <DependentUpon>BadgerChairDataDump.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\BadgerExecutiveSummary.aspx.cs">
       <DependentUpon>BadgerExecutiveSummary.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -670,6 +679,13 @@
     </Compile>
     <Compile Include="Reporting\BadgerJudgingForms.aspx.designer.cs">
       <DependentUpon>BadgerJudgingForms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\BadgerRegistrationReport.aspx.cs">
+      <DependentUpon>BadgerRegistrationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\BadgerRegistrationReport.aspx.designer.cs">
+      <DependentUpon>BadgerRegistrationReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\BadgerResults.aspx.cs">
       <DependentUpon>BadgerResults.aspx</DependentUpon>

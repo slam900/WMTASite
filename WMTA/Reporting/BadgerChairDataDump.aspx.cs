@@ -5,11 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Microsoft.Reporting.WebForms;
 
 namespace WMTA.Reporting
 {
-    public partial class BadgerJudgingForms : System.Web.UI.Page
+    public partial class BadgerChairDataDump : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,6 +17,7 @@ namespace WMTA.Reporting
                 checkPermissions();
 
                 loadYearDropdown();
+                loadTeacherDropdown();
             }
         }
 
@@ -46,8 +46,44 @@ namespace WMTA.Reporting
 
         /*
          * Pre:
-         * Post: If an event matching the search criteria is found, execute
-         *       the reports for that audition
+         * Post: If the current user is a teacher, the teacher dropdown
+         *       should only show the current user
+         */
+        private void loadTeacherDropdown()
+        {
+            if (HighestPermissionTeacher())
+            {
+                User user = (User)Session[Utility.userRole];
+                Contact contact = DbInterfaceContact.GetContact(user.contactId);
+
+                if (contact != null)
+                {
+                    ddlTeacher.Items.Add(new ListItem(contact.lastName + ", " + contact.firstName, user.contactId.ToString()));
+                }
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Determines whether or not the current user's highest permission level is Teacher
+         * @returns true if the current user's highest permission level is Teacher and false otherwise
+         */
+        private bool HighestPermissionTeacher()
+        {
+            User user = (User)Session[Utility.userRole];
+            bool teacherOnly = false;
+
+            if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+            {
+                teacherOnly = true;
+            }
+
+            return teacherOnly;
+        }
+
+        /*
+         * Pre:
+         * Post: Load the auditions for the selected event.  Filter on teacher if a teacher was selected
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
@@ -60,14 +96,10 @@ namespace WMTA.Reporting
                 if (ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals(""))
                     teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
 
-                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
-
-                showInfoMessage("Please allow several minutes for your reports to generate.");
-
-                createReport("BadgerPianoJudgingForm", rptPianoForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerOrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerVocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerStringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
+                // Update gridview
+                DataTable table = DbInterfaceAudition.GetBadgerDataDump(auditionOrgId, teacherId);
+                gvAuditions.DataSource = table;
+                gvAuditions.DataBind();
             }
             else
             {
@@ -75,50 +107,16 @@ namespace WMTA.Reporting
             }
         }
 
-        /*
-         * Pre:
-         * Post: Create the input report in the specified report viewer
-         */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int districtId)
-        {
-            try
-            {
-                rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
-                rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
-                rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
-
-                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
-
-                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
-                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
-
-                //set parameters
-                List<ReportParameter> parameters = new List<ReportParameter>();
-                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
-                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
-                parameters.Add(new ReportParameter("districtId", districtId.ToString()));
-
-                rptViewer.ServerReport.SetParameters(parameters);
-
-                rptViewer.AsyncRendering = true;
-            }
-            catch (Exception e)
-            {
-                showErrorMessage("Error: An error occurred while generating reports.");
-
-                Utility.LogError("JudgingForms", "createReport", "rptName: " + rptName +
-                                 ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            }
-        }
-
         protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateTeacherDropdown();
+            if (!HighestPermissionTeacher())
+                updateTeacherDropdown();
         }
 
         protected void ddlYear_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateTeacherDropdown();
+            if (!HighestPermissionTeacher())
+                updateTeacherDropdown();
         }
 
         /*
@@ -167,6 +165,8 @@ namespace WMTA.Reporting
          */
         private void showErrorMessage(string message)
         {
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowError", "showMainError(" + message + ")", true);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowMainError", "showMainError(" + message + ")", true);
             lblErrorMessage.InnerText = message;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ShowError", "showMainError()", true);

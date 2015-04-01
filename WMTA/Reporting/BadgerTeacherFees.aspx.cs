@@ -19,7 +19,7 @@ namespace WMTA.Reporting
 
                 loadYearDropdown();
                 //loadDistrictDropdown();
-                //loadTeacherDropdown();
+                loadTeacherDropdown();
             }
         }
 
@@ -44,6 +44,25 @@ namespace WMTA.Reporting
 
             for (int i = DateTime.Now.Year + 1; i >= firstYear; i--)
                 ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+
+        /*
+         * Pre:
+         * Post: If the current user is a teacher, the teacher dropdown
+         *       should only show the current user
+         */
+        private void loadTeacherDropdown()
+        {
+            if (HighestPermissionTeacher())
+            {
+                User user = (User)Session[Utility.userRole];
+                Contact contact = DbInterfaceContact.GetContact(user.contactId);
+
+                if (contact != null)
+                {
+                    ddlTeacher.Items.Add(new ListItem(contact.lastName + ", " + contact.firstName, user.contactId.ToString()));
+                }
+            }
         }
 
         /*
@@ -115,18 +134,18 @@ namespace WMTA.Reporting
          * Post: Determines whether or not the current user's highest permission level is Teacher
          * @returns true if the current user's highest permission level is Teacher and false otherwise
          */
-        //private bool HighestPermissionTeacher()
-        //{
-        //    User user = (User)Session[Utility.userRole];
-        //    bool teacherOnly = false;
+        private bool HighestPermissionTeacher()
+        {
+            User user = (User)Session[Utility.userRole];
+            bool teacherOnly = false;
 
-        //    if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
-        //    {
-        //        teacherOnly = true;
-        //    }
+            if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+            {
+                teacherOnly = true;
+            }
 
-        //    return teacherOnly;
-        //}
+            return teacherOnly;
+        }
 
         /*
          * Pre:
@@ -184,15 +203,11 @@ namespace WMTA.Reporting
             }
         }
 
-        protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            updateTeacherDropdown();
-        }
-
 
         protected void ddlYear_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateTeacherDropdown();
+            if (!HighestPermissionTeacher())
+                updateTeacherDropdown();
         }
 
         #region Messages
