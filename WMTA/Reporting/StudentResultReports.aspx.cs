@@ -103,22 +103,16 @@ namespace WMTA.Reporting
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+            int teacherId = ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals("") ? Convert.ToInt32(ddlTeacher.SelectedValue) : 0;
             int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
                                                                      Convert.ToInt32(ddlYear.SelectedValue));
-            int teacherId = 0;
-
-            //get selected teacher
-            if (ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals(""))
-            {
-                teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
-            }
 
             if (auditionOrgId != -1)
             {
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("DistrictStudentResults", rptResults, auditionOrgId, teacherId);
-                createReport("OutOfDistrictStudentResults", rptOutOfDistrictResults, auditionOrgId, teacherId);
+                createReport("DistrictStudentResults_V2", rptResults, auditionOrgId, teacherId);
+                createReport("OutOfDistrictStudentResults_V2", rptOutOfDistrictResults, auditionOrgId, teacherId);
             }
             else
             {

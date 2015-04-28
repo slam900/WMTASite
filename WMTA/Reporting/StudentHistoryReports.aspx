@@ -10,18 +10,15 @@
                         <div class="form-horizontal">
                             <%-- Start of form --%>
                             <fieldset>
-                                <legend id="legend" runat="server">Audition Search</legend>
+                                <legend id="legend" runat="server">Search</legend>
                                 <%-- Audition search --%>
                                 <asp:UpdatePanel ID="upSearch" runat="server" OnUnload="DoHourGlass">
                                     <ContentTemplate>
                                         <div>
-                                            <h4>Select an Audition to Retrieve Reports On</h4>
+                                            <h4>Select Information to Retrieve Reports On</h4>
                                             <br />
                                             <div class="form-group">
-                                                <div class="col-md-3-margin">
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="District is required"></asp:RequiredFieldValidator>
-                                                </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>

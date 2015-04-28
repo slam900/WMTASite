@@ -80,6 +80,10 @@
             <div class="text-align-center"><h3 class="center">Strings Judging Form</h3></div>
             <rsweb:ReportViewer ID="rptStringsForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
         </div>
+        <div>
+            <div class="text-align-center"><h3 class="center">Instrumental Judging Form</h3></div>
+            <rsweb:ReportViewer ID="rptInstrumentalForm" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+        </div>
     </div>
     <script>
         //show an error message

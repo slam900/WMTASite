@@ -10,12 +10,12 @@
                         <div class="form-horizontal">
                             <%-- Start of form --%>
                             <fieldset>
-                                <legend id="legend" runat="server">Audition Search</legend>
+                                <legend id="legend" runat="server">Search</legend>
                                 <%-- Audition search --%>
                                 <asp:UpdatePanel ID="upSearch" runat="server">
                                     <ContentTemplate>
                                         <div>
-                                            <h4>Select an Audition and Teacher to Retrieve Reports On</h4>
+                                            <h4>Select Information to Retrieve Reports On</h4>
                                             <br />
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">

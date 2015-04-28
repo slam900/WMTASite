@@ -107,40 +107,62 @@ namespace WMTA.Reporting
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
-                                                                     Convert.ToInt32(ddlYear.SelectedValue));
+            int districtId = ddlDistrictSearch.SelectedIndex > 0 ? Convert.ToInt32(ddlDistrictSearch.SelectedValue) : 0;
+            int year = ddlYear.SelectedIndex > 0 ? Convert.ToInt32(ddlYear.SelectedValue) : 0;
+            int teacherId = ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals("") ? teacherId = Convert.ToInt32(ddlTeacher.SelectedValue) : 0;
+            int studentId = ddlStudent.SelectedIndex > 0 ? Convert.ToInt32(ddlStudent.SelectedValue) : 0;
 
-            //get selected teacher
-            int teacherId = 0;
-            if (ddlTeacher.SelectedIndex > 0)
-            {
-                teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
-            }
+            // Can't have district AND teacher...I don't know why, but ok
+            if (teacherId > 0) districtId = 0;
 
-            //get selected student
-            int studentId = 0;
-            if (ddlStudent.SelectedIndex > 0)
+            // Can't have student with anything else
+            if (studentId > 0)
             {
-                studentId = Convert.ToInt32(ddlStudent.SelectedValue);
-            }
-
-            //get selected year
-            int year = 0;
-            if (ddlYear.SelectedIndex > 0)
-            {
-                year = Convert.ToInt32(ddlYear.SelectedValue);
+                districtId = 0;
+                year = 0;
+                teacherId = 0;
             }
 
             showInfoMessage("Please allow several minutes for your reports to generate.");
 
-            createReport("StudentHistory", rptViewerStudentHistory, auditionOrgId, teacherId, studentId, year);
+            createReport("StudentHistory_V2", rptViewerStudentHistory, districtId, teacherId, studentId, year);
         }
+
+
+        //protected void btnSearch_Click(object sender, EventArgs e)
+        //{
+        //    int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue),
+        //                                                             Convert.ToInt32(ddlYear.SelectedValue));
+
+        //    //get selected teacher
+        //    int teacherId = 0;
+        //    if (ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals(""))
+        //        teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
+
+        //    //get selected student
+        //    int studentId = 0;
+        //    if (ddlStudent.SelectedIndex > 0)
+        //    {
+        //        studentId = Convert.ToInt32(ddlStudent.SelectedValue);
+        //    }
+
+        //    //get selected year
+        //    int year = 0;
+        //    if (ddlYear.SelectedIndex > 0)
+        //    {
+        //        year = Convert.ToInt32(ddlYear.SelectedValue);
+        //    }
+
+        //    showInfoMessage("Please allow several minutes for your reports to generate.");
+
+        //    createReport("StudentHistory", rptViewerStudentHistory, auditionOrgId, teacherId, studentId, year);
+        //}
 
         /*
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int studentId, int year)
+        private void createReport(string rptName, ReportViewer rptViewer, int districtId, int teacherId, int studentId, int year)
         {
             try
             {
@@ -155,7 +177,7 @@ namespace WMTA.Reporting
 
                 //set parameters
                 List<ReportParameter> parameters = new List<ReportParameter>();
-                parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
+                parameters.Add(new ReportParameter("geoId", districtId.ToString()));
                 parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
                 parameters.Add(new ReportParameter("studentId", studentId.ToString()));
                 parameters.Add(new ReportParameter("year", year.ToString()));

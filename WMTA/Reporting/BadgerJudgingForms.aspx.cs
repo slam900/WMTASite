@@ -68,6 +68,7 @@ namespace WMTA.Reporting
                 createReport("BadgerOrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
                 createReport("BadgerVocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
                 createReport("BadgerStringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerInstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
             }
             else
             {
