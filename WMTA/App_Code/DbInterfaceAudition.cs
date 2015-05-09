@@ -874,6 +874,42 @@ public partial class DbInterfaceAudition
     }
 
     /*
+     * Pre:  The input teacher must exist in the system
+     * Post: Retrieves the districts that the input teachers had students participating in for the input year
+     */
+    public static DataTable GetTeacherDistrictsForYear(int teacherId, int year)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownTeacherStudentDistrictsForYear";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@teacherId", teacherId);
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetTeacherDistrictsForYear", "teacherId: " + teacherId + ", year: " + year, 
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
      * Pre:  The input audition org id must exist in the system.  The input teacher id must exist or be 0
      * Post: Retrieves the audition information for the input audition
      * @param auditionOrgId is the unique id of the audition

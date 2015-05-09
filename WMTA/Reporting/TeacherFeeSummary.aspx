@@ -19,6 +19,16 @@
                                             <br />
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
+                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
+                                                </div>
+                                                <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" />
+                                                </div>
+                                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlDistrictSearch" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="District is required"></asp:RequiredFieldValidator>
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
@@ -27,21 +37,11 @@
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
-                                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearch_Click" />
                                             </div>
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3-margin">
-                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlYear" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Year is required"></asp:RequiredFieldValidator>
-                                                </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
-                                                <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
                                             </div>
                                             <div class="center text-align-center">

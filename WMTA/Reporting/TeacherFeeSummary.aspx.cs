@@ -56,7 +56,12 @@ namespace WMTA.Reporting
         {
             User user = (User)Session[Utility.userRole];
 
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin or teacher, add only their district
+            ddlDistrictSearch.DataSource = null;
+            ddlDistrictSearch.DataBind();
+            ddlDistrictSearch.Items.Clear();
+            ddlDistrictSearch.Items.Add(new ListItem(""));
+
+            if (!user.permissionLevel.Contains('A') && !user.permissionLevel.Contains('T')) //if the user is a district admin add only their district
             {
                 //get own district dropdown info
                 string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
@@ -65,6 +70,15 @@ namespace WMTA.Reporting
                 ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
                 ddlDistrictSearch.SelectedIndex = 1;
                 updateTeacherDropdown();
+            }
+            else if (user.permissionLevel.Contains('T')) // Get all districts the teacher registered students for in the selected year
+            {
+                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetTeacherDistrictsForYear(user.contactId, Convert.ToInt32(ddlYear.SelectedValue));
+
+                ddlDistrictSearch.DataTextField = "GeoName";
+                ddlDistrictSearch.DataValueField = "GeoId";
+
+                ddlDistrictSearch.DataBind();
             }
             else //if the user is an administrator, add all districts
             {
@@ -111,6 +125,8 @@ namespace WMTA.Reporting
                     showErrorMessage("Error: The teachers for the selected district could not be retrieved.");
                 }
             }
+            else if (ddlDistrictSearch.SelectedIndex > 0)
+                loadTeacherDropdown();
         }
 
         /*
@@ -223,6 +239,17 @@ namespace WMTA.Reporting
         protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateTeacherDropdown();
+        }
+
+        /// <summary>
+        /// Load districts that a teacher had students participating in for the selected year
+        /// </summary>
+        protected void ddlYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            User user = (User)Session[Utility.userRole];
+
+            if (user.permissionLevel.Contains("T"))
+                loadDistrictDropdown();
         }
 
         #region Messages
