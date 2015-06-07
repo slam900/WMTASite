@@ -2098,10 +2098,7 @@ namespace WMTA.Events
          */
         private bool verifyRequiredFields()
         {
-            bool requiredFieldsFilled = true;
-
             Page.Validate("Required");
-            requiredFieldsFilled = Page.IsValid;
 
             //make sure the theory level type is filled in if the theory level is EA or EB
             if ((ddlTheoryLevel.SelectedValue.ToString().Equals("EA") || ddlTheoryLevel.SelectedValue.ToString().Equals("EB")) && 
@@ -2114,17 +2111,15 @@ namespace WMTA.Events
             if (action != Utility.Action.Add)
             {
                 Page.Validate("RequiredForEditOrDelete");
-
-                requiredFieldsFilled = requiredFieldsFilled && Page.IsValid;
             }
 
             //show an error message if required fields are missing
-            if (!requiredFieldsFilled)
+            if (!Page.IsValid)
             {
                 showWarningMessage("Please fill in all required fields.");
             }
 
-            return requiredFieldsFilled;
+            return Page.IsValid;
         }
 
         /*
