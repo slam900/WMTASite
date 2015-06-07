@@ -2151,6 +2151,14 @@ namespace WMTA.Events
                 isValid = false;
             }
 
+            // Make sure there are enough compositions
+            if (requirements.requiredNumStyles > tblCompositions.Rows.Count - 1)
+            {
+                showWarningMessage("There must be " + requirements.requiredNumStyles +
+                    " compositions for the selected audition track");
+                isValid = false;
+            }
+
             //add each unique style to a list
             for (int i = 1; i < tblCompositions.Rows.Count; i++)
             {

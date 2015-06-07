@@ -112,7 +112,7 @@ namespace WMTA.Reporting
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
                 createReport("DistrictStudentResults_V2", rptResults, auditionOrgId, teacherId);
-                createReport("OutOfDistrictStudentResults_V2", rptOutOfDistrictResults, auditionOrgId, teacherId);
+                createReportWithYear("OutOfDistrictStudentResults_V2", rptOutOfDistrictResults, Convert.ToInt32(ddlDistrictSearch.SelectedValue), teacherId, Convert.ToInt32(ddlYear.SelectedValue));
             }
             else
             {
@@ -152,6 +152,42 @@ namespace WMTA.Reporting
 
                 Utility.LogError("StudentResultReports", "createReport", "rptName: " + rptName +
                                  ", auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
+
+        /*
+         * Pre:
+         * Post: Create the input report in the specified report viewer
+         */
+        private void createReportWithYear(string rptName, ReportViewer rptViewer, int geoId, int teacherId, int year)
+        {
+            try
+            {
+                rptViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
+                rptViewer.ToolBarItemBorderColor = System.Drawing.Color.Black;
+                rptViewer.ToolBarItemBorderStyle = BorderStyle.Double;
+
+                rptViewer.ServerReport.ReportServerCredentials = new ReportCredentials(Utility.ssrsUsername, Utility.ssrsPassword, Utility.ssrsDomain);
+
+                rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
+                rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
+
+                //set parameters
+                List<ReportParameter> parameters = new List<ReportParameter>();
+                parameters.Add(new ReportParameter("geoId", geoId.ToString()));
+                parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
+                parameters.Add(new ReportParameter("year", year.ToString()));
+
+                rptViewer.ServerReport.SetParameters(parameters);
+
+                rptViewer.AsyncRendering = true;
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while generating reports.");
+
+                Utility.LogError("StudentResultReports", "createReport", "rptName: " + rptName +
+                                 ", auditionOrgId: " + geoId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 

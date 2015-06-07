@@ -138,6 +138,7 @@
     <Content Include="Account\StateAdminMenu.aspx" />
     <Content Include="Account\SystemAdminMenu.aspx" />
     <Content Include="Account\TeacherMenu.aspx" />
+    <Content Include="App_Data\WisconsinMusic_data.mdf" />
     <Content Include="CompositionTools\CompositionUsed.aspx" />
     <Content Include="CompositionTools\ManageRepertoire.aspx" />
     <Content Include="CompositionTools\ReplaceComposerName.aspx" />
@@ -311,8 +312,6 @@
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\ovation.wmta.net - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ovationtest.wmta.net.pubxml" />
-    <Content Include="App_Data\WisconsinMusic.mdf" />
-    <Content Include="App_Data\WisconsinMusic_log.ldf" />
     <Content Include="Images\headerImg.png" />
     <Content Include="Images\Ovation Logo.png" />
     <Content Include="Images\TempSideBar.png" />
@@ -849,6 +848,7 @@
       <CachedSettingsPropName>WMTA_com_arvixe_sunflower_ReportExecutionService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
