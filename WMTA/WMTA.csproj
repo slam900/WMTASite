@@ -139,6 +139,9 @@
     <Content Include="Account\SystemAdminMenu.aspx" />
     <Content Include="Account\TeacherMenu.aspx" />
     <Content Include="App_Data\WisconsinMusic_data.mdf" />
+    <Content Include="App_Data\WisconsinMusic_data_log.ldf">
+      <DependentUpon>WisconsinMusic_data.mdf</DependentUpon>
+    </Content>
     <Content Include="CompositionTools\CompositionUsed.aspx" />
     <Content Include="CompositionTools\ManageRepertoire.aspx" />
     <Content Include="CompositionTools\ReplaceComposerName.aspx" />

@@ -40,8 +40,8 @@ public class DbInterfaceComposition
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@compositionName", title);
-            cmd.Parameters.AddWithValue("@composer", composer);
+            cmd.Parameters.AddWithValue("@compositionName", title.Trim());
+            cmd.Parameters.AddWithValue("@composer", composer.Trim());
             cmd.Parameters.AddWithValue("@style", style);
             cmd.Parameters.AddWithValue("@playingTime", time);
             cmd.Parameters.AddWithValue("@compLevelId", level);
@@ -92,8 +92,8 @@ public class DbInterfaceComposition
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@compositionId", id);
-            cmd.Parameters.AddWithValue("@compositionName", title);
-            cmd.Parameters.AddWithValue("@composer", composer);
+            cmd.Parameters.AddWithValue("@compositionName", title.Trim());
+            cmd.Parameters.AddWithValue("@composer", composer.Trim());
             cmd.Parameters.AddWithValue("@style", style);
             cmd.Parameters.AddWithValue("@playingTime", time);
             cmd.Parameters.AddWithValue("@compLevelId", level);
@@ -465,7 +465,7 @@ public class DbInterfaceComposition
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@currentName", currentName);
-            cmd.Parameters.AddWithValue("@newName", newName);
+            cmd.Parameters.AddWithValue("@newName", newName.Trim());
 
             adapter.Fill(table);
         }

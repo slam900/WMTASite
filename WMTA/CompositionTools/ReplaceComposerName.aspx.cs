@@ -88,19 +88,19 @@ namespace WMTA.CompositionTools
         private string getNewComposerName()
         {
             //get new composer name
-            string composer = txtComposerLast.Text;
+            string composer = txtComposerLast.Text.Trim();
 
             //get first and middle initials, if entered
             if (!txtComposerFI.Text.Equals(""))
             {
-                composer = composer + ", " + txtComposerFI.Text + ".";
+                composer = composer + ", " + txtComposerFI.Text.Trim() + ".";
 
                 if (!txtComposerMI.Text.Equals(""))
-                    composer = composer + txtComposerMI.Text + ".";
+                    composer = composer + txtComposerMI.Text.Trim() + ".";
             }
             else if (!txtComposerMI.Text.Equals(""))
             {
-                composer = composer + ", " + txtComposerMI.Text + ".";
+                composer = composer + ", " + txtComposerMI.Text.Trim() + ".";
             }
 
             return composer;

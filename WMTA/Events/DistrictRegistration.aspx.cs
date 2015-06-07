@@ -1468,18 +1468,18 @@ namespace WMTA.Events
                 //if a new composer is being entered, get the name
                 if (chkNewComposer.Checked)
                 {
-                    composer = txtComposerLast.Text;
+                    composer = txtComposerLast.Text.Trim();
 
                     //get first and middle initials, if entered
                     if (!txtComposerFI.Text.Equals(""))
                     {
-                        composer = composer + ", " + txtComposerFI.Text + ".";
+                        composer = composer + ", " + txtComposerFI.Text.Trim() + ".";
 
                         if (!txtComposerMI.Text.Equals(""))
-                            composer = composer + txtComposerMI.Text + ".";
+                            composer = composer + txtComposerMI.Text.Trim() + ".";
                     }
                     else if (!txtComposerMI.Text.Equals(""))
-                        composer = composer + ", " + txtComposerMI.Text + ".";
+                        composer = composer + ", " + txtComposerMI.Text.Trim() + ".";
                 }
                 //use existing composer
                 else
@@ -1490,7 +1490,7 @@ namespace WMTA.Events
                 {
                     length = Convert.ToDouble(txtMinutes.Text) + Convert.ToDouble(ddlSeconds.SelectedValue);
 
-                    composition = new Composition(txtComposition.Text, composer, ddlStyle.Text, ddlCompLevel.SelectedValue, length);
+                    composition = new Composition(txtComposition.Text.Trim(), composer, ddlStyle.Text, ddlCompLevel.SelectedValue, length);
 
                     if (composition.compositionId == -1)
                     {

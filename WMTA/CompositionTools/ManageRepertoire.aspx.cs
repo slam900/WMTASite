@@ -116,7 +116,7 @@ namespace WMTA.CompositionTools
             if (pnlTitleNew.Visible)
                 title = createTitle();
             else
-                title = txtComposition.Text;
+                title = txtComposition.Text.Trim();
 
             //get composition length
             double time = Convert.ToDouble(txtMinutes.Text) + Convert.ToDouble(ddlSeconds.SelectedValue);
@@ -196,7 +196,7 @@ namespace WMTA.CompositionTools
                 composer = createComposerName();
             }
 
-            Composition comp = new Composition(id, txtComposition.Text, composer, ddlStyle.SelectedValue,
+            Composition comp = new Composition(id, txtComposition.Text.Trim(), composer, ddlStyle.SelectedValue,
                                                ddlCompLevel.SelectedValue, time);
             if (comp.updateInDatabase())
             {
@@ -245,7 +245,7 @@ namespace WMTA.CompositionTools
          */
         private string createTitle()
         {
-            string title = txtTitleNew.Text;
+            string title = txtTitleNew.Text.Trim();
 
             if (ddlKeyLetter.SelectedIndex > 0) //get letter of key
                 title = title + ", " + ddlKeyLetter.SelectedValue;
@@ -257,17 +257,17 @@ namespace WMTA.CompositionTools
                 title = title + " " + ddlKeyMM.SelectedValue;
 
             if (!txtMvmt.Text.Equals("")) //get movement
-                title = title + ", " + txtMvmt.Text;
+                title = title + ", " + txtMvmt.Text.Trim();
 
             if (!txtTempo.Text.Equals("")) //get tempo
-                title = title + ", " + txtTempo.Text;
+                title = title + ", " + txtTempo.Text.Trim();
 
             if (!txtCatalogNo.Text.Equals("")) //get catalog number
             {
                 if (ddlPrefix.SelectedIndex > 0) //get catalog prefix
-                    title = title + ", " + ddlPrefix.SelectedValue + " " + txtCatalogNo.Text;
+                    title = title + ", " + ddlPrefix.SelectedValue + " " + txtCatalogNo.Text.Trim();
                 else
-                    title = title + ", " + txtCatalogNo.Text;
+                    title = title + ", " + txtCatalogNo.Text.Trim();
             }
 
             return title;
@@ -280,21 +280,21 @@ namespace WMTA.CompositionTools
          */
         private string createComposerName()
         {
-            string composer = txtComposerLast.Text;
+            string composer = txtComposerLast.Text.Trim();
 
             //get first and middle initials, if entered
             if (!txtComposerFI.Text.Equals(""))
             {
-                composer = composer + ", " + txtComposerFI.Text + ".";
+                composer = composer + ", " + txtComposerFI.Text.Trim() + ".";
 
                 if (!txtComposerMI.Text.Equals(""))
                 {
-                    composer = composer + txtComposerMI.Text + ".";
+                    composer = composer + txtComposerMI.Text.Trim() + ".";
                 }
             }
             else if (!txtComposerMI.Text.Equals(""))
             {
-                composer = composer + ", " + txtComposerMI.Text + ".";
+                composer = composer + ", " + txtComposerMI.Text.Trim() + ".";
             }
 
             return composer;
@@ -371,23 +371,23 @@ namespace WMTA.CompositionTools
             bool exists = false;
 
             if (!chkNewComposer1.Checked)
-                exists = DbInterfaceComposition.CompositionExists(txtComposition.Text, ddlComposer.SelectedValue);
+                exists = DbInterfaceComposition.CompositionExists(txtComposition.Text.Trim(), ddlComposer.SelectedValue);
             else
             {
-                string composer = txtComposerLast.Text;
+                string composer = txtComposerLast.Text.Trim();
 
                 //get first and middle initials, if entered
                 if (!txtComposerFI.Text.Equals(""))
                 {
-                    composer = composer + ", " + txtComposerFI.Text + ".";
+                    composer = composer + ", " + txtComposerFI.Text.Trim() + ".";
 
                     if (!txtComposerMI.Text.Equals(""))
-                        composer = composer + txtComposerMI.Text + ".";
+                        composer = composer + txtComposerMI.Text.Trim() + ".";
                 }
                 else if (!txtComposerMI.Text.Equals(""))
-                    composer = composer + ", " + txtComposerMI.Text + ".";
+                    composer = composer + ", " + txtComposerMI.Text.Trim() + ".";
 
-                exists = DbInterfaceComposition.CompositionExists(txtComposition.Text, composer);
+                exists = DbInterfaceComposition.CompositionExists(txtComposition.Text.Trim(), composer);
             }
 
             return exists;

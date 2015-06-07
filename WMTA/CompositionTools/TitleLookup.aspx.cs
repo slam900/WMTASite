@@ -44,7 +44,7 @@ namespace WMTA.CompositionTools
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             //check for compositions containing string
-            string queryString = txtComposition.Text;
+            string queryString = txtComposition.Text.Trim();
             string composer = ddlComposer.SelectedValue.ToString();
 
             List<Tuple<Composition, int>> qryResults = DbInterfaceComposition.CompositionTitleQuery(queryString, composer);
