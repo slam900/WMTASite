@@ -345,7 +345,7 @@ namespace WMTA.Contacts
                 if (!cboPrevTeacher.SelectedValue.ToString().Equals("")) prevTeacherId = Convert.ToInt32(cboPrevTeacher.SelectedValue);
 
                 // Get legacy points
-                if (!txtLegacyPoints.Text.Equals(""))
+                if (pnlEditLegacyPts.Visible && !txtLegacyPoints.Text.Equals(""))
                 {
                     Int32.TryParse(txtLegacyPoints.Text, out legacyPoints);
                     legacyPtsYear = Int32.Parse(ddlLegacyPtsYear.SelectedValue);
