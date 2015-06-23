@@ -54,7 +54,7 @@ namespace WMTA.Reporting
         {
             User user = (User)Session[Utility.userRole];
 
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
+            if (!(user.permissionLevel.Contains('A') || user.permissionLevel.Contains('S'))) //if the user is a district admin, add only their district
             {
                 //get own district dropdown info
                 string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
