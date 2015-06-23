@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="Server">
     <br />
     <div class="jumbotron backcolor-white center" style="width: 900px">
-        <%--<h1 style="color: red; text-align: center">Test Site</h1>--%>
+        <h1 style="color: red; text-align: center">Test Site</h1>
 <%--        <h1 style="color: red; text-align: center">Test Site Connected To Live Database</h1>--%>
         <img src="Images/Ovation-clapping1.jpg" class="center display-block regular-top-margin" />
         <div class="row">

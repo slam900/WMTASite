@@ -477,7 +477,7 @@ namespace WMTA.Events
                             cboAudition.DataBind();
                         }
                         else
-                            showWarningMessage("This student has no editable auditions for the current year.");
+                            showWarningMessage("This student has no editable auditions. Add a new registration for this student with the 'Add Registration' option");
                     }
                 }
                 else

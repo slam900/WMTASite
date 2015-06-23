@@ -356,7 +356,7 @@ namespace WMTA.Events
                         }
                         else
                         {
-                            showWarningMessage("This student has no state auditions to edit.");
+                            showWarningMessage("This student has no editable auditions. Add a new registration for this student with the 'Add Registration' option");
                         }
                     }
                     else
