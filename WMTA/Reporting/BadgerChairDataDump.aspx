@@ -80,6 +80,7 @@
                                     <asp:BoundField DataField="FirstName" HeaderText="First Name" InsertVisible="false" ReadOnly="true" SortExpression="FirstName" />
                                     <asp:BoundField DataField="Grade" HeaderText="Grade" InsertVisible="false" ReadOnly="true" SortExpression="Grade" />
                                     <asp:BoundField DataField="CurrentTeacherId" HeaderText="Teacher Id" InsertVisible="false" ReadOnly="true" SortExpression="CurrentTeacherId" />
+                                    <asp:BoundField DataField="GeoName" HeaderText="District" InsertVisible="false" ReadOnly="true" SortExpression="GeoName" />
                                     <asp:BoundField DataField="Instrument" HeaderText="Instrument" InsertVisible="false" ReadOnly="true" SortExpression="Instrument" />
                                     <asp:BoundField DataField="Accompanist" HeaderText="Accompanist" InsertVisible="false" ReadOnly="true" SortExpression="Accompanist" />
                                     <asp:BoundField DataField="AuditionType" HeaderText="Type" InsertVisible="false" ReadOnly="true" SortExpression="AuditionType" />
