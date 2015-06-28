@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace WMTA.Reporting
 {
-    public partial class BadgerChairDataDump : System.Web.UI.Page
+    public partial class DistrictDataDump : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -16,8 +16,8 @@ namespace WMTA.Reporting
             {
                 checkPermissions();
 
-                loadDistrictDropdown();
                 loadYearDropdown();
+                loadDistrictDropdown();
                 loadTeacherDropdown();
             }
         }
@@ -66,7 +66,6 @@ namespace WMTA.Reporting
             }
             else //if the user is an administrator, add all districts
             {
-                ddlDistrictSearch.DataSourceID = null;
                 ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
 
                 ddlDistrictSearch.DataTextField = "GeoName";
@@ -129,7 +128,7 @@ namespace WMTA.Reporting
                     teacherId = Convert.ToInt32(ddlTeacher.SelectedValue);
 
                 // Update gridview
-                DataTable table = DbInterfaceAudition.GetBadgerDataDump(auditionOrgId, teacherId);
+                DataTable table = DbInterfaceAudition.GetDistrictDataDump(auditionOrgId, teacherId);
                 gvAuditions.DataSource = table;
                 gvAuditions.DataBind();
             }

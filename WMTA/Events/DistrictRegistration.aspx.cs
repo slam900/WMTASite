@@ -2165,7 +2165,7 @@ namespace WMTA.Events
             if (!audTrack.Equals("D2") && requirements.requiredNumStyles > selectedStyles.Count)
             {
                 showWarningMessage("There must be " + requirements.requiredNumStyles.ToString() +
-                                " unique composition styles for the selected audition track");
+                                " compositions of unique styles for the selected audition track");
                 isValid = false;
             }
 

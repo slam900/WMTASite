@@ -250,6 +250,7 @@
     <Content Include="Reporting\DistrictCheckInForms.aspx" />
     <Content Include="Reporting\DistrictAuditionStatsReport.aspx" />
     <Content Include="Reporting\DistrictChairSummaryReport.aspx" />
+    <Content Include="Reporting\DistrictDataDump.aspx" />
     <Content Include="Reporting\DistrictExecutiveSummary.aspx" />
     <Content Include="Reporting\DistrictJudgingForms.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
@@ -723,6 +724,13 @@
     </Compile>
     <Compile Include="Reporting\DistrictChairSummaryReport.aspx.designer.cs">
       <DependentUpon>DistrictChairSummaryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\DistrictDataDump.aspx.cs">
+      <DependentUpon>DistrictDataDump.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\DistrictDataDump.aspx.designer.cs">
+      <DependentUpon>DistrictDataDump.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\DistrictExecutiveSummary.aspx.cs">
       <DependentUpon>DistrictExecutiveSummary.aspx</DependentUpon>

@@ -42,6 +42,7 @@
                                         <li><a href="../Events/DistrictRegistration.aspx?action=1" class="smaller-font">Add Registration</a></li>
                                         <li><a href="../Events/DistrictRegistration.aspx?action=2" class="smaller-font">Edit Registration</a></li>
                                         <li><a href="../Events/DistrictRegistration.aspx?action=3" class="smaller-font">Delete Registration</a></li>
+                                        <li><a href="../Reporting/DistrictDataDump.aspx" class="smaller-font">View District Registrations</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">
