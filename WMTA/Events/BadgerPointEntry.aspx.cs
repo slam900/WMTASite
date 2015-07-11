@@ -141,7 +141,7 @@ namespace WMTA.Events
                 //get eligible auditions
                 if (student != null)
                 {
-                    DataTable table = DbInterfaceStudentAudition.GetStateAuditionsForDropdownByYear(student, Convert.ToInt32(ddlYear.SelectedValue));
+                    DataTable table = DbInterfaceStudentAudition.GetStateAuditionsForPointEntryDropdown(student, Convert.ToInt32(ddlYear.SelectedValue));
                     cboAudition.DataSource = null;
                     cboAudition.Items.Clear();
                     cboAudition.DataSourceID = "";

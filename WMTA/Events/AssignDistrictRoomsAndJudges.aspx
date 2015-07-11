@@ -97,6 +97,7 @@
                                                 <div class="col-md-2">
                                                     <asp:DropDownList ID="ddlTheoryTest" runat="server" CssClass="dropdown-list form-control float-left" Width="70px" AppendDataBoundItems="true" DataSourceID="SqlDataSourceTheory" DataTextField="Test" DataValueField="Test">
                                                         <asp:ListItem Selected="True" Text="" Value="" />
+                                                        <asp:ListItem Selected="False" Text="All" Value="All" />
                                                     </asp:DropDownList>
                                                     <asp:SqlDataSource ID="SqlDataSourceTheory" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownTheoryTest" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 </div>

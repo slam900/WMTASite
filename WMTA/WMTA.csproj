@@ -226,6 +226,7 @@
     <Content Include="Events\CoordinateStudents.aspx" />
     <Content Include="Events\CreateBadgerAudition.aspx" />
     <Content Include="Events\CreateDistrictAudition.aspx" />
+    <Content Include="Events\DeleteCoordinations.aspx" />
     <Content Include="Events\DistrictPointEntry.aspx" />
     <Content Include="Events\DistrictRegistration.aspx" />
     <Content Include="Events\HsVirtuosoCompositionPointEntry.aspx" />
@@ -568,6 +569,13 @@
     </Compile>
     <Compile Include="Events\CreateDistrictAudition.aspx.designer.cs">
       <DependentUpon>CreateDistrictAudition.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\DeleteCoordinations.aspx.cs">
+      <DependentUpon>DeleteCoordinations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\DeleteCoordinations.aspx.designer.cs">
+      <DependentUpon>DeleteCoordinations.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\DistrictPointEntry.aspx.cs">
       <DependentUpon>DistrictPointEntry.aspx</DependentUpon>

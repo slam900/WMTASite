@@ -2671,6 +2671,45 @@ public partial class DbInterfaceStudentAudition
 
     /*
      * Pre:  The input student must exist in the system
+     * Post: Retrieves the student's District Auditions for the input year that have passed
+     * @param student is the student whose auditions are being returned
+     * @param year is the year of the auditions being returned
+     * @returns a data table containing the student's auditions
+     */
+    public static DataTable GetDistrictAuditionsForPointEntryDropdown(Student student, int year)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownDistrictAuditionsForPointEntry";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentId", student.id);
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "GetDistrictAuditionsForPointEntryDropdown", "studentId: " +
+                             student.id + ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
+     * Pre:  The input student must exist in the system
      * Post: Retrieves the student's State Auditions for the input year
      * @param student is the student whose auditions are being returned
      * @param year is the year of the auditions being returned
@@ -2701,6 +2740,85 @@ public partial class DbInterfaceStudentAudition
         {
             Utility.LogError("DbInterfaceStudentAudition", "GetStateAuditionsForDropdownByYear", "studentId: " + student.id +
                              ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
+     * Pre:  The input student must exist in the system
+     * Post: Retrieves the student's State Auditions that have passed for the input year
+     * @param student is the student whose auditions are being returned
+     * @param year is the year of the auditions being returned
+     * @returns a data table containing the student's auditions
+     */
+    public static DataTable GetStateAuditionsForPointEntryDropdown(Student student, int year)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownStateAuditionsForPointEntry";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentId", student.id);
+            cmd.Parameters.AddWithValue("@year", year);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "GetStateAuditionsForPointEntryDropdown", "studentId: " + student.id +
+                             ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
+     * Pre:  The input student must exist in the system
+     * Post: Retrieves the student's district or state auditions for the input year (if the freeze date hasn't passed)
+     * @param student is the student whose auditions are being returned
+     * @param year is the year of the auditions being returned
+     * @returns a data table containing the student's auditions
+     */
+    public static DataTable GetDistrictOrStateAuditionsForDropdownByYear(int studentId, int year, bool isDistrictAudition)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_DropDownAllAuditionOptionsByYear";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentId", studentId);
+            cmd.Parameters.AddWithValue("@year", year);
+            cmd.Parameters.AddWithValue("@districtAudition", isDistrictAudition);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "GetDistrictOrStateAuditionsForDropdownByYear", "studentId: " +
+                             studentId + ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
         }
 
         connection.Close();

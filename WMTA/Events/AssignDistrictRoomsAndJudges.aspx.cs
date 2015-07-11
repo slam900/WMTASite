@@ -499,7 +499,35 @@ namespace WMTA.Events
             string room = ddlRoom.SelectedValue.ToString();
             room = ddlRoom.Text;
 
-            if (!test.Equals("") && !room.Equals("") && !TheoryTestExists(test))
+            if (test.Equals("All") && !room.Equals("")) // add all tests to the current room
+            {
+                // Remove all existing rows
+                for (int i = 1; i < tblTheoryRooms.Rows.Count; i++)
+                {
+                    string currentTest = tblTheoryRooms.Rows[i].Cells[1].Text;
+                    string currentRoom = tblTheoryRooms.Rows[i].Cells[2].Text;
+
+                    // Remove from the table and audition
+                    tblTheoryRooms.Rows.Remove(tblTheoryRooms.Rows[i]);
+                    audition.RemoveTheoryRoom(currentTest, currentRoom);
+
+                    i--;
+                }
+
+                // Add all theory tests to table with current room
+                for (int i = 0; i < ddlTheoryTest.Items.Count; i++)
+                {
+                    string currentTest = ddlTheoryTest.Items[i].Value;
+
+                    if (!currentTest.Equals("") && !currentTest.Equals("All"))
+                        AddTheoryRoom(currentTest, room);
+                }
+
+                ddlTheoryTest.SelectedIndex = -1;
+                ddlRoom.SelectedIndex = -1;
+                pnlTheoryRooms.Visible = true;
+            }
+            else if (!test.Equals("") && !room.Equals("") && !TheoryTestExists(test))
             {
                 AddTheoryRoom(test, room);
 
