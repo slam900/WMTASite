@@ -2790,17 +2790,27 @@ public partial class DbInterfaceStudentAudition
      * Pre:  The input student must exist in the system
      * Post: Retrieves the student's district or state auditions for the input year (if the freeze date hasn't passed)
      * @param student is the student whose auditions are being returned
-     * @param year is the year of the auditions being returned
      * @returns a data table containing the student's auditions
      */
-    public static DataTable GetDistrictOrStateAuditionsForDropdownByYear(int studentId, int year, bool isDistrictAudition)
+    public static DataTable GetDistrictOrStateAuditionsForDropdownByYear(int studentId, bool isDistrictAudition)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+        int year = DateTime.Today.Year;
 
         try
         {
+            //if the current month is June or later, set up the audition for the next year
+            if (DateTime.Today.Month >= 6)
+                year = DateTime.Today.AddYears(1).Year;
+            else
+                year = DateTime.Today.Year;
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
+
             connection.Open();
             string storedProc = "sp_DropDownAllAuditionOptionsByYear";
 
@@ -3037,5 +3047,96 @@ public partial class DbInterfaceStudentAudition
         connection.Close();
 
         return scheduleSlot;
+    }
+
+    /*
+     * Pre:  The input audition id must exist in the system
+     * Post: Retrieves the unique student/coordinate type combinations for the audition
+     * @param auditionId is the audition whose coordinates are being returned
+     * @returns a data table containing the audition's coordinates
+     */
+    public static DataTable GetUniqueAuditionCoordinates(int auditionId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_StudentAuditionCoordRideSelectDistinctStudentAndType";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "GetUniqueAuditionCoordinates", "auditionId: ", 
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
+     * Pre:  The input students must exist in the system
+     * Post: Deletes all coordinations between the two students of the given type
+     * @param student is the student whose auditions are being returned
+     * @returns whether or not the coordinations were successfully deleted
+     */
+    public static bool RemoveCoordinatesByStudentIdAndType(int studentId1, int studentId2, string coordType, bool isDistrictAudition)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+        int year = DateTime.Today.Year;
+        bool success = true;
+
+        try
+        {
+            //if the current month is June or later, set up the audition for the next year
+            if (DateTime.Today.Month >= 6)
+                year = DateTime.Today.AddYears(1).Year;
+            else
+                year = DateTime.Today.Year;
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year;
+
+            connection.Open();
+            string storedProc = "sp_StudentAuditionCoordDeleteByStudentIdAndType";  //write this
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@studentId1", studentId1);
+            cmd.Parameters.AddWithValue("@studentId2", studentId2);
+            cmd.Parameters.AddWithValue("@coordType", coordType);
+            cmd.Parameters.AddWithValue("@year", year);
+            cmd.Parameters.AddWithValue("@isDistrictAudition", isDistrictAudition);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "RemoveCoordinatesByStudentIdAndType", "studentId1: " +
+                             studentId1 + ", studentId2: " + studentId2 + ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
     }
 }

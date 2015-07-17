@@ -427,6 +427,9 @@
                                 </asp:Panel>
                                 <hr />
                                 <asp:Panel runat="server" ID="pnlButtons" Visible="false">
+                                    <div style="text-align: center; margin: 0px 10px 20px 10px; font-weight: bold">
+                                        Final registration?  If so, print out your Teacher Fee Summary report and send it, along with your check, to the appropriate District Chair.
+                                    </div>
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
                                             <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />

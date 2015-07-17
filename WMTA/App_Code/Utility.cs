@@ -18,6 +18,9 @@ public class Utility
     //enumeration for page actions
     public enum Action { Add = 1, Edit = 2, Delete = 3 };
 
+    // enumeration for coordinate types
+    public enum CoordType { Carpool = 1, Sibling = 2, Duet = 3 };
+
     //session variable name for session variable containing data of current user
     public const string userRole = "UserRole";
 

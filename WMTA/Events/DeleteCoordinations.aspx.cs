@@ -12,28 +12,24 @@ namespace WMTA.Events
     public partial class DeleteCoordinations : System.Web.UI.Page
     {
         private DistrictAudition audition;
+        private List<Tuple<int, int, string>> coordinatesToDelete; // Student id 1, student id 2, coordination type
         //session variables
-        private string auditionVar = "Audition";
         private string studentSearch = "StudentData";
         private string coordinateTable = "CoordinateTable";
+        private string coordinatesToDeleteSession = "CoordinatesToDelete";
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            coordinatesToDelete = new List<Tuple<int, int, string>>();
+
             //clear session variables
             if (!Page.IsPostBack)
             {
-                Session[auditionVar] = null;
                 Session[studentSearch] = null;
                 Session[coordinateTable] = null;
-
-                loadYearDropdown();
+                Session[coordinatesToDeleteSession] = new List<Tuple<int, int, string>>();
+               
                 checkPermissions();
-            }
-
-            //if an audition object has been instantiated, reload
-            if (Page.IsPostBack && Session[auditionVar] != null)
-            {
-                audition = (DistrictAudition)Session[auditionVar];
             }
 
             //if there were coordinates selected before the postback, add them 
@@ -45,18 +41,12 @@ namespace WMTA.Events
                 for (int i = 1; i < rowArray.Length; i++)
                     tblCoordinates.Rows.Add(rowArray[i]);
             }
-        }
 
-        /*
-         * Pre:
-         * Post: Loads the appropriate years in the dropdown
-         */
-        private void loadYearDropdown()
-        {
-            int firstYear = DbInterfaceStudentAudition.GetFirstAuditionYear();
-
-            for (int i = DateTime.Now.Year; i >= firstYear; i--)
-                ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
+            // Get the coordinates to delete
+            if (Page.IsPostBack && coordinatesToDeleteSession != null)
+            {
+                coordinatesToDelete = (List<Tuple<int, int, string>>)Session[coordinatesToDeleteSession];
+            }
         }
 
         /*
@@ -240,6 +230,7 @@ namespace WMTA.Events
                 lblStudent.Text = student.firstName + " " + student.lastName;
 
                 upAuditions.Visible = true;
+                pnlButtons.Visible = true;
                 upStudentSearch.Visible = false;
             }
             else
@@ -250,13 +241,16 @@ namespace WMTA.Events
             return student;
         }
 
+        /// <summary>
+        /// Load the auditions for the students where the freeze date has not yet passed
+        /// </summary>
         private void loadAuditions()
         {
             int studentId = -1;
 
-            if (ddlYear.SelectedIndex > 0 && ddlAuditionType.SelectedIndex > 0 && Int32.TryParse(lblStudId.InnerText, out studentId))
+            if (ddlAuditionType.SelectedIndex > 0 && Int32.TryParse(lblStudId.InnerText, out studentId))
             {
-                DataTable table = DbInterfaceStudentAudition.GetDistrictOrStateAuditionsForDropdownByYear(studentId, Convert.ToInt32(ddlYear.SelectedValue), ddlAuditionType.SelectedValue.Equals("District"));
+                DataTable table = DbInterfaceStudentAudition.GetDistrictOrStateAuditionsForDropdownByYear(studentId, ddlAuditionType.SelectedValue.Equals("District"));
                 cboAudition.DataSource = null;
                 cboAudition.Items.Clear();
                 cboAudition.DataSourceID = "";
@@ -271,7 +265,7 @@ namespace WMTA.Events
                 }
                 else
                 {
-                    showWarningMessage("This student has no editable auditions for the selected year.");
+                    showWarningMessage("This student has no editable auditions for the selected year. Either no auditions have been created or the Freeze Date has passed.");
                 }
             }
         }
@@ -286,10 +280,131 @@ namespace WMTA.Events
             loadAuditions();
         }
 
+        /// <summary>
+        /// Load the coordinated students for the audition  (do not load duets b/c they must be deleted by deleting the audition)
+        /// If the student has several auditions for the event, the coordination will
+        /// be removed for all auditions.
+        /// </summary>
         protected void cboAudition_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int auditionId = -1;
+
+            if (cboAudition.SelectedIndex > -1 && Int32.TryParse(cboAudition.SelectedValue, out auditionId))
+            {
+                DataTable table = DbInterfaceStudentAudition.GetUniqueAuditionCoordinates(auditionId);
+                
+                // Clear table
+                while (tblCoordinates.Rows.Count > 1)
+                    tblCoordinates.Rows.RemoveAt(1);
+
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    TableRow row = new TableRow();
+                    TableCell chkBoxCell = new TableCell();
+                    TableCell studentIdCell = new TableCell();
+                    TableCell coordinateStudentIdCell = new TableCell();
+                    TableCell coordinateLastNameCell = new TableCell();
+                    TableCell coordinateFirstNameCell = new TableCell();
+                    TableCell coordinateTypeCell = new TableCell();
+                    CheckBox chkBox = new CheckBox();
+
+                    chkBoxCell.Controls.Add(chkBox);
+
+                    // Save student ids in invisible cells to access later
+                    studentIdCell.Text = lblStudId.InnerText;
+                    coordinateStudentIdCell.Text = table.Rows[i]["StudentId"].ToString();
+                    studentIdCell.Visible = false;
+                    coordinateStudentIdCell.Visible = false;
+
+                    // Set remaining cell text
+                    coordinateLastNameCell.Text = table.Rows[i]["LastName"].ToString();
+                    coordinateFirstNameCell.Text = table.Rows[i]["FirstName"].ToString();
+                    coordinateTypeCell.Text = table.Rows[i]["CoordType"].ToString();
+
+                    // Add cells to new row
+                    row.Cells.Add(chkBoxCell);
+                    row.Cells.Add(studentIdCell);
+                    row.Cells.Add(coordinateStudentIdCell);
+                    row.Cells.Add(coordinateLastNameCell);
+                    row.Cells.Add(coordinateFirstNameCell);
+                    row.Cells.Add(coordinateTypeCell);
+
+                    // Add new row to table
+                    tblCoordinates.Rows.Add(row);
+
+                    // Save table to session variable as an array
+                    saveTableToSession(tblCoordinates, coordinateTable);
+                }
+
+            }
+
             pnlCoordinates.Visible = true;
-            
+        }
+
+        /*
+         * Pre:
+         * Post: Display an error if no coordinate is selected, otherwise
+         *       remove the selected coordinate from the table and add them
+         *       to the list of coordinates to remove
+         */
+        protected void btnRemove_Click(object sender, EventArgs e)
+        {
+            bool coordinateSelected = false;
+
+            // See if the checkbox is checked in each row, remove the row if it is
+            for (int i = 1; i < tblCoordinates.Rows.Count; i++)
+            {
+                if (((CheckBox)tblCoordinates.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    // Add to list of coordinates to remove
+                    string studentId1 = tblCoordinates.Rows[i].Cells[1].Text;
+                    string studentId2 = tblCoordinates.Rows[i].Cells[2].Text;
+                    string reason = tblCoordinates.Rows[i].Cells[5].Text;
+                    coordinatesToDelete.Add(new Tuple<int, int, string>(Convert.ToInt32(studentId1), Convert.ToInt32(studentId2), reason));
+
+                    // Delete table row
+                    tblCoordinates.Rows.Remove(tblCoordinates.Rows[i]);
+
+                    coordinateSelected = true;
+                    i--;
+                }
+            }
+
+            // If no coordinate was selected, display error message
+            if (!coordinateSelected)
+            {
+                showWarningMessage("Please select a coordinate to remove.");
+            }
+            else // if a change was made, save the table in a session variable
+            {
+                saveTableToSession(tblCoordinates, coordinateTable);
+                Session[coordinatesToDeleteSession] = coordinatesToDelete;
+            }
+        }
+
+        /*
+         * Remove coordinates from database
+         */
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            if (coordinatesToDelete.Count() > 0)
+            {
+                bool success = true;
+
+                // Delete all auditions between the two students with the selected audition type
+                foreach (Tuple<int, int, string> coordination in coordinatesToDelete)
+                    success = success && DbInterfaceStudentAudition.RemoveCoordinatesByStudentIdAndType(coordination.Item1, coordination.Item2, coordination.Item3, ddlAuditionType.SelectedValue.ToUpper().Equals("DISTRICT"));
+
+                if (success)
+                {
+                    clearAll();
+                    showSuccessMessage("The coordinations were successfully deleted.");
+                }
+                else
+                    showErrorMessage("The coordinations could not be deleted");
+            }
+            else
+                showInfoMessage("There were no coordinates to delete.");
         }
 
         /*
@@ -317,6 +432,14 @@ namespace WMTA.Events
         }
 
         /*
+         * Clear entire page
+         */
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+            clearAll();
+        }
+
+        /*
          * Pre: 
          * Post:  The three text boxes in the Student Search section and the
          *        search result in the gridview are cleared
@@ -324,6 +447,27 @@ namespace WMTA.Events
         protected void btnClearStudentSearch_Click(object sender, EventArgs e)
         {
             clearStudentSearch();
+        }
+
+        /*
+         * Clear entire page
+         */
+        public void clearAll()
+        {
+            clearStudentSearch();
+            clearAllExceptSearch();
+
+            // Clear session variables
+            Session[studentSearch] = null;
+            Session[coordinateTable] = null;
+            Session[coordinatesToDeleteSession] = new List<Tuple<int, int, string>>();
+            coordinatesToDelete = new List<Tuple<int, int, string>>();
+
+            // Reset page
+            upStudentSearch.Visible = true;
+            upAuditions.Visible = false;
+            pnlButtons.Visible = false;
+            pnlCoordinates.Visible = false;
         }
 
         /*
@@ -346,14 +490,12 @@ namespace WMTA.Events
          */
         private void clearAllExceptSearch()
         {
-            ddlYear.SelectedIndex = 0;
-
             lblStudent.Text = "";
             lblStudId.InnerText = "";
-            ddlYear.SelectedIndex = 0;
             ddlAuditionType.SelectedIndex = -1;
             clearCoordinates();
             cboAudition.Items.Clear();
+            Session[coordinatesToDeleteSession] = new List<Tuple<int, int, string>>();
         }
 
         /*
@@ -365,7 +507,6 @@ namespace WMTA.Events
             //clear the coordinates saved in the table
             while (tblCoordinates.Rows.Count > 1)
                 tblCoordinates.Rows.Remove(tblCoordinates.Rows[tblCoordinates.Rows.Count - 1]);
-
 
             Session[coordinateTable] = null;
         }
@@ -431,16 +572,6 @@ namespace WMTA.Events
 
             //Pass error on to error page
             Server.Transfer("ErrorPage.aspx", true);
-        }
-
-        protected void btnClear_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnSubmit_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

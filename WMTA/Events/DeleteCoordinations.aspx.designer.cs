@@ -139,15 +139,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblStudId;
         
         /// <summary>
-        /// ddlYear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
-        
-        /// <summary>
         /// ddlAuditionType control.
         /// </summary>
         /// <remarks>
@@ -173,6 +164,15 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel pnlCoordinates;
+        
+        /// <summary>
+        /// btnRemove control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRemove;
         
         /// <summary>
         /// tblCoordinates control.

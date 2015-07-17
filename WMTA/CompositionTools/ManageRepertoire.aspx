@@ -231,6 +231,9 @@
                                 <%-- End Composition Information --%>
                                 <hr />
                                 <asp:Panel runat="server" ID="pnlButtons">
+                                    <div style="text-align:center; margin: 0px 10px 20px 10px; font-weight:bold">
+                                        Before creating ‘New’ composition titles MAKE SURE to verify that the title does not already exist in the database.  Double check all titles using the Composition Title Finder.  <br />For assistance email WMTACompositionHotline@gmail.com.
+                                    </div>
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2 float-right">
                                             <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />

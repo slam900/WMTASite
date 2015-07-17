@@ -57,7 +57,16 @@
                                         <li><a href="../Reporting/BadgerChairDataDump.aspx" class="smaller-font">View Badger Registrations</a></li>
                                     </ul>
                                 </div>
-                                <a href="../Events/CoordinateStudents.aspx" class="list-group-item">Coordinate Students</a>
+                                <div class="btn-group full-width smaller-font">
+                                    <button type="button" class="list-group-item dropdown-toggle dropdown-list-item" data-toggle="dropdown">
+                                        Manage Student Coordinations
+                                    <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="../Events/CoordinateStudents.aspx" class="smaller-font">Add Coordinations</a></li>
+                                        <li><a href="../Events/DeleteCoordinations" class="smaller-font">Delete Coordinations</a></li>
+                                    </ul>
+                                </div>
                                 <a href="../Events/DistrictPointEntry.aspx" class="list-group-item">Enter District Points</a>
                                 <a href="../Events/BadgerPointEntry.aspx" class="list-group-item">Enter Badger Points</a>
                                 <a href="../Events/HsVirtuosoCompositionPointEntry.aspx" class="list-group-item">Enter Other WMTA Event Points</a>
