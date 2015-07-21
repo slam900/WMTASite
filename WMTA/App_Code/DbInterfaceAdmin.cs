@@ -99,4 +99,45 @@ public partial class DbInterfaceAdmin
 
         return success;
     }
+
+    /*
+     * Pre:  The input fee type combo must exist
+     * Post: The fee type is updated
+     * @returns whether or not the update was successful
+     */
+    public static bool UpdateTrackFees(string type, string track, string region, decimal fee)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_FeesUpdate";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@type", type);
+            cmd.Parameters.AddWithValue("@track", track);
+            cmd.Parameters.AddWithValue("@region", region);
+            cmd.Parameters.AddWithValue("@fee", fee);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "UpdateTrackFees", "type: " + type + ", track: " + track + ", region: " + region + ", fee: " + fee, 
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
 }

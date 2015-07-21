@@ -152,6 +152,7 @@
                             <h4>Administration</h4>
                             <div class="list-group smaller-font">
                                 <a href="../Admin/ManageAuditionLengths.aspx" class="list-group-item">Update Audition Lengths</a>
+                                <a href="../Admin/ManageAuditionTrackFees.aspx" class="list-group-item">Update Audition Track Fees</a>
                             </div>
                         </div>
                     </fieldset>

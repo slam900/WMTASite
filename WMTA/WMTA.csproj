@@ -139,6 +139,7 @@
     <Content Include="Account\SystemAdminMenu.aspx" />
     <Content Include="Account\TeacherMenu.aspx" />
     <Content Include="Admin\ManageAuditionLengths.aspx" />
+    <Content Include="Admin\ManageAuditionTrackFees.aspx" />
     <Content Include="App_Data\WisconsinMusic_data.mdf" />
     <Content Include="App_Data\WisconsinMusic_data_log.ldf">
       <DependentUpon>WisconsinMusic_data.mdf</DependentUpon>
@@ -422,6 +423,13 @@
     </Compile>
     <Compile Include="Admin\ManageAuditionLengths.aspx.designer.cs">
       <DependentUpon>ManageAuditionLengths.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageAuditionTrackFees.aspx.cs">
+      <DependentUpon>ManageAuditionTrackFees.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageAuditionTrackFees.aspx.designer.cs">
+      <DependentUpon>ManageAuditionTrackFees.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\Audition.cs" />
     <Compile Include="App_Code\AuditionCompositions.cs" />

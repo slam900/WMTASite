@@ -557,6 +557,56 @@ public partial class DbInterfaceStudent
     }
 
     /*
+     * Pre:  id must be either the empty string or an integer
+     * Post: If an id is entered, a data table containing the information for the associated
+     *       student is returned.  If a partial first and/or last name are entered, a data table
+     *       containing students with first and last names containing the input first and last
+     *       names is returned.
+     * @param id is the student id being searched for
+     * @param firstName is a full or partial first name that is being searched for
+     * @param lastName is a full or partial last name that is being searched for
+     * @param districtId si the id of the district to search in
+     */
+    public static DataTable GetStudentSearchResultsForDistrictPointEntry(string id, string firstName, string lastName, int districtId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_StudentSearchForPointEntry";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (!id.Equals(""))
+                cmd.Parameters.AddWithValue("@studentId", id);
+            else
+                cmd.Parameters.AddWithValue("@studentId", null);
+
+            cmd.Parameters.AddWithValue("@firstName", firstName);
+            cmd.Parameters.AddWithValue("@lastName", lastName);
+            cmd.Parameters.AddWithValue("@districtId", districtId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudent", "GetStudentSearchResultsForDistrictPointEntry", "id: " + id + ", firstName: " + firstName +
+                             ", lastName: " + lastName + ", districtId: " + districtId, "Message: " + e.Message +
+                             "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return table;
+    }
+
+    /*
     * Pre:  id must be either the empty string or an integer
     * Post: If an id is entered, a data table containing the information for the associated
     *       student is returned.  If a partial first and/or last name are entered, a data table
