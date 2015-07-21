@@ -125,6 +125,7 @@
                                     <a href="../CompositionTools/ReplaceComposition.aspx" class="list-group-item">Replace Composition</a>
                                     <a href="../CompositionTools/TitleLookup.aspx" class="list-group-item">Composition Title Finder</a>
                                     <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage</a>
+                                    <a href="../CompositionTools/MarkCompositionsReviewed.aspx" class="list-group-item">Mark Compositions Reviewed</a>
                                 </div>
                             </asp:Panel>
                             <asp:Panel runat="server" ID="pnlNoCompositionPermissions">

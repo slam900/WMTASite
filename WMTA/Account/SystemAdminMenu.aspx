@@ -147,6 +147,11 @@
                                 <a href="../CompositionTools/ReplaceComposition.aspx" class="list-group-item">Replace Composition</a>
                                 <a href="../CompositionTools/TitleLookup.aspx" class="list-group-item">Composition Title Finder</a>
                                 <a href="../CompositionTools/CompositionUsed.aspx" class="list-group-item">Composition Usage</a>
+                                <a href="../CompositionTools/MarkCompositionsReviewed.aspx" class="list-group-item">Mark Compositions Reviewed</a>
+                            </div>
+                            <h4>Administration</h4>
+                            <div class="list-group smaller-font">
+                                <a href="../Admin/ManageAuditionLengths.aspx" class="list-group-item">Update Audition Lengths</a>
                             </div>
                         </div>
                     </fieldset>

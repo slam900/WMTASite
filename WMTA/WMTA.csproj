@@ -138,12 +138,14 @@
     <Content Include="Account\StateAdminMenu.aspx" />
     <Content Include="Account\SystemAdminMenu.aspx" />
     <Content Include="Account\TeacherMenu.aspx" />
+    <Content Include="Admin\ManageAuditionLengths.aspx" />
     <Content Include="App_Data\WisconsinMusic_data.mdf" />
     <Content Include="App_Data\WisconsinMusic_data_log.ldf">
       <DependentUpon>WisconsinMusic_data.mdf</DependentUpon>
     </Content>
     <Content Include="CompositionTools\CompositionUsed.aspx" />
     <Content Include="CompositionTools\ManageRepertoire.aspx" />
+    <Content Include="CompositionTools\MarkCompositionsReviewed.aspx" />
     <Content Include="CompositionTools\ReplaceComposerName.aspx" />
     <Content Include="Contacts\ManageContacts.aspx" />
     <Content Include="CompositionTools\ReplaceComposition.aspx" />
@@ -414,11 +416,19 @@
     <Compile Include="Account\TeacherMenu.aspx.designer.cs">
       <DependentUpon>TeacherMenu.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageAuditionLengths.aspx.cs">
+      <DependentUpon>ManageAuditionLengths.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageAuditionLengths.aspx.designer.cs">
+      <DependentUpon>ManageAuditionLengths.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Code\Audition.cs" />
     <Compile Include="App_Code\AuditionCompositions.cs" />
     <Compile Include="App_Code\AudTrackRequirements.cs" />
     <Compile Include="App_Code\Composition.cs" />
     <Compile Include="App_Code\Contact.cs" />
+    <Compile Include="App_Code\DbInterfaceAdmin.cs" />
     <Compile Include="App_Code\DbInterfaceAudition.cs" />
     <Compile Include="App_Code\DbInterfaceComposition.cs" />
     <Compile Include="App_Code\DbInterfaceContact.cs" />
@@ -457,6 +467,13 @@
     </Compile>
     <Compile Include="CompositionTools\ManageRepertoire.aspx.designer.cs">
       <DependentUpon>ManageRepertoire.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CompositionTools\MarkCompositionsReviewed.aspx.cs">
+      <DependentUpon>MarkCompositionsReviewed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompositionTools\MarkCompositionsReviewed.aspx.designer.cs">
+      <DependentUpon>MarkCompositionsReviewed.aspx</DependentUpon>
     </Compile>
     <Compile Include="CompositionTools\ReplaceComposerName.aspx.cs">
       <DependentUpon>ReplaceComposerName.aspx</DependentUpon>

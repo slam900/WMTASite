@@ -246,7 +246,7 @@
                                         <ContentTemplate>
                                             <hr />
                                             <div style="text-align:center; margin: 0px 10px 20px 10px; font-weight:bold">
-                                                Final registration?  If so, print out your Teacher Fee Summary report and send it, along with your check, to the appropriate District Chair.
+                                                Final registration?  If so, print out your Teacher Fee Summary report and send it, along with your check, to the appropriate State Chair.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-10 col-lg-offset-2 float-right">

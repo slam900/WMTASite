@@ -77,6 +77,15 @@
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="cboAudition" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Audition is required"></asp:RequiredFieldValidator>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <asp:Label runat="server" AssociatedControlID="rblAttendance" CssClass="col-md-3 control-label">Attendance</asp:Label>
+                                                    <div class="col-md-6">
+                                                        <asp:RadioButtonList ID="rblAttendance" runat="server" CssClass="radio" RepeatLayout="Flow" OnSelectedIndexChanged="rblAttendance_SelectedIndexChanged" AutoPostBack="true">
+                                                            <asp:ListItem Selected="True">Attended</asp:ListItem>
+                                                            <asp:ListItem>No Show</asp:ListItem>
+                                                        </asp:RadioButtonList>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
@@ -117,7 +126,7 @@
                                         <ContentTemplate>
                                             <div class="form-group">
                                                 <div class="col-lg-10 col-lg-offset-2 float-right">
-                                                    <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />
+                                                    <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" CausesValidation="false" />
                                                     <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                                 </div>
                                             </div>

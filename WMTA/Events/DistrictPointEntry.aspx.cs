@@ -25,7 +25,7 @@ namespace WMTA.Events
                 Session[auditionVar] = null;
                 Session[studentSearch] = null;
                 Session[compositionTable] = null;
-                
+
                 loadYearDropdown();
                 checkPermissions();
             }
@@ -127,7 +127,7 @@ namespace WMTA.Events
 
             try
             {
-                DataTable table = DbInterfaceStudent.GetStudentSearchResults(id, firstName, lastName, districtId);
+                DataTable table = DbInterfaceStudent.GetStudentSearchResultsForDistrictPointEntry(id, firstName, lastName, districtId);
 
                 //If there are results in the table, display them.  Otherwise clear current
                 //results and return false
@@ -659,6 +659,31 @@ namespace WMTA.Events
             {
                 showWarningMessage("Theory test points must be in the range from 0-5.");
             }
+        }
+
+        protected void rblAttendance_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            EnableDisablePointEntry(rblAttendance.SelectedIndex == 0);
+        }
+
+        private void EnableDisablePointEntry(bool enable)
+        {
+            // Update composition points
+            for (int i = 1; i < tblCompositions.Rows.Count; i++)
+            {
+                ((TextBox)tblCompositions.Rows[i].Cells[2].Controls[0]).Text = "0";
+                ((TextBox)tblCompositions.Rows[i].Cells[2].Controls[0]).Enabled = false;
+            }
+
+            // Update theory points
+            txtTheoryPoints.Text = enable ? "" : "0";
+            txtTheoryPoints.Enabled = enable;
+
+            // Update total
+            if (enable)
+                calculatePointTotal();
+            else
+                lblPoints.Text = "0";
         }
 
         /*

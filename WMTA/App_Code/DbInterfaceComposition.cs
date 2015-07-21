@@ -113,6 +113,48 @@ public class DbInterfaceComposition
 
         return success;
     }
+
+    /*
+     * Pre: The input composition id must exist in the system
+     * Post: The composition information is updated 
+     * @param fromId is the id of the first composition in the range to mark as reviewed
+     * @param toId is the id of the last composition in the range to mark as reviewed
+     */
+    public static bool MarkCompositionsReviewed(int fromId, int toId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_CompositionsMarkReviewed";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@fromCompositionId", fromId);
+            cmd.Parameters.AddWithValue("@toCompositionId", toId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceComposition", "MarkCompositionsReviewed", "fromId: " + fromId + ", toId: " + toId, 
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
     /*
      * Pre: 
      * Post: The composition with the input id is deleted
