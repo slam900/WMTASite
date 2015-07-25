@@ -1183,7 +1183,6 @@ namespace WMTA.Events
             if (reason.ToUpper().Equals("DUET") || !coordinateExists(id)) 
             {
                 TableRow row = new TableRow();
-                //TableCell chkBoxCell = new TableCell();
                 TableCell studIdCell = new TableCell();
                 TableCell firstNameCell = new TableCell();
                 TableCell lastNameCell = new TableCell();
@@ -1191,14 +1190,12 @@ namespace WMTA.Events
                 CheckBox chkBox = new CheckBox();
 
                 //set cell values
-                // chkBoxCell.Controls.Add(chkBox);
                 studIdCell.Text = id;
                 firstNameCell.Text = firstName;
                 lastNameCell.Text = lastName;
                 reasonCell.Text = reason;
 
                 //add cells to new row
-                //row.Cells.Add(chkBoxCell);
                 row.Cells.Add(studIdCell);
                 row.Cells.Add(firstNameCell);
                 row.Cells.Add(lastNameCell);

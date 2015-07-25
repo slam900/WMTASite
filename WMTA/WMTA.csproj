@@ -224,6 +224,7 @@
     <Content Include="DefaultRedirectErrorPage.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Events\AssignDistrictRoomsAndJudges.aspx" />
+    <Content Include="Reporting\AwardsView.aspx" />
     <Content Include="Events\BadgerPointEntry.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
     <Content Include="Events\CoordinateStudents.aspx" />
@@ -438,6 +439,7 @@
     <Compile Include="App_Code\Contact.cs" />
     <Compile Include="App_Code\DbInterfaceAdmin.cs" />
     <Compile Include="App_Code\DbInterfaceAudition.cs" />
+    <Compile Include="App_Code\DbInterfaceAwards.cs" />
     <Compile Include="App_Code\DbInterfaceComposition.cs" />
     <Compile Include="App_Code\DbInterfaceContact.cs" />
     <Compile Include="App_Code\DbInterfaceFeedback.cs" />
@@ -559,6 +561,13 @@
     </Compile>
     <Compile Include="Events\AssignDistrictRoomsAndJudges.aspx.designer.cs">
       <DependentUpon>AssignDistrictRoomsAndJudges.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\AwardsView.aspx.cs">
+      <DependentUpon>AwardsView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\AwardsView.aspx.designer.cs">
+      <DependentUpon>AwardsView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\BadgerPointEntry.aspx.cs">
       <DependentUpon>BadgerPointEntry.aspx</DependentUpon>

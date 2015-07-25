@@ -157,6 +157,9 @@
                                                                     <asp:Label ID="lblTotalPoints" runat="server" CssClass="label-top-margin">0</asp:Label>
                                                                 </div>
                                                             </div>
+                                                            <div class="form-group text-align-center" style="margin-left:10%; margin-right:10%">
+                                                                Note: The Total Points will not update until you submit the updated data and reload the student's information.
+                                                            </div>
                                                         </asp:Panel>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>

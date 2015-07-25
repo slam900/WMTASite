@@ -12,102 +12,54 @@
                                 <asp:UpdatePanel ID="upFullPage" runat="server">
                                     <ContentTemplate>
                                         <asp:Panel ID="pnlFullPage" runat="server">
-                                            <asp:UpdatePanel ID="upStudent1" runat="server">
+                                            <asp:UpdatePanel ID="upStudent" runat="server">
                                                 <ContentTemplate>
-                                                    <div>
-                                                        <div class="form-group">
-                                                            <div>
-                                                                <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlStudent1" CssClass="text-danger vertical-center font-size-12 col-md-3-margin" ErrorMessage="Student 1 is required" />
-                                                            </div>
-                                                            <asp:Label AssociatedControlID="ddlStudent1" runat="server" CssClass="col-md-3 control-label float-left">Student 1</asp:Label>
-                                                            <div class="col-md-6">
-                                                                <asp:DropDownList ID="ddlStudent1" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="ComboName" DataValueField="StudentId" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlStudent1_SelectedIndexChanged1">
-                                                                    <asp:ListItem Selected="True" Text="" Value="" />
-                                                                </asp:DropDownList>
-                                                            </div>
-                                                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownStudent" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
-                                                            <asp:Button ID="btnStudent1Search" runat="server" Text="Search" OnClick="btnStudent1Search_Click" CssClass="btn btn-primary btn-min-width-72" CausesValidation="false" />
-                                                            <asp:Label ID="lblStudent1Id" runat="server" Visible="false" />
-                                                        </div>
-                                                    </div>
-                                                    <asp:Panel ID="pnlStudent1Search" runat="server" Visible="false">
-                                                        <hr />
+                                                    <asp:Panel ID="pnlStudentSearch" runat="server">
                                                         <div>
-                                                            <h5>Student 1 Search</h5>
+                                                            <h4>Student Search</h4>
                                                             <div class="form-group">
-                                                                <asp:Label AssociatedControlID="txtStudent1Id" runat="server" CssClass="col-md-3 control-label float-left">Student Id</asp:Label>
+                                                                <asp:Label AssociatedControlID="txtStudentId" runat="server" CssClass="col-md-3 control-label float-left">Student Id</asp:Label>
                                                                 <div class="col-md-6">
-                                                                    <asp:TextBox ID="txtStudent1Id" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtStudentId" runat="server" CssClass="form-control"></asp:TextBox>
                                                                 </div>
-                                                                <asp:Button ID="btnSearchStudent1" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearchStudent1_Click" CausesValidation="false" />
+                                                                <asp:Button ID="btnSearchStudent" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearchStudent_Click" CausesValidation="false" />
                                                             </div>
                                                             <div class="form-group">
-                                                                <asp:Label AssociatedControlID="txtFirstName1" runat="server" CssClass="col-md-3 control-label float-left">First Name</asp:Label>
+                                                                <asp:Label AssociatedControlID="txtFirstName" runat="server" CssClass="col-md-3 control-label float-left">First Name</asp:Label>
                                                                 <div class="col-md-6">
-                                                                    <asp:TextBox ID="txtFirstName1" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control"></asp:TextBox>
                                                                 </div>
-                                                                <asp:Button ID="btnClearStudent1Search" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearStudent1Search_Click" CausesValidation="false" />
+                                                                <asp:Button ID="btnClearStudentSearch" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearStudentSearch_Click" CausesValidation="false" />
                                                             </div>
                                                             <div class="form-group">
-                                                                <asp:Label AssociatedControlID="txtLastName1" runat="server" CssClass="col-md-3 control-label float-left">Last Name</asp:Label>
+                                                                <asp:Label AssociatedControlID="txtLastName" runat="server" CssClass="col-md-3 control-label float-left">Last Name</asp:Label>
                                                                 <div class="col-md-6">
-                                                                    <asp:TextBox ID="txtLastName1" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtLastName" runat="server" CssClass="form-control"></asp:TextBox>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <asp:GridView ID="gvStudent1Search" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" OnPageIndexChanging="gvStudent1Search_PageIndexChanging" OnRowDataBound="gvStudent1Search_RowDataBound" OnSelectedIndexChanged="gvStudent1Search_SelectedIndexChanged" HeaderStyle-BackColor="Black" />
+                                                                <asp:GridView ID="gvStudentSearch" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" OnPageIndexChanging="gvStudentSearch_PageIndexChanging" OnRowDataBound="gvStudentSearch_RowDataBound" OnSelectedIndexChanged="gvStudentSearch_SelectedIndexChanged" HeaderStyle-BackColor="Black" />
                                                             </div>
-                                                        <hr />
+                                                            <hr />
                                                     </asp:Panel>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
-                                            <asp:UpdatePanel ID="upStudent2" runat="server">
+                                            <asp:UpdatePanel ID="upCoordinates" runat="server">
                                                 <ContentTemplate>
-                                                    <div>
-                                                        <div class="form-group">
-                                                            <div>
-                                                                <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlStudent2" CssClass="text-danger vertical-center font-size-12 col-md-3-margin" ErrorMessage="Student 2 is required" />
-                                                            </div>
-                                                            <asp:Label AssociatedControlID="ddlStudent2" runat="server" CssClass="col-md-3 control-label float-left">Student 2</asp:Label>
-                                                            <div class="col-md-6">
-                                                                <asp:DropDownList ID="ddlStudent2" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="ComboName" DataValueField="StudentId" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlStudent2_SelectedIndexChanged1">
-                                                                    <asp:ListItem Selected="True" Text="" Value="" />
-                                                                </asp:DropDownList>
-                                                            </div>
-                                                            <asp:Button ID="btnStudent2Search" runat="server" Text="Search" OnClick="btnStudent2Search_Click" CssClass="btn btn-primary btn-min-width-72" CausesValidation="false" />
-                                                            <asp:Label ID="lblStudent2Id" runat="server" Visible="false" />
-                                                        </div>
+                                                    <h4>Students To Coordinate</h4>
+                                                    <div class="form-group">
+                                                        <asp:Button ID="btnRemove" runat="server" Text="Remove" CssClass="btn btn-default btn-min-width-72" OnClick="btnRemove_Click" />
                                                     </div>
-                                                    <asp:Panel ID="pnlStudent2Search" runat="server" Visible="false">
-                                                        <hr />
-                                                        <div>
-                                                            <h5>Student 2 Search</h5>
-                                                            <div class="form-group">
-                                                                <asp:Label AssociatedControlID="txtStudent2Id" runat="server" CssClass="col-md-3 control-label float-left">Student Id</asp:Label>
-                                                                <div class="col-md-6">
-                                                                    <asp:TextBox ID="txtStudent2Id" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                </div>
-                                                                <asp:Button ID="btnSearchStudent2" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnSearchStudent2_Click" CausesValidation="false" />
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <asp:Label AssociatedControlID="txtFirstName2" runat="server" CssClass="col-md-3 control-label float-left">First Name</asp:Label>
-                                                                <div class="col-md-6">
-                                                                    <asp:TextBox ID="txtFirstName2" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                </div>
-                                                                <asp:Button ID="btnClearStudent2Search" runat="server" Text="Clear" CssClass="btn btn-default btn-min-width-72" OnClick="btnClearStudent2Search_Click" CausesValidation="false" />
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <asp:Label ID="Label5" AssociatedControlID="txtLastName2" runat="server" CssClass="col-md-3 control-label float-left">Last Name</asp:Label>
-                                                                <div class="col-md-6">
-                                                                    <asp:TextBox ID="txtLastName2" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <asp:GridView ID="gvStudent2Search" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" AutoGenerateSelectButton="true" PagerStyle-CssClass="bs-pagination" OnPageIndexChanging="gvStudent2Search_PageIndexChanging" OnRowDataBound="gvStudent2Search_RowDataBound" OnSelectedIndexChanged="gvStudent2Search_SelectedIndexChanged" HeaderStyle-BackColor="Black" />
-                                                            </div>
-                                                        </div>
-                                                        <hr />
-                                                    </asp:Panel>
+                                                    <div class="form-group">
+                                                        <asp:Table ID="tblCoordinates" runat="server" CssClass="table table-striped table-bordered table-hover text-align-center">
+                                                            <asp:TableHeaderRow ID="TableHeaderRow1" runat="server" BorderStyle="Solid">
+                                                                <asp:TableHeaderCell Scope="Column" Text="" />
+                                                                <asp:TableHeaderCell Scope="Column" Text="Id" />
+                                                                <asp:TableHeaderCell Scope="Column" Text="Name" />
+                                                            </asp:TableHeaderRow>
+                                                        </asp:Table>
+                                                    </div>
+                                                    <hr />
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
                                             <div class="form-group">

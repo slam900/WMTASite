@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictDataDump.aspx.cs" Inherits="WMTA.Reporting.DistrictDataDump" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="AwardsView.aspx.cs" Inherits="WMTA.Events.AwardsView" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="well bs-component col-md-6 main-div center">
@@ -8,12 +9,12 @@
                         <div class="form-horizontal">
                             <%-- Start of form --%>
                             <fieldset>
-                                <legend id="legend" runat="server">Audition Search</legend>
+                                <legend id="legend" runat="server">View Awards</legend>
                                 <%-- Audition search --%>
                                 <asp:UpdatePanel ID="upSearch" runat="server">
                                     <ContentTemplate>
                                         <div>
-                                            <h4>Select an Audition to Retrieve Reports On</h4>
+                                            <h4>Select an Audition</h4>
                                             <br />
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
@@ -21,7 +22,8 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control"  AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
+                                                    <%--                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control"  AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">--%>
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
@@ -33,10 +35,11 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" AutoPostBack="true" />
+                                                    <%--                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" AutoPostBack="true" />--%>
+                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <%--<div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
@@ -44,6 +47,19 @@
                                             </div>
                                             <div class="center text-align-center">
                                                 <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
+                                            </div>--%>
+                                            <div class="form-group">
+                                                <div class="col-md-3-margin">
+                                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlAuditionType" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Audition type is required"></asp:RequiredFieldValidator>
+                                                </div>
+                                                <asp:Label runat="server" AssociatedControlID="ddlAuditionType" CssClass="col-md-3 control-label">Audition Type *</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlAuditionType" runat="server" CssClass="dropdown-list form-control">
+                                                        <asp:ListItem Selected="True" Text="" Value="" />
+                                                        <asp:ListItem Text="District" Value="District" />
+                                                        <asp:ListItem Text="State" Value="State" />
+                                                    </asp:DropDownList>
+                                                </div>
                                             </div>
                                         </div>
                                     </ContentTemplate>
@@ -66,25 +82,16 @@
                 <ContentTemplate>
                     <div class="form-group">
                         <div class="col-md-12 center">
-                            <asp:GridView ID="gvAuditions" runat="server" Font-Size="12px" AllowSorting="true" AutoGenerateColumns="false" CssClass="table table-bordered" AllowPaging="false" RowStyle-Wrap="true">
+                            <asp:GridView ID="gvAuditions" runat="server" AllowSorting="true" AutoGenerateColumns="false" CssClass="table table-bordered" AllowPaging="false" RowStyle-Wrap="true">
                                 <HeaderStyle BackColor="#EFEFEF" />
                                 <SelectedRowStyle BackColor="#CDCDEF" />
                                 <AlternatingRowStyle BackColor="#EFEFEF" />
                                 <Columns>
-                                    <asp:BoundField DataField="AuditionId" HeaderText="Audition Id" InsertVisible="false" ReadOnly="true" SortExpression="AuditionId" />
                                     <asp:BoundField DataField="StudentId" HeaderText="Student Id" InsertVisible="false" ReadOnly="true" SortExpression="StudentId" />
                                     <asp:BoundField DataField="LastName" HeaderText="Last Name" InsertVisible="false" ReadOnly="true" SortExpression="LastName" />
                                     <asp:BoundField DataField="FirstName" HeaderText="First Name" InsertVisible="false" ReadOnly="true" SortExpression="FirstName" />
-                                    <asp:BoundField DataField="Grade" HeaderText="Grade" InsertVisible="false" ReadOnly="true" SortExpression="Grade" />
-                                    <asp:BoundField DataField="CurrentTeacherId" HeaderText="Teacher Id" InsertVisible="false" ReadOnly="true" SortExpression="CurrentTeacherId" />
-                                    <asp:BoundField DataField="GeoName" HeaderText="Home District" InsertVisible="false" ReadOnly="true" SortExpression="GeoName" />
-                                    <asp:BoundField DataField="Instrument" HeaderText="Instrument" InsertVisible="false" ReadOnly="true" SortExpression="Instrument" />
-                                    <asp:BoundField DataField="Accompanist" HeaderText="Accompanist" InsertVisible="false" ReadOnly="true" SortExpression="Accompanist" />
-                                    <asp:BoundField DataField="AuditionType" HeaderText="Type" InsertVisible="false" ReadOnly="true" SortExpression="AuditionType" />
-                                    <asp:BoundField DataField="AuditionTrack" HeaderText="Track" InsertVisible="false" ReadOnly="true" SortExpression="AuditionTrack" />
-                                    <asp:BoundField DataField="CompLevel" HeaderText="Level" InsertVisible="false" ReadOnly="true" SortExpression="CompLevel" />
-                                    <asp:BoundField DataField="TimePref" HeaderText="Time Pref" InsertVisible="false" ReadOnly="true" SortExpression="TimePref" />
-                                    <asp:BoundField DataField="Coord_Ride_Name" HeaderText="Coordinate" InsertVisible="false" ReadOnly="true" SortExpression="Coord_Ride_Name" />
+                                    <asp:BoundField DataField="AwardType" HeaderText="Award" InsertVisible="false" ReadOnly="true" SortExpression="AwardType" />
+                                    <asp:BoundField DataField="TotalPoints" HeaderText="Total Points" InsertVisible="false" ReadOnly="true" SortExpression="TotalPoints" />
                                 </Columns>
                             </asp:GridView>
                         </div>

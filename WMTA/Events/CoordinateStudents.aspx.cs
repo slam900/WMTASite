@@ -12,8 +12,8 @@ namespace WMTA.Events
     public partial class CoordinateStudents : System.Web.UI.Page
     {
         /* session variables */
-        private string student1Search = "Student1Data";
-        private string student2Search = "Student2Data";
+        private string studentSearch = "StudentData";
+        private string coordinateTable = "CoordinateTable";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,8 +22,18 @@ namespace WMTA.Events
             //clear session variables
             if (!Page.IsPostBack)
             {
-                Session[student1Search] = null;
-                Session[student2Search] = null;
+                Session[studentSearch] = null;
+                Session[coordinateTable] = null;
+            }
+
+            //if there were coordinates selected before the postback, add them 
+            //back to the table
+            if (Page.IsPostBack && Session[coordinateTable] != null)
+            {
+                TableRow[] rowArray = (TableRow[])Session[coordinateTable];
+
+                for (int i = 1; i < rowArray.Length; i++)
+                    tblCoordinates.Rows.Add(rowArray[i]);
             }
         }
 
@@ -33,56 +43,8 @@ namespace WMTA.Events
          */
         private void checkPermissions()
         {
-            //if the user is not logged in, send them to login screen
             if (Session[Utility.userRole] == null)
                 Response.Redirect("/Default.aspx");
-            else
-            {
-                User user = (User)Session[Utility.userRole];
-
-                //if current user is teacher, only show that teacher's students in the student dropdowns
-                if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('A') || user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S')))
-                    showTeacherStudentsOnly(user.contactId);
-                //if current user is a district admin, only show that district's students in the student dropdowns
-                else if (user.permissionLevel.Contains('D') && !(user.permissionLevel.Contains('A') || user.permissionLevel.Contains('S')))
-                    showDistrictStudentsOnly(user.districtId);
-            }
-        }
-
-        /*
-         * Pre:  The current user's highest permission level is teacher
-         * Post: The only student's shown in the student dropdowns belong to th current teacher
-         * @param contactId is the id of the teachers whose students should be shown
-         */
-        private void showTeacherStudentsOnly(int contactId)
-        {
-            DataTable table = DbInterfaceStudent.GetStudentSearchResultsForTeacher("", "", "", contactId);
-
-            ddlStudent1.DataSourceID = null;
-            ddlStudent1.DataSource = table;
-            ddlStudent1.DataBind();
-
-            ddlStudent2.DataSourceID = null;
-            ddlStudent2.DataSource = table;
-            ddlStudent2.DataBind();
-        }
-
-        /*
-         * Pre:  The current user's highest permission level is district admin
-         * Post: The only student's shown in the student dropdowns belong to th current district admin
-         * @param districtId is the id of the district to get students from
-         */
-        private void showDistrictStudentsOnly(int districtId)
-        {
-            DataTable table = DbInterfaceStudent.GetStudentSearchResults("", "", "", districtId);
-
-            ddlStudent1.DataSourceID = null;
-            ddlStudent1.DataSource = table;
-            ddlStudent1.DataBind();
-
-            ddlStudent2.DataSourceID = null;
-            ddlStudent2.DataSource = table;
-            ddlStudent2.DataBind();
         }
 
         /*
@@ -98,36 +60,51 @@ namespace WMTA.Events
                 string reason = ddlReason.SelectedValue;
                 bool isDistrictAudition = ddlAuditionType.SelectedValue.Equals("District");
 
-                //get student data
-                Student student1 = DbInterfaceStudent.LoadStudentData(Convert.ToInt32(lblStudent1Id.Text));
-                Student student2 = DbInterfaceStudent.LoadStudentData(Convert.ToInt32(lblStudent2Id.Text));
-
-                //get coordinate data
-                if (student1 != null & student2 != null)
+                // Put all students into a list
+                List<Tuple<Student, StudentCoordinate>> students = new List<Tuple<Student, StudentCoordinate>>();
+                for (int i = 1; i < tblCoordinates.Rows.Count; i++)
                 {
-                    StudentCoordinate coord1 = new StudentCoordinate(student1, reason, true, isDistrictAudition);
-                    StudentCoordinate coord2 = new StudentCoordinate(student2, reason, true, isDistrictAudition);
+                    Student student = DbInterfaceStudent.LoadStudentData(Convert.ToInt32(tblCoordinates.Rows[i].Cells[1].Text));
 
-                    //coordinate each audition between the two students
-                    foreach (int i in coord1.auditionIds)
+                    // Get the student's coordinates and add to list
+                    if (student != null)
                     {
-                        foreach (int j in coord2.auditionIds)
-                            success = success && DbInterfaceStudentAudition.CreateAuditionCoordinate(i, j, reason);
+                        StudentCoordinate coordinate = new StudentCoordinate(student, reason, true, isDistrictAudition);
+                        students.Add(new Tuple<Student, StudentCoordinate>(student, coordinate));
+
+                    }
+                    else
+                        success = false;
+                }
+
+                // Coordinate all students
+                for (int i = 0; i < students.Count - 1; i++) 
+                {
+                    StudentCoordinate student1Coordinates = students.ElementAt(i).Item2;
+
+                    for (int j = i + 1; j < students.Count; j++) // Coordinate student1 with all of the remaining students in the list
+                    {
+                        StudentCoordinate student2Coordinates = students.ElementAt(j).Item2;
+
+                        foreach (int student1Id in student1Coordinates.auditionIds)
+                        {
+                            foreach (int student2Id in student2Coordinates.auditionIds)
+                                success = success && DbInterfaceStudentAudition.CreateAuditionCoordinate(student1Id, student2Id, reason);
+                        }
+
                     }
                 }
-                else
-                    success = false;
-            }
 
-            //display message depending on whether or not the operation was successful
-            if (success)
-            {
-                showSuccessMessage("The students were successfully coordinated.");
-                clearPage();
-            }
-            else
-            {
-                showErrorMessage("Error: An error occurred while coordinating the students.");
+                //display message depending on whether or not the operation was successful
+                if (success)
+                {
+                    showSuccessMessage("The students were successfully coordinated.");
+                    clearPage();
+                }
+                else
+                {
+                    showErrorMessage("Error: An error occurred while coordinating the students.");
+                }
             }
         }
 
@@ -140,137 +117,158 @@ namespace WMTA.Events
         {
             bool valid = true;
 
-            //make sure the students are different
-            if (ddlStudent1.SelectedIndex == ddlStudent2.SelectedIndex)
+            if (tblCoordinates.Rows.Count < 3)
             {
-                showWarningMessage("The two students you have selected are the same.  Please choose a different student.");
+                showErrorMessage("You must select at least 2 students to coordinate.");
                 valid = false;
             }
 
             return valid;
         }
 
-        //Show search for Student 1
-        protected void btnStudent1Search_Click(object sender, EventArgs e)
-        {
-            pnlStudent1Search.Visible = true;
-            btnStudent1Search.Visible = false;
-        }
-
-        //Show search for Student 2
-        protected void btnStudent2Search_Click(object sender, EventArgs e)
-        {
-            pnlStudent2Search.Visible = true;
-            btnStudent2Search.Visible = false;
-        }
-
         /*
          * Pre:   
-         * Post:  The information for the selected student is loaded to the page
+         * Post:  The selected student is added to the list of coordinates
          */
-        protected void gvStudent1Search_SelectedIndexChanged(object sender, EventArgs e)
+        protected void gvStudentSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = gvStudent1Search.SelectedIndex;
+            int index = gvStudentSearch.SelectedIndex;
 
-            if (index >= 0 && index < gvStudent1Search.Rows.Count)
+            if (index >= 0 && index < gvStudentSearch.Rows.Count)  
             {
-                string id = gvStudent1Search.Rows[index].Cells[1].Text;
-                string firstName = gvStudent1Search.Rows[index].Cells[2].Text;
-                string lastName = gvStudent1Search.Rows[index].Cells[3].Text;
+                string id = gvStudentSearch.Rows[index].Cells[1].Text;
+                string firstName = gvStudentSearch.Rows[index].Cells[2].Text;
+                string lastName = gvStudentSearch.Rows[index].Cells[3].Text;
 
-                //load student data to avoid the bug where ' shows up as &#39; if the data is just taken from the gridview
-                Student student = DbInterfaceStudent.LoadStudentData(Convert.ToInt32(id));
-                if (student != null)
+                // Add the student to the table if they aren't already there
+                if (!StudentExists(id))
                 {
-                    firstName = student.firstName;
-                    lastName = student.lastName;
+                    //load student data to avoid the bug where ' shows up as &#39; if the data is just taken from the gridview
+                    Student student = DbInterfaceStudent.LoadStudentData(Convert.ToInt32(id));
+                    if (student != null)
+                    {
+                        firstName = student.firstName;
+                        lastName = student.lastName;
+                    }
+
+                    //load search fields
+                    txtStudentId.Text = id;
+                    txtFirstName.Text = firstName;
+                    txtLastName.Text = lastName;
+
+                    // Add student to table
+                    AddCoordinate(id, firstName, lastName);
+                    clearStudentSearch();
                 }
+                else
+                    showWarningMessage("The student has already been added.");
 
-                //load search fields
-                txtStudent1Id.Text = id;
-                txtFirstName1.Text =
-                txtLastName1.Text =
-                lblStudent1Id.Text = id;
-
-                //select student from dropdown
-                ddlStudent1.SelectedValue = id;
-
-                //hide search area
-                pnlStudent1Search.Visible = false;
-                clearStudent1Search();
-                btnStudent1Search.Visible = true;
             }
         }
 
         /*
-         * Pre:   
-         * Post:  The information for the selected student is loaded to the page
+         * Determines whether or not the student has already been added to the table
          */
-        protected void gvStudent2Search_SelectedIndexChanged(object sender, EventArgs e)
+        private bool StudentExists(string id)
         {
-            int index = gvStudent2Search.SelectedIndex;
+            bool exists = false;
 
-            if (index >= 0 && index < gvStudent2Search.Rows.Count)
+            for (int i = 1; !exists && i < tblCoordinates.Rows.Count; i++)
             {
-                string id = gvStudent2Search.Rows[index].Cells[1].Text;
-                string firstName = gvStudent2Search.Rows[index].Cells[2].Text;
-                string lastName = gvStudent2Search.Rows[index].Cells[3].Text;
-
-                //load student data to avoid the bug where ' shows up as &#39; if the data is just taken from the gridview
-                Student student = DbInterfaceStudent.LoadStudentData(Convert.ToInt32(id));
-                if (student != null)
-                {
-                    firstName = student.firstName;
-                    lastName = student.lastName;
-                }
-
-                //load search fields
-                txtStudent2Id.Text = id;
-                txtFirstName2.Text = firstName;
-                txtLastName2.Text = lastName;
-                lblStudent2Id.Text = id;
-
-                //select student from dropdown
-                ddlStudent2.SelectedValue = txtStudent2Id.Text;
-
-                //hide search area
-                pnlStudent2Search.Visible = false;
-                clearStudent2Search();
-                btnStudent2Search.Visible = true;
+                if (tblCoordinates.Rows[i].Cells[1].Text.Equals(id))
+                    exists = true;
             }
+
+            return exists;
+        }
+
+        /*
+         * Add the student info to the table
+         */
+        private void AddCoordinate(string id, string firstName, string lastName)
+        {
+            TableRow row = new TableRow();
+            TableCell chkBoxCell = new TableCell();
+            TableCell studIdCell = new TableCell();
+            TableCell nameCell = new TableCell();
+            CheckBox chkBox = new CheckBox();
+
+            //set cell values
+            chkBoxCell.Controls.Add(chkBox);
+            studIdCell.Text = id;
+            nameCell.Text = lastName + ", " + firstName;
+
+            //add cells to new row
+            row.Cells.Add(chkBoxCell);
+            row.Cells.Add(studIdCell);
+            row.Cells.Add(nameCell);
+
+            //add new row to table
+            tblCoordinates.Rows.Add(row);
+
+            //save table to session variable as an array
+            saveTableToSession(tblCoordinates, coordinateTable);
+        }
+
+        /*
+         * The selected students are removed from the list of coordinates
+         */
+        protected void btnRemove_Click(object sender, EventArgs e)
+        {
+            bool coordinateSelected = false;
+
+            // Remove each checked row
+            for (int i = 1; i < tblCoordinates.Rows.Count; i++)
+            {
+                if (((CheckBox)tblCoordinates.Rows[i].Cells[0].Controls[0]).Checked)
+                {
+                    tblCoordinates.Rows.Remove(tblCoordinates.Rows[i]);
+                    coordinateSelected = true;
+                    i--;                
+                }
+            }
+
+            // If no coordinates were selected, display a message
+            if (!coordinateSelected)
+                showWarningMessage("Please select a coordinate to remove.");
+            else
+                saveTableToSession(tblCoordinates, coordinateTable);
+        }
+
+        /*
+         * Pre:
+         * Post: The table in the input is saved to a session variable
+         * @table is the table being saved
+         * @session is the name of the session variable
+         */
+        private void saveTableToSession(Table table, string session)
+        {
+            TableRow[] rowArray = new TableRow[table.Rows.Count];
+            table.Rows.CopyTo(rowArray, 0);
+            Session[session] = rowArray;
         }
 
         /*
          * Pre:   
-         * Post:  The page of gvStudent1Search is changed
+         * Post:  The page of gvStudentSearch is changed
          */
-        protected void gvStudent1Search_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void gvStudentSearch_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            gvStudent1Search.PageIndex = e.NewPageIndex;
+            gvStudentSearch.PageIndex = e.NewPageIndex;
             BindStudent1SessionData();
         }
 
         /*
-         * Pre:   
-         * Post:  The page of gvStudent2Search is changed
-         */
-        protected void gvStudent2Search_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvStudent2Search.PageIndex = e.NewPageIndex;
-            BindStudent2SessionData();
-        }
-
-        /*
-         * Pre:   The student 1 search session variable must have been previously defined
+         * Pre:   The student search session variable must have been previously defined
          * Post:  The stored data is bound to the gridView
          */
         protected void BindStudent1SessionData()
         {
             try
             {
-                DataTable data = (DataTable)Session[student1Search];
-                gvStudent1Search.DataSource = data;
-                gvStudent1Search.DataBind();
+                DataTable data = (DataTable)Session[studentSearch];
+                gvStudentSearch.DataSource = data;
+                gvStudentSearch.DataBind();
             }
             catch (Exception e)
             {
@@ -279,39 +277,12 @@ namespace WMTA.Events
         }
 
         /*
-         * Pre:   The student 2 search session variable must have been previously defined
-         * Post:  The stored data is bound to the gridView
-         */
-        protected void BindStudent2SessionData()
-        {
-            try
-            {
-                DataTable data = (DataTable)Session[student2Search];
-                gvStudent2Search.DataSource = data;
-                gvStudent2Search.DataBind();
-            }
-            catch (Exception e)
-            {
-                Utility.LogError("Coordinate Students", "BindStudent2SessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            }
-        }
-
-        /*
          * Pre:
          * Post:  The color of the header row is set
          */
-        protected void gvStudent1Search_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void gvStudentSearch_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            setHeaderRowColor(gvStudent1Search, e);
-        }
-
-        /*
-         * Pre:
-         * Post:  The color of the header row is set
-         */
-        protected void gvStudent2Search_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvStudent2Search, e);
+            setHeaderRowColor(gvStudentSearch, e);
         }
 
         /*
@@ -337,9 +308,9 @@ namespace WMTA.Events
          * Post:  Students matching the search criteria are displayed (student id, first name, 
          *        and last name). The error message is also reset.
          */
-        protected void btnSearchStudent1_Click(object sender, EventArgs e)
+        protected void btnSearchStudent_Click(object sender, EventArgs e)
         {
-            string id = txtStudent1Id.Text;
+            string id = txtStudentId.Text;
             int num;
             bool isNum = int.TryParse(id, out num);
 
@@ -349,7 +320,7 @@ namespace WMTA.Events
                 if (userIsTeacherOnly()) //if the current user is a teacher, search only their students
                 {
                     //if the search does not return any result, display a message saying so
-                    if (!searchOwnStudents(gvStudent1Search, id, txtFirstName1.Text, txtLastName1.Text, student1Search, ((User)Session[Utility.userRole]).contactId))
+                    if (!searchOwnStudents(gvStudentSearch, id, txtFirstName.Text, txtLastName.Text, studentSearch, ((User)Session[Utility.userRole]).contactId))
                     {
                         showInfoMessage("The search did not return any results.");
                     }
@@ -357,7 +328,7 @@ namespace WMTA.Events
                 else //if current user is a district admin search only their district, otherwise search whole state
                 {
                     //if the search does not return any result, display a message saying so
-                    if (!searchStudents(gvStudent1Search, id, txtFirstName1.Text, txtLastName1.Text, student1Search, getDistrictIdForPermissionLevel()))
+                    if (!searchStudents(gvStudentSearch, id, txtFirstName.Text, txtLastName.Text, studentSearch, getDistrictIdForPermissionLevel()))
                     {
                         showInfoMessage("The search did not return any results.");
                     }
@@ -366,47 +337,8 @@ namespace WMTA.Events
             //if the id is not numeric, display a message
             else
             {
-                clearGridView(gvStudent1Search);
+                clearGridView(gvStudentSearch);
                 showWarningMessage("A Student Id must be numeric");
-            }
-        }
-
-        /*
-         * Pre:   The StudentId field must be empty or contain an integer
-         * Post:  Students matching the search criteria are displayed (student id, first name, 
-         *        and last name). The error message is also reset.
-         */
-        protected void btnSearchStudent2_Click(object sender, EventArgs e)
-        {
-            string id = txtStudent2Id.Text;
-            int num;
-            bool isNum = int.TryParse(id, out num);
-
-            //if the id is an integer or empty, do the search
-            if (isNum || id.Equals(""))
-            {
-                if (userIsTeacherOnly()) //if the current user is a teacher, search only their students
-                {
-                    //if the search does not return any result, display a message saying so
-                    if (!searchOwnStudents(gvStudent2Search, id, txtFirstName2.Text, txtLastName2.Text, student2Search, ((User)Session[Utility.userRole]).contactId))
-                    {
-                        showWarningMessage("The search did not return any results.");
-                    }
-                }
-                else //if current user is a district admin search only their district, otherwise search whole state
-                {
-                    //if the search does not return any result, display a message saying so
-                    if (!searchStudents(gvStudent2Search, id, txtFirstName2.Text, txtLastName2.Text, student2Search, getDistrictIdForPermissionLevel()))
-                    {
-                        showWarningMessage("The search did not return any results.");
-                    }
-                }
-            }
-            //if the id is not numeric, display a message
-            else
-            {
-                clearGridView(gvStudent2Search);
-                showWarningMessage("A Student Id must be numeric.");
             }
         }
 
@@ -554,51 +486,31 @@ namespace WMTA.Events
          */
         private void clearPage()
         {
-            clearStudent1Search();
-            clearStudent2Search();
-            ddlStudent1.SelectedIndex = 0;
-            ddlStudent2.SelectedIndex = 0;
+            clearStudentSearch();
             ddlReason.SelectedIndex = 0;
+            ddlAuditionType.SelectedIndex = 0;
+            tblCoordinates.Rows.Clear();
+            Session[coordinateTable] = null;
         }
 
         /*
-         * Clear Student 1 Search section
+         * Clear Student Search section
          */
-        protected void btnClearStudent1Search_Click(object sender, EventArgs e)
+        protected void btnClearStudentSearch_Click(object sender, EventArgs e)
         {
-            clearStudent1Search();
+            clearStudentSearch();
         }
 
         /*
-         * Clear Student 2 Search section
+         * Clear Student Search section
          */
-        protected void btnClearStudent2Search_Click(object sender, EventArgs e)
+        private void clearStudentSearch()
         {
-            clearStudent2Search();
-        }
+            txtStudentId.Text = "";
+            txtFirstName.Text = "";
+            txtLastName.Text = "";
 
-        /*
-         * Clear Student 1 Search section
-         */
-        private void clearStudent1Search()
-        {
-            txtStudent1Id.Text = "";
-            txtFirstName1.Text = "";
-            txtLastName1.Text = "";
-
-            clearGridView(gvStudent1Search);
-        }
-
-        /*
-         * Clear Student 2 Search section
-         */
-        private void clearStudent2Search()
-        {
-            txtStudent2Id.Text = "";
-            txtFirstName2.Text = "";
-            txtLastName2.Text = "";
-
-            clearGridView(gvStudent2Search);
+            clearGridView(gvStudentSearch);
         }
 
         /*
@@ -610,19 +522,6 @@ namespace WMTA.Events
         {
             gv.DataSource = null;
             gv.DataBind();
-        }
-
-        /*
-         * Pre:
-         * Post: Update the hidden student id based on the selected student
-         */
-        protected void ddlStudent1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lblStudent1Id.Text = ddlStudent1.SelectedValue;
-        }
-        protected void ddlStudent2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lblStudent2Id.Text = ddlStudent2.SelectedValue;
         }
 
         /*
@@ -686,16 +585,6 @@ namespace WMTA.Events
 
             //Pass error on to error page
             Server.Transfer("ErrorPage.aspx", true);
-        }
-
-        protected void ddlStudent2_SelectedIndexChanged1(object sender, EventArgs e)
-        {
-            lblStudent2Id.Text = ddlStudent2.SelectedValue;
-        }
-
-        protected void ddlStudent1_SelectedIndexChanged1(object sender, EventArgs e)
-        {
-            lblStudent1Id.Text = ddlStudent1.SelectedValue;
         }
     }
 }

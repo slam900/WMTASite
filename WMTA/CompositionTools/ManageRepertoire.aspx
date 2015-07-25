@@ -69,6 +69,12 @@
                                                 <hr />
                                                 Before creating ‘New’ composition titles MAKE SURE to verify that the title does not already exist in the database.  Double check all titles using the <a href="../CompositionTools/TitleLookup.aspx">Composition Title Finder</a>. 
                                                 <hr />
+                                                <div style="font-weight: normal">
+                                                    <b>For a ‘Suite’, please follow these title examples:</b><br />
+                                                    A Joke For You / Yankee Doodle<br />
+                                                    French Suite No. 5, BWV 816, G Major, I/II/III, Allemande/Courante/Sarabande
+                                                </div>
+                                                <hr />
                                             </div>
                                             <asp:Panel ID="pnlTitleEdit" runat="server" Visible="true">
                                                 <label for="CompositionInstructions" class="instruction-label">Title, Key, Movement, Tempo, Catalog No.</label><br />
@@ -237,6 +243,7 @@
                                 <hr />
                                 <asp:Panel runat="server" ID="pnlButtons">
                                     <div style="text-align: center; margin: 0px 10px 20px 10px; font-weight: bold">
+                                        <b>Please click the Submit button only once to avoid creating duplicate compositions.</b><br />
                                         For assistance email WMTACompositionHotline@gmail.com.
                                     </div>
                                     <div class="form-group">
