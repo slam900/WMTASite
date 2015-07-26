@@ -127,11 +127,10 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlJudge" CssClass="col-md-3 control-label float-left">Judge</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlJudge" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" DataSourceID="SqlDataSource2" DataTextField="ComboName" DataValueField="ContactId">
+                                                    <asp:DropDownList ID="ddlJudge" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" DataTextField="ComboName" DataValueField="ContactId">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
-                                                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownJudge" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 <asp:Button ID="btnAddJudge" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddJudge_Click" />
                                             </div>
                                             <asp:Panel ID="pnlJudges" runat="server" Visible="false">

@@ -139,7 +139,7 @@ public class ScheduleData
     {
         if (availableJudges == null || refresh)
         {
-            availableJudges = DbInterfaceScheduling.GetDistrictJudges(auditionId);
+            availableJudges = DbInterfaceScheduling.GetJudgesAvailableForAudition(auditionId);
         }
 
         return availableJudges;

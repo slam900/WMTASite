@@ -285,7 +285,7 @@ public class DbInterfaceScheduling
      * @param auditionId is the id of the audition
      * @returns a list of all judges currently associated with the audition's district 
      */
-    public static List<Judge> GetDistrictJudges(int auditionOrgId)
+    public static List<Judge> GetJudgesAvailableForAudition(int auditionOrgId)
     {
         List<Judge> judges = new List<Judge>();
         DataTable table = new DataTable();
@@ -295,7 +295,7 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_DistrictJudgeSelect";
+            string storedProc = "sp_AuditionAvailableJudgesSelect";
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
@@ -324,7 +324,7 @@ public class DbInterfaceScheduling
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceScheduling", "GetDistrictJudges", "auditionOrgId: " + auditionOrgId,
+            Utility.LogError("DbInterfaceScheduling", "GetJudgesAvailableForAudition", "auditionOrgId: " + auditionOrgId,
                              "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             judges = null;
         }

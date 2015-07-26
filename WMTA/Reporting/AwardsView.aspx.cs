@@ -18,7 +18,7 @@ namespace WMTA.Events
 
                 loadYearDropdown();
                 loadDistrictDropdown();
-                //loadTeacherDropdown();
+                loadTeacherDropdown();
             }
         }
 
@@ -35,7 +35,7 @@ namespace WMTA.Events
             {
                 User user = (User)Session[Utility.userRole];
 
-                if (!(user.permissionLevel.Contains("D") || user.permissionLevel.Contains("A")))
+                if (!(user.permissionLevel.Contains("D") || user.permissionLevel.Contains("A") || user.permissionLevel.Contains("T")))
                     Response.Redirect("../Default.aspx");
             }
         }
@@ -87,37 +87,37 @@ namespace WMTA.Events
          * Post: If the current user is a teacher, the teacher dropdown
          *       should only show the current user
          */
-        //private void loadTeacherDropdown()
-        //{
-        //    if (HighestPermissionTeacher())
-        //    {
-        //        User user = (User)Session[Utility.userRole];
-        //        Contact contact = DbInterfaceContact.GetContact(user.contactId);
+        private void loadTeacherDropdown()
+        {
+            if (HighestPermissionTeacher())
+            {
+                User user = (User)Session[Utility.userRole];
+                Contact contact = DbInterfaceContact.GetContact(user.contactId);
 
-        //        if (contact != null)
-        //        {
-        //            ddlTeacher.Items.Add(new ListItem(contact.lastName + ", " + contact.firstName, user.contactId.ToString()));
-        //        }
-        //    }
-        //}
+                if (contact != null)
+                {
+                    ddlTeacher.Items.Add(new ListItem(contact.lastName + ", " + contact.firstName, user.contactId.ToString()));
+                }
+            }
+        }
 
         /*
          * Pre:
          * Post: Determines whether or not the current user's highest permission level is Teacher
          * @returns true if the current user's highest permission level is Teacher and false otherwise
          */
-        //private bool HighestPermissionTeacher()
-        //{
-        //    User user = (User)Session[Utility.userRole];
-        //    bool teacherOnly = false;
+        private bool HighestPermissionTeacher()
+        {
+            User user = (User)Session[Utility.userRole];
+            bool teacherOnly = false;
 
-        //    if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
-        //    {
-        //        teacherOnly = true;
-        //    }
+            if (user.permissionLevel.Contains('T') && !(user.permissionLevel.Contains('D') || user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
+            {
+                teacherOnly = true;
+            }
 
-        //    return teacherOnly;
-        //}
+            return teacherOnly;
+        }
 
         /*
          * Load the awards for the selected event
@@ -128,9 +128,10 @@ namespace WMTA.Events
             {
                 int year = Convert.ToInt32(ddlYear.SelectedValue);
                 int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
+                int teacherId = ddlTeacher.SelectedIndex >= 0 && !ddlTeacher.SelectedValue.Equals("") ? teacherId = Convert.ToInt32(ddlTeacher.SelectedValue) : 0;
 
                 // Update gridview
-                DataTable table = DbInterfaceAwards.GetAwardData(year, districtId, ddlAuditionType.SelectedValue.Equals("District"));
+                DataTable table = DbInterfaceAwards.GetAwardData(year, districtId, teacherId, ddlAuditionType.SelectedValue.Equals("District"));
 
                 if (table != null)
                 {
@@ -142,6 +143,55 @@ namespace WMTA.Events
             }
             else
                 showWarningMessage("Please select a year, district, and audition type.");
+        }
+
+        protected void ddlDistrictSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!HighestPermissionTeacher())
+                updateTeacherDropdown();
+        }
+
+        protected void ddlYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!HighestPermissionTeacher())
+                updateTeacherDropdown();
+        }
+
+        /*
+         * Pre:
+         * Post: Update the list of available teachers
+         */
+        private void updateTeacherDropdown()
+        {
+            ddlTeacher.DataSource = null;
+            ddlTeacher.DataBind();
+            ddlTeacher.Items.Clear();
+
+            if (ddlDistrictSearch.SelectedIndex > 0)
+            {
+                int year = Convert.ToInt32(ddlYear.SelectedValue);
+                int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
+
+                DataTable table = DbInterfaceContact.GetTeachersForEvent(districtId, year);
+
+                if (table != null)
+                {
+                    //add empty item
+                    ddlTeacher.Items.Add(new ListItem("", ""));
+
+                    //add teachers from district
+                    ddlTeacher.DataSource = table;
+
+                    ddlTeacher.DataTextField = "ComboName";
+                    ddlTeacher.DataValueField = "ContactId";
+
+                    ddlTeacher.DataBind();
+                }
+                else
+                {
+                    showErrorMessage("Error: The teachers for the selected event could not be retrieved.");
+                }
+            }
         }
 
         #region Messages

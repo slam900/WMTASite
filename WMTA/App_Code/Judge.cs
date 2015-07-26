@@ -35,7 +35,7 @@ public class Judge : Contact
         if (!loadPreferences)
             this.preferences = preferences;
         else
-            this.preferences = DbInterfaceContact.GetJudgePreferences(id);
+            this.preferences = DbInterfaceJudge.GetJudgePreferences(id);
     }
 
     /*
@@ -44,7 +44,7 @@ public class Judge : Contact
     public Judge(int id)
         : base(id, true)
     {
-        preferences = DbInterfaceContact.GetJudgePreferences(id);
+        preferences = DbInterfaceJudge.GetJudgePreferences(id);
     }
 
     /*
@@ -57,7 +57,7 @@ public class Judge : Contact
     public bool addPreference(Utility.JudgePreferences preferenceType, string preference)
     {
         bool result = true;
-        JudgePreference newPref = DbInterfaceContact.AddJudgePreference(id, preferenceType, preference);
+        JudgePreference newPref = DbInterfaceJudge.AddJudgePreference(id, preferenceType, preference);
 
         if (preferences == null) preferences = new List<JudgePreference>();
 
@@ -81,7 +81,7 @@ public class Judge : Contact
         bool result;
         JudgePreference prefToDelete = new JudgePreference(-1, preferenceType, preference);
 
-        result = DbInterfaceContact.DeleteJudgePreference(id, preferenceType, preference);
+        result = DbInterfaceJudge.DeleteJudgePreference(id, preferenceType, preference);
 
         if (result)
             preferences.Remove(prefToDelete);

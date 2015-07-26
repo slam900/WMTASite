@@ -18,6 +18,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=1" class="smaller-font">Add Event</a></li>
                                         <li><a href="../Events/CreateDistrictAudition.aspx?action=2" class="smaller-font">Edit Event</a></li>
+                                        <li><a href="../Contacts/JudgeSetup.aspx?action=2" class="smaller-font">Judge Setup</a></li>
                                         <li><a href="../Events/AssignDistrictRoomsAndJudges.aspx" class="smaller-font">Assign Rooms and Judges</a></li>
                                         <li><a href="../Events/Schedule.aspx" class="smaller-font">Create Schedule</a></li>
 <%--                                        <li><a href="../Events/ScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>--%>

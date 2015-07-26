@@ -565,21 +565,9 @@ namespace WMTA.Contacts
             //if the id is an integer or empty, do the search
             if (isNum || id.Equals(""))
             {
-                if (userIsStateAdmin())  //if the user is a state admin, get all judges and self
+                if (!searchContacts(gvSearch, id, txtFirstNameSearch.Text, txtLastNameSearch.Text, contactSearch, getDistrictIdForPermissionLevel()))
                 {
-                    //if the search does not return any result, display a message saying so
-                    if (!searchJudgeContacts(gvSearch, id, txtFirstNameSearch.Text, txtLastNameSearch.Text, contactSearch))
-                    {
-                        showInfoMessage("The search did not return any results.");
-                    }
-                }
-                else
-                {
-                    //if the search does not return any result, display a message saying so
-                    if (!searchContacts(gvSearch, id, txtFirstNameSearch.Text, txtLastNameSearch.Text, contactSearch, getDistrictIdForPermissionLevel()))
-                    {
-                        showInfoMessage("The search did not return any results.");
-                    }
+                    showInfoMessage("The search did not return any results.");
                 }
             }
             //if the id is not numeric, display a message
@@ -669,64 +657,6 @@ namespace WMTA.Contacts
 
                 //log issue in database
                 Utility.LogError("Manage Contacts", "searchContacts", gridView.ID + ", " + id + ", " + firstName + ", " + lastName + ", " + session, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            }
-
-            return result;
-        }
-
-        /*
-         * Pre:  id must be an integer or the empty string
-         * Post:  The input parameters are used to search for existing contacts.  Matching contact 
-         *        information is displayed in the input gridview.
-         * @param gridView is the gridView in which the search results will be displayed
-         * @param id is the id being searched for - must be an integer or the empty string
-         * @param firstName is all or part of the first name being searched for
-         * @param lastName is all or part of the last name being searched for
-         * @returns true if results were found and false otherwise
-         */
-        private bool searchJudgeContacts(GridView gridView, string id, string firstName, string lastName, string session)
-        {
-            DataTable table;
-            bool result = true;
-
-            try
-            {
-                if (!id.Equals(""))
-                    table = DbInterfaceContact.GetJudgeAndSelfSearchResults(id, firstName, lastName, false);
-                else
-                {
-                    User user = (User)Session[Utility.userRole];
-
-                    table = DbInterfaceContact.GetJudgeAndSelfSearchResults(user.contactId.ToString(), firstName, lastName, true);
-                }
-
-                //If there are results in the table, display them.  Otherwise clear current
-                //results and return false
-                if (table != null && table.Rows.Count > 0)
-                {
-                    gridView.DataSource = table;
-                    gridView.DataBind();
-                    gridView.HeaderRow.BackColor = Color.Black;
-
-                    //save the data for quick re-binding upon paging
-                    Session[session] = table;
-                }
-                else if (table != null && table.Rows.Count == 0)
-                {
-                    clearGridView(gridView);
-                    result = false;
-                }
-                else if (table == null)
-                {
-                    showErrorMessage("Error: An error occurred during the search. Please make sure all entered data is valid.");
-                }
-            }
-            catch (Exception e)
-            {
-                showErrorMessage("Error: An error occurred during the search. Please make sure all entered data is valid.");
-
-                //log issue in database
-                Utility.LogError("Manage Contacts", "searchJudgeContacts", gridView.ID + ", " + id + ", " + firstName + ", " + lastName + ", " + session, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
 
             return result;
@@ -1052,7 +982,6 @@ namespace WMTA.Contacts
             Session[judgeVar] = null;
         }
 
-
         /*
          * Pre:
          * Post: Clears the Contact Search section
@@ -1088,31 +1017,31 @@ namespace WMTA.Contacts
             User user = (User)Session[Utility.userRole];
             if (!(user.permissionLevel.Contains('A') || user.permissionLevel.Contains("S") || user.permissionLevel.Contains("D")) && user.permissionLevel.Contains("T"))
             {
-                    pnlContactSearch.Visible = false;
+                pnlContactSearch.Visible = false;
 
-                    ddlContactType.DataBind();
-                    ddlDistrict.DataBind();
-                    loadContact(user.contactId);
-                    updateAvailableContactTypes();
+                ddlContactType.DataBind();
+                ddlDistrict.DataBind();
+                loadContact(user.contactId);
+                updateAvailableContactTypes();
 
-                    //only show current user's district
-                    ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
-                    ddlDistrict.DataSource = null;
-                    ddlDistrict.DataBind();
-                    ddlDistrict.Items.Clear();
-                    ddlDistrict.Items.Add(districtItem);
+                //only show current user's district
+                ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
+                ddlDistrict.DataSource = null;
+                ddlDistrict.DataBind();
+                ddlDistrict.Items.Clear();
+                ddlDistrict.Items.Add(districtItem);
             }
             //if the user is a district admin, they can edit anyone in their district
             else if (user.permissionLevel.Contains('D') && !(user.permissionLevel.Contains('S') || user.permissionLevel.Contains('A')))
             {
-                    ddlDistrict.DataBind();
+                ddlDistrict.DataBind();
 
-                    //only show current user's district
-                    ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
-                    ddlDistrict.DataSource = null;
-                    ddlDistrict.DataBind();
-                    ddlDistrict.Items.Clear();
-                    ddlDistrict.Items.Add(districtItem);
+                //only show current user's district
+                ListItem districtItem = ddlDistrict.Items.FindByValue(user.districtId.ToString());
+                ddlDistrict.DataSource = null;
+                ddlDistrict.DataBind();
+                ddlDistrict.Items.Clear();
+                ddlDistrict.Items.Add(districtItem);
             }
         }
 

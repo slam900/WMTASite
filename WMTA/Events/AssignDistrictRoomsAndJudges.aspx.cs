@@ -307,7 +307,7 @@ namespace WMTA.Events
 
                     LoadRooms(audition);
                     LoadTheoryRooms(audition);
-                    //LoadAvailableJudgesToDropdown(audition);
+                    LoadAvailableJudgesToDropdown(audition);
                     LoadAuditionJudges(audition);
                     LoadAuditionJudgeRooms(audition);
 
@@ -390,26 +390,26 @@ namespace WMTA.Events
          * Pre:
          * Post: Load the judges for the audition's district
          */
-        //private void LoadAvailableJudgesToDropdown(Audition audition)
-        //{
-        //    ClearAvailableJudges();
+        private void LoadAvailableJudgesToDropdown(Audition audition)
+        {
+            ClearAvailableJudges();
 
-        //    try
-        //    {
-        //        List<Judge> judges = audition.GetAvailableJudges(true);
+            try
+            {
+                List<Judge> judges = audition.GetAvailableJudges(true);
 
-        //        // Load each judge to the dropdown
-        //        foreach (Judge judge in judges)
-        //        {
-        //            ddlJudge.Items.Add(new ListItem(judge.lastName + ", " + judge.firstName, judge.id.ToString()));
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        showErrorMessage("Error: An error occurred while loading the district's judges.");
-        //        Utility.LogError("AssignDistrictRoomsAndJudges", "LoadAvailableJudgesToDropdown", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-        //    }
-        //}
+                // Load each judge to the dropdown
+                foreach (Judge judge in judges)
+                {
+                    ddlJudge.Items.Add(new ListItem(judge.lastName + ", " + judge.firstName, judge.id.ToString()));
+                }
+            }
+            catch (Exception e)
+            {
+                showErrorMessage("Error: An error occurred while loading the district's judges.");
+                Utility.LogError("AssignDistrictRoomsAndJudges", "LoadAvailableJudgesToDropdown", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            }
+        }
 
         /*
          * Pre:

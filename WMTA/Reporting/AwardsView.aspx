@@ -22,8 +22,7 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <%--                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control"  AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">--%>
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
@@ -35,19 +34,15 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <%--                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" AutoPostBack="true" />--%>
-                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
+                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" AutoPostBack="true" />
                                                 </div>
                                             </div>
-                                            <%--<div class="form-group">
+                                            <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
                                                 <div class="col-md-6">
                                                     <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
                                                 </div>
                                             </div>
-                                            <div class="center text-align-center">
-                                                <label class="text-info smaller-font">Please be patient after clicking 'Search'.  Your reports may take several minutes.</label>
-                                            </div>--%>
                                             <div class="form-group">
                                                 <div class="col-md-3-margin">
                                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlAuditionType" CssClass="txt-danger vertical-center font-size-12" ErrorMessage="Audition type is required"></asp:RequiredFieldValidator>
