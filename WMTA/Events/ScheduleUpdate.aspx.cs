@@ -98,29 +98,29 @@ namespace WMTA.Events
          * Post: The entered audition is searched for and selected.  If a matching schedule
          *       slot is found, some summary data is shown on the page
          */
-        protected void btnSelectAudition_Click(object sender, EventArgs e)
-        {
-            int auditionId = -1;
+        //protected void btnSelectAudition_Click(object sender, EventArgs e)
+        //{
+        //    int auditionId = -1;
 
-            if (Int32.TryParse(txtAuditionId.Text, out auditionId))
-            {
-                ScheduleSlot scheduleSlot = DbInterfaceStudentAudition.GetStudentAuditionSchedule(auditionId);
+        //    if (Int32.TryParse(txtAuditionId.Text, out auditionId))
+        //    {
+        //        ScheduleSlot scheduleSlot = DbInterfaceStudentAudition.GetStudentAuditionSchedule(auditionId);
 
-                if (scheduleSlot != null)
-                {
-                    lblAuditionInformation.Text = "Student: " + scheduleSlot.StudentName + ", Start Time: " + FormatTime(scheduleSlot.StartTime) /*+ ", Judge: " + scheduleSlot.JudgeName*/;
-                    lblSelectedAuditionId.Text = auditionId.ToString();
-                }
-                else
-                {
-                    showWarningMessage("No matching audition schedule slots were found.");
-                }
-            }
-            else
-            {
-                showWarningMessage("Please enter a numeric audition id.");
-            }
-        }
+        //        if (scheduleSlot != null)
+        //        {
+        //            lblAuditionInformation.Text = "Student: " + scheduleSlot.StudentName + ", Start Time: " + FormatTime(scheduleSlot.StartTime) /*+ ", Judge: " + scheduleSlot.JudgeName*/;
+        //            lblSelectedAuditionId.Text = auditionId.ToString();
+        //        }
+        //        else
+        //        {
+        //            showWarningMessage("No matching audition schedule slots were found.");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        showWarningMessage("Please enter a numeric audition id.");
+        //    }
+        //}
 
         /*
          * Pre:
@@ -151,28 +151,28 @@ namespace WMTA.Events
          * Pre:
          * Post: Load the current times of the selected judge or clear the times if no judge is selected
          */
-        protected void ddlAuditionJudges_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlAuditionJudges.SelectedIndex > 0)
-                LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
-        }
+        //protected void ddlAuditionJudges_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (ddlAuditionJudges.SelectedIndex > 0)
+        //        LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
+        //}
 
         /*
          * Pre:
          * Post: Load the current times of the judge with the input id or clear the times if no judge is selected
          */
-        private void LoadJudgeTimes(int judgeId)
-        {
-            ddlTimes.Items.Clear();
-            ddlTimes.Items.Add(new ListItem("", ""));
+        //private void LoadJudgeTimes(int judgeId)
+        //{
+        //    ddlTimes.Items.Clear();
+        //    ddlTimes.Items.Add(new ListItem("", ""));
 
-            List<Tuple<int, string>> judgeTimes = DbInterfaceScheduling.LoadJudgeTimes(judgeId, Convert.ToInt32(lblAuditionId.Text));
+        //    List<Tuple<int, string>> judgeTimes = DbInterfaceScheduling.LoadJudgeTimes(judgeId, Convert.ToInt32(lblAuditionId.Text));
 
-            foreach (Tuple<int, string> time in judgeTimes)
-            {
-                ddlTimes.Items.Add(new ListItem(time.Item2, time.Item1.ToString()));
-            }
-        }
+        //    foreach (Tuple<int, string> time in judgeTimes)
+        //    {
+        //        ddlTimes.Items.Add(new ListItem(time.Item2, time.Item1.ToString()));
+        //    }
+        //}
 
         /*
          * Pre:
@@ -180,63 +180,88 @@ namespace WMTA.Events
          */
         protected void btnMoveAudition_Click(object sender, EventArgs e)
         {
-            int auditionId = -1;
+            btnSaveOrder.Visible = true;
+            btnAssignTimes.Visible = true;
+
+            // Make sure two valid slots have been entered
+            if (SlotValid(txtSlot.Text) && SlotValid(txtNewSlot.Text))
+            {
+                int currentSlot = Int32.Parse(txtSlot.Text);
+                int newSlot = Int32.Parse(txtNewSlot.Text);
+
+
+
+
+
+            }
+
 
             // Make sure an audition id, judge, and time slot are selected
-            if (!txtAuditionId.Text.Equals("") && Int32.TryParse(txtAuditionId.Text, out auditionId) && ddlAuditionJudges.SelectedIndex > 0 && ddlTimes.SelectedIndex > 0)
+            if (!txtSlot.Text.Equals("") && Int32.TryParse(txtSlot.Text, out currentSlot) && !txtNewSlot.Text.Equals("") && Int32.TryParse(txtNewSlot.Text, out newSlot))
             {
-                int auditionOrgId = DbInterfaceStudentAudition.GetAuditionOrgIdByStudentAudition(auditionId);
-                Audition audition = DbInterfaceAudition.LoadAuditionData(auditionOrgId); 
+                //int auditionOrgId = DbInterfaceStudentAudition.GetAuditionOrgIdByStudentAudition(currentSlot);
+                //Audition audition = DbInterfaceAudition.LoadAuditionData(auditionOrgId); 
 
-                EventSchedule fullSchedule = DbInterfaceScheduling.LoadScheduleData(auditionOrgId);
-                fullSchedule.MoveAudition(auditionId, Convert.ToInt32(ddlTimes.SelectedValue), audition);
+                //EventSchedule fullSchedule = DbInterfaceScheduling.LoadScheduleData(auditionOrgId);
+                //fullSchedule.MoveAudition(currentSlot, Convert.ToInt32(ddlTimes.SelectedValue), audition);
 
-                // Update auditions in the schedule table
-                DataTable schedule = (DataTable)Session[scheduleData];
-                for (int i = 0; i < schedule.Rows.Count; i++)
-                {
-                    string audId = schedule.Rows[i]["Audition Id"].ToString();
-                    ScheduleSlot slot = fullSchedule.ScheduleSlots.Where(s => s.AuditionId.ToString().Equals(audId)).FirstOrDefault();
+                //// Update auditions in the schedule table
+                //DataTable schedule = (DataTable)Session[scheduleData];
+                //for (int i = 0; i < schedule.Rows.Count; i++)
+                //{
+                //    string audId = schedule.Rows[i]["Audition Id"].ToString();
+                //    ScheduleSlot slot = fullSchedule.ScheduleSlots.Where(s => s.AuditionId.ToString().Equals(audId)).FirstOrDefault();
 
-                    // Update start time and judges in table
-                    if (slot != null)
-                    {
-                        schedule.Rows[i]["Start Time"] = slot.StartTime;
-                        schedule.Rows[i]["Judge Name"] = slot.JudgeName;
-                        schedule.Rows[i]["Judge Id"] = slot.JudgeId;
-                        schedule.Rows[i]["Grade"] = slot.Grade;
-                        schedule.Rows[i]["Type"] = slot.AuditionType;
-                        schedule.Rows[i]["Track"] = slot.AuditionTrack;
-                        schedule.Rows[i]["Time Preference"] = slot.TimePreference;
-                        schedule.Rows[i]["Student Id"] = slot.StudentId;
-                        schedule.Rows[i]["Audition Length"] = slot.Minutes;
-                        schedule.Rows[i]["Instrument"] = slot.Instrument;
-                    }
-                }
+                //    // Update start time and judges in table
+                //    if (slot != null)
+                //    {
+                //        schedule.Rows[i]["Start Time"] = slot.StartTime;
+                //        schedule.Rows[i]["Judge Name"] = slot.JudgeName;
+                //        schedule.Rows[i]["Judge Id"] = slot.JudgeId;
+                //        schedule.Rows[i]["Grade"] = slot.Grade;
+                //        schedule.Rows[i]["Type"] = slot.AuditionType;
+                //        schedule.Rows[i]["Track"] = slot.AuditionTrack;
+                //        schedule.Rows[i]["Time Preference"] = slot.TimePreference;
+                //        schedule.Rows[i]["Student Id"] = slot.StudentId;
+                //        schedule.Rows[i]["Audition Length"] = slot.Minutes;
+                //        schedule.Rows[i]["Instrument"] = slot.Instrument;
+                //    }
+                //}
 
-                // Sort the table
-                DataView dataView = schedule.DefaultView;
-                dataView.Sort = "Judge Name ASC, Start Time ASC"; 
-                schedule = dataView.ToTable();
+                //// Sort the table
+                //DataView dataView = schedule.DefaultView;
+                //dataView.Sort = "Judge Name ASC, Start Time ASC"; 
+                //schedule = dataView.ToTable();
 
-                // After sorting based on time, convert to AM/PM format
-                for (int i = 0; i < schedule.Rows.Count; i++)
-                    schedule.Rows[i]["Start Time"] = FormatTime(TimeSpan.Parse(schedule.Rows[i]["Start Time"].ToString()));
+                //// After sorting based on time, convert to AM/PM format
+                //for (int i = 0; i < schedule.Rows.Count; i++)
+                //    schedule.Rows[i]["Start Time"] = FormatTime(TimeSpan.Parse(schedule.Rows[i]["Start Time"].ToString()));
 
-                gvSchedule.DataSource = schedule;
-                gvSchedule.DataBind();
+                //gvSchedule.DataSource = schedule;
+                //gvSchedule.DataBind();
 
-                Session[scheduleData] = schedule;
-                Session[eventSchedule] = fullSchedule;
+                //Session[scheduleData] = schedule;
+                //Session[eventSchedule] = fullSchedule;
             }
-            else if (auditionId == -1)
+            else if (currentSlot == -1)
             {
                 showWarningMessage("Please select an audition to move.");
             }
-            else if (ddlAuditionJudges.SelectedIndex <= 0 || ddlTimes.SelectedIndex <= 0)
+           // else if (ddlAuditionJudges.SelectedIndex <= 0 || ddlTimes.SelectedIndex <= 0)
+            else if (newSlot == -1)
             {
-                showWarningMessage("Please select a judge and time slot to move the selected audition to.");
+                showWarningMessage("Please insert a time slot to move the selected audition to.");
             }
+        }
+
+        /*
+         * Determine whether the entered slot exists
+         */
+        private bool SlotValid(string slotString)
+        {
+            int slot = -1;
+
+            return slotString.Equals("") && Int32.TryParse(slotString, out slot) && slot > 0 && slot <= gvSchedule.Rows.Count; // TODO - not sure what the upper range should be
         }
 
         /*
@@ -245,18 +270,18 @@ namespace WMTA.Events
          */
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            EventSchedule fullSchedule = (EventSchedule)Session[eventSchedule];
+            //EventSchedule fullSchedule = (EventSchedule)Session[eventSchedule];
 
-            if (fullSchedule != null && fullSchedule.UpdateSchedule())
-            {
-                showSuccessMessage("The schedule was successfully updated");
-            }
-            else
-                showErrorMessage("The schedule could not be updated");
+            //if (fullSchedule != null && fullSchedule.UpdateSchedule())
+            //{
+            //    showSuccessMessage("The schedule was successfully updated");
+            //}
+            //else
+            //    showErrorMessage("The schedule could not be updated");
 
-            // Update the judge times
-            if (ddlAuditionJudges.SelectedIndex > 0)
-                LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
+            //// Update the judge times
+            //if (ddlAuditionJudges.SelectedIndex > 0)
+            //    LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
         }
 
         /*
@@ -401,10 +426,10 @@ namespace WMTA.Events
          */
         private void loadScheduleInformation(int auditionId)
         {
-            LoadAuditionJudges(DbInterfaceAudition.LoadAuditionData(auditionId));
+            //LoadAuditionJudges(DbInterfaceAudition.LoadAuditionData(auditionId));
 
             //load schedule table
-            DataTable schedule = DbInterfaceScheduling.LoadSchedule(auditionId);
+            DataTable schedule = DbInterfaceScheduling.LoadScheduleForUpdate(auditionId);
 
             if (schedule != null && schedule.Rows.Count > 0)
             {
@@ -420,27 +445,27 @@ namespace WMTA.Events
             }
         }
 
-        private void LoadAuditionJudges(Audition audition)
-        {
-            ddlAuditionJudges.Items.Clear();
-            ddlAuditionJudges.Items.Add(new ListItem("", ""));
+        //private void LoadAuditionJudges(Audition audition)
+        //{
+        //    ddlAuditionJudges.Items.Clear();
+        //    ddlAuditionJudges.Items.Add(new ListItem("", ""));
 
-            try
-            {
-                List<Judge> judges = audition.GetEventJudges(true);
+        //    try
+        //    {
+        //        List<Judge> judges = audition.GetEventJudges(true);
 
-                //Load each judge to the dropdown
-                foreach (Judge judge in judges)
-                {
-                    ddlAuditionJudges.Items.Add(new ListItem(judge.id + ": " + judge.lastName + ", " + judge.firstName, judge.id.ToString()));
-                }
-            }
-            catch (Exception e)
-            {
-                showErrorMessage("Error: An error occurred while loading the event's judges.");
-                Utility.LogError("ScheduleUpdate", "LoadAuditionJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            }
-        }
+        //        //Load each judge to the dropdown
+        //        foreach (Judge judge in judges)
+        //        {
+        //            ddlAuditionJudges.Items.Add(new ListItem(judge.id + ": " + judge.lastName + ", " + judge.firstName, judge.id.ToString()));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        showErrorMessage("Error: An error occurred while loading the event's judges.");
+        //        Utility.LogError("ScheduleUpdate", "LoadAuditionJudges", "auditionId: " + audition.auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        //    }
+        //}
 
         protected void gvSchedule_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -589,6 +614,16 @@ namespace WMTA.Events
             Server.Transfer("ErrorPage.aspx", true);
         }
         #endregion Messages
+
+        protected void btnAssignTimes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnSaveOrder_Click(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }

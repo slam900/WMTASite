@@ -159,7 +159,7 @@
                                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlContactType" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Contact type is required" />
                                                     </div>
                                                 </div>
-                                                <asp:Panel ID="pnlJudges" runat="server" Visible="false">
+                                                <%--<asp:Panel ID="pnlJudges" runat="server" Visible="false">
                                                     <div class="form-group">
                                                         <asp:Label runat="server" AssociatedControlID="chkLstTrack" CssClass="col-md-3 control-label float-left">Track</asp:Label>
                                                         <div class="float-left">
@@ -194,7 +194,7 @@
                                                         </div>
                                                         <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownInstrument" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                     </div>
-                                                </asp:Panel>
+                                                </asp:Panel>--%>
                                             </div>
                                         </asp:Panel>
                                     </ContentTemplate>

@@ -49,37 +49,31 @@
                                 <hr />
                                 <h4>Select Audition To Move</h4>
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="txtAuditionId" CssClass="col-md-3 control-label">Id</asp:Label>
+                                    <asp:Label runat="server" AssociatedControlID="txtSlot" CssClass="col-md-3 control-label">Slot</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="txtAuditionId" CssClass="form-control medium-txtbx-width float-left" />
-                                        <asp:Button ID="btnSelectAudition" Text="Search Id" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSelectAudition_Click" CausesValidation="false" />
+                                        <asp:TextBox runat="server" ID="txtSlot" CssClass="form-control medium-txtbx-width float-left" />
+                                        <%--                                        <asp:Button ID="btnSelectAudition" Text="Search Id" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSelectAudition_Click" CausesValidation="false" />--%>
                                     </div>
                                     <div style="margin-top: 50px" class="center text-align-center">
                                         <asp:Label runat="server" ID="lblAuditionInformation" CssClass="text-info" /><asp:Label runat="server" ID="lblSelectedAuditionId" Visible="false" />
                                     </div>
                                 </div>
-                                <h4>Select Slot to Move Audition To</h4>
+                                <h4>Select Slot To Move Audition To</h4>
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="ddlAuditionJudges" CssClass="col-md-3 control-label">Judge</asp:Label>
+                                    <asp:Label runat="server" AssociatedControlID="txtNewSlot" CssClass="col-md-3 control-label">New Slot</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlAuditionJudges_SelectedIndexChanged">
-                                            <asp:ListItem Selected="True" Text="" Value="" />
-                                        </asp:DropDownList>
+                                        <asp:TextBox runat="server" ID="txtNewSlot" CssClass="form-control medium-txtbx-width float-left" />
+                                        <asp:Button ID="btnMoveAudition" Text="Move" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnMoveAudition_Click" CausesValidation="false" />
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <%--<div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="ddlTimes" CssClass="col-md-3 control-label">Time</asp:Label>
                                     <div class="col-md-6">
                                         <asp:DropDownList ID="ddlTimes" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
                                             <asp:ListItem Selected="True" Text="" Value="" />
                                         </asp:DropDownList>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-3-margin col-md-6">
-                                        <asp:Button ID="btnMoveAudition" Text="Move" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnMoveAudition_Click" CausesValidation="false" />
-                                    </div>
-                                </div>
+                                </div>--%>
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>
@@ -89,7 +83,9 @@
                                 <hr />
                                 <h4>Event Schedule</h4>
                                 <div class="form-group">
-                                    <asp:Button ID="btnSave" Text="Save Schedule" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSave_Click" />
+                                    <asp:Button ID="btnAssignTimes" Text="Assign New Times" Visible="false" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnAssignTimes_Click" />
+                                    <asp:Button ID="btnSaveOrder" Text="Save Order" Visible="false" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSaveOrder_Click" />
+                                    <asp:Button ID="btnSave" Text="Save Schedule" Visible="false" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSave_Click" />
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12 center">

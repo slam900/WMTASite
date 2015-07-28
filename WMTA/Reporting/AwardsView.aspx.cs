@@ -124,7 +124,7 @@ namespace WMTA.Events
          */
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            if (ddlYear.SelectedIndex > 0 && ddlDistrictSearch.SelectedIndex > 0 && ddlAuditionType.SelectedIndex > 0)
+            if (ddlYear.SelectedIndex >= 0 && ddlDistrictSearch.SelectedIndex > 0 && ddlAuditionType.SelectedIndex > 0)
             {
                 int year = Convert.ToInt32(ddlYear.SelectedValue);
                 int districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);

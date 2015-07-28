@@ -85,7 +85,7 @@ namespace WMTA.Contacts
                 legend.InnerText = "Add Contact";
                 btnSubmit.Text = "Add";
                 enableControls();
-                defaultCheckBoxes();
+                //defaultCheckBoxes();
             }
             else if (action == Utility.Action.Edit)
             {
@@ -232,14 +232,14 @@ namespace WMTA.Contacts
                         Session[contactVar] = contact;
 
                         //add preferences
-                        if (contact.id != -1 && pnlJudges.Visible)
-                        {
-                            judge = new Judge(contact.id, firstName, mi, lastName, email, phone,
-                                              districtId, contactType, new List<JudgePreference>(), false);
+                        //if (contact.id != -1 && pnlJudges.Visible)
+                        //{
+                        //    judge = new Judge(contact.id, firstName, mi, lastName, email, phone,
+                        //                      districtId, contactType, new List<JudgePreference>(), false);
 
-                            if (judge.preferences != null)
-                                UpdateJudgePreferences();
-                        }
+                        //    if (judge.preferences != null)
+                        //        UpdateJudgePreferences();
+                        //}
 
                         if (contact.id == -1)
                         {
@@ -302,23 +302,24 @@ namespace WMTA.Contacts
 
                     contact.updateInDatabase();
 
-                    if (pnlJudges.Visible && contact != null)
-                    {
-                        judge = new Judge(contact.id, contact.firstName,
-                                          contact.middleInitial, contact.lastName,
-                                          contact.email, contact.phone,
-                                          contact.districtId, contact.contactTypeId,
-                                          null, true);
+                    //if (pnlJudges.Visible && contact != null)
+                    //{
+                    //    judge = new Judge(contact.id, contact.firstName,
+                    //                      contact.middleInitial, contact.lastName,
+                    //                      contact.email, contact.phone,
+                    //                      contact.districtId, contact.contactTypeId,
+                    //                      null, true);
 
-                        if (judge.preferences != null)
-                            UpdateJudgePreferences();
-                        else
-                        {
-                            showErrorMessage("Error: An error occurred while updating the judge's preferences.");
-                            result = false;
-                        }
-                    }
-                    else if (contact == null)
+                    //    if (judge.preferences != null)
+                    //        UpdateJudgePreferences();
+                    //    else
+                    //    {
+                    //        showErrorMessage("Error: An error occurred while updating the judge's preferences.");
+                    //        result = false;
+                    //    }
+                    //}
+                    //else 
+                    if (contact == null)
                     {
                         showErrorMessage("Error: An error occurred while editing the contact.");
                         result = false;
@@ -344,91 +345,91 @@ namespace WMTA.Contacts
          * Pre:  The contact must have judge as part of their contact type
          * Post: The preferences for the judge are updated
          */
-        private void UpdateJudgePreferences()
-        {
-            JudgePreference[] prefArr = null;
-            bool[] foundArr = null;
+        //private void UpdateJudgePreferences()
+        //{
+        //    JudgePreference[] prefArr = null;
+        //    bool[] foundArr = null;
 
-            try
-            {
-                //make arrays to track which preferences should be kept for the judge
-                //and which ones should be deleted
-                if (judge.preferences != null && judge.preferences.Count > 0)
-                {
-                    prefArr = new JudgePreference[judge.preferences.Count];
-                    foundArr = new bool[judge.preferences.Count];
+        //    try
+        //    {
+        //        //make arrays to track which preferences should be kept for the judge
+        //        //and which ones should be deleted
+        //        if (judge.preferences != null && judge.preferences.Count > 0)
+        //        {
+        //            prefArr = new JudgePreference[judge.preferences.Count];
+        //            foundArr = new bool[judge.preferences.Count];
 
-                    //add preferences to prefArr
-                    prefArr = judge.preferences.ToArray();
+        //            //add preferences to prefArr
+        //            prefArr = judge.preferences.ToArray();
 
-                    //initialize found array to false
-                    for (int i = 0; i < foundArr.Length; i++)
-                        foundArr[i] = false;
-                }
+        //            //initialize found array to false
+        //            for (int i = 0; i < foundArr.Length; i++)
+        //                foundArr[i] = false;
+        //        }
 
-                //add audition track preferences
-                foreach (ListItem item in chkLstTrack.Items)
-                {
-                    if (item.Value.Equals("District")) // Convert District to D2, D2NM, and D3
-                    {
-                        ListItem item2 = new ListItem("D2", "D2");
-                        item2.Selected = item.Selected;
-                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
+        //        //add audition track preferences
+        //        foreach (ListItem item in chkLstTrack.Items)
+        //        {
+        //            if (item.Value.Equals("District")) // Convert District to D2, D2NM, and D3
+        //            {
+        //                ListItem item2 = new ListItem("D2", "D2");
+        //                item2.Selected = item.Selected;
+        //                HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
 
-                        item2 = new ListItem("D2NM", "D2NM");
-                        item2.Selected = item.Selected;
-                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
+        //                item2 = new ListItem("D2NM", "D2NM");
+        //                item2.Selected = item.Selected;
+        //                HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
 
-                        item2 = new ListItem("D3", "D3");
-                        item2.Selected = item.Selected;
-                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
-                    }
-                    else
-                    {
-                        HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item);
-                    }
-                }
+        //                item2 = new ListItem("D3", "D3");
+        //                item2.Selected = item.Selected;
+        //                HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item2);
+        //            }
+        //            else
+        //            {
+        //                HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionLevel, item);
+        //            }
+        //        }
 
-                //add audition type preferences
-                foreach (ListItem item in chkLstType.Items)
-                    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionType, item);
+        //        //add audition type preferences
+        //        foreach (ListItem item in chkLstType.Items)
+        //            HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.AuditionType, item);
 
-                //add composition level preferences
-                foreach (ListItem item in chkLstCompLevel.Items)
-                    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.CompositionLevel, item);
+        //        //add composition level preferences
+        //        foreach (ListItem item in chkLstCompLevel.Items)
+        //            HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.CompositionLevel, item);
 
-                //add instrument preferences
-                foreach (ListItem item in chkLstInstrument.Items)
-                    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Instrument, item);
+        //        //add instrument preferences
+        //        foreach (ListItem item in chkLstInstrument.Items)
+        //            HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Instrument, item);
 
-                //add time preferences
-                //foreach (ListItem item in chkLstTime.Items)
-                //    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Time, item);
+        //        //add time preferences
+        //        //foreach (ListItem item in chkLstTime.Items)
+        //        //    HandleSpecificPreference(prefArr, foundArr, Utility.JudgePreferences.Time, item);
 
-                //delete preferences that were not found
-                if (prefArr != null)
-                {
-                    for (int i = 0; i < prefArr.Length; i++)
-                    {
-                        if (!foundArr[i])
-                        {
-                            //delete the preference, display an error if it isn't successful
-                            if (!judge.deletePreference(prefArr[i].preferenceType, prefArr[i].preference))
-                            {
-                                showErrorMessage("Error: An error occurred while removing a judge preference");
-                            }
+        //        //delete preferences that were not found
+        //        if (prefArr != null)
+        //        {
+        //            for (int i = 0; i < prefArr.Length; i++)
+        //            {
+        //                if (!foundArr[i])
+        //                {
+        //                    //delete the preference, display an error if it isn't successful
+        //                    if (!judge.deletePreference(prefArr[i].preferenceType, prefArr[i].preference))
+        //                    {
+        //                        showErrorMessage("Error: An error occurred while removing a judge preference");
+        //                    }
 
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                showErrorMessage("Error: An error occurred while updating the judge preferences.");
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        showErrorMessage("Error: An error occurred while updating the judge preferences.");
 
-                Utility.LogError("Manage Contacts", "UpdateJudgePreferences", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            }
-        }
+        //        Utility.LogError("Manage Contacts", "UpdateJudgePreferences", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        //    }
+        //}
 
         /*
          * Pre:
@@ -770,74 +771,74 @@ namespace WMTA.Contacts
 
                 //show or hide the judges panel based on whether or not the contact is a judge
                 //if they are a judge, load their preferences
-                if (contact.contactTypeId.Contains('J'))
-                {
-                    Judge judge = new Judge(contact.id, contact.firstName, contact.middleInitial,
-                                            contact.lastName, contact.email, contact.phone,
-                                            contact.districtId, contact.contactTypeId, null, true);
-                    Session[judgeVar] = judge;
-                    Session[contactVar] = (Contact)judge;
+                //if (contact.contactTypeId.Contains('J'))
+                //{
+                //    Judge judge = new Judge(contact.id, contact.firstName, contact.middleInitial,
+                //                            contact.lastName, contact.email, contact.phone,
+                //                            contact.districtId, contact.contactTypeId, null, true);
+                //    Session[judgeVar] = judge;
+                //    Session[contactVar] = (Contact)judge;
 
-                    //load each preference
-                    if (judge.preferences != null)
-                    {
-                        foreach (JudgePreference pref in judge.preferences)
-                        {
-                            int idx = -1;
+                //    //load each preference
+                //    if (judge.preferences != null)
+                //    {
+                //        foreach (JudgePreference pref in judge.preferences)
+                //        {
+                //            int idx = -1;
 
-                            //audition level
-                            if (pref.preferenceType == Utility.JudgePreferences.AuditionLevel)
-                            {
-                                if (pref.preference.Equals("D2") || pref.preference.Equals("D2NM") || pref.preference.Equals("D3")) // Convert D2, D2NM, and D3 to District
-                                {
-                                    idx = chkLstTrack.Items.IndexOf(new ListItem("District"));
+                //            //audition level
+                //            if (pref.preferenceType == Utility.JudgePreferences.AuditionLevel)
+                //            {
+                //                if (pref.preference.Equals("D2") || pref.preference.Equals("D2NM") || pref.preference.Equals("D3")) // Convert D2, D2NM, and D3 to District
+                //                {
+                //                    idx = chkLstTrack.Items.IndexOf(new ListItem("District"));
 
-                                    if (idx >= 0) chkLstTrack.Items.FindByValue("District").Selected = true;
-                                }
-                                else
-                                {
-                                    idx = chkLstTrack.Items.IndexOf(new ListItem(pref.preference));
+                //                    if (idx >= 0) chkLstTrack.Items.FindByValue("District").Selected = true;
+                //                }
+                //                else
+                //                {
+                //                    idx = chkLstTrack.Items.IndexOf(new ListItem(pref.preference));
 
-                                    if (idx >= 0) chkLstTrack.Items.FindByValue(pref.preference).Selected = true;
-                                }
-                            }
-                            //audition type
-                            else if (pref.preferenceType == Utility.JudgePreferences.AuditionType)
-                            {
-                                idx = chkLstType.Items.IndexOf(new ListItem(pref.preference));
+                //                    if (idx >= 0) chkLstTrack.Items.FindByValue(pref.preference).Selected = true;
+                //                }
+                //            }
+                //            //audition type
+                //            else if (pref.preferenceType == Utility.JudgePreferences.AuditionType)
+                //            {
+                //                idx = chkLstType.Items.IndexOf(new ListItem(pref.preference));
 
-                                if (idx >= 0) chkLstType.Items.FindByValue(pref.preference).Selected = true;
-                            }
-                            //composition level
-                            else if (pref.preferenceType == Utility.JudgePreferences.CompositionLevel)
-                            {
-                                if (chkLstCompLevel.Items.Count == 0) chkLstCompLevel.DataBind();
+                //                if (idx >= 0) chkLstType.Items.FindByValue(pref.preference).Selected = true;
+                //            }
+                //            //composition level
+                //            else if (pref.preferenceType == Utility.JudgePreferences.CompositionLevel)
+                //            {
+                //                if (chkLstCompLevel.Items.Count == 0) chkLstCompLevel.DataBind();
 
-                                ListItem temp = chkLstCompLevel.Items.FindByValue(pref.preference.Trim());
+                //                ListItem temp = chkLstCompLevel.Items.FindByValue(pref.preference.Trim());
 
-                                if (temp != null)
-                                    chkLstCompLevel.Items.FindByValue(temp.Value).Selected = true;
-                            }
-                            //instrument
-                            else if (pref.preferenceType == Utility.JudgePreferences.Instrument)
-                            {
-                                if (chkLstInstrument.Items.Count == 0) chkLstInstrument.DataBind();
+                //                if (temp != null)
+                //                    chkLstCompLevel.Items.FindByValue(temp.Value).Selected = true;
+                //            }
+                //            //instrument
+                //            else if (pref.preferenceType == Utility.JudgePreferences.Instrument)
+                //            {
+                //                if (chkLstInstrument.Items.Count == 0) chkLstInstrument.DataBind();
 
-                                idx = chkLstInstrument.Items.IndexOf(new ListItem(pref.preference));
+                //                idx = chkLstInstrument.Items.IndexOf(new ListItem(pref.preference));
 
-                                if (idx >= 0) chkLstInstrument.Items.FindByValue(pref.preference).Selected = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        showErrorMessage("Error: An error occurred while loading the judge's preferences.");
-                    }
+                //                if (idx >= 0) chkLstInstrument.Items.FindByValue(pref.preference).Selected = true;
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                //        showErrorMessage("Error: An error occurred while loading the judge's preferences.");
+                //    }
 
-                    pnlJudges.Visible = true;
-                }
-                else
-                    pnlJudges.Visible = false;
+                //    pnlJudges.Visible = true;
+                //}
+                //else
+                //    pnlJudges.Visible = false;
 
                 pnlFullPage.Visible = true;
                 pnlContactSearch.Visible = false;
@@ -961,21 +962,21 @@ namespace WMTA.Contacts
             btnClear.Visible = true;
 
             //clear preferences and hide judge panel
-            pnlJudges.Visible = false;
+            //pnlJudges.Visible = false;
 
-            if (action != Utility.Action.Add)
-            {
-                foreach (ListItem item in chkLstType.Items)
-                    item.Selected = false;
-                foreach (ListItem item in chkLstTrack.Items)
-                    item.Selected = false;
-                foreach (ListItem item in chkLstCompLevel.Items)
-                    item.Selected = false;
-                foreach (ListItem item in chkLstInstrument.Items)
-                    item.Selected = false;
-            }
-            else
-                defaultCheckBoxes();
+            //if (action != Utility.Action.Add)
+            //{
+            //    foreach (ListItem item in chkLstType.Items)
+            //        item.Selected = false;
+            //    foreach (ListItem item in chkLstTrack.Items)
+            //        item.Selected = false;
+            //    foreach (ListItem item in chkLstCompLevel.Items)
+            //        item.Selected = false;
+            //    foreach (ListItem item in chkLstInstrument.Items)
+            //        item.Selected = false;
+            //}
+            //else
+            //    defaultCheckBoxes();
 
             Session[contactSearch] = null;
             Session[contactVar] = null;
@@ -1115,10 +1116,10 @@ namespace WMTA.Contacts
             txtPhone.Enabled = false;
             ddlContactType.Enabled = false;
             ddlDistrict.Enabled = false;
-            chkLstCompLevel.Enabled = false;
-            chkLstInstrument.Enabled = false;
-            chkLstTrack.Enabled = false;
-            chkLstType.Enabled = false;
+            //chkLstCompLevel.Enabled = false;
+            //chkLstInstrument.Enabled = false;
+            //chkLstTrack.Enabled = false;
+            //chkLstType.Enabled = false;
         }
 
         /*
@@ -1138,39 +1139,39 @@ namespace WMTA.Contacts
             txtPhone.Enabled = true;
             ddlContactType.Enabled = true;
             ddlDistrict.Enabled = true;
-            chkLstCompLevel.Enabled = true;
-            chkLstInstrument.Enabled = true;
-            chkLstTrack.Enabled = true;
-            chkLstType.Enabled = true;
+            //chkLstCompLevel.Enabled = true;
+            //chkLstInstrument.Enabled = true;
+            //chkLstTrack.Enabled = true;
+            //chkLstType.Enabled = true;
         }
 
         /*
          * Pre:
          * Post: All checkboxes are defaulted to being checked
          */
-        private void defaultCheckBoxes()
-        {
-            if (action == Utility.Action.Add)
-            {
-                foreach (ListItem item in chkLstTrack.Items)
-                    item.Selected = true;
-                foreach (ListItem item in chkLstType.Items)
-                    item.Selected = true;
-                foreach (ListItem item in chkLstCompLevel.Items)
-                    item.Selected = true;
-                foreach (ListItem item in chkLstInstrument.Items)
-                    item.Selected = true;
-            }
-        }
+        //private void defaultCheckBoxes()
+        //{
+        //    if (action == Utility.Action.Add)
+        //    {
+        //        foreach (ListItem item in chkLstTrack.Items)
+        //            item.Selected = true;
+        //        foreach (ListItem item in chkLstType.Items)
+        //            item.Selected = true;
+        //        foreach (ListItem item in chkLstCompLevel.Items)
+        //            item.Selected = true;
+        //        foreach (ListItem item in chkLstInstrument.Items)
+        //            item.Selected = true;
+        //    }
+        //}
 
         protected void chkLstCompLevel_DataBound(object sender, EventArgs e)
         {
-            defaultCheckBoxes();
+            //defaultCheckBoxes();
         }
 
         protected void chkLstInstrument_DataBound(object sender, EventArgs e)
         {
-            defaultCheckBoxes();
+            //defaultCheckBoxes();
         }
 
         /*
@@ -1179,10 +1180,10 @@ namespace WMTA.Contacts
          */
         protected void ddlContactType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlContactType.SelectedValue.Contains('J'))
-                pnlJudges.Visible = true;
-            else
-                pnlJudges.Visible = false;
+            //if (ddlContactType.SelectedValue.Contains('J'))
+            //    pnlJudges.Visible = true;
+            //else
+            //    pnlJudges.Visible = false;
 
             pnlContactSearch.Visible = false;
             pnlFullPage.Visible = true;

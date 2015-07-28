@@ -185,6 +185,8 @@ namespace WMTA.Contacts
                 lblName.Text = gvSearch.Rows[index].Cells[3].Text + ", " + gvSearch.Rows[index].Cells[2].Text;
                 lblId.Text = txtContactId.Text;
 
+                LoadJudgeAndAuditionData();
+
                 pnlContactSearch.Visible = false;
                 pnlFullPage.Visible = true;
             }
@@ -498,8 +500,8 @@ namespace WMTA.Contacts
             //clear text and selections
             lblId.Text = "";
             lblName.Text = "";
-            ddlDistrict.SelectedIndex = 0;
-            ddlYear.SelectedIndex = 0;
+            //ddlDistrict.SelectedIndex = 0;
+            //ddlYear.SelectedIndex = 0;
 
             // Hide everything except search
             pnlFullPage.Visible = false;

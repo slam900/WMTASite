@@ -21,7 +21,7 @@
                                         <li><a href="../Contacts/JudgeSetup.aspx?action=2" class="smaller-font">Judge Setup</a></li>
                                         <li><a href="../Events/AssignDistrictRoomsAndJudges.aspx" class="smaller-font">Assign Rooms and Judges</a></li>
                                         <li><a href="../Events/Schedule.aspx" class="smaller-font">Create Schedule</a></li>
-                                        <%--<li><a href="../Events/ScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>--%>
+                                        <li><a href="../Events/ScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">
