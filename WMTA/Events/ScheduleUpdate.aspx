@@ -83,8 +83,8 @@
                                 <hr />
                                 <h4>Event Schedule</h4>
                                 <div class="form-group">
-                                    <asp:Button ID="btnAssignTimes" Text="Assign New Times" Visible="false" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnAssignTimes_Click" />
-                                    <asp:Button ID="btnSaveOrder" Text="Save Order" Visible="false" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSaveOrder_Click" />
+                                    <asp:Button ID="btnAssignTimes" Text="Assign New Times" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnAssignTimes_Click" />
+                                    <asp:Button ID="btnSaveOrder" Text="Save Order" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSaveOrder_Click" />
                                     <asp:Button ID="btnSave" Text="Save Schedule" Visible="false" runat="server" CssClass="btn btn-primary float-right margin-right-15px" OnClick="btnSave_Click" />
                                 </div>
                                 <div class="form-group">

@@ -180,8 +180,6 @@ namespace WMTA.Events
          */
         protected void btnMoveAudition_Click(object sender, EventArgs e)
         {
-            btnSaveOrder.Visible = true;
-            btnAssignTimes.Visible = true;
 
             // Make sure two valid slots have been entered
             if (SlotValid(txtSlot.Text) && SlotValid(txtNewSlot.Text))
@@ -189,16 +187,69 @@ namespace WMTA.Events
                 int currentSlot = Int32.Parse(txtSlot.Text);
                 int newSlot = Int32.Parse(txtNewSlot.Text);
 
+                if (currentSlot == newSlot)
+                    return;
 
+                DataTable schedule = (DataTable)Session[scheduleData];
+                string currentJudgeId = schedule.Rows[currentSlot - 1]["Judge Id"].ToString();
+                string newJudgeId = schedule.Rows[newSlot - 1]["Judge Id"].ToString();
+                string newJudgeName = schedule.Rows[newSlot - 1]["Judge Name"].ToString();
+                bool isDuet = schedule.Rows[currentSlot - 1]["Type"].ToString().ToUpper().Equals("DUET");
+                string[] tempRowArray = new string[schedule.Columns.Count]; // Temporary table to hold duet record, if needed
 
+                // Temporarily remove one of the duet records so the indexing doesn't get messed up
+                if (isDuet)
+                {
+                    for (int i = 0; i < schedule.Columns.Count; i++)
+                        tempRowArray[i] = schedule.Rows[currentSlot - 1][i].ToString();
 
+                    schedule.Rows.RemoveAt(currentSlot - 1);
+                }
 
+                // Shift audition slots
+                if (currentSlot > newSlot)
+                    MoveSlotEarlier(currentSlot, newSlot, schedule);
+                else if (currentSlot < newSlot)
+                    MoveSlotLater(currentSlot, newSlot, schedule);
+
+                // If moved to different judge, change judge id and name
+                if (currentJudgeId != newJudgeId)
+                {
+                    schedule.Rows[newSlot - 1]["Judge Id"] = newJudgeId;
+                    schedule.Rows[newSlot - 1]["Judge Name"] = newJudgeName;
+
+                    if (isDuet)
+                    {
+                        tempRowArray[tempRowArray.Length - 2] = newJudgeName;
+                        tempRowArray[tempRowArray.Length - 1] = newJudgeId;
+                    }
+                }
+
+                // Update duet partner and add back to table
+                if (isDuet)
+                {
+                    tempRowArray[0] = newSlot.ToString();
+                    schedule.Rows.Add(tempRowArray);
+                }
+
+                // Resort and bind updated table
+                schedule.DefaultView.Sort = schedule.Columns[0].ColumnName + " ASC";
+                gvSchedule.DataSource = schedule;
+                gvSchedule.DataBind();
+
+                Session[scheduleData] = schedule;
+                btnSaveOrder.Visible = true;
+                btnAssignTimes.Visible = true;
+            }
+            else
+            {
+                showWarningMessage("Please indicate an audition to move and a slot to move it to.");
             }
 
-
+            #region old
             // Make sure an audition id, judge, and time slot are selected
-            if (!txtSlot.Text.Equals("") && Int32.TryParse(txtSlot.Text, out currentSlot) && !txtNewSlot.Text.Equals("") && Int32.TryParse(txtNewSlot.Text, out newSlot))
-            {
+            //if (!txtSlot.Text.Equals("") && Int32.TryParse(txtSlot.Text, out currentSlot) && !txtNewSlot.Text.Equals("") && Int32.TryParse(txtNewSlot.Text, out newSlot))
+            //{
                 //int auditionOrgId = DbInterfaceStudentAudition.GetAuditionOrgIdByStudentAudition(currentSlot);
                 //Audition audition = DbInterfaceAudition.LoadAuditionData(auditionOrgId); 
 
@@ -242,15 +293,42 @@ namespace WMTA.Events
 
                 //Session[scheduleData] = schedule;
                 //Session[eventSchedule] = fullSchedule;
-            }
-            else if (currentSlot == -1)
-            {
-                showWarningMessage("Please select an audition to move.");
-            }
+            //}
+            //else if (currentSlot == -1)
+            //{
+            //    showWarningMessage("Please select an audition to move.");
+            //}
            // else if (ddlAuditionJudges.SelectedIndex <= 0 || ddlTimes.SelectedIndex <= 0)
-            else if (newSlot == -1)
+            //else if (newSlot == -1)
+            //{
+            //    showWarningMessage("Please insert a time slot to move the selected audition to.");
+            //}
+            #endregion old
+        }
+
+        /*
+         * Move a slot later with the same judge
+         */
+        private void MoveSlotLater(int currentSlot, int newSlot, DataTable schedule)
+        {
+            schedule.Rows[currentSlot - 1]["Slot"] = newSlot;
+
+            for (int i = currentSlot; i < newSlot; i++)
             {
-                showWarningMessage("Please insert a time slot to move the selected audition to.");
+                schedule.Rows[i]["Slot"] = i;
+            }
+        }
+
+        /*
+         * Move a slot earlier with the same judge
+         */
+        private void MoveSlotEarlier(int currentSlot, int newSlot, DataTable schedule)
+        {
+            schedule.Rows[currentSlot - 1]["Slot"] = newSlot;
+
+            for (int i = newSlot - 1; i < currentSlot - 1; i++)
+            {
+                schedule.Rows[i]["Slot"] = i + 2;
             }
         }
 
@@ -261,7 +339,7 @@ namespace WMTA.Events
         {
             int slot = -1;
 
-            return slotString.Equals("") && Int32.TryParse(slotString, out slot) && slot > 0 && slot <= gvSchedule.Rows.Count; // TODO - not sure what the upper range should be
+            return !slotString.Equals("") && Int32.TryParse(slotString, out slot) && slot > 0 && slot <= gvSchedule.Rows.Count; // TODO - not sure what the upper range should be
         }
 
         /*

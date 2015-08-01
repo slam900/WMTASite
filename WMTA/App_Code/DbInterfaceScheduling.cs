@@ -791,9 +791,9 @@ public class DbInterfaceScheduling
 
     /*
      * Pre:
-     * Post: Returns a data table containing the event's schedule or schedule order.
-     *       If a schedule order for the audition exists, load that.  Otherwise load the
-     *       currently submitted schedule.
+     * Post: Returns a data table containing the event's schedule order.
+     *       If a schedule order for the audition exists, load it, otherwise
+     *       create it before loading.
      */
     public static DataTable LoadScheduleForUpdate(int auditionOrgId)
     {
@@ -804,12 +804,7 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_EventScheduleSelect"; // EventScheduleSelect copies data from DataStudentAuditionHistory to TempAuditionSchedule
-
-            if (AuditionHasScheduleOrderToEdit(auditionOrgId)) // If a schedule is currently being edited, load the order
-            {
-                storedProc = "sp_EventScheduleOrderSelect";
-            }
+            string storedProc = "sp_EventScheduleOrderSelect"; 
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
@@ -837,41 +832,41 @@ public class DbInterfaceScheduling
      * Post: Determine whether or not the input audition has a schedule
      *       currently being edited
      */
-    private static bool AuditionHasScheduleOrderToEdit(int auditionOrgId)
-    {
-        bool hasScheduleToEdit = false;
-        DataTable table = new DataTable();
-        SqlConnection connection = new
-            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+    //private static bool AuditionHasScheduleOrderToEdit(int auditionOrgId)
+    //{
+    //    bool hasScheduleToEdit = false;
+    //    DataTable table = new DataTable();
+    //    SqlConnection connection = new
+    //        SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
 
-        try
-        {
-            connection.Open();
-            string storedProc = "sp_EventScheduleBeingUpdated"; 
+    //    try
+    //    {
+    //        connection.Open();
+    //        string storedProc = "sp_EventScheduleBeingUpdated"; 
 
-            SqlCommand cmd = new SqlCommand(storedProc, connection);
+    //        SqlCommand cmd = new SqlCommand(storedProc, connection);
 
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            cmd.CommandType = CommandType.StoredProcedure;
+    //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+    //        cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+    //        cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
 
-            adapter.Fill(table);
+    //        adapter.Fill(table);
 
-            if (table.Rows[0]["HasScheduleToUpdate"].ToString().Equals("1"))
-                hasScheduleToEdit = true;
-        }
-        catch (Exception e)
-        {
-            Utility.LogError("DbInterfaceScheduling", "AuditionHasScheduleOrderToEdit", "auditionOrgId: " + auditionOrgId,
-                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            hasScheduleToEdit = true;
-        }
+    //        if (table.Rows[0]["HasScheduleToUpdate"].ToString().Equals("1"))
+    //            hasScheduleToEdit = true;
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Utility.LogError("DbInterfaceScheduling", "AuditionHasScheduleOrderToEdit", "auditionOrgId: " + auditionOrgId,
+    //                         "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+    //        hasScheduleToEdit = true;
+    //    }
 
-        connection.Close();
+    //    connection.Close();
 
-        return hasScheduleToEdit;
-    }
+    //    return hasScheduleToEdit;
+    //}
 
     /*
      * Pre:
