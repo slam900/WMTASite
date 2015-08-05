@@ -205,7 +205,7 @@ namespace WMTA.Contacts
                 int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrict.SelectedValue), Convert.ToInt32(ddlYear.SelectedValue));
 
                 // Delete all current preferences for the audition before updating
-                DbInterfaceJudge.DeleteJudgePreferences(contactId, auditionOrgId);
+                DbInterfaceJudge.DeleteJudgePreferences(contactId, auditionOrgId, false);
 
                 // Add new audition tracks
                 foreach (ListItem item in chkLstTrack.Items)

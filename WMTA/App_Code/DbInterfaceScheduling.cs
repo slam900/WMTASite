@@ -829,6 +829,57 @@ public class DbInterfaceScheduling
 
     /*
      * Pre:
+     * Post: Updates the audition's temporary schedule order.  This does NOT alter the actual schedule
+     */
+    public static bool UpdateScheduleOrder(DataTable schedule, int auditionOrgId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+
+            // Delete the current order
+            string storedProc = "sp_EventScheduleOrderDelete";
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            adapter.Fill(table);
+
+            // Add the updated records back to the table
+            storedProc = "sp_EventScheduleOrderAdd";
+            for (int i = 0; i < schedule.Rows.Count; i++)
+            {
+                cmd = new SqlCommand(storedProc, connection);
+                adapter = new SqlDataAdapter(cmd);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+                cmd.Parameters.AddWithValue("@slot", schedule.Rows[i]["Slot"]); 
+                cmd.Parameters.AddWithValue("@auditionId", schedule.Rows[i]["Audition Id"]);
+                cmd.Parameters.AddWithValue("@minutes", schedule.Rows[i]["Audition Length"]);
+                cmd.Parameters.AddWithValue("@judgeId", schedule.Rows[i]["Judge Id"]);
+                adapter.Fill(table);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "UpdateScheduleOrder", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
+     * Pre:
      * Post: Determine whether or not the input audition has a schedule
      *       currently being edited
      */

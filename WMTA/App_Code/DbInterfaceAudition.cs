@@ -617,6 +617,54 @@ public partial class DbInterfaceAudition
     }
 
     /*
+     * Get a list of the audition's time slots including start and end times
+     */
+    public static List<TimeSlot> GetAuditionTimeSlots(int auditionOrgId)
+    {
+        List<TimeSlot> slots = new List<TimeSlot>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionScheduleSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int scheduleId = Convert.ToInt32(table.Rows[i]["ScheduleId"]);
+                TimeSpan startTime = TimeSpan.Parse(table.Rows[0]["TimePeriodStart"].ToString());
+                TimeSpan endTime = TimeSpan.Parse(table.Rows[0]["TimePeriodEnd"].ToString());
+
+                slots.Add(new TimeSlot() 
+                {
+                    Order = scheduleId, 
+                    StartTime = startTime, 
+                    EndTime = endTime 
+                });
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetAuditionTimeSlots", "auditionOrgId: " + auditionOrgId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return slots.OrderBy(s => s.Order).ToList();
+    }
+
+    /*
      * Pre:
      * Post: Return a data table with information to be bound to a 
      *      checkbox list for judge time preferences

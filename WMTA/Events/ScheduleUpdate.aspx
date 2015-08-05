@@ -61,9 +61,20 @@
                                 <h4>Select Slot To Move Audition To</h4>
                                 <div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="txtNewSlot" CssClass="col-md-3 control-label">New Slot</asp:Label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <asp:TextBox runat="server" ID="txtNewSlot" CssClass="form-control medium-txtbx-width float-left" />
                                         <asp:Button ID="btnMoveAudition" Text="Move" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnMoveAudition_Click" CausesValidation="false" />
+                                    </div>
+                                </div>
+                                <div style="margin-bottom:25px;">- or -</div>
+                                <h4>Move To Unscheduled Judge</h4>
+                                <div class="form-group">
+                                    <asp:Label runat="server" AssociatedControlID="ddlOpenJudges" CssClass="col-md-3 control-label">Judge</asp:Label>
+                                    <div class="col-md-7">
+                                        <asp:DropDownList ID="ddlOpenJudges" runat="server" CssClass="dropdown-list form-control float-left" Width="80%" AppendDataBoundItems="true" DataTextField="JudgeName" DataValueField="ContactId">
+                                            <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:Button ID="btnAddToJudge" Text="Add" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnAddToJudge_Click" CausesValidation="false" />
                                     </div>
                                 </div>
                                 <%--<div class="form-group">
@@ -89,7 +100,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12 center">
-                                        <asp:GridView ID="gvSchedule" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvSchedule_PageIndexChanging" OnRowDataBound="gvSchedule_RowDataBound" />
+                                        <asp:GridView ID="gvSchedule" runat="server" AllowSorting="true" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="false" RowStyle-Wrap="true" PageSize="50" OnPageIndexChanging="gvSchedule_PageIndexChanging" OnRowDataBound="gvSchedule_RowDataBound" />
                                     </div>
                                 </div>
                             </div>

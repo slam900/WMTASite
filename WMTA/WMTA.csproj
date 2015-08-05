@@ -453,6 +453,7 @@
     <Compile Include="App_Code\Feedback.cs" />
     <Compile Include="App_Code\HsVirtuosoCompositionAudition.cs" />
     <Compile Include="App_Code\Judge.cs" />
+    <Compile Include="App_Code\JudgeAuditionOrganizer.cs" />
     <Compile Include="App_Code\JudgePreference.cs" />
     <Compile Include="App_Code\JudgeRoomAssignment.cs" />
     <Compile Include="App_Code\Person.cs" />

@@ -470,6 +470,110 @@ public partial class DbInterfaceJudge
     }
 
     /*
+     * Load and calculate the total time (in minutes) available for each judge.
+     * Returns a map of judge id -> minutes available
+     */
+    public static Dictionary<int, int> LoadAuditionJudgesTimeAllowances(int auditionOrgId)
+    {
+        Dictionary<int, int> timeAllowances = new Dictionary<int, int>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionJudgesSessionsSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            // Add each judge to the dictionary
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int judgeId = Convert.ToInt32(table.Rows[i]["ContactId"].ToString());
+                TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["TimePeriodStart"].ToString());
+                TimeSpan endTime = TimeSpan.Parse(table.Rows[i]["TimePeriodEnd"].ToString());
+                int sessionMinutes = (int)((endTime - startTime).TotalMinutes);
+
+                if (timeAllowances.ContainsKey(judgeId))
+                    timeAllowances[judgeId] = timeAllowances[judgeId] + sessionMinutes;
+                else
+                    timeAllowances.Add(judgeId, sessionMinutes);
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "LoadAuditionJudgesTimeAllowances", "auditionOrgId: " + auditionOrgId,
+                "Message: " + e.Message + "   StackTrace: " + e.StackTrace, -1);
+
+            timeAllowances = null;
+        }
+
+        connection.Close();
+
+        return timeAllowances;
+    }
+
+    /*
+     * Load the time periods each judge is available
+     * Returns a map of schedule id to start time, end time
+     */
+    public static Dictionary<int, List<TimeSlot>> LoadAuditionJudgesTimeSlots(int auditionOrgId)
+    {
+        Dictionary<int, List<TimeSlot>> timePeriods = new Dictionary<int, List<TimeSlot>>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionJudgesSessionsSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+
+            // Add each judge to the dictionary
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int judgeId = Convert.ToInt32(table.Rows[i]["ContactId"].ToString());
+                int scheduleId = Convert.ToInt32(table.Rows[i]["ScheduleId"].ToString());
+                TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["TimePeriodStart"].ToString());
+                TimeSpan endTime = TimeSpan.Parse(table.Rows[i]["TimePeriodEnd"].ToString());
+
+                if (timePeriods.ContainsKey(judgeId))
+                    timePeriods[judgeId].Add(new TimeSlot() { Order = scheduleId, StartTime = startTime, EndTime = endTime });
+                else
+                    timePeriods.Add(judgeId, new List<TimeSlot>() { new TimeSlot() { Order = scheduleId, StartTime = startTime, EndTime = endTime } });
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "LoadAuditionJudgesTimeSlots", "auditionOrgId: " + auditionOrgId,
+                "Message: " + e.Message + "   StackTrace: " + e.StackTrace, -1);
+
+            timePeriods = null;
+        }
+
+        connection.Close();
+
+        return timePeriods;
+    }
+
+    /*
      * Adds a new audition level for the input judge in the input audition
      */
     public static bool AddJudgeAuditionLevel(int contactId, int auditionOrgId, string level)
@@ -668,7 +772,7 @@ public partial class DbInterfaceJudge
     /*
      * Delete the judge's audition preferences for the input audition
      */
-    public static void DeleteJudgePreferences(int contactId, int auditionOrgId)
+    public static void DeleteJudgePreferences(int contactId, int auditionOrgId, bool deleteTimePreferences)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
@@ -686,6 +790,7 @@ public partial class DbInterfaceJudge
 
             cmd.Parameters.AddWithValue("@contactId", contactId);
             cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@deleteTimePreferences", deleteTimePreferences);
 
             adapter.Fill(table);
         }
@@ -696,5 +801,41 @@ public partial class DbInterfaceJudge
         }
 
         connection.Close();
+    }
+
+    /*
+     * Load judges associated with the audition that have not yet been scheduled
+     */
+    public static DataTable LoadUnscheduledJudges(int auditionOrgId)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionUnscheduledJudgesSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceContact", "LoadUnscheduledJudges", "auditionOrgId: " + auditionOrgId,
+                "Message: " + e.Message + "   StackTrace: " + e.StackTrace, -1);
+
+            table = null;
+        }
+
+        connection.Close();
+
+        return table;
     }
 }
