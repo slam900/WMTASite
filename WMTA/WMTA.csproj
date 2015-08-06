@@ -224,6 +224,7 @@
     <Content Include="Default.aspx" />
     <Content Include="DefaultRedirectErrorPage.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\AddExtraAuditionTime.aspx" />
     <Content Include="Events\AssignDistrictRoomsAndJudges.aspx" />
     <Content Include="Reporting\AwardsView.aspx" />
     <Content Include="Events\BadgerPointEntry.aspx" />
@@ -449,7 +450,6 @@
     <Compile Include="App_Code\DbInterfaceStudent.cs" />
     <Compile Include="App_Code\DbInterfaceStudentAudition.cs" />
     <Compile Include="App_Code\DistrictAudition.cs" />
-    <Compile Include="App_Code\EventSchedule.cs" />
     <Compile Include="App_Code\Feedback.cs" />
     <Compile Include="App_Code\HsVirtuosoCompositionAudition.cs" />
     <Compile Include="App_Code\Judge.cs" />
@@ -564,6 +564,13 @@
     </Compile>
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\AddExtraAuditionTime.aspx.cs">
+      <DependentUpon>AddExtraAuditionTime.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\AddExtraAuditionTime.aspx.designer.cs">
+      <DependentUpon>AddExtraAuditionTime.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\AssignDistrictRoomsAndJudges.aspx.cs">
       <DependentUpon>AssignDistrictRoomsAndJudges.aspx</DependentUpon>

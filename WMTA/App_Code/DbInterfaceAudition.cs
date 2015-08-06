@@ -531,7 +531,7 @@ public partial class DbInterfaceAudition
      * Pre:
      * Post: Returns the schedule information for the event in a data table
      */
-    public static DataTable LoadEventScheduleDataTable(int auditionOrgId)
+    public static DataTable LoadEventScheduleDataTable(int auditionOrgId, bool overwriteTempSchedule)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
@@ -548,6 +548,7 @@ public partial class DbInterfaceAudition
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@auditionId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@overwriteTempSchedule", overwriteTempSchedule);
 
             adapter.Fill(table);
         }

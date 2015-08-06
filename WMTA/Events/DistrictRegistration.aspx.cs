@@ -465,7 +465,7 @@ namespace WMTA.Events
                     //get auditions for upcoming district audition if editing or deleting
                     if (action != Utility.Action.Add)
                     {
-                        DataTable table = DbInterfaceStudentAudition.GetDistrictAuditionsForDropdown(student);
+                        DataTable table = DbInterfaceStudentAudition.GetDistrictAuditionsForDropdown(student, true);
                         cboAudition.DataSource = null;   
                         cboAudition.Items.Clear();
                         cboAudition.DataSourceID = "";

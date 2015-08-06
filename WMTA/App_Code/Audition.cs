@@ -34,7 +34,7 @@ public class Audition
     public string endTimeDisplaySession2 { get; set; }
     public string endTimeDisplaySession3 { get; set; }
     public string endTimeDisplaySession4 { get; set; }
-    public EventSchedule Schedule { get; set; }
+    //public EventSchedule Schedule { get; set; }
 
     public bool duetsAllowed { get; private set; }  /*Used for State auditions only - should only have one Badger Keyboard site per year where duets are allowed */
     private ScheduleData scheduleData { get; set; }

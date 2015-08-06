@@ -804,7 +804,7 @@ public class DbInterfaceScheduling
         try
         {
             connection.Open();
-            string storedProc = "sp_EventScheduleOrderSelect"; 
+            string storedProc = "sp_EventScheduleOrderSelect";
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
@@ -858,7 +858,7 @@ public class DbInterfaceScheduling
                 adapter = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
-                cmd.Parameters.AddWithValue("@slot", schedule.Rows[i]["Slot"]); 
+                cmd.Parameters.AddWithValue("@slot", schedule.Rows[i]["Slot"]);
                 cmd.Parameters.AddWithValue("@auditionId", schedule.Rows[i]["Audition Id"]);
                 cmd.Parameters.AddWithValue("@minutes", schedule.Rows[i]["Audition Length"]);
                 cmd.Parameters.AddWithValue("@judgeId", schedule.Rows[i]["Judge Id"]);
@@ -870,6 +870,46 @@ public class DbInterfaceScheduling
         {
             Utility.LogError("DbInterfaceScheduling", "UpdateScheduleOrder", "auditionOrgId: " + auditionOrgId,
                              "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
+     * Update the temporary audition times saved in TempAuditionSchedule
+     * Return true if all records are successfully saved
+     */
+    public static bool UpdateTempAuditionTimes(int auditionId, TimeSpan startTime, int judgeId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_TempAuditionScheduleUpdate";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionId);
+            cmd.Parameters.AddWithValue("@startTime", startTime);
+            cmd.Parameters.AddWithValue("@judgeId", judgeId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "UpdateTempAuditionTimes", "auditionId: " + auditionId + 
+                ", startTime: " + startTime.ToString() + ", judgeId: " + judgeId, 
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             success = false;
         }
 
@@ -923,56 +963,56 @@ public class DbInterfaceScheduling
      * Pre:
      * Post: Returns the information of an event's schedule
      */
-    public static EventSchedule LoadScheduleData(int auditionOrgId)
-    {
-        EventSchedule schedule = new EventSchedule();
-        DataTable table = new DataTable();
-        SqlConnection connection = new
-            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+    //public static EventSchedule LoadScheduleData(int auditionOrgId)
+    //{
+    //    EventSchedule schedule = new EventSchedule();
+    //    DataTable table = new DataTable();
+    //    SqlConnection connection = new
+    //        SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
 
-        try
-        {
-            connection.Open();
-            string storedProc = "sp_EventScheduleDataSelect";
+    //    try
+    //    {
+    //        connection.Open();
+    //        string storedProc = "sp_EventScheduleDataSelect";
 
-            SqlCommand cmd = new SqlCommand(storedProc, connection);
+    //        SqlCommand cmd = new SqlCommand(storedProc, connection);
 
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            cmd.CommandType = CommandType.StoredProcedure;
+    //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+    //        cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+    //        cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
 
-            adapter.Fill(table);
+    //        adapter.Fill(table);
 
-            for (int i = 0; i < table.Rows.Count; i++)
-            {
-                int auditionId = Convert.ToInt32(table.Rows[i]["Audition Id"]);
-                int studentId = Convert.ToInt32(table.Rows[i]["Student Id"]);
-                string grade = table.Rows[i]["Grade"].ToString();
-                string audType = table.Rows[i]["Type"].ToString();
-                string audTrack = table.Rows[i]["Track"].ToString();
-                TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["Start Time"].ToString());
-                int length = Convert.ToInt32(table.Rows[i]["Audition Length"]);
-                int judgeId = -1;
-                if (!table.Rows[i]["Judge Id"].ToString().Equals(""))
-                    judgeId = Convert.ToInt32(table.Rows[i]["Judge Id"]);
-                string judgeName = table.Rows[i]["Judge Name"].ToString();
-                string timePref = table.Rows[i]["Time Preference"].ToString();
-                string instrument = table.Rows[i]["Instrument"].ToString();
+    //        for (int i = 0; i < table.Rows.Count; i++)
+    //        {
+    //            int auditionId = Convert.ToInt32(table.Rows[i]["Audition Id"]);
+    //            int studentId = Convert.ToInt32(table.Rows[i]["Student Id"]);
+    //            string grade = table.Rows[i]["Grade"].ToString();
+    //            string audType = table.Rows[i]["Type"].ToString();
+    //            string audTrack = table.Rows[i]["Track"].ToString();
+    //            TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["Start Time"].ToString());
+    //            int length = Convert.ToInt32(table.Rows[i]["Audition Length"]);
+    //            int judgeId = -1;
+    //            if (!table.Rows[i]["Judge Id"].ToString().Equals(""))
+    //                judgeId = Convert.ToInt32(table.Rows[i]["Judge Id"]);
+    //            string judgeName = table.Rows[i]["Judge Name"].ToString();
+    //            string timePref = table.Rows[i]["Time Preference"].ToString();
+    //            string instrument = table.Rows[i]["Instrument"].ToString();
 
-                schedule.Add(auditionId, judgeId, judgeName, length, startTime, timePref, grade, audType, audTrack, "", studentId, instrument);
-            }
-        }
-        catch (Exception e)
-        {
-            Utility.LogError("DbInterfaceScheduling", "LoadScheduleData", "auditionOrgId: " + auditionOrgId,
-                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-        }
+    //            schedule.Add(auditionId, judgeId, judgeName, length, startTime, timePref, grade, audType, audTrack, "", studentId, instrument);
+    //        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Utility.LogError("DbInterfaceScheduling", "LoadScheduleData", "auditionOrgId: " + auditionOrgId,
+    //                         "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+    //    }
 
-        connection.Close();
+    //    connection.Close();
 
-        return schedule;
-    }
+    //    return schedule;
+    //}
 
     /*
      * Pre:  The input audition must have been scheduled
@@ -1024,47 +1064,47 @@ public class DbInterfaceScheduling
      * Pre:
      * Post: Update the schedule information for each schedule slot
      */
-    public static bool UpdateSchedule(EventSchedule schedule)
-    {
-        bool success = true;
-        DataTable table = new DataTable();
-        SqlConnection connection = new
-            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+    //public static bool UpdateSchedule(EventSchedule schedule)
+    //{
+    //    bool success = true;
+    //    DataTable table = new DataTable();
+    //    SqlConnection connection = new
+    //        SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
 
-        try
-        {
-            connection.Open();
-            string storedProc = "sp_ScheduleSlotUpdate";
+    //    try
+    //    {
+    //        connection.Open();
+    //        string storedProc = "sp_ScheduleSlotUpdate";
 
-            foreach (ScheduleSlot slot in schedule.ScheduleSlots)
-            {
-                SqlCommand cmd = new SqlCommand(storedProc, connection);
+    //        foreach (ScheduleSlot slot in schedule.ScheduleSlots)
+    //        {
+    //            SqlCommand cmd = new SqlCommand(storedProc, connection);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                cmd.CommandType = CommandType.StoredProcedure;
+    //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+    //            cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@auditionId", slot.AuditionId);
+    //            cmd.Parameters.AddWithValue("@auditionId", slot.AuditionId);
 
-                if (slot.StartTime.ToString().Substring(0, 1).Equals("-"))
-                    slot.StartTime = TimeSpan.Parse("00:00:00.0000000");
+    //            if (slot.StartTime.ToString().Substring(0, 1).Equals("-"))
+    //                slot.StartTime = TimeSpan.Parse("00:00:00.0000000");
 
-                cmd.Parameters.AddWithValue("@startTime", slot.StartTime);
-                cmd.Parameters.AddWithValue("@length", slot.Minutes);
-                cmd.Parameters.AddWithValue("@judgeId", slot.JudgeId);
+    //            cmd.Parameters.AddWithValue("@startTime", slot.StartTime);
+    //            cmd.Parameters.AddWithValue("@length", slot.Minutes);
+    //            cmd.Parameters.AddWithValue("@judgeId", slot.JudgeId);
 
-                adapter.Fill(table);
-            }
-        }
-        catch (Exception e)
-        {
-            Utility.LogError("DbInterfaceScheduling", "UpdateSchedule", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
-            success = false;
-        }
+    //            adapter.Fill(table);
+    //        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Utility.LogError("DbInterfaceScheduling", "UpdateSchedule", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+    //        success = false;
+    //    }
 
-        connection.Close();
+    //    connection.Close();
 
-        return success;
-    }
+    //    return success;
+    //}
 
     /*
      * Pre:

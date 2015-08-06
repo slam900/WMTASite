@@ -979,6 +979,11 @@ public partial class DbInterfaceStudentAudition
                 else if (table.Rows[0]["TimeRequest"].ToString().Equals("L"))
                     latest = true;
 
+                //get audition length
+                int auditionLength = 0;
+                if (!table.Rows[0]["AuditionLength"].ToString().Equals(""))
+                    auditionLength = Convert.ToInt32(table.Rows[0]["AuditionLength"]);
+
                 //get accompanist information
                 string accompanist = "";
                 if (!table.Rows[0]["AccompanistNeeded"].ToString().Equals("") && (bool)table.Rows[0]["AccompanistNeeded"])
@@ -995,6 +1000,7 @@ public partial class DbInterfaceStudentAudition
                 audition.setTimeConstraints(am, pm, earliest, latest);
                 audition.yearId = yearId;
                 audition.theoryPoints = theoryPoints;
+                audition.auditionLength = auditionLength;
 
                 List<AuditionCompositions> compositions = DbInterfaceStudentAudition.GetAuditionCompositions(auditionId);
                 audition.setCompositions(compositions);
@@ -2525,14 +2531,25 @@ public partial class DbInterfaceStudentAudition
      * @param student is the student whose auditions are being returned
      * @returns a data table containing the student's auditions
      */
-    public static DataTable GetDistrictAuditionsForDropdown(Student student)
+    public static DataTable GetDistrictAuditionsForDropdown(Student student, bool checkFreezeDate)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
             SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+        int year = DateTime.Today.Year;
 
         try
         {
+            //if the current month is June or later, set up the audition for the next year
+            if (DateTime.Today.Month >= 6)
+                year = DateTime.Today.AddYears(1).Year;
+            else
+                year = DateTime.Today.Year;
+
+            // Look at current year no matter what if on the test site
+            if (Utility.reportSuffix.Equals("Test")) //delete this
+                year = DateTime.Today.Year; 
+
             connection.Open();
             string storedProc = "sp_DropDownDistrictAuditionOptions";
 
@@ -2542,12 +2559,14 @@ public partial class DbInterfaceStudentAudition
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@studentId", student.id);
+            cmd.Parameters.AddWithValue("@checkFreezeDate", checkFreezeDate);
+            cmd.Parameters.AddWithValue("@year", year);
 
             adapter.Fill(table);
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceStudentAudition", "GetDistrictAuditionsForDropdown", "studentId: " + student.id,
+            Utility.LogError("DbInterfaceStudentAudition", "GetDistrictAuditionsForDropdown", "studentId: " + student.id + ", checkFreezeDate: " + checkFreezeDate,
                              "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
         }
 
@@ -3133,6 +3152,48 @@ public partial class DbInterfaceStudentAudition
             Utility.LogError("DbInterfaceStudentAudition", "RemoveCoordinatesByStudentIdAndType", "studentId1: " +
                              studentId1 + ", studentId2: " + studentId2 + ", year: " + year, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
+     * Pre:  The input audition id must exist in the system
+     * Post: Updates the audition length for the input audition
+     * @param auditionId is the id of the state audition associated with the district audition
+     * @param length is the new audition length to use in the schedule
+     * @returns true if the update was successful
+     */
+    public static bool UpdateAuditionLength(int auditionId, int length)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionLengthUpdate";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionId", auditionId);
+            cmd.Parameters.AddWithValue("@length", length);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceStudentAudition", "UpdateAuditionLength", "auditionId: " +
+                             auditionId + ", length: " + length, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+
         }
 
         connection.Close();

@@ -10,223 +10,223 @@
 namespace WMTA.Events {
     
     
-    public partial class ScheduleUpdate {
+    public partial class AddExtraAuditionTime {
         
         /// <summary>
-        /// pnlInputs control.
+        /// upFullPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel pnlInputs;
+        protected global::System.Web.UI.UpdatePanel upFullPage;
         
         /// <summary>
-        /// upAuditionSearch control.
+        /// legend control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upAuditionSearch;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl legend;
         
         /// <summary>
-        /// ddlDistrictSearch control.
+        /// upStudentSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDistrictSearch;
+        protected global::System.Web.UI.UpdatePanel upStudentSearch;
         
         /// <summary>
-        /// btnAuditionSearch control.
+        /// txtStudentId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAuditionSearch;
+        protected global::System.Web.UI.WebControls.TextBox txtStudentId;
         
         /// <summary>
-        /// ddlYear control.
+        /// btnStudentSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
+        protected global::System.Web.UI.WebControls.Button btnStudentSearch;
         
         /// <summary>
-        /// btnClearAuditionSearch control.
+        /// txtFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearAuditionSearch;
+        protected global::System.Web.UI.WebControls.TextBox txtFirstName;
         
         /// <summary>
-        /// gvAuditionSearch control.
+        /// btnClearStudentSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvAuditionSearch;
+        protected global::System.Web.UI.WebControls.Button btnClearStudentSearch;
         
         /// <summary>
-        /// upInputs control.
+        /// txtLastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upInputs;
+        protected global::System.Web.UI.WebControls.TextBox txtLastName;
         
         /// <summary>
-        /// lblAudition control.
+        /// pnlMyStudents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAudition;
+        protected global::System.Web.UI.WebControls.Panel pnlMyStudents;
         
         /// <summary>
-        /// lblAuditionId control.
+        /// chkMyStudentsOnly control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAuditionId;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkMyStudentsOnly;
         
         /// <summary>
-        /// txtSlot control.
+        /// gvStudentSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSlot;
+        protected global::System.Web.UI.WebControls.GridView gvStudentSearch;
         
         /// <summary>
-        /// lblAuditionInformation control.
+        /// pnlInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAuditionInformation;
+        protected global::System.Web.UI.WebControls.Panel pnlInfo;
         
         /// <summary>
-        /// lblSelectedAuditionId control.
+        /// upStudentInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSelectedAuditionId;
+        protected global::System.Web.UI.UpdatePanel upStudentInfo;
         
         /// <summary>
-        /// txtNewSlot control.
+        /// lblStudentId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNewSlot;
+        protected global::System.Web.UI.WebControls.Label lblStudentId;
         
         /// <summary>
-        /// btnMoveAudition control.
+        /// lblName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnMoveAudition;
+        protected global::System.Web.UI.WebControls.Label lblName;
         
         /// <summary>
-        /// ddlOpenJudges control.
+        /// upAuditionInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlOpenJudges;
+        protected global::System.Web.UI.UpdatePanel upAuditionInfo;
         
         /// <summary>
-        /// btnAddToJudge control.
+        /// pnlChooseAudition control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddToJudge;
+        protected global::System.Web.UI.WebControls.Panel pnlChooseAudition;
         
         /// <summary>
-        /// upViewSchedule control.
+        /// cboAudition control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upViewSchedule;
+        protected global::System.Web.UI.WebControls.DropDownList cboAudition;
         
         /// <summary>
-        /// lblAudition2 control.
+        /// SqlDataSource1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAudition2;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
         
         /// <summary>
-        /// btnAssignTimes control.
+        /// lblCurrentLength control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAssignTimes;
+        protected global::System.Web.UI.WebControls.Label lblCurrentLength;
         
         /// <summary>
-        /// btnSaveOrder control.
+        /// rblLength control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveOrder;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblLength;
         
         /// <summary>
-        /// btnContinue control.
+        /// pnlButtons control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnContinue;
+        protected global::System.Web.UI.WebControls.Panel pnlButtons;
         
         /// <summary>
-        /// btnSave control.
+        /// btnClear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
+        protected global::System.Web.UI.WebControls.Button btnClear;
         
         /// <summary>
-        /// gvSchedule control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvSchedule;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
         
         /// <summary>
         /// lblErrorMessage control.
@@ -247,15 +247,6 @@ namespace WMTA.Events {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblWarningMessage;
         
         /// <summary>
-        /// lblSuccessMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
-        
-        /// <summary>
         /// lblInfoMessage control.
         /// </summary>
         /// <remarks>
@@ -263,5 +254,14 @@ namespace WMTA.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInfoMessage;
+        
+        /// <summary>
+        /// lblSuccessMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSuccessMessage;
     }
 }

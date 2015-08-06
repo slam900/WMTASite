@@ -210,7 +210,7 @@ namespace WMTA.Events
         {
             try
             {
-                DataTable scheduleTable = DbInterfaceAudition.LoadEventScheduleDataTable(auditionId);
+                DataTable scheduleTable = DbInterfaceAudition.LoadEventScheduleDataTable(auditionId, true);
                 //load data to page
                 if (scheduleTable != null && scheduleTable.Rows.Count > 0)
                 {

@@ -104,12 +104,16 @@ public class JudgeAuditionOrganizer
      */
     private bool SaveTimes()
     {
+        bool success = true;
+
         foreach (int judgeId in JudgeSlots.Keys)
         {
             foreach (AuditionSlot slot in JudgeSlots[judgeId])
             {
-                // Update database
+                success = success && DbInterfaceScheduling.UpdateTempAuditionTimes(slot.AuditionId, slot.StartTime, judgeId);
             }
         }
+
+        return success;
     }
 }

@@ -481,26 +481,6 @@ namespace WMTA.Events
         }
 
         /*
-         * Pre:
-         * Post: Commit the updated schedule and show a message saying it has been commited
-         */
-        protected void btnSave_Click(object sender, EventArgs e)
-        {
-            //EventSchedule fullSchedule = (EventSchedule)Session[eventSchedule];
-
-            //if (fullSchedule != null && fullSchedule.UpdateSchedule())
-            //{
-            //    showSuccessMessage("The schedule was successfully updated");
-            //}
-            //else
-            //    showErrorMessage("The schedule could not be updated");
-
-            //// Update the judge times
-            //if (ddlAuditionJudges.SelectedIndex > 0)
-            //    LoadJudgeTimes(Convert.ToInt32(ddlAuditionJudges.SelectedValue));
-        }
-
-        /*
          * Pre:  The AuditionId field must be empty or contain an integer
          * Post: Auditions the match the search criteria are displayed
          */
@@ -593,8 +573,8 @@ namespace WMTA.Events
             if (!user.permissionLevel.Contains('A') && ddlDistrictSearch.SelectedIndex > 0)
             {
                 upAuditionSearch.Visible = false;
-                upSelectAudition.Visible = true;
                 upViewSchedule.Visible = true;
+                upInputs.Visible = true;
                 //pnlButtons.Visible = true;
 
                 int year = DateTime.Today.Year;
@@ -605,15 +585,16 @@ namespace WMTA.Events
 
                 int auditionOrgId = DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue), year);
                 lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
+                lblAudition2.Text = lblAudition.Text;
                 lblAuditionId.Text = auditionOrgId.ToString();
 
-                loadScheduleInformation(auditionOrgId);
+                LoadScheduleInformation(auditionOrgId);
             }
             else if (user.permissionLevel.Contains('A'))
             {
                 upAuditionSearch.Visible = false;
-                upSelectAudition.Visible = true;
                 upViewSchedule.Visible = true;
+                upInputs.Visible = true;
                 //pnlButtons.Visible = true;
 
                 int index = gvAuditionSearch.SelectedIndex;
@@ -627,9 +608,10 @@ namespace WMTA.Events
                                             gvAuditionSearch.Rows[index].Cells[3].Text));
 
                     lblAudition.Text = ddlDistrictSearch.SelectedItem.Text + " " + ddlYear.Text + " Schedule";
+                    lblAudition2.Text = lblAudition.Text;
                     lblAuditionId.Text = gvAuditionSearch.Rows[index].Cells[1].Text;
 
-                    loadScheduleInformation(Convert.ToInt32(lblAuditionId.Text));
+                    LoadScheduleInformation(Convert.ToInt32(lblAuditionId.Text));
                 }
             }
         }
@@ -640,7 +622,7 @@ namespace WMTA.Events
          *       is loaded to the page.
          * @param auditionId is the id of the audition being edited
          */
-        private void loadScheduleInformation(int auditionId)
+        private void LoadScheduleInformation(int auditionId)
         {
             //LoadAuditionJudges(DbInterfaceAudition.LoadAuditionData(auditionId));
 
@@ -761,12 +743,74 @@ namespace WMTA.Events
                 bool success = scheduler.SetTimes(judgeOverbooked);
 
                 if (success && judgeOverbooked)
+                {
                     showWarningMessage("Times were successfully assigned.  One or more judges are scheduled past the event's end time.");
+                    ShowTimes(auditionOrgId);
+                }
                 else if (success)
+                {
                     showSuccessMessage("Times were successfully assigned.");
+                    ShowTimes(auditionOrgId);
+                }
                 else
                     showErrorMessage("Times could not be assigned to the audition slots.");
             }
+        }
+
+        /*
+         * Show the times that have been assigned to the audition, but are not yet
+         * submitted to the final version of the schedule
+         */
+        private void ShowTimes(int auditionOrgId)
+        {
+            DataTable scheduleTable = DbInterfaceAudition.LoadEventScheduleDataTable(auditionOrgId, false);
+
+            //load data to page
+            if (scheduleTable != null && scheduleTable.Rows.Count > 0)
+            {
+                gvSchedule.DataSource = scheduleTable;
+                gvSchedule.DataBind();
+                Session[scheduleData] = scheduleTable;
+
+                // Switch buttons
+                btnSaveOrder.Visible = false;
+                btnAssignTimes.Visible = false;
+                pnlInputs.Visible = false;
+                btnContinue.Visible = true;
+                btnSave.Visible = true;
+                lblAudition2.Visible = true;
+            }
+            else
+            {
+                showErrorMessage("Error: The schedule information could not be loaded.  Please make sure that a schedule has been created and saved.");
+                Session[scheduleData] = null;
+            }
+        }
+
+        /*
+         * Continue editing the order
+         */
+        protected void btnContinue_Click(object sender, EventArgs e)
+        {
+            LoadScheduleInformation(Convert.ToInt32(lblAuditionId.Text));
+            btnSaveOrder.Visible = true;
+            btnAssignTimes.Visible = true;
+            pnlInputs.Visible = true;
+            btnContinue.Visible = false;
+            btnSave.Visible = false;
+            lblAudition2.Visible = false;
+        }
+
+        /*
+         * Pre:
+         * Post: Commit the updated schedule and show a message saying it has been commited
+         */
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            if (DbInterfaceScheduling.CommitSchedule(Convert.ToInt32(lblAuditionId.Text)))
+                showSuccessMessage("The schedule was successfully committed");
+            else
+                showErrorMessage("The schedule could not be committed");
         }
 
         /*

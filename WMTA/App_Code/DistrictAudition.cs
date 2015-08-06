@@ -27,7 +27,7 @@ public class DistrictAudition
     public int districtId { get; private set; }
     public int auditionOrgId { get; private set; }
     public int theoryPoints { get; set; }
-    public double auditionLength { get; private set; }
+    public double auditionLength { get; set; }
 
     /*
      * Pre:
@@ -81,10 +81,10 @@ public class DistrictAudition
     {
         compositions = comps;
 
-        auditionLength = 0;
+        //auditionLength = 0;
 
-        foreach (AuditionCompositions comp in comps)
-            auditionLength = auditionLength + comp.composition.playingTime;
+        //foreach (AuditionCompositions comp in comps)
+        //    auditionLength = auditionLength + comp.composition.playingTime;
     }
 
     /* 
