@@ -224,8 +224,12 @@
     <Content Include="Default.aspx" />
     <Content Include="DefaultRedirectErrorPage.aspx" />
     <Content Include="ErrorPage.aspx" />
+    <Content Include="Events\AddBadgerRoomsAndJudges.aspx" />
     <Content Include="Events\AddExtraAuditionTime.aspx" />
     <Content Include="Events\AssignDistrictRoomsAndJudges.aspx" />
+    <Content Include="Events\BadgerSchedule.aspx" />
+    <Content Include="Events\BadgerScheduleUpdate.aspx" />
+    <Content Include="Events\BadgerScheduleView.aspx" />
     <Content Include="Reporting\AwardsView.aspx" />
     <Content Include="Events\BadgerPointEntry.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
@@ -565,6 +569,13 @@
     <Compile Include="ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Events\AddBadgerRoomsAndJudges.aspx.cs">
+      <DependentUpon>AddBadgerRoomsAndJudges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\AddBadgerRoomsAndJudges.aspx.designer.cs">
+      <DependentUpon>AddBadgerRoomsAndJudges.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Events\AddExtraAuditionTime.aspx.cs">
       <DependentUpon>AddExtraAuditionTime.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -578,6 +589,27 @@
     </Compile>
     <Compile Include="Events\AssignDistrictRoomsAndJudges.aspx.designer.cs">
       <DependentUpon>AssignDistrictRoomsAndJudges.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BadgerSchedule.aspx.cs">
+      <DependentUpon>BadgerSchedule.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\BadgerSchedule.aspx.designer.cs">
+      <DependentUpon>BadgerSchedule.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BadgerScheduleUpdate.aspx.cs">
+      <DependentUpon>BadgerScheduleUpdate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\BadgerScheduleUpdate.aspx.designer.cs">
+      <DependentUpon>BadgerScheduleUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BadgerScheduleView.aspx.cs">
+      <DependentUpon>BadgerScheduleView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\BadgerScheduleView.aspx.designer.cs">
+      <DependentUpon>BadgerScheduleView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\AwardsView.aspx.cs">
       <DependentUpon>AwardsView.aspx</DependentUpon>

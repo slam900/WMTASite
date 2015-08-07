@@ -1,7 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="AssignDistrictRoomsAndJudges.aspx.cs" Inherits="WMTA.Events.AssignDistrictRoomsAndJudges" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="AddBadgerRoomsAndJudges.aspx.cs" Inherits="WMTA.Events.AddBadgerRoomsAndJudges" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="row">
+     <div class="row">
         <div class="well bs-component col-md-7 main-div center">
             <section id="registrationForm">
                 <asp:UpdatePanel ID="upFullPage" runat="server">
@@ -9,19 +8,20 @@
                         <div class="form-horizontal">
                             <%-- Start of form --%>
                             <fieldset>
-                                <legend runat="server" id="legend">Assign Rooms & Judges to District Event</legend>
+                                <legend runat="server" id="legend">Assign Rooms & Judges to Badger Event</legend>
                                 <asp:UpdatePanel ID="upAuditionSearch" runat="server">
                                     <ContentTemplate>
                                         <div>
                                             <h4>Event Search</h4>
                                             <br />
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">Region</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
-                                                        <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
-                                                    </asp:DropDownList>
-                                                </div>
+                                                <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="GeoName" DataValueField="GeoId" AppendDataBoundItems="true">
+                                                    <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
+                                                </asp:DropDownList>
+                                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownStateDistricts" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+                                            </div>
                                                 <asp:Button ID="btnAuditionSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnAuditionSearch_Click" CausesValidation="false" />
                                             </div>
                                             <div class="form-group">
@@ -90,38 +90,6 @@
                                                     <hr />
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
-                                            <%-- Theory Test Rooms --%>
-                                            <h4>Theory Test Rooms</h4>
-                                            <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlTheoryTest" CssClass="col-md-3 control-label">Test</asp:Label>
-                                                <div class="col-md-2">
-                                                    <asp:DropDownList ID="ddlTheoryTest" runat="server" CssClass="dropdown-list form-control float-left" Width="70px" AppendDataBoundItems="true" DataSourceID="SqlDataSourceTheory" DataTextField="Test" DataValueField="Test">
-                                                        <asp:ListItem Selected="True" Text="" Value="" />
-                                                        <asp:ListItem Selected="False" Text="All" Value="All" />
-                                                    </asp:DropDownList>
-                                                    <asp:SqlDataSource ID="SqlDataSourceTheory" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownTheoryTest" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
-                                                </div>
-                                                <asp:Label runat="server" AssociatedControlID="ddlRoom" CssClass="col-md-1 control-label float-left">Room</asp:Label>
-                                                <div class="col-md-3">
-                                                    <asp:DropDownList ID="ddlRoom" runat="server" CssClass="dropdown-list form-control float-left" AppendDataBoundItems="true">
-                                                        <asp:ListItem Selected="True" Text="" Value="" />
-                                                    </asp:DropDownList>
-                                                </div>
-                                                <asp:Button ID="btnAddTestRoom" runat="server" Text="Add" CssClass="btn btn-primary btn-sm" OnClick="btnAddTestRoom_Click" />
-                                            </div>
-                                            <asp:Panel ID="pnlTheoryRooms" runat="server" Visible="false">
-                                                <asp:Button ID="btnRemoveTestRoom" runat="server" Text="Remove" CssClass="btn btn-link btn-sm col-md-9-margin" OnClick="btnRemoveTestRoom_Click" />
-                                                <div class="form-group col-md-9 center">
-                                                    <asp:Table ID="tblTheoryRooms" runat="server" CssClass="table table-striped table-bordered table-hover center text-align-center">
-                                                        <asp:TableHeaderRow BorderStyle="Solid">
-                                                            <asp:TableHeaderCell Scope="Column" Text="" Width="20px" />
-                                                            <asp:TableHeaderCell Scope="Column" Text="Test" />
-                                                            <asp:TableHeaderCell Scope="Column" Text="Room" />
-                                                        </asp:TableHeaderRow>
-                                                    </asp:Table>
-                                                </div>
-                                            </asp:Panel>
-                                            <hr />
                                             <%-- Judges --%>
                                             <h4>Judges</h4>
                                             <div class="form-group">
@@ -151,7 +119,7 @@
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlAuditionJudges" CssClass="col-md-3 control-label">Judge</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlAuditionJudges_SelectedIndexChanged1">
+                                                    <asp:DropDownList ID="ddlAuditionJudges" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" AutoPostBack="true" OnSelectedIndexChanged="ddlAuditionJudges_SelectedIndexChanged">
                                                         <asp:ListItem Selected="True" Text="" Value="" />
                                                     </asp:DropDownList>
                                                 </div>
@@ -199,7 +167,6 @@
                                                 <ContentTemplate>
                                                     <div class="form-group">
                                                         <div class="col-lg-10 col-lg-offset-2 float-right">
-                                                            <%--                                                            <asp:Button ID="btnClear" Text="Clear" runat="server" CssClass="btn btn-default float-right" OnClick="btnClear_Click" />--%>
                                                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                                         </div>
                                                     </div>

@@ -12,7 +12,7 @@
                                 <asp:UpdatePanel ID="upAuditionSearch" runat="server">
                                     <ContentTemplate>
                                         <div>
-                                            <h4>Audition Search</h4>
+                                            <h4>Event Search</h4>
                                             <br />
                                             <div class="form-group">
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">Region</asp:Label>

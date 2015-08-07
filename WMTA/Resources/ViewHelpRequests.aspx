@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12 center">
-                                        <asp:GridView ID="gvRequests" runat="server" AllowSorting="true" AutoGenerateSelectButton="true" AutoGenerateColumns="false" DataKeyNames="Id" DataSourceID="SqlDataSource1" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" OnSelectedIndexChanged="gvRequests_SelectedIndexChanged" PageSize="100">
+                                        <asp:GridView ID="gvRequests" runat="server" AutoGenerateSelectButton="true" AutoGenerateColumns="false" DataKeyNames="Id" DataSourceID="SqlDataSource1" CssClass="table table-bordered" AllowPaging="true" RowStyle-Wrap="true" OnSelectedIndexChanged="gvRequests_SelectedIndexChanged" PageSize="100">
                                             <HeaderStyle BackColor="#EFEFEF" />
                                             <SelectedRowStyle BackColor="#CDCDEF" />
                                             <AlternatingRowStyle BackColor="#EFEFEF" />

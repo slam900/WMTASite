@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="ScheduleUpdate.aspx.cs" Inherits="WMTA.Events.ScheduleUpdate" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="BadgerScheduleUpdate.aspx.cs" Inherits="WMTA.Events.BadgerScheduleUpdate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:UpdatePanel runat="server">
@@ -16,11 +16,12 @@
                                             <h4>Event Search</h4>
                                             <br />
                                             <div class="form-group">
-                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District</asp:Label>
+                                                <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">Region</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" DataSourceID="SqlDataSource1" DataTextField="GeoName" DataValueField="GeoId" AppendDataBoundItems="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
+                                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownStateDistricts" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                 </div>
                                                 <asp:Button ID="btnAuditionSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-min-width-72" OnClick="btnAuditionSearch_Click" CausesValidation="false" />
                                             </div>
@@ -54,7 +55,6 @@
                                             <asp:Label runat="server" AssociatedControlID="txtSlot" CssClass="col-md-3 control-label">Slot</asp:Label>
                                             <div class="col-md-6">
                                                 <asp:TextBox runat="server" ID="txtSlot" CssClass="form-control medium-txtbx-width float-left" />
-                                                <%--                                        <asp:Button ID="btnSelectAudition" Text="Search Id" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSelectAudition_Click" CausesValidation="false" />--%>
                                             </div>
                                             <div style="margin-top: 50px" class="center text-align-center">
                                                 <asp:Label runat="server" ID="lblAuditionInformation" CssClass="text-info" /><asp:Label runat="server" ID="lblSelectedAuditionId" Visible="false" />
@@ -79,14 +79,6 @@
                                                 <asp:Button ID="btnAddToJudge" Text="Add" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnAddToJudge_Click" CausesValidation="false" />
                                             </div>
                                         </div>
-                                        <%--<div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="ddlTimes" CssClass="col-md-3 control-label">Time</asp:Label>
-                                    <div class="col-md-6">
-                                        <asp:DropDownList ID="ddlTimes" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
-                                            <asp:ListItem Selected="True" Text="" Value="" />
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>--%>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </div>

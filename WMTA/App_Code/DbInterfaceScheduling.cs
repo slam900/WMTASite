@@ -684,7 +684,7 @@ public class DbInterfaceScheduling
      * Pre:
      * Post: Returns a data table containing the newly created schedule
      */
-    public static DataTable CreateSchedule(int auditionOrgId)
+    public static DataTable CreateSchedule(int auditionOrgId, bool districtEvent)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
@@ -694,6 +694,9 @@ public class DbInterfaceScheduling
         {
             connection.Open();
             string storedProc = "sp_AuditionDistrictScheduleCreate";
+
+            if (!districtEvent)
+                storedProc = "sp_AuditionBadgerScheduleCreate";
 
             SqlCommand cmd = new SqlCommand(storedProc, connection);
 
@@ -861,7 +864,7 @@ public class DbInterfaceScheduling
                 cmd.Parameters.AddWithValue("@slot", schedule.Rows[i]["Slot"]);
                 cmd.Parameters.AddWithValue("@auditionId", schedule.Rows[i]["Audition Id"]);
                 cmd.Parameters.AddWithValue("@minutes", schedule.Rows[i]["Audition Length"]);
-                cmd.Parameters.AddWithValue("@judgeId", schedule.Rows[i]["Judge Id"]);
+                cmd.Parameters.AddWithValue("@judgeId", schedule.Rows[i]["Judge Id"].ToString().Equals("") ? 0 : schedule.Rows[i]["Judge Id"]);
                 adapter.Fill(table);
             }
 

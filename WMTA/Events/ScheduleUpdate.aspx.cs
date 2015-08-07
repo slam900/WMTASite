@@ -732,6 +732,14 @@ namespace WMTA.Events
         protected void btnAssignTimes_Click(object sender, EventArgs e)
         {
             DataTable schedule = (DataTable)Session[scheduleData];
+
+            // Make sure there aren't any slots without judges
+            if (schedule.Rows[0]["Judge Id"].ToString().Equals(""))
+            {
+                showWarningMessage("Please assign all slots to a judge before assigning times.");
+                return;
+            }
+
             Dictionary<int, List<AuditionSlot>> judgeSlots = LoadJudgeSlots(schedule);
 
             if (judgeSlots != null)

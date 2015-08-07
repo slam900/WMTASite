@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace WMTA.Events
 {
-    public partial class ScheduleView : System.Web.UI.Page
+    public partial class BadgerScheduleView : System.Web.UI.Page
     {
         private string auditionSearch = "AuditionData"; //tracks data returned by latest audition search
         private string scheduleData = "ScheduleData";
@@ -23,7 +23,6 @@ namespace WMTA.Events
                 Session[auditionSearch] = null;
                 Session[scheduleData] = null;
                 loadYearDropdown();
-                loadDistrictDropdown();
             }
         }
 
@@ -40,11 +39,11 @@ namespace WMTA.Events
             {
                 User user = (User)Session[Utility.userRole];
 
-                if (!(user.permissionLevel.Contains("D") || user.permissionLevel.Contains("A")))
+                if (!(user.permissionLevel.Contains("S") || user.permissionLevel.Contains("A")))
                     Response.Redirect("../Default.aspx");
             }
         }
-        
+
         /*
          * Pre:
          * Post: Loads the appropriate years in the dropdown
@@ -58,35 +57,6 @@ namespace WMTA.Events
         }
 
         /*
-         * Pre:
-         * Post:  If the current user is not an administrator, the district
-         *        dropdown is filtered to contain only the current
-         *        user's district
-         */
-        private void loadDistrictDropdown()
-        {
-            User user = (User)Session[Utility.userRole];
-
-            if (!user.permissionLevel.Contains('A')) //if the user is a district admin, add only their district
-            {
-                //get own district dropdown info
-                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
-
-                //add new items to dropdown
-                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
-            }
-            else //if the user is an administrator, add all districts
-            {
-                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
-
-                ddlDistrictSearch.DataTextField = "GeoName";
-                ddlDistrictSearch.DataValueField = "GeoId";
-
-                ddlDistrictSearch.DataBind();
-            }
-        }
-
-        /*
          * Pre:  The AuditionId field must be empty or contain an integer
          * Post: Auditions the match the search criteria are displayed
          */
@@ -96,13 +66,6 @@ namespace WMTA.Events
 
             if (!ddlDistrictSearch.SelectedValue.ToString().Equals(""))
                 districtId = Convert.ToInt32(ddlDistrictSearch.SelectedValue);
-            else //if the user did not select a district, but they are not a district admin, only search their district
-            {
-                User user = (User)Session[Utility.userRole];
-
-                if (!user.permissionLevel.Contains('A'))
-                    districtId = user.districtId;
-            }
 
             if (!ddlYear.SelectedValue.ToString().Equals("")) year = Convert.ToInt32(ddlYear.SelectedValue);
 
@@ -124,7 +87,7 @@ namespace WMTA.Events
 
             try
             {
-                DataTable table = DbInterfaceAudition.GetAuditionSearchResults("", "District", districtId, year);
+                DataTable table = DbInterfaceAudition.GetAuditionSearchResults("", "State", districtId, year);
 
                 //If there are results in the table, display them.  Otherwise clear current
                 //results and return false
@@ -148,32 +111,12 @@ namespace WMTA.Events
             {
                 showErrorMessage("Error: An error occurred during the search.");
 
-                Utility.LogError("Schedule View", "searchAuditions", "gridView: " + gridview + ", districtId: " +
+                Utility.LogError("Badger Schedule View", "searchAuditions", "gridView: " + gridview + ", districtId: " +
                                  districtId + ", year: " + year + ", session: " + session, "Message: " + e.Message +
                                  "   StackTrace: " + e.StackTrace, -1);
             }
 
             return result;
-        }
-
-        /*
-         * Pre:   
-         * Post:  The page of gvAuditionSearch is changed
-         */
-        protected void gvAuditionSearch_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvAuditionSearch.PageIndex = e.NewPageIndex;
-            BindSessionData();
-        }
-
-        protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvAuditionSearch, e);
-        }
-
-        protected void gvSchedule_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            setHeaderRowColor(gvSchedule, e);
         }
 
         protected void gvAuditionSearch_SelectedIndexChanged(object sender, EventArgs e)
@@ -224,10 +167,30 @@ namespace WMTA.Events
             {
                 showErrorMessage("Error: An error occurred while loading the audition data.");
 
-                Utility.LogError("Schedule View", "loadSchedule", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("BadgerSchedule View", "loadSchedule", "auditionId: " + auditionId, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RefreshDatepickers", "refreshDatePickers()", true);
+        }
+
+        protected void gvSchedule_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            setHeaderRowColor(gvSchedule, e);
+        }
+
+        /*
+          * Pre:   
+          * Post:  The page of gvAuditionSearch is changed
+          */
+        protected void gvAuditionSearch_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAuditionSearch.PageIndex = e.NewPageIndex;
+            BindSessionData();
+        }
+
+        protected void gvAuditionSearch_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            setHeaderRowColor(gvAuditionSearch, e);
         }
 
         /*
@@ -248,7 +211,7 @@ namespace WMTA.Events
             }
             catch (Exception e)
             {
-                Utility.LogError("ScheduleView", "BindSessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+                Utility.LogError("BadgerScheduleView", "BindSessionData", "", "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             }
         }
 
@@ -270,15 +233,12 @@ namespace WMTA.Events
             }
         }
 
-        /*
-         * Pre: The GridView gv must exist on the current form
-         * Post:  The data binding of the GridView is cleared, causing the table to be cleared
-         * @param gv is the GridView to be cleared
-         */
-        private void clearGridView(GridView gv)
+        protected void gvSchedule_Sorting(object sender, GridViewSortEventArgs e)
         {
-            gv.DataSource = null;
-            gv.DataBind();
+            DataTable table = (DataTable)Session[scheduleData];
+            table.DefaultView.Sort = e.SortExpression;
+            gvSchedule.DataSource = table;
+            gvSchedule.DataBind();
         }
 
         /*
@@ -300,6 +260,17 @@ namespace WMTA.Events
             ddlYear.SelectedIndex = 0;
             gvAuditionSearch.DataSource = null;
             gvAuditionSearch.DataBind();
+        }
+
+        /*
+         * Pre: The GridView gv must exist on the current form
+         * Post:  The data binding of the GridView is cleared, causing the table to be cleared
+         * @param gv is the GridView to be cleared
+         */
+        private void clearGridView(GridView gv)
+        {
+            gv.DataSource = null;
+            gv.DataBind();
         }
 
         #region Messages
@@ -370,13 +341,5 @@ namespace WMTA.Events
             Server.Transfer("ErrorPage.aspx", true);
         }
         #endregion Messages
-
-        protected void gvSchedule_Sorting(object sender, GridViewSortEventArgs e)
-        {
-            DataTable table = (DataTable)Session[scheduleData];
-            table.DefaultView.Sort = e.SortExpression;
-            gvSchedule.DataSource = table;
-            gvSchedule.DataBind();
-        }
     }
 }

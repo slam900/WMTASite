@@ -99,7 +99,7 @@ namespace WMTA.Events
          */
         protected void btnCreateSchedule_Click(object sender, EventArgs e)
         {
-            DataTable schedule = DbInterfaceScheduling.CreateSchedule(Convert.ToInt32(lblAuditionId.Text));
+            DataTable schedule = DbInterfaceScheduling.CreateSchedule(Convert.ToInt32(lblAuditionId.Text), true);
 
             if (schedule != null && schedule.Rows.Count > 0)
             {
@@ -216,12 +216,6 @@ namespace WMTA.Events
         protected void gvJudgeValidation_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvJudgeValidation.PageIndex = e.NewPageIndex;
-            BindSessionData();
-        }
-
-        protected void gvSchedule_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            gvSchedule.PageIndex = e.NewPageIndex;
             BindSessionData();
         }
 
@@ -479,5 +473,13 @@ namespace WMTA.Events
             Server.Transfer("ErrorPage.aspx", true);
         }
         #endregion Messages
+
+        protected void gvSchedule_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            DataTable table = (DataTable)Session[scheduleData];
+            table.DefaultView.Sort = e.SortExpression;
+            gvSchedule.DataSource = table;
+            gvSchedule.DataBind();
+        }
     }
 }

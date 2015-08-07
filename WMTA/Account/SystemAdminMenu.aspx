@@ -34,6 +34,10 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="../Events/CreateBadgerAudition.aspx?action=1" class="smaller-font">Add Event</a></li>
                                         <li><a href="../Events/CreateBadgerAudition.aspx?action=2" class="smaller-font">Edit Event</a></li>
+                                        <li><a href="../Events/AssignBadgerRoomsAndJudges.aspx" class="smaller-font">Assign Rooms and Judges</a></li>
+                                        <li><a href="../Events/BadgerSchedule.aspx" class="smaller-font">Create Schedule</a></li>
+                                        <li><a href="../Events/BadgerScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>
+                                        <li><a href="../Events/BadgerScheduleView.aspx" class="smaller-font">View Schedule</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">

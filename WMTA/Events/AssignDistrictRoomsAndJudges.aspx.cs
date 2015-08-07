@@ -857,8 +857,6 @@ namespace WMTA.Events
             }
         }
 
-
-
         /*
          * Pre:
          * Post: Determines whether or not the input room is being scheduled
@@ -1496,7 +1494,6 @@ namespace WMTA.Events
             pnlMain.Visible = false;
             clearGridView(gvAuditionSearch);
             upAuditionSearch.Visible = true;
-
         }
 
         private void ClearRooms()

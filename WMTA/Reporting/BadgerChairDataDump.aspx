@@ -68,7 +68,7 @@
                 <ContentTemplate>
                     <div class="form-group">
                         <div class="col-md-12 center">
-                            <asp:GridView ID="gvAuditions" runat="server" AllowSorting="true" AutoGenerateColumns="false" CssClass="table table-bordered" AllowPaging="false" RowStyle-Wrap="true">
+                            <asp:GridView ID="gvAuditions" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered" AllowPaging="false" RowStyle-Wrap="true">
                                 <%--DataKeyNames="AuditionId" DataSourceID="SqlDataSource1"--%>
                                 <HeaderStyle BackColor="#EFEFEF" />
                                 <SelectedRowStyle BackColor="#CDCDEF" />
