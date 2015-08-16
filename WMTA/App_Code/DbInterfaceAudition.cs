@@ -644,8 +644,8 @@ public partial class DbInterfaceAudition
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 int scheduleId = Convert.ToInt32(table.Rows[i]["ScheduleId"]);
-                TimeSpan startTime = TimeSpan.Parse(table.Rows[0]["TimePeriodStart"].ToString());
-                TimeSpan endTime = TimeSpan.Parse(table.Rows[0]["TimePeriodEnd"].ToString());
+                TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["TimePeriodStart"].ToString());
+                TimeSpan endTime = TimeSpan.Parse(table.Rows[i]["TimePeriodEnd"].ToString());
 
                 slots.Add(new TimeSlot() 
                 {
