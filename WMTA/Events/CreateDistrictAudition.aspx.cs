@@ -540,6 +540,10 @@ namespace WMTA.Events
                  if (DateTime.Today.Month >= 6)
                      year = year + 1;
 
+                 // Look at current year no matter what if on the test site
+                 if (Utility.reportSuffix.Equals("Test")) //delete this
+                     year = DateTime.Today.Year; 
+
                  loadAuditionData(DbInterfaceAudition.GetAuditionOrgId(Convert.ToInt32(ddlDistrictSearch.SelectedValue), year));
              }
              else if (user.permissionLevel.Contains('A'))

@@ -259,13 +259,16 @@ namespace WMTA.Events
 
             if (index >= 0 && index < gvStudentSearch.Rows.Count)
             {
-                upStudentSearch.Visible = false;
-                pnlButtons.Visible = true;
-                pnlInfo.Visible = true;
-
                 txtStudentId.Text = gvStudentSearch.Rows[index].Cells[1].Text;
 
                 Student student = LoadStudentData(Convert.ToInt32(gvStudentSearch.Rows[index].Cells[1].Text));
+
+                if (student.grade.Equals("11") || student.grade.Equals("12"))
+                {
+                    upStudentSearch.Visible = false;
+                    pnlButtons.Visible = true;
+                    pnlInfo.Visible = true;
+                }
             }
         }
 
@@ -298,12 +301,14 @@ namespace WMTA.Events
                     cboAudition.Items.Clear();
                     cboAudition.DataSourceID = "";
 
-                    if (table.Rows.Count > 0)
+                    if (table.Rows.Count > 0 && (student.grade.Equals("11") || student.grade.Equals("12")))
                     {
                         cboAudition.DataSource = table;
                         cboAudition.Items.Add(new ListItem(""));
                         cboAudition.DataBind();
                     }
+                    else if (!(student.grade.Equals("11") || student.grade.Equals("12")))
+                        showWarningMessage("The selected student is not in 11/12th grade, the audition length cannot be adjusted.");
                     else
                         showWarningMessage("This student has no editable auditions. Add a new registration for this student with the 'Add Registration' option");
                 }
