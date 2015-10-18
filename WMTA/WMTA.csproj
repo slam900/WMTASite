@@ -302,6 +302,9 @@
     <Content Include="Resource Files\District Judging Form - KEYBOARD PIANO - blank.pdf" />
     <Content Include="Resource Files\District Judging Form - STRINGS - blank.pdf" />
     <Content Include="Resource Files\District Judging Form - VOCAL - blank.pdf" />
+    <Content Include="Resource Files\2016 Ineligible Pieces.pdf" />
+    <Content Include="Resource Files\2016ChairsAndEvents.pdf" />
+    <Content Include="Resource Files\WMTAChairsAddresses2016.pdf" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
