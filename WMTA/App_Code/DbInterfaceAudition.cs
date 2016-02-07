@@ -77,7 +77,7 @@ public partial class DbInterfaceAudition
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@geoId", districtId);
-            cmd.Parameters.AddWithValue("@year",year);
+            cmd.Parameters.AddWithValue("@year", year);
 
             adapter.Fill(table);
 
@@ -309,7 +309,7 @@ public partial class DbInterfaceAudition
             cmd.Parameters.AddWithValue("@auditionDate", audition.auditionDate);
             cmd.Parameters.AddWithValue("@freezeDate", audition.freezeDate);
             cmd.Parameters.AddWithValue("@duetsAllowed", audition.duetsAllowed);
-            
+
             adapter.Fill(table);
 
             if (table.Rows.Count == 1)
@@ -319,7 +319,7 @@ public partial class DbInterfaceAudition
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceAudition", "AddNewAudition", "Attributes of input audition - districtId: " + 
+            Utility.LogError("DbInterfaceAudition", "AddNewAudition", "Attributes of input audition - districtId: " +
                              audition.districtId + ", numJudges: " + audition.numJudges + ", venue: " + audition.venue
                              + ", chairpersonId: " + audition.chairpersonId + ", theoryTest: " + audition.theoryTestSeries
                              + ", date: " + audition.auditionDate + ", freezeDate: " + audition.freezeDate + ", duetsAllowed: " +
@@ -387,9 +387,9 @@ public partial class DbInterfaceAudition
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceAudition", "EditAudition", "Attributes of input audition - auditionOrgId: " + 
-                             audition.auditionId + ", district id: " + audition.districtId + 
-                             ", numJudges: " + audition.numJudges + ", venue: " + audition.venue + ", chairpersonId: " 
+            Utility.LogError("DbInterfaceAudition", "EditAudition", "Attributes of input audition - auditionOrgId: " +
+                             audition.auditionId + ", district id: " + audition.districtId +
+                             ", numJudges: " + audition.numJudges + ", venue: " + audition.venue + ", chairpersonId: "
                              + audition.chairpersonId + ", theoryTest: " + audition.theoryTestSeries
                              + ", date: " + audition.auditionId + ", freezeDate: " + audition.freezeDate + ", duetsAllowed: " +
                              audition.duetsAllowed, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
@@ -425,7 +425,7 @@ public partial class DbInterfaceAudition
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.StoredProcedure;
-            
+
             cmd.Parameters.AddWithValue("@auditionId", id);
 
             adapter.Fill(table);
@@ -440,7 +440,7 @@ public partial class DbInterfaceAudition
                 string venue = table.Rows[0]["Venue"].ToString();
                 string chairperson = table.Rows[0]["ChairpersonId"].ToString();
                 string theoryTest = table.Rows[0]["TheoryTestSeries"].ToString();
-                
+
                 DateTime auditionDate, freezeDate;
                 bool duetsAllowed = true;
 
@@ -450,7 +450,7 @@ public partial class DbInterfaceAudition
                 if (!table.Rows[0]["DuetsAllowed"].ToString().Equals(""))
                     duetsAllowed = (bool)table.Rows[0]["DuetsAllowed"];
 
-                audition = new Audition(id, districtId, numJudges, venue, chairperson, theoryTest, 
+                audition = new Audition(id, districtId, numJudges, venue, chairperson, theoryTest,
                                         auditionDate, freezeDate, duetsAllowed);
                 GetAuditionSchedule(audition);
             }
@@ -647,11 +647,11 @@ public partial class DbInterfaceAudition
                 TimeSpan startTime = TimeSpan.Parse(table.Rows[i]["TimePeriodStart"].ToString());
                 TimeSpan endTime = TimeSpan.Parse(table.Rows[i]["TimePeriodEnd"].ToString());
 
-                slots.Add(new TimeSlot() 
+                slots.Add(new TimeSlot()
                 {
-                    Order = scheduleId, 
-                    StartTime = startTime, 
-                    EndTime = endTime 
+                    Order = scheduleId,
+                    StartTime = startTime,
+                    EndTime = endTime
                 });
             }
         }
@@ -670,7 +670,7 @@ public partial class DbInterfaceAudition
      * Post: Return a data table with information to be bound to a 
      *      checkbox list for judge time preferences
      */
-    public static DataTable LoadJudgeTimePreferenceOptions(int auditionId) 
+    public static DataTable LoadJudgeTimePreferenceOptions(int auditionId)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
@@ -787,13 +787,13 @@ public partial class DbInterfaceAudition
         return exists;
     }
 
-     /*
-     * Pre:
-     * Post: Determines whether the audition at the input district id allows duets
-     * @param year is the year in which the audition is to take place
-     * @param districtId is the district to check
-     * @returns true if duets are enabled for the district's audition and false otherwise
-     */
+    /*
+    * Pre:
+    * Post: Determines whether the audition at the input district id allows duets
+    * @param year is the year in which the audition is to take place
+    * @param districtId is the district to check
+    * @returns true if duets are enabled for the district's audition and false otherwise
+    */
     public static bool StateSiteAllowsDuets(int auditionOrgId)
     {
         bool allowed = false;
@@ -876,8 +876,8 @@ public partial class DbInterfaceAudition
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceAudition", "GetAuditionSearchResults", "id: " + id + ", auditionType: " + 
-                             auditionType + "districtId: " + districtId + ", year: " + year, "Message: " + e.Message + 
+            Utility.LogError("DbInterfaceAudition", "GetAuditionSearchResults", "id: " + id + ", auditionType: " +
+                             auditionType + "districtId: " + districtId + ", year: " + year, "Message: " + e.Message +
                              "   Stack Trace: " + e.StackTrace, -1);
 
             table = null;
@@ -949,7 +949,7 @@ public partial class DbInterfaceAudition
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceAudition", "GetTeacherDistrictsForYear", "teacherId: " + teacherId + ", year: " + year, 
+            Utility.LogError("DbInterfaceAudition", "GetTeacherDistrictsForYear", "teacherId: " + teacherId + ", year: " + year,
                 "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
         }
 
@@ -987,7 +987,7 @@ public partial class DbInterfaceAudition
         }
         catch (Exception e)
         {
-            Utility.LogError("DbInterfaceAudition", "GetBadgerDataDump", "auditionOrgId: " + auditionOrgId + ", teacherId: " + teacherId, 
+            Utility.LogError("DbInterfaceAudition", "GetBadgerDataDump", "auditionOrgId: " + auditionOrgId + ", teacherId: " + teacherId,
                 "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
         }
 
@@ -1032,5 +1032,319 @@ public partial class DbInterfaceAudition
         connection.Close();
 
         return table;
+    }
+
+    /*
+     * Pre:  The input audition org id must exist in the system.  The input teacher id must exist or be 0
+     * Post: Retrieves the full audition information for the input audition
+     * @param auditionOrgId is the unique id of the audition
+     * @param teacher is either 0 or the id of the teacher to filter on
+     */
+    public static Dictionary<int, StateAudition> GetFullDataDump(int auditionOrgId, int teacherId, int year, int auditionDistrictId)
+    {
+        Dictionary<int, StateAudition> auditions = new Dictionary<int, StateAudition>();
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_FullDataDump";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@teacherId", teacherId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int auditionId = Convert.ToInt32(table.Rows[i]["AuditionId"]);
+
+                // Add new audition
+                if (!auditions.ContainsKey(auditionId))
+                {
+                    // Get base student data
+                    int studentId = Convert.ToInt32(table.Rows[i]["StudentId"]);
+                    string firstName = table.Rows[i]["FirstName"].ToString();
+                    string lastName = table.Rows[i]["LastName"].ToString();
+                    int districtId = Convert.ToInt32(table.Rows[i]["GeoId"]);
+                    string grade = table.Rows[i]["Grade"].ToString();
+                    string teacherName = table.Rows[i]["TeacherName"].ToString();
+                    string theoryLevel = table.Rows[i]["TheoryLevel"].ToString();
+
+                    Student student = new Student(studentId, firstName, "", lastName, grade, districtId, teacherName, theoryLevel);
+
+                    // Get base audition data
+                    string instrument = table.Rows[i]["Instrument"].ToString();
+                    string auditionType = table.Rows[i]["AuditionType"].ToString();
+                    string auditionTrack = table.Rows[i]["AuditionTrack"].ToString();
+                    string accompanist = table.Rows[i]["Accompanist"].ToString();
+                    string timePref = table.Rows[i]["TimePref"].ToString();
+
+                    string startTime = "";
+                   // if (!table.Rows[i]["AuditionStartTime"].ToString().Equals(""))
+                    //    startTime = TimeSpan.Parse(table.Rows[i]["AuditionStartTime"].ToString()).ToString();
+
+                    // get audition room
+                    // need to use ConfigSchedule, DataJudgePrefTime, DataAuditionHistory, DSAH
+
+
+
+                    DistrictAudition audition = new DistrictAudition(student);
+                    audition.auditionId = auditionId;
+                    audition.setAuditionInfo(instrument, accompanist, auditionType, auditionTrack, -1, theoryLevel, auditionOrgId);
+                    audition.setTimeConstraints(timePref.StartsWith("A"), timePref.StartsWith("P"), timePref.StartsWith("E"), timePref.StartsWith("L"));
+                    audition.startTime = startTime;
+
+                    string coordinateName = table.Rows[i]["Coord_Ride_Name"].ToString();
+                    string coordinateType = table.Rows[i]["Coord_Type"].ToString();
+
+                    if (!coordinateName.Equals(""))
+                        audition.simpleCoordinates.Add(new StudentCoordinateSimple(coordinateName, coordinateType));
+
+                    auditions.Add(auditionId, new StateAudition(audition));
+                }
+                // Add new coordinate to the audition
+                else
+                {
+                    string coordinateName = table.Rows[i]["Coord_Ride_Name"].ToString();
+                    string coordinateType = table.Rows[i]["Coord_Type"].ToString();
+
+                    if (!coordinateName.Equals(""))
+                        auditions[auditionId].districtAudition.simpleCoordinates.Add(new StudentCoordinateSimple(coordinateName, coordinateType));
+                }
+            }
+
+            GetFullDataDumpCompositions(auditionOrgId, teacherId, auditions);
+            GetFullDataDumpStateAuditionPoints(auditions);
+            GetFullDataDumpPointTotals(auditionOrgId, teacherId, auditions);
+            GetFullDatatDumpAwards(year, auditionDistrictId, teacherId, true, auditions);
+            GetFullDatatDumpAwards(year, auditionDistrictId, teacherId, false, auditions);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetFullDataDump", "auditionOrgId: " + auditionOrgId + ", teacherId: " + teacherId,
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+
+        return auditions;
+    }
+
+    private static void GetFullDataDumpCompositions(int auditionOrgId, int teacherId, Dictionary<int, StateAudition> auditions)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_FullDataDumpCompositionsSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@teacherId", teacherId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int auditionId = Convert.ToInt32(table.Rows[i]["AuditionId"]);
+
+                if (auditions.ContainsKey(auditionId))
+                {
+                    int compositionId = Convert.ToInt32(table.Rows[i]["CompositionId"]);
+                    string title = table.Rows[i]["CompositionName"].ToString();
+                    string composer = table.Rows[i]["Composer"].ToString();
+                    string style = table.Rows[i]["Style"].ToString();
+                    string compLevel = table.Rows[i]["CompLevelId"].ToString();
+
+                    double playingTime = 0;
+                    if (!table.Rows[i]["PlayingTime"].ToString().Equals(""))
+                        playingTime = Convert.ToDouble(table.Rows[i]["PlayingTime"]);
+
+                    int points = 0;
+                    if (!table.Rows[i]["Quantity"].ToString().Equals(""))
+                        points = Convert.ToInt32(table.Rows[i]["Quantity"]);
+
+                    Composition composition = new Composition(compositionId, title, composer, style, compLevel, playingTime);
+
+                    // District theory points
+                    if (compositionId == 2)
+                    {
+                        auditions[auditionId].districtAudition.theoryPoints = points;
+                    }
+                    else
+                    {
+                        auditions[auditionId].districtAudition.addComposition(new AuditionCompositions(composition, points));
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetFullDataDumpCompositions", "auditionOrgId: " + auditionOrgId,
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+    }
+
+    private static void GetFullDataDumpStateAuditionPoints(Dictionary<int, StateAudition> auditions)
+    {
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            foreach (int auditionId in auditions.Keys)
+            {
+                DataTable table = new DataTable();
+                connection.Open();
+                string storedProc = "sp_StatePointsSelectByDistrictAudition";
+
+                SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@districtId", auditionId);
+
+                adapter.Fill(table);
+
+                if (table.Rows.Count == 1)
+                {
+                    int points = 0;
+                    if (!table.Rows[0]["Quantity"].ToString().Equals(""))
+                        points = Convert.ToInt32(table.Rows[0]["Quantity"]);
+
+                    auditions[auditionId].points = points;
+                }
+
+                connection.Close();
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetFullDataDumpCompositions", "",
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            connection.Close();
+        }
+    }
+
+    private static void GetFullDatatDumpAwards(int year, int districtId, int teacherId, bool isDistrictAudition, Dictionary<int, StateAudition> auditions)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AwardsView";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@year", year);
+            cmd.Parameters.AddWithValue("@districtId", districtId);
+            cmd.Parameters.AddWithValue("@teacherId", teacherId);
+            cmd.Parameters.AddWithValue("@isDistrictAudition", isDistrictAudition);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int studentId = Convert.ToInt32(table.Rows[i]["StudentId"]);
+                string award = table.Rows[i]["AwardType"].ToString();
+
+                List<int> auditionIds = auditions.Where(a => a.Value.districtAudition.student.id == studentId).Select(a => a.Key).ToList();
+                foreach (int auditionId in auditionIds)
+                {
+                    if (isDistrictAudition && string.IsNullOrEmpty(auditions[auditionId].districtAudition.awards))
+                    {
+                        auditions[auditionId].districtAudition.awards = award;
+                    }
+                    else if (isDistrictAudition)
+                    {
+                        auditions[auditionId].districtAudition.awards = auditions[auditionId].districtAudition.awards + ", " + award;
+                    }
+                    else if (!isDistrictAudition && string.IsNullOrEmpty(auditions[auditionId].awards))
+                    {
+                        auditions[auditionId].awards = award;
+                    }
+                    else
+                    {
+                        auditions[auditionId].awards = auditions[auditionId].awards + ", " + award;
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetFullDataDumpPointTotals", "year: " + year + ", districtId: " + districtId + ", teacherId: " + 
+                teacherId + ", isDistrictAudition: " + isDistrictAudition, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
+    }
+
+    private static void GetFullDataDumpPointTotals(int auditionOrgId, int teacherId, Dictionary<int, StateAudition> auditions)
+    {
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_FullDataDumpTotalPointsSelect";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+            cmd.Parameters.AddWithValue("@teacherId", teacherId);
+
+            adapter.Fill(table);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                int studentId = Convert.ToInt32(table.Rows[i]["StudentId"]);
+
+                int totalPoints = 0;
+                if (!table.Rows[i]["TotalPoints"].ToString().Equals(""))
+                    totalPoints = Convert.ToInt32(table.Rows[i]["TotalPoints"]);
+
+                List<int> auditionIds = auditions.Where(a => a.Value.districtAudition.student.id == studentId).Select(a => a.Key).ToList();
+                foreach (int auditionId in auditionIds)
+                {
+                    auditions[auditionId].districtAudition.student.totalPoints = totalPoints;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceAudition", "GetFullDataDumpPointTotals", "auditionOrgId: " + auditionOrgId + ", teacherId: " + teacherId,
+                "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+        }
+
+        connection.Close();
     }
 }

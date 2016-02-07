@@ -15,10 +15,17 @@ public class StudentCoordinateSimple
 {
     public int auditionId { get; private set; }
     public string reason { get; private set; }
+    public string coordinateName { get; set; }
 
 	public StudentCoordinateSimple(int auditionId, string reason)
 	{
         this.auditionId = auditionId;
         this.reason = reason;
 	}
+
+    public StudentCoordinateSimple(string coordinateName, string reason)
+    {
+        this.coordinateName = coordinateName;
+        this.reason = reason;
+    }
 }

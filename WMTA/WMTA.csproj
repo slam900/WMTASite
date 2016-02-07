@@ -264,6 +264,7 @@
     <Content Include="Reporting\DistrictDataDump.aspx" />
     <Content Include="Reporting\DistrictExecutiveSummary.aspx" />
     <Content Include="Reporting\DistrictJudgingForms.aspx" />
+    <Content Include="Reporting\FullDataDump.aspx" />
     <Content Include="Reporting\ReportTest.aspx" />
     <Content Include="Reporting\DistrictRoomSchedules.aspx" />
     <Content Include="Reporting\StudentHistoryReports.aspx" />
@@ -286,6 +287,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\bs.pagination.js" />
     <Content Include="MasterPages\WidePage.Master" />
+    <None Include="Properties\PublishProfiles\ovationtest.wmta.net - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\WMTALive.pubxml" />
     <None Include="Properties\PublishProfiles\WMTATest.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -839,6 +841,13 @@
     </Compile>
     <Compile Include="Reporting\DistrictJudgingForms.aspx.designer.cs">
       <DependentUpon>DistrictJudgingForms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\FullDataDump.aspx.cs">
+      <DependentUpon>FullDataDump.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting\FullDataDump.aspx.designer.cs">
+      <DependentUpon>FullDataDump.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\ReportCredentials.cs" />
     <Compile Include="Reporting\ReportTest.aspx.cs">

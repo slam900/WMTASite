@@ -91,11 +91,20 @@ namespace WMTA.Reporting
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("PianoJudgingForm", rptPianoForm, auditionOrgId, teacherId, districtId);
-                createReport("OrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
-                createReport("VocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
-                createReport("InstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
-                createReport("StringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
+                // Have two different report types so reports can be printed front-to-back *per student*
+                // D2 and D2NM use Even paged reports and print off front-to-back without breaks since students have 2 compositions
+                // D3 and State use Odd paged reports and print a blank page between students so they can be printed front-to-back, but not have multiple students on the front/back of the same piece of paper
+                // Just go with it.
+                createReport("DistrictPianoJudgingFormEven", rptPianoFormE, auditionOrgId, teacherId, "E");
+                createReport("DistrictPianoJudgingFormOdd", rptPianoFormO, auditionOrgId, teacherId, "O");
+                createReport("DistrictOrganJudgingFormEven", rptOrganFormE, auditionOrgId, teacherId, "E");
+                createReport("DistrictOrganJudgingFormOdd", rptOrganFormO, auditionOrgId, teacherId, "O");
+                createReport("DistrictVocalJudgingFormEven", rptVocalFormE, auditionOrgId, teacherId, "E");
+                createReport("DistrictVocalJudgingFormOdd", rptVocalFormO, auditionOrgId, teacherId, "O");
+                createReport("DistrictInstrumentalJudgingFormEven", rptInstrumentalFormE, auditionOrgId, teacherId, "E");
+                createReport("DistrictInstrumentalJudgingFormOdd", rptInstrumentalFormO, auditionOrgId, teacherId, "O");
+                createReport("DistrictStringsJudgingFormEven", rptStringsFormE, auditionOrgId, teacherId, "E");
+                createReport("DistrictStringsJudgingFormOdd", rptStringsFormO, auditionOrgId, teacherId, "O");
             }
             else
             {
@@ -107,7 +116,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int districtId)
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, string oOrE)
         {
             try
             {
@@ -124,7 +133,7 @@ namespace WMTA.Reporting
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
                 parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
-                parameters.Add(new ReportParameter("districtId", districtId.ToString()));
+                parameters.Add(new ReportParameter("oddEven", oOrE));
 
                 rptViewer.ServerReport.SetParameters(parameters);
 

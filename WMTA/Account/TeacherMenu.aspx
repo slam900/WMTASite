@@ -61,6 +61,7 @@
                                         <li><a href="../Reporting/BadgerRegistrationReport.aspx" class="smaller-font">Badger Registration</a></li>
                                         <li><a href="../Reporting/BadgerTeacherFees.aspx" class="smaller-font">Badger Teacher Fee Summary</a></li>
                                         <li><a href="../Reporting/AwardsView.aspx" class="smaller-font">Awards View</a></li>
+                                        <li><a href="../Reporting/FullDataDump.aspx" class="smaller-font">Full Year Data</a></li>
                                     </ul>
                                 </div>
                             </div>

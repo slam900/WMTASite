@@ -64,11 +64,11 @@ namespace WMTA.Reporting
 
                 showInfoMessage("Please allow several minutes for your reports to generate.");
 
-                createReport("BadgerPianoJudgingForm", rptPianoForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerOrganJudgingForm", rptOrganForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerVocalJudgingForm", rptVocalForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerStringsJudgingForm", rptStringsForm, auditionOrgId, teacherId, districtId);
-                createReport("BadgerInstrumentalJudgingForm", rptInstrumentalForm, auditionOrgId, teacherId, districtId);
+                createReport("BadgerPianoJudgingFormOdd", rptPianoForm, auditionOrgId, teacherId);
+                createReport("BadgerOrganJudgingFormOdd", rptOrganForm, auditionOrgId, teacherId);
+                createReport("BadgerVocalJudgingFormOdd", rptVocalForm, auditionOrgId, teacherId);
+                createReport("BadgerStringsJudgingFormOdd", rptStringsForm, auditionOrgId, teacherId);
+                createReport("BadgerInstrumentalJudgingFormOdd", rptInstrumentalForm, auditionOrgId, teacherId);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace WMTA.Reporting
          * Pre:
          * Post: Create the input report in the specified report viewer
          */
-        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId, int districtId)
+        private void createReport(string rptName, ReportViewer rptViewer, int auditionOrgId, int teacherId)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace WMTA.Reporting
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("auditionOrgId", auditionOrgId.ToString()));
                 parameters.Add(new ReportParameter("teacherId", teacherId.ToString()));
-                parameters.Add(new ReportParameter("districtId", districtId.ToString()));
+                parameters.Add(new ReportParameter("oddEven", "O"));
 
                 rptViewer.ServerReport.SetParameters(parameters);
 

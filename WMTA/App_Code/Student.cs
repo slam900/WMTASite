@@ -14,6 +14,7 @@ public class Student : Person
     public int legacyPoints { get; private set; }
     public int legacyPtsYear { get; private set; }
     public int currTeacherId { get; private set; }
+    public string teacherName { get; set; }
     public int prevTeacherId { get; private set; }
     public string grade { get; set; }
     public string theoryLevel { get; set; }
@@ -46,6 +47,16 @@ public class Student : Person
         this.currTeacherId = currTeacherId;
         this.prevTeacherId = prevTeacherId;
         this.grade = grade;
+    }
+
+    // Used for full data dump
+    public Student(int id, string firstName, string middleInitial, string lastName, string grade,
+        int districtId, string teacherName, string theoryLevel) : base(id, firstName, middleInitial, lastName)
+    {
+        this.grade = grade;
+        this.districtId = districtId;
+        this.teacherName = teacherName;
+        this.theoryLevel = theoryLevel;
     }
 
     public void SetLegacyPoints(int points, int year)

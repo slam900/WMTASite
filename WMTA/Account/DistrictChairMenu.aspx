@@ -83,6 +83,7 @@
                                         <li><a href="../Reporting/DistrictChairSummaryReport.aspx" class="smaller-font">District Chair Summary</a></li>
                                         <li><a href="../Reporting/TheoryTestReports.aspx" class="smaller-font">Theory Test Reports</a></li>
                                         <li><a href="../Reporting/AwardsView.aspx" class="smaller-font">Awards View</a></li>
+                                        <li><a href="../Reporting/FullDataDump.aspx" class="smaller-font">Full Year Data</a></li>
                                     </ul>
                                 </div>
                             </div>

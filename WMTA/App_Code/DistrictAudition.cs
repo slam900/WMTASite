@@ -24,10 +24,14 @@ public class DistrictAudition
     public bool latest { get; private set; }
     public List<AuditionCompositions> compositions { get; private set; }
     public List<StudentCoordinate> coordinates { get; set; }
+    public List<StudentCoordinateSimple> simpleCoordinates { get; set; } // used for full data dump
     public int districtId { get; private set; }
     public int auditionOrgId { get; private set; }
     public int theoryPoints { get; set; }
     public double auditionLength { get; set; }
+    public string awards { get; set; } // for full data dump
+    public string startTime { get; set; } // for full data dump
+    public string room { get; set; } // for full data dump
 
     /*
      * Pre:
@@ -42,6 +46,7 @@ public class DistrictAudition
         earliest = false;
         latest = false;
         coordinates = new List<StudentCoordinate>();
+        simpleCoordinates = new List<StudentCoordinateSimple>();
         auditionLength = 0;
     }
 

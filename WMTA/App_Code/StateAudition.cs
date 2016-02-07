@@ -26,6 +26,7 @@ public class StateAudition
     public string auditionType { get { return this.districtAudition.auditionType; } }
     public string instrument { get { return this.districtAudition.instrument; } }
     public int siteId { get; set; }
+    public string awards { get; set; }
 
     /*
      * Pre:  The entered  audition id and student must exist in the system

@@ -1,6 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="DistrictJudgingForms.aspx.cs" Inherits="WMTA.Reporting.JudgingForms" %>
-
-<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MasterPage.Master" AutoEventWireup="true" CodeBehind="FullDataDump.aspx.cs" Inherits="WMTA.Reporting.FullDataDump" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="well bs-component col-md-6 main-div center">
@@ -23,7 +21,7 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlDistrictSearch" CssClass="col-md-3 control-label float-left">District *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true">
+                                                    <asp:DropDownList ID="ddlDistrictSearch" runat="server" CssClass="dropdown-list form-control"  AppendDataBoundItems="true" OnSelectedIndexChanged="ddlDistrictSearch_SelectedIndexChanged" AutoPostBack="true">
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
@@ -35,7 +33,13 @@
                                                 </div>
                                                 <asp:Label runat="server" AssociatedControlID="ddlYear" CssClass="col-md-3 control-label">Year *</asp:Label>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" />
+                                                    <asp:DropDownList ID="ddlYear" runat="server" CssClass="dropdown-list form-control" OnSelectedIndexChanged="ddlYear_SelectedIndexChanged" AutoPostBack="true" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label runat="server" AssociatedControlID="ddlTeacher" CssClass="col-md-3 control-label">Teacher</asp:Label>
+                                                <div class="col-md-6">
+                                                    <asp:DropDownList ID="ddlTeacher" runat="server" CssClass="dropdown-list form-control" AppendDataBoundItems="true" />
                                                 </div>
                                             </div>
                                             <div class="center text-align-center">
@@ -56,46 +60,36 @@
             </section>
         </div>
     </div>
-    <div class="col-md-12">
-        <div>
-            <div class="text-align-center"><h3 class="center">Piano Judging Form (D2 & D2NM)</h3></div>
-            <rsweb:ReportViewer ID="rptPianoFormE" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Piano Judging Form (D3 & State)</h3></div>
-            <rsweb:ReportViewer ID="rptPianoFormO" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Organ Judging Form (D2 & D2NM)</h3></div>
-            <rsweb:ReportViewer ID="rptOrganFormE" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Organ Judging Form (D3 & State)</h3></div>
-            <rsweb:ReportViewer ID="rptOrganFormO" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Vocal Judging Form (D2 & D2NM)</h3></div>
-            <rsweb:ReportViewer ID="rptVocalFormE" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Vocal Judging Form (D3 & State)</h3></div>
-            <rsweb:ReportViewer ID="rptVocalFormO" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Instrumental Judging Form (D2 & D2NM)</h3></div>
-            <rsweb:ReportViewer ID="rptInstrumentalFormE" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3>Instrumental Judging Form (D3 & State)</h3></div>
-            <rsweb:ReportViewer ID="rptInstrumentalFormO" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Strings Judging Form (D2 & D2NM)</h3></div>
-            <rsweb:ReportViewer ID="rptStringsFormE" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
-        </div>
-        <div>
-            <div class="text-align-center"><h3 class="center">Strings Judging Form (D3 & State)</h3></div>
-            <rsweb:ReportViewer ID="rptStringsFormO" runat="server" CssClass="report-viewer"></rsweb:ReportViewer>
+    <div class="row">
+        <div class="well bs-component col-md-12 main-div center" style="overflow: scroll;">
+            <asp:UpdatePanel runat="server">
+                <ContentTemplate>
+                    <div class="form-group">
+                        <div class="col-md-12 center">
+                            <asp:GridView ID="gvAuditions" runat="server" Font-Size="12px" AutoGenerateColumns="true" CssClass="table table-bordered" AllowPaging="false" RowStyle-Wrap="true">
+                                <HeaderStyle BackColor="#EFEFEF" />
+                                <SelectedRowStyle BackColor="#CDCDEF" />
+                                <AlternatingRowStyle BackColor="#EFEFEF" />
+                               <%-- <Columns>
+                                    <asp:BoundField DataField="StudentId" HeaderText="Student Id" InsertVisible="false" ReadOnly="true" SortExpression="StudentId" />
+                                    <asp:BoundField DataField="LastName" HeaderText="Last Name" InsertVisible="false" ReadOnly="true" SortExpression="LastName" />
+                                    <asp:BoundField DataField="FirstName" HeaderText="First Name" InsertVisible="false" ReadOnly="true" SortExpression="FirstName" />
+                                    <asp:BoundField DataField="Grade" HeaderText="Grade" InsertVisible="false" ReadOnly="true" SortExpression="Grade" />
+                                    <asp:BoundField DataField="CurrentTeacherId" HeaderText="Teacher Id" InsertVisible="false" ReadOnly="true" SortExpression="CurrentTeacherId" />
+                                    <asp:BoundField DataField="GeoName" HeaderText="Home District" InsertVisible="false" ReadOnly="true" SortExpression="GeoName" />
+                                    <asp:BoundField DataField="Instrument" HeaderText="Instrument" InsertVisible="false" ReadOnly="true" SortExpression="Instrument" />
+                                    <asp:BoundField DataField="Accompanist" HeaderText="Accompanist" InsertVisible="false" ReadOnly="true" SortExpression="Accompanist" />
+                                    <asp:BoundField DataField="AuditionType" HeaderText="Type" InsertVisible="false" ReadOnly="true" SortExpression="AuditionType" />
+                                    <asp:BoundField DataField="AuditionTrack" HeaderText="Track" InsertVisible="false" ReadOnly="true" SortExpression="AuditionTrack" />
+                                    <asp:BoundField DataField="CompLevel" HeaderText="Level" InsertVisible="false" ReadOnly="true" SortExpression="CompLevel" />
+                                    <asp:BoundField DataField="TimePref" HeaderText="Time Pref" InsertVisible="false" ReadOnly="true" SortExpression="TimePref" />
+                                    <asp:BoundField DataField="Coord_Ride_Name" HeaderText="Coordinate" InsertVisible="false" ReadOnly="true" SortExpression="Coord_Ride_Name" />
+                                </Columns>--%>
+                            </asp:GridView>
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </div>
     </div>
     <script>
