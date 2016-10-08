@@ -21,7 +21,7 @@ namespace WMTA
          * Post: The system attempts to log the user into the system using the entered information which
          *       should be first initial and last name as the user id and MTNA id as password.  The login
          *       attempt will fail if the user has not been registered for the current year
-         */
+        // */
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             User currUser = new User(txtUsername.Text.Substring(0, 1), txtUsername.Text.Substring(1), txtPassword.Text);

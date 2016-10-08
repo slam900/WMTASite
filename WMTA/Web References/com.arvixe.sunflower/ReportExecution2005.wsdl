@@ -1880,10 +1880,10 @@
   <wsdl:service name="ReportExecutionService">
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The Reporting Services Execution Service enables report execution</wsdl:documentation>
     <wsdl:port name="ReportExecutionServiceSoap" binding="tns:ReportExecutionServiceSoap">
-      <soap:address location="http://sunflower.arvixe.com:80/ReportServer_SQL_Service/ReportExecution2005.asmx" />
+      <soap:address location="http://104.238.102.139:80/Report_Server/ReportExecution2005.asmx" />
     </wsdl:port>
     <wsdl:port name="ReportExecutionServiceSoap12" binding="tns:ReportExecutionServiceSoap12">
-      <soap12:address location="http://sunflower.arvixe.com:80/ReportServer_SQL_Service/ReportExecution2005.asmx" />
+      <soap12:address location="http://104.238.102.139:80/Report_Server/ReportExecution2005.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

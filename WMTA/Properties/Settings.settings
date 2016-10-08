@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="WMTA_com_arvixe_sunflower_ReportExecutionService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://sunflower.arvixe.com:80/ReportServer_SQL_Service/ReportExecution2005.asmx</Value>
+      <Value Profile="(Default)">http://104.238.102.139:80/Report_Server/ReportExecution2005.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

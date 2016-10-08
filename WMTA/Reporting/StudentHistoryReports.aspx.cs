@@ -174,6 +174,7 @@ namespace WMTA.Reporting
 
                 rptViewer.ServerReport.ReportServerUrl = new Uri(Utility.ssrsUrl);
                 rptViewer.ServerReport.ReportPath = "/wismusta/" + rptName + Utility.reportSuffix;
+                //rptViewer.ServerReport.ReportPath = "/live/" + rptName + Utility.reportSuffix;
 
                 //set parameters
                 List<ReportParameter> parameters = new List<ReportParameter>();

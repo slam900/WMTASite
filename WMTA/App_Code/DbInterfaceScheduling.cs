@@ -663,6 +663,7 @@ public class DbInterfaceScheduling
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandTimeout = 500;
 
             cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
 

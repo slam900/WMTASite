@@ -16,7 +16,7 @@ namespace WMTA.Reporting
             {
                 checkPermissions();
 
-                loadDistrictDropdown();
+                //loadDistrictDropdown();
                 loadYearDropdown();
                 loadTeacherDropdown();
             }
@@ -51,30 +51,30 @@ namespace WMTA.Reporting
          *        dropdowns are filtered to containing only the current
          *        user's district
          */
-        private void loadDistrictDropdown()
-        {
-            User user = (User)Session[Utility.userRole];
+        //private void loadDistrictDropdown()
+        //{
+        //    User user = (User)Session[Utility.userRole];
 
-            if (!(user.permissionLevel.Contains('A') || user.permissionLevel.Contains('S'))) //if the user is a district admin, add only their district
-            {
-                //get own district dropdown info
-                string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
+        //    if (!(user.permissionLevel.Contains('A') || user.permissionLevel.Contains('S'))) //if the user is a district admin, add only their district
+        //    {
+        //        //get own district dropdown info
+        //        string districtName = DbInterfaceStudent.GetStudentDistrict(user.districtId);
 
-                //add new item to dropdown and select it
-                ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
-                ddlDistrictSearch.SelectedIndex = 1;
-            }
-            else //if the user is an administrator, add all districts
-            {
-                ddlDistrictSearch.DataSourceID = null;
-                ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
+        //        //add new item to dropdown and select it
+        //        ddlDistrictSearch.Items.Add(new ListItem(districtName, user.districtId.ToString()));
+        //        ddlDistrictSearch.SelectedIndex = 1;
+        //    }
+        //    else //if the user is an administrator, add all districts
+        //    {
+        //        ddlDistrictSearch.DataSourceID = null;
+        //        ddlDistrictSearch.DataSource = DbInterfaceAudition.GetDistricts();
 
-                ddlDistrictSearch.DataTextField = "GeoName";
-                ddlDistrictSearch.DataValueField = "GeoId";
+        //        ddlDistrictSearch.DataTextField = "GeoName";
+        //        ddlDistrictSearch.DataValueField = "GeoId";
 
-                ddlDistrictSearch.DataBind();
-            }
-        }
+        //        ddlDistrictSearch.DataBind();
+        //    }
+        //}
 
         /*
          * Pre:

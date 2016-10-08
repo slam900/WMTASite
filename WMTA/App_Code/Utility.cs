@@ -25,18 +25,22 @@ public class Utility
     public const string userRole = "UserRole";
 
    //report server variables
-    public const string ssrsUsername = "wismusta_reportservr";
-    public const string ssrsPassword = "33wi8mu8ta44";
+    public const string ssrsUsername = "wmtaovation";
+    public const string ssrsPassword = "wiM-T-A-2016!";
 
     /***  Live Variables ***/
-    public const string ssrsDomain = "localhost";
-    public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service";
+    //public const string ssrsDomain = "localhost";
+    //public const string ssrsUrl = "http://localhost/ReportServer_SQL_Service";
     public const string reportSuffix = "";
     
     /*** Test Variables ***/
     //public const string ssrsDomain = "sunflower.arvixe.com";
     //public const string ssrsUrl = "http://sunflower.arvixe.com/ReportServer_SQL_Service";
     //public const string reportSuffix = "Test";
+
+    /*** GoDaddy reporting variables...hopefully ***/
+    public const string ssrsDomain = "WMT";
+    public const string ssrsUrl = "http://104.238.102.139/Report_Server";
 
     //Ovation email and password
     public const string ovationEmail = "WMTAOvation@gmail.com";
