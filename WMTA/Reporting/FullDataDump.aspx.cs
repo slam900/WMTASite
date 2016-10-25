@@ -201,7 +201,6 @@ namespace WMTA.Reporting
 
             if (!grade.Equals("") && (grade.Equals("1") || grade.Equals("2") || grade.Equals("3") || grade.Substring(0, 1).Equals("K")))
             {
-                showWarningMessage("Students must be in at least 4th grade to register.");
                 result = false;
             }
 
