@@ -157,6 +157,7 @@ namespace WMTA.Reporting
                 string comp1 = "", composer1 = "", period1 = "", comp2 = "", composer2 = "", period2 = "", comp3 = "", composer3 = "", period3 = "", 
                     coordName1 = "", coordReason1 = "",  coordName2 = "", coordReason2 = "", coordName3 = "", coordReason3 = "", coordName4 = "", 
                     coordReason4 = "", coordName5 = "", coordReason5 = "";
+ 
                 AssignCompositionVariables(audition.compositions, 0, ref comp1, ref composer1, ref period1, ref compositionPoints);
                 AssignCompositionVariables(audition.compositions, 1, ref comp2, ref composer2, ref period2, ref compositionPoints);
                 AssignCompositionVariables(audition.compositions, 2, ref comp3, ref composer3, ref period3, ref compositionPoints);
@@ -165,6 +166,7 @@ namespace WMTA.Reporting
                 AssignCoordinateVariables(audition.simpleCoordinates, 2, ref coordName3, ref coordReason3);
                 AssignCoordinateVariables(audition.simpleCoordinates, 3, ref coordName4, ref coordReason4);
                 AssignCoordinateVariables(audition.simpleCoordinates, 4, ref coordName5, ref coordReason5);
+                bool badgerEligible = compositionPoints >= 14 && audition.theoryPoints >= 4 && verifyAge(audition.student.grade); 
 
                 // Get the time preference
                 string timePref = "";
@@ -179,13 +181,31 @@ namespace WMTA.Reporting
 
                 AddRow(table, audition.student.id, audition.student.lastName, audition.student.firstName, audition.student.grade, audition.instrument,
                     audition.auditionType, audition.auditionTrack, audition.theoryLevel, audition.student.teacherName, timePref, comp1, composer1,
-                    period1, comp2, composer2, period2, comp3, composer3, period3, audition.student.totalPoints - compositionPoints - audition.theoryPoints - stateAudition.points, 
-                    audition.startTime, audition.room, compositionPoints, audition.theoryPoints, compositionPoints + audition.theoryPoints, audition.awards, compositionPoints >= 14 && audition.theoryPoints >= 4, 
+                    period1, comp2, composer2, period2, comp3, composer3, period3, audition.student.totalPoints - compositionPoints - audition.theoryPoints - stateAudition.points,
+                    audition.startTime, audition.room, compositionPoints, audition.theoryPoints, compositionPoints + audition.theoryPoints, audition.awards, badgerEligible, 
                     stateAudition.points, compositionPoints + audition.theoryPoints + stateAudition.points, audition.student.totalPoints, stateAudition.awards, 
                     coordName1, coordReason1, coordName2, coordReason2, coordName3, coordReason3, coordName4, coordReason4, coordName5, coordReason5);
             }
 
             return table;
+        }
+
+        /*
+         * Pre:
+         * Post: Verifies that the student is old enough to participate in the state competition (at least 4th grade)
+         * @returns true if the student is old enough and false otherwise
+         */
+        private bool verifyAge(string grade)
+        {
+            bool result = true;
+
+            if (!grade.Equals("") && (grade.Equals("1") || grade.Equals("2") || grade.Equals("3") || grade.Substring(0, 1).Equals("K")))
+            {
+                showWarningMessage("Students must be in at least 4th grade to register.");
+                result = false;
+            }
+
+            return result;
         }
 
         private void AssignCompositionVariables(List<AuditionCompositions> compositions, int indexToCheck, ref string composition, ref string composer, ref string period, ref int points)
