@@ -263,7 +263,6 @@ namespace WMTA.Contacts
                 if (!mtnaId.Equals(""))
                 {
                     txtMtnaId.Text = mtnaId;
-                    txtMtnaId.Enabled = false;
                 }
             }
             else
