@@ -21,6 +21,7 @@
                                         <li><a href="../Events/BadgerSchedule.aspx" class="smaller-font">Create Schedule</a></li>
                                         <li><a href="../Events/BadgerScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>
                                         <li><a href="../Events/BadgerScheduleView.aspx" class="smaller-font">View Schedule</a></li>
+                                        <li><a href="../Events/ScheduleDelete.aspx" class="smaller-font">Delete Schedule</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">

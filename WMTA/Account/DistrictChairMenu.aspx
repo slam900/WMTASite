@@ -24,6 +24,7 @@
                                         <li><a href="../Events/AddExtraAuditionTime.aspx" class="smaller-font">Adjust Audition Lengths</a></li>
                                         <li><a href="../Events/ScheduleUpdate.aspx" class="smaller-font">Edit Schedule</a></li>
                                         <li><a href="../Events/ScheduleView.aspx" class="smaller-font">View Schedule</a></li>
+                                        <li><a href="../Events/ScheduleDelete.aspx" class="smaller-font">Delete Schedule</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group full-width smaller-font">

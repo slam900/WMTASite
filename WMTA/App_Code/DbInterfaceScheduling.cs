@@ -758,6 +758,43 @@ public class DbInterfaceScheduling
     }
 
     /*
+     * Pre:  Schedule must have been created and saved in TempAuditionSchedule
+     * Post: Schedule from TempAuditionSchedule and DataStudentAuditionHistory is deleted
+     */
+    public static bool DeleteSchedule(int auditionOrgId)
+    {
+        bool success = true;
+        DataTable table = new DataTable();
+        SqlConnection connection = new
+            SqlConnection(ConfigurationManager.ConnectionStrings["WmtaConnectionString"].ConnectionString);
+
+        try
+        {
+            connection.Open();
+            string storedProc = "sp_AuditionDistrictScheduleDelete";
+
+            SqlCommand cmd = new SqlCommand(storedProc, connection);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@auditionOrgId", auditionOrgId);
+
+            adapter.Fill(table);
+        }
+        catch (Exception e)
+        {
+            Utility.LogError("DbInterfaceScheduling", "DeleteSchedule", "auditionOrgId: " + auditionOrgId,
+                             "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
+            success = false;
+        }
+
+        connection.Close();
+
+        return success;
+    }
+
+    /*
      * Pre:
      * Post: Returns a data table containing the event's schedule
      */

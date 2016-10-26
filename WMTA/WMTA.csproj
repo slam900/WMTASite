@@ -42,7 +42,7 @@
   <ItemGroup>
     <Reference Include="AspNet.ScriptManager.bootstrap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Documents\GitHub\WMTASite\packages\AspNet.ScriptManager.bootstrap.3.1.1\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
+      <HintPath>..\packages\AspNet.ScriptManager.bootstrap.3.1.1\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
     </Reference>
     <Reference Include="AspNet.ScriptManager.jQuery, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -247,6 +247,7 @@
     <Content Include="Events\BadgerSchedule.aspx" />
     <Content Include="Events\BadgerScheduleUpdate.aspx" />
     <Content Include="Events\BadgerScheduleView.aspx" />
+    <Content Include="Events\ScheduleDelete.aspx" />
     <Content Include="Reporting\AwardsView.aspx" />
     <Content Include="Events\BadgerPointEntry.aspx" />
     <Content Include="Events\BadgerRegistration.aspx" />
@@ -632,6 +633,13 @@
     </Compile>
     <Compile Include="Events\BadgerScheduleView.aspx.designer.cs">
       <DependentUpon>BadgerScheduleView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ScheduleDelete.aspx.cs">
+      <DependentUpon>ScheduleDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\ScheduleDelete.aspx.designer.cs">
+      <DependentUpon>ScheduleDelete.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reporting\AwardsView.aspx.cs">
       <DependentUpon>AwardsView.aspx</DependentUpon>
