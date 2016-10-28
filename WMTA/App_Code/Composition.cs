@@ -16,6 +16,7 @@ public class Composition
     public string style { get; private set; }
     public string compLevel { get; private set; }
     public double playingTime { get; private set; }
+    public string teacherName { get; set; } // Name of teacher who entered a new title 
 
     /* Constructor for existing compositions */
     public Composition(int id, string title, string composer, string style, string level, double time)
@@ -29,13 +30,14 @@ public class Composition
 	}
 
     /* Constructor for new compositions */
-    public Composition(string title, string composer, string style, string level, double time)
+    public Composition(string title, string composer, string style, string level, double time, string name)
     {
         this.title = title;
         this.composer = composer;
         this.style = style;
         this.compLevel = level;
         this.playingTime = time;
+        this.teacherName = name;
 
         addToDatabase();
     }
@@ -66,7 +68,7 @@ public class Composition
      */
     private void addToDatabase()
     {
-        compositionId = DbInterfaceComposition.AddComposition(title, composer, style, playingTime, compLevel);
+        compositionId = DbInterfaceComposition.AddComposition(title, composer, style, playingTime, compLevel, teacherName);
     }
 
     /*

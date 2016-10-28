@@ -112,6 +112,9 @@ namespace WMTA.CompositionTools
             Composition newComp;
             string title;
 
+            User user = (User)Session[Utility.userRole];
+            string name = user.contactId + ": " + user.lastName + ", " + user.firstInitial.ToUpper();
+
             //construct title
             if (pnlTitleNew.Visible)
                 title = createTitle();
@@ -127,7 +130,7 @@ namespace WMTA.CompositionTools
                 if (!compositionExists())
                 {
                     newComp = new Composition(title, ddlComposer.SelectedValue,
-                                            ddlStyle.SelectedValue, ddlCompLevel.SelectedValue, time);
+                                            ddlStyle.SelectedValue, ddlCompLevel.SelectedValue, time, name);
 
                     if (newComp.compositionId == -1)
                     {
@@ -153,7 +156,7 @@ namespace WMTA.CompositionTools
                 if (!compositionExists())
                 {
                     newComp = new Composition(title, composer, ddlStyle.SelectedValue,
-                                          ddlCompLevel.SelectedValue, time);
+                                          ddlCompLevel.SelectedValue, time, name);
 
                     //if successful, show message and clear page
                     if (newComp.compositionId != -1)

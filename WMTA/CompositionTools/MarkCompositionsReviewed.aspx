@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="well bs-component col-md-6 main-div center">
+        <div class="well bs-component col-md-10 main-div center">
             <section id="repertoireForm">
                 <asp:UpdatePanel ID="upFullPage" runat="server">
                     <ContentTemplate>
@@ -14,21 +14,17 @@
                                     <asp:Label runat="server" Style="font-weight: bold; margin-left: 15px" CssClass="control-label float-left">Enter the range of composition ids to mark as reviewed:</asp:Label>
                                 </div>
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="txtFromId" CssClass="col-md-3 control-label float-left">From</asp:Label>
+                                    <asp:Label runat="server" AssociatedControlID="txtFromId" CssClass="col-md-1 control-label float-left">From</asp:Label>
                                     <asp:TextBox ID="txtFromId" runat="server" CssClass="form-control float-left" TextMode="Number"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="txtToId" CssClass="col-md-3 control-label float-left">To</asp:Label>
+                                    <asp:Label runat="server" AssociatedControlID="txtToId" CssClass="col-md-1 control-label float-left">To</asp:Label>
                                     <asp:TextBox ID="txtToId" runat="server" CssClass="form-control float-left" TextMode="Number"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2 float-right">
-                                        <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
-                                    </div>
+                                    <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-primary float-right margin-right-5px" OnClick="btnSubmit_Click" />
                                 </div>
                                 <div class="form-group">
                                     <h4 style="margin-left:20px">Compositions To Review</h4>
-                                    <asp:GridView ID="gvCompositions" runat="server" CssClass="td table table-hover table-striped smaller-font width-80 center" AllowPaging="true" PageSize="50" PagerStyle-CssClass="bs-pagination" DataSourceID="SqlDataSource1"
+                                    <asp:GridView ID="gvCompositions" runat="server" CssClass="td table table-hover table-striped smaller-font width-95 center" AllowPaging="true" PageSize="50" PagerStyle-CssClass="bs-pagination" DataSourceID="SqlDataSource1"
                                         OnPageIndexChanging="gvCompositions_PageIndexChanging" OnRowDataBound="gvCompositions_RowDataBound" HeaderStyle-BackColor="Black" />
                                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_CompositionsSelectNotReviewed" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                 </div>

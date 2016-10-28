@@ -21,9 +21,10 @@ public class DbInterfaceComposition
      * @param style is the style of the new composition
      * @param time is the playing time of the composition
      * @param level is the competition level of the composition
+     * @param name is the name of the teacher who entered the composition
      * @returns the id of the new composition
      */
-    public static int AddComposition(string title, string composer, string style, double time, string level)
+    public static int AddComposition(string title, string composer, string style, double time, string level, string name)
     {
         int id = -1;
         DataTable table = new DataTable();
@@ -45,6 +46,7 @@ public class DbInterfaceComposition
             cmd.Parameters.AddWithValue("@style", style);
             cmd.Parameters.AddWithValue("@playingTime", time);
             cmd.Parameters.AddWithValue("@compLevelId", level);
+            cmd.Parameters.AddWithValue("@teacherName", name);
 
             adapter.Fill(table);
 

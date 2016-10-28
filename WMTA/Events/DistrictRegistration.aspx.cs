@@ -1485,9 +1485,10 @@ namespace WMTA.Events
                 //if the user is adding a new composition, add to database and get data
                 if (chkNewTitle.Checked)
                 {
+                    User user = (User)Session[Utility.userRole];
                     length = Convert.ToDouble(txtMinutes.Text) + Convert.ToDouble(ddlSeconds.SelectedValue);
 
-                    composition = new Composition(txtComposition.Text.Trim(), composer, ddlStyle.Text, ddlCompLevel.SelectedValue, length);
+                    composition = new Composition(txtComposition.Text.Trim(), composer, ddlStyle.Text, ddlCompLevel.SelectedValue, length, user.contactId + ": " + user.lastName + ", " + user.firstInitial.ToUpper());
 
                     if (composition.compositionId == -1)
                     {
