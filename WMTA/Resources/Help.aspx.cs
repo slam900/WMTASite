@@ -23,7 +23,16 @@ namespace WMTA.Resources
         {
             //if the user is not logged in, send them to login screen
             if (Session[Utility.userRole] == null)
+            {
                 Response.Redirect("/Default.aspx");
+            }
+            else
+            {
+                User user = (User)Session[Utility.userRole];
+
+                if (user.permissionLevel.Contains("A") || user.permissionLevel.Contains("D"))
+                    pnlTheoryTests.Visible = true;
+            }
         }
 
         /*

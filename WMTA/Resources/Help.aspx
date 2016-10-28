@@ -33,6 +33,20 @@
                         <div class="resource">
                             <a href="../Resource Files/WMTAChairsAddresses2016.pdf" target="_blank">2016 WMTA District Chair Addresses</a>
                         </div>
+                        <asp:Panel runat="server" ID="pnlTheoryTests" Visible="false">
+                            <div style="margin-top: 30px">
+                                <h4>Blank Theory Tests</h4>
+                                <div class="resource">
+                                    <a href="../Resource Files/Complete A Series_Blank Theory Tests.pdf" target="_blank">A Series</a>
+                                </div>
+                                <div class="resource">
+                                    <a href="../Resource Files/Complete B Series_Blank Theory Tests.pdf" target="_blank">B Series</a>
+                                </div>
+                                <div class="resource">
+                                    <a href="../Resource Files/Complete C Series_Blank Theory Tests.pdf" target="_blank">C Series</a>
+                                </div>
+                            </div>
+                        </asp:Panel>
                         <div style="margin-top: 30px">
                             <h4>Blank Judging Forms</h4>
                             <div class="resource">
