@@ -272,7 +272,7 @@
                                                             <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </div>
-                                                    <asp:CheckBox ID="chkNewComposer" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewComposer_CheckedChanged" AutoPostBack="true" />
+                                                    <asp:CheckBox ID="chkNewComposer" Visible="false" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewComposer_CheckedChanged" AutoPostBack="true" />
                                                     <div>
                                                         <asp:RequiredFieldValidator ID="rfvComposer" runat="server" ControlToValidate="ddlComposer" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composer is required" ValidationGroup="NewComposition" /><br />
                                                     </div>
@@ -308,7 +308,7 @@
                                                         <asp:SqlDataSource ID="WmtaDataSource6" runat="server" ConnectionString="<%$ ConnectionStrings:WmtaConnectionString %>" SelectCommand="sp_DropDownComposition" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
                                                         <asp:TextBox runat="server" ID="txtComposition" CssClass="form-control" Visible="false" />
                                                     </div>
-                                                    <asp:CheckBox ID="chkNewTitle" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewTitle_CheckedChanged" AutoPostBack="true" />
+                                                    <asp:CheckBox ID="chkNewTitle" Visible="false" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewTitle_CheckedChanged" AutoPostBack="true" />
                                                     <div>
                                                         <asp:RequiredFieldValidator ID="rfvComposition" runat="server" ControlToValidate="txtComposition" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composition is required" ValidationGroup="NewComposition" /><br />
                                                     </div>

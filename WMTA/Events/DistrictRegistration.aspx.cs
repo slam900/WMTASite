@@ -2135,14 +2135,6 @@ namespace WMTA.Events
 
             AudTrackRequirements requirements = new AudTrackRequirements(audTrack, grade);
 
-            //make sure there are not extra compositions
-            if (requirements.requiredNumStyles < tblCompositions.Rows.Count - 1)
-            {
-                showWarningMessage("There may only be " + requirements.requiredNumStyles +
-                                " compositions for the selected audition track");
-                isValid = false;
-            }
-
             // Make sure there are enough compositions
             if (requirements.requiredNumStyles > tblCompositions.Rows.Count - 1)
             {
@@ -2159,10 +2151,18 @@ namespace WMTA.Events
             }
 
             //make sure the number of styles is equal to the requirement
-            if (!audTrack.Equals("D2") && requirements.requiredNumStyles > selectedStyles.Count)
+            if (requirements.requiredNumStyles > selectedStyles.Count)
             {
-                showWarningMessage("There must be " + requirements.requiredNumStyles.ToString() +
-                                " compositions of unique styles for the selected audition track");
+                if (grade > 7 && audTrack.Equals("D2"))
+                {
+                    showWarningMessage("For D2 students, Grades 7-12, each Composition must be from a different Period.");
+                }
+                else
+                {
+                    showWarningMessage("There must be " + requirements.requiredNumStyles.ToString() +
+                                    " compositions of unique styles for the selected audition track");
+                }
+
                 isValid = false;
             }
 

@@ -160,7 +160,7 @@
                                                         <asp:ListItem Selected="True" Text="" Value=""></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
-                                                <asp:CheckBox ID="chkNewComposer1" runat="server" CssClass="checkbox float-left" Text="New" TextAlign="Left" OnCheckedChanged="chkNewComposer_CheckedChanged" AutoPostBack="true" />
+                                                <asp:CheckBox ID="chkNewComposer1" runat="server" CssClass="checkbox float-left new-composer-box" Text="Composer Not Found?" TextAlign="Left" OnCheckedChanged="chkNewComposer_CheckedChanged" AutoPostBack="true" />
                                                 <div>
                                                     <asp:RequiredFieldValidator ID="rfvComposer" runat="server" ControlToValidate="ddlComposer" CssClass="text-danger vertical-center font-size-12" ErrorMessage="Composer is required" ValidationGroup="Composer" /><br />
                                                 </div>
