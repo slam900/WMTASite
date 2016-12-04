@@ -27,12 +27,7 @@ namespace WMTA
             //log exception
             Utility.LogError("Default", "OnError", "", "Message: " + exc.Message + "   Stack Trace: " + exc.StackTrace, -1);
 
-            //show error label
-            //lblError.Text = "An error occurred";
-            //lblError.Visible = true;
-
             //Pass error on to error page
-            //Server.Transfer("ErrorPage.aspx", true);
             Response.Redirect("~/ErrorPage.aspx");
         }
     }
