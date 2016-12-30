@@ -27,11 +27,14 @@
                         <div class="resource">
                             <a href="http://www.wisconsinmusicteachers.com/event-information-and-rules-handbook" target="_blank">District Auditions Handbook & Event Rules</a>
                         </div>
-                        <div class="resource">
+                        <%--<div class="resource">
                             <a href="../Resource Files/2016ChairsAndEvents.pdf" target="_blank">2016 WMTA District Chairs And Event Locations</a>
                         </div>
                         <div class="resource">
                             <a href="../Resource Files/WMTAChairsAddresses2016.pdf" target="_blank">2016 WMTA District Chair Addresses</a>
+                        </div>--%>
+                        <div class="resource">
+                            <a href="http://www.wisconsinmusicteachers.com/event-information-and-rules-handbook" target="_blank">Information for District Auditions</a>
                         </div>
                         <asp:Panel runat="server" ID="pnlTheoryTests" Visible="false">
                             <div style="margin-top: 30px">
