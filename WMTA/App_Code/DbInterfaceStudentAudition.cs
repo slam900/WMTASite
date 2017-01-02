@@ -111,16 +111,18 @@ public partial class DbInterfaceStudentAudition
         return result;
     }
 
-    /*
-     * Pre:  Grade and audition type must exist in the system or be the empty string
-     *       The instrument must be "Instrument", "Voice", "Piano", or "Organ"
-     * Post: The theory test level corresponding to the entered instrument
-     *       and grade is returned
-     * @param instrument is the instrument the student is playing
+    /* Modified by Sam Olson on 1/2/2017 to add instrument as determinant
+     * Pre:
+     * Post: The valid audition tracks determined by the entered grade,
+     *       audition type, and instrument is returned.  Brass, Guitar,
+     *       Percussion, String, or Woodwind are not allowed on tracks
+     *       D2NM or D3
      * @param grade is the current grade of the student
+     * @param auditionType is the audition type (solo or duet)
+     * @param instrument is the instrument the student is playing
      * @returns the student's theory test level
      */
-    public static DataTable GetValidAuditionTracks(string grade, string auditionType)
+    public static DataTable GetValidAuditionTracks(string grade, string auditionType, string instrument)
     {
         DataTable table = new DataTable();
         SqlConnection connection = new
@@ -144,9 +146,22 @@ public partial class DbInterfaceStudentAudition
                 grade = "12";
 
             cmd.Parameters.AddWithValue("@grade", grade);
-            cmd.Parameters.Add("@type", auditionType);
+            cmd.Parameters.AddWithValue("@type", auditionType);
 
             adapter.Fill(table);
+
+            if (instrument == "Brass"
+                || instrument == "Guitar"
+                || instrument == "Percussion"
+                || instrument == "String"
+                || instrument == "Woodwind"
+                )
+            {
+                foreach (DataRow r in table.Rows)
+                    foreach (string item in r.ItemArray)
+                        if (item == "D3" || item == "D2NM")
+                            r.Delete();
+            }
         }
         catch (Exception e)
         {
@@ -154,7 +169,6 @@ public partial class DbInterfaceStudentAudition
                              auditionType, "Message: " + e.Message + "   Stack Trace: " + e.StackTrace, -1);
             table = null;
         }
-
         connection.Close();
 
         return table;

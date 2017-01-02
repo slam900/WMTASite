@@ -897,17 +897,20 @@ namespace WMTA.Events
             }
         }
 
-        /*
+        /* Modified by Sam Olson on 1/2/2017 to update valid audition tracks
          * Pre:
-         * Post:  If an instrument is selected and a grade has been entered,
+         * Post:  If an instrument is selected, the valid audition tracks will be
+         *        updated.
+         *        If an instrument is selected and a grade has been entered,
          *        the student's Theory Test Level will be updated based on their
-         *        Grade and Instrument.
+         *        Grade and Instrument. 
          *        If the student is playing organ or piano, the accompanist text box
          *        will be emptied and not enabled since an accompanist is not needed.
          */
         protected void ddlInstrument_SelectedIndexChanged(object sender, EventArgs e)
         {
             setTheoryLevel();
+            setValidAuditionTracks();
 
             if (ddlInstrument.Text.Equals("Organ") || ddlInstrument.Text.Equals("Piano"))
             {
@@ -944,8 +947,8 @@ namespace WMTA.Events
 
         /*
          * Pre:
-         * Post: The possible auditoin tracks are updated based on the entered
-         *       grade and selected audition type
+         * Post: The possible audition tracks are updated based on the entered
+         *       grade, audition type, and instrument
          */
         private void setValidAuditionTracks()
         {
@@ -955,7 +958,11 @@ namespace WMTA.Events
             {
                 try
                 {
-                    DataTable tableTracks = DbInterfaceStudentAudition.GetValidAuditionTracks(txtGrade.Text, ddlAuditionType.Text);
+                    DataTable tableTracks = DbInterfaceStudentAudition.GetValidAuditionTracks(
+                        txtGrade.Text
+                        , ddlAuditionType.Text
+                        , ddlInstrument.Text
+                        );
 
                     if (tableTracks != null)
                     {
